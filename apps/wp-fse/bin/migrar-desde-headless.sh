@@ -4,8 +4,8 @@
 #
 # Se corre en el servidor (SSH), no dentro de un contenedor:
 #   bash migrar-desde-headless.sh <appName del headless> <appName del FSE>
-# Ejemplo (servidor 2.25.237.45, 2026-11-08):
-#   bash migrar-desde-headless.sh compose-transmit-virtual-protocol-6qurgn compose-compress-back-end-array-fuf9qm
+# Ejemplo (servidor <IP_SERVIDOR>, 2026-11-08):
+#   bash migrar-desde-headless.sh <APP_DOKPLOY> <APP_DOKPLOY>
 #
 # El headless solo se LEE (mariadb-dump y tar), no se modifica. En el FSE corre lapaz-importar,
 # que guarda antes un respaldo de su base en /tmp del contenedor.
