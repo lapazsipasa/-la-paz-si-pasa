@@ -1,5 +1,13 @@
 # Updates
 
+## 2026-11-09 · producción en FSE
+
+**Estado:** `lapazsipasa.com` ya sirve el sitio WordPress FSE desde el servidor nuevo (`2.25.237.45`), con Let's Encrypt, contenido del seed y WP Super Cache. Se usó el mismo compose `MonoRepo` del headless, con la ruta `./apps/wp-fse/compose.yaml` y rama `main` (`v2.0.0`). El headless + Astro sigue en el servidor viejo, sin DNS, como respaldo. Detalle en [despliegue-fse.md](despliegue-fse.md#producción-desde-2026-11-09).
+
+**Pendiente:** Redeploy para `www`, correo real de ACME, borrar `cms.lapazsipasa.com` del DNS, limpiar variables duplicadas, respaldos programados, HTTPS del panel y rotar la key, noticias reales.
+
+**Siguiente paso:** staging en `st.lapazsipasa.com`.
+
 ## 2026-11-08 · etapas 3 a 7.5 (sin commit)
 
 **Estado:** las dos páginas (`/` y `/proyectos-destacados`) están completas en WordPress. Etapas 0 a 7.5 construidas en `apps/wp-fse/` y el tema `lapaz`, rama `feat/wordpress-fse`. Los cambios de las etapas 3 a 7.5 **no tienen commit**: esperan el verde de Codex (pruebas e2e y `bin/check`). Probado en local: `lapaz-importar` con el headless local (15 retratos, 9 videos, 15 ferias, 15 audios, 4 noticias, 112 MB de uploads); 0 URLs viejas. Detalle por etapa en el [changelog](changelog.md) y en la [guía de despliegue](despliegue-fse.md).

@@ -2,6 +2,7 @@
 
 Qué cambió, con fecha y PR. Lo reciente arriba.
 
+- **2026-11-09** · deploy: producción pasa al sitio FSE en el servidor nuevo (compose `MonoRepo`, `apps/wp-fse/compose.yaml`, `main` `v2.0.0`); DNS de `lapazsipasa.com`, `www` y `st` a `2.25.237.45` · [despliegue](despliegue-fse.md#producción-desde-2026-11-09)
 - **2026-11-08** · feat(lapaz): etapa 7.5, operación: SMTP con Resend (`lapaz-smtp.php`), `lapaz-setup --seed`, `lapaz-importar` (base y uploads del headless) y guía de despliegue en Dokploy · rama `feat/wordpress-fse`, sin commit todavía · [guía de despliegue](despliegue-fse.md)
 - **2026-11-08** · feat(lapaz): etapa 7, SEO (`inc/seo.php`: título, descripción desde el extracto, OG y Twitter, favicon, sitemap solo con páginas, `noindex` fuera de producción), limpieza de WordPress (global-styles, `<head>`, feeds, comentarios, XML-RPC en 403) y revisión de seguridad (7 hallazgos corregidos) · rama `feat/wordpress-fse`, sin commit todavía · [etapa 7](specs/wordpress-fse/etapa-7-seo-rendimiento.md)
 - **2026-11-08** · feat(lapaz): etapa 6, Proyectos destacados en 5 bloques (`paisana-hero`, `paisana-mapa`, `paisana-audios`, `paisana-productores`, `paisana-ferias`); cifras y regiones editables en `group_proyectos`; Plyr 3.7.8 servido desde el tema · rama `feat/wordpress-fse`, sin commit todavía · [etapa 6](specs/wordpress-fse/etapa-6-paisana.md)
