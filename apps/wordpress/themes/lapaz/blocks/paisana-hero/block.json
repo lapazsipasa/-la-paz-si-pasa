@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lapaz/paisana-hero",
+	"title": "PaisSana · Encabezado",
+	"category": "theme",
+	"icon": "awards",
+	"description": "Botones de proyectos, marca PaisSana, datos relevantes y beneficios. Las cifras se editan en la página Proyectos destacados.",
+	"textdomain": "lapaz",
+	"supports": {
+		"autoRegister": true,
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"render": "file:./render.php",
+	"style": "file:./style.css"
+}

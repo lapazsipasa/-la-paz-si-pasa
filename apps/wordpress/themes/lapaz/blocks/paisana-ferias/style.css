@@ -1,0 +1,345 @@
+/*
+ * Bloque lapaz/paisana-ferias. CSS copiado de PaisSanaFeriasAcordeon.astro, PaisSanaFeriaItem.astro
+ * con bin/astro-css-to-block.mjs: sin :global() y con cada selector bajo el bloque.
+ */
+
+/* PaisSanaFeriasAcordeon.astro */
+.wp-block-lapaz-paisana-ferias .ferias-acordeon-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4, 1rem);
+	width: 100%;
+}
+
+/* PaisSanaFeriaItem.astro */
+
+/* DETAILS / SUMMARY STRUCTURE */
+.wp-block-lapaz-paisana-ferias .feria-item {
+	background-color: #cbe9f8;
+	border: 1px solid transparent;
+	border-radius: var(--radius-card, 8px);
+	overflow: hidden;
+	transition: all 0.3s ease;
+}
+
+.wp-block-lapaz-paisana-ferias .feria-item[open] {
+	background-color: #fff;
+	border: 1px solid #32509d;
+	box-shadow: var(--shadow-soft);
+}
+
+.wp-block-lapaz-paisana-ferias .feria-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: var(--space-4, 1rem) var(--space-6, 1.5rem);
+	cursor: pointer;
+	list-style: none; /* Hide default triangle */
+	background-color: #cbe9f8; /* Azul #CBE9F8 al estar cerrado */
+	transition: background-color 0.2s ease;
+}
+
+/* Hide native summary marker for webkit */
+.wp-block-lapaz-paisana-ferias .feria-header::-webkit-details-marker {
+	display: none;
+}
+
+.wp-block-lapaz-paisana-ferias .feria-header:hover {
+	background-color: #b5ddf5; /* Azul sutil al hacer hover */
+}
+
+.wp-block-lapaz-paisana-ferias .feria-item[open] .feria-header {
+	background-color: #fff; /* Blanco al estar desplegado/abierto */
+	border-bottom: 1px solid #32509d;
+}
+
+.wp-block-lapaz-paisana-ferias details[open] > .feria-header:hover {
+	background-color: #f5f5f4;
+}
+
+.wp-block-lapaz-paisana-ferias .feria-title {
+	font-size: 1.25rem;
+	font-family: var(--font-monique-regular);
+	font-weight: 700;
+	color: var(--color-nav-text, #32509d);
+	text-transform: uppercase;
+}
+
+.wp-block-lapaz-paisana-ferias .chevron {
+	color: var(--color-nav-text, #32509d);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: transform 0.3s ease;
+}
+
+.wp-block-lapaz-paisana-ferias .feria-item[open] .chevron {
+	transform: rotate(180deg);
+}
+
+/* ACORDION CONTENT GRID */
+.wp-block-lapaz-paisana-ferias .feria-body-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-8, 2rem);
+	padding: var(--space-6, 1.5rem);
+	animation: slideDown 0.4s ease;
+	background-color: #fff;
+}
+
+@keyframes slideDown {
+
+	from { opacity: 0; transform: translateY(-10px); }
+
+	to { opacity: 1; transform: translateY(0); }
+}
+
+/* LEFT SIDE (Desc + Gallery) */
+.wp-block-lapaz-paisana-ferias .feria-left {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-6, 1.5rem);
+}
+
+.wp-block-lapaz-paisana-ferias .feria-desc {
+	font-size: 1.125rem;
+	line-height: 1.6;
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-light, 300);
+	letter-spacing: -0.42px;
+	color: var(--color-nav-text, #32509d);
+}
+
+.wp-block-lapaz-paisana-ferias .gallery-title {
+	font-size: 1.25rem;
+	font-family: var(--font-monique-regular);
+	font-weight: 700;
+	color: var(--color-nav-text, #32509d);
+	padding-left: 0;
+}
+
+.wp-block-lapaz-paisana-ferias .gallery-grid-3x2 {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: var(--space-3, 0.75rem);
+}
+
+.wp-block-lapaz-paisana-ferias .gallery-item {
+	display: block;
+	padding: 0;
+	border: none;
+	background: none;
+	cursor: zoom-in;
+}
+
+.wp-block-lapaz-paisana-ferias .gallery-item:focus-visible {
+	outline: 2px solid var(--color-loquehacemos-bg, #008861);
+	outline-offset: 2px;
+}
+
+.wp-block-lapaz-paisana-ferias .gallery-grid-3x2 img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	aspect-ratio: 3 / 2;
+	border-radius: 4px;
+	transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.wp-block-lapaz-paisana-ferias .gallery-item:hover img {
+	transform: scale(1.03);
+	filter: brightness(1.1);
+	box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+	z-index: 2;
+}
+
+/* RIGHT SIDE (Video Card) */
+.wp-block-lapaz-paisana-ferias .feria-right {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+.wp-block-lapaz-paisana-ferias .vertical-video-card {
+	background-color: var(--color-surface, #fff);
+	padding: var(--space-4, 1rem);
+	border-radius: var(--radius-card, 8px);
+	box-shadow: var(--shadow-soft);
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4, 1rem);
+	width: 80%;
+}
+
+.wp-block-lapaz-paisana-ferias .video-slide {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3, 0.75rem);
+}
+
+.wp-block-lapaz-paisana-ferias .video-slide[hidden] {
+	display: none;
+}
+
+.wp-block-lapaz-paisana-ferias .video-pie {
+	font-size: 0.9375rem;
+	line-height: 1.4;
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-light, 300);
+	color: var(--color-nav-text, #32509d);
+}
+
+.wp-block-lapaz-paisana-ferias .video-nav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-4, 1rem);
+	border-top: 1px solid var(--color-nav-text, #32509d);
+	padding-top: var(--space-3, 0.75rem);
+}
+
+.wp-block-lapaz-paisana-ferias .video-contador {
+	font-family: var(--font-komet);
+	font-size: 0.875rem;
+	color: var(--color-nav-text, #32509d);
+}
+
+.wp-block-lapaz-paisana-ferias .video-nav-btns {
+	display: flex;
+	gap: var(--space-2, 0.5rem);
+}
+
+.wp-block-lapaz-paisana-ferias .video-nav-btn {
+	width: 36px;
+	height: 36px;
+	border: none;
+	border-radius: 50%;
+	background-color: var(--color-nav-text, #32509d);
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.wp-block-lapaz-paisana-ferias .video-nav-btn:hover {
+	background-color: var(--color-loquehacemos-bg, #008861);
+	transform: scale(1.1);
+}
+
+.wp-block-lapaz-paisana-ferias .video-nav-btn:focus-visible {
+	outline: 2px solid var(--color-loquehacemos-bg, #008861);
+	outline-offset: 2px;
+}
+
+/* Video sin miniatura: ocupa la proporción del contenedor. */
+.wp-block-lapaz-paisana-ferias .video-media__sin-miniatura {
+	width: 100%;
+	height: 100%;
+	background: var(--color-nav-bg-active, #e6e6e6);
+}
+
+.wp-block-lapaz-paisana-ferias .video-media iframe,
+.wp-block-lapaz-paisana-ferias .video-media video {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+
+.wp-block-lapaz-paisana-ferias .video-media {
+	position: relative;
+	border-radius: 6px;
+	overflow: hidden;
+	aspect-ratio: 9 / 16;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- otro elemento; no compite con el selector anterior. */
+.wp-block-lapaz-paisana-ferias .video-media img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.wp-block-lapaz-paisana-ferias .play-btn-overlay {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 72px;
+	height: 72px;
+	background-color: rgba(15, 118, 110, 0.85); /* brand accent */
+	border: none;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+	transition: all 0.2s ease;
+}
+
+.wp-block-lapaz-paisana-ferias .play-btn-overlay:hover {
+	background-color: var(--color-loquehacemos-bg, #008861);
+	transform: translate(-50%, -50%) scale(1.1);
+}
+
+@media (min-width: 850px) {
+
+	/* Texto + galería a la izquierda, carrusel de video a la derecha. Sin video
+		 la galería se queda con todo el ancho. */
+	.wp-block-lapaz-paisana-ferias .feria-body-grid {
+		grid-template-columns: 2fr 1fr;
+	}
+
+	.wp-block-lapaz-paisana-ferias .feria-body-grid.sin-video {
+		grid-template-columns: 1fr;
+	}
+
+	.wp-block-lapaz-paisana-ferias .gallery-grid-3x2 {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.wp-block-lapaz-paisana-ferias .vertical-video-card {
+		width: 100%;
+	}
+}
+
+.wp-block-lapaz-paisana-ferias .lightbox {
+	max-width: 92vw;
+	max-height: 92vh;
+	padding: 0;
+	border: none;
+	background: none;
+	overflow: visible;
+}
+
+.wp-block-lapaz-paisana-ferias .lightbox::backdrop {
+	background: rgba(0, 0, 0, 0.85);
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- otro elemento; no compite con el selector anterior. */
+.wp-block-lapaz-paisana-ferias .lightbox img {
+	display: block;
+	max-width: 92vw;
+	max-height: 92vh;
+	width: auto;
+	height: auto;
+	border-radius: 6px;
+}
+
+.wp-block-lapaz-paisana-ferias .lightbox-cerrar {
+	position: absolute;
+	top: -14px;
+	right: -14px;
+	width: 36px;
+	height: 36px;
+	border: none;
+	border-radius: 50%;
+	background-color: var(--color-nav-text, #32509d);
+	color: #fff;
+	font-size: 1.25rem;
+	line-height: 1;
+	cursor: pointer;
+}

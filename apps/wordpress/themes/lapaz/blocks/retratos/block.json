@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lapaz/retratos",
+	"title": "Retratos de la Paz",
+	"category": "theme",
+	"icon": "format-gallery",
+	"description": "Intro «La Paz Sí Pasa» y carrusel de retratos. Los retratos se editan en el menú Retratos.",
+	"textdomain": "lapaz",
+	"supports": {
+		"autoRegister": true,
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"render": "file:./render.php",
+	"style": "file:./style.css",
+	"viewScript": "file:./view.js"
+}

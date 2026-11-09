@@ -1,0 +1,209 @@
+/*
+ * Bloque lapaz/footer. CSS copiado de Footer.astro
+ * con bin/astro-css-to-block.mjs: sin :global() y con cada selector bajo el bloque.
+ */
+
+/* Footer.astro */
+.wp-block-lapaz-footer {
+	display: grid;
+	grid-template-columns: minmax(220px, 30%) 1fr;
+	grid-template-rows: 500px;
+	background: var(--color-surface);
+	width: 100%;
+}
+
+.wp-block-lapaz-footer .site-footer__media {
+	position: relative;
+	overflow: hidden;
+}
+
+.wp-block-lapaz-footer .site-footer__photo {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.wp-block-lapaz-footer .site-footer__burst {
+	position: absolute;
+	left: -8%;
+	bottom: -12%;
+	width: 46%;
+	height: auto;
+}
+
+.wp-block-lapaz-footer .site-footer__panel {
+	position: relative;
+	background: var(--color-nav-bg-active);
+	padding: var(--space-8) var(--space-10);
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-5);
+	justify-content: center;
+}
+
+.wp-block-lapaz-footer .site-footer__totop {
+	position: absolute;
+	top: var(--space-6);
+	right: var(--space-6);
+	width: 64px;
+	height: 64px;
+	border: none;
+	background: none;
+	padding: 0;
+	display: grid;
+	place-items: center;
+	cursor: pointer;
+}
+
+.wp-block-lapaz-footer .site-footer__totop img {
+	width: 100%;
+	height: 100%;
+}
+
+.wp-block-lapaz-footer .site-footer__logos {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-6);
+	padding-right: 80px;
+}
+
+.wp-block-lapaz-footer .site-footer__logo {
+	height: 90px;
+	width: auto;
+}
+
+.wp-block-lapaz-footer .site-footer__paz-logo {
+	height: 90px;
+	width: auto;
+}
+
+.wp-block-lapaz-footer .site-footer__text {
+	max-width: 80ch;
+	font-size: 1rem;
+	color: var(--color-nav-text);
+	line-height: 1.5;
+}
+
+.wp-block-lapaz-footer .site-footer__social-label {
+	font-family: var(--font-monique-regular);
+	font-size: 1rem;
+	letter-spacing: 0.04em;
+	color: var(--color-nav-text);
+	margin-bottom: var(--space-2);
+}
+
+.wp-block-lapaz-footer .site-footer__links {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-4);
+}
+
+.wp-block-lapaz-footer .site-footer__links li {
+	padding-left: var(--space-4);
+	border-left: 1px solid var(--color-nav-border);
+}
+
+.wp-block-lapaz-footer .site-footer__links li:first-child {
+	padding-left: 0;
+	border-left: none;
+}
+
+.wp-block-lapaz-footer .site-footer__links a {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2);
+	color: var(--color-nav-text);
+	text-decoration: none;
+	font-size: 1rem;
+}
+
+.wp-block-lapaz-footer .site-footer__icon {
+	display: grid;
+	place-items: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	background: var(--color-surface);
+	overflow: hidden;
+}
+
+.wp-block-lapaz-footer .site-footer__icon img {
+	max-width: 70%;
+	max-height: 70%;
+}
+
+@media (max-width: 849px) {
+
+	.wp-block-lapaz-footer {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto;
+	}
+
+	.wp-block-lapaz-footer .site-footer__media {
+		height: 200px;
+	}
+
+	.wp-block-lapaz-footer .site-footer__panel {
+		padding: var(--space-12);
+	}
+
+	.wp-block-lapaz-footer .site-footer__logos {
+		padding-right: 0;
+	}
+
+	.wp-block-lapaz-footer .site-footer__totop {
+		width: 48px;
+		height: 48px;
+	}
+
+	.wp-block-lapaz-footer .site-footer__links {
+		flex-direction: column;
+	}
+
+	.wp-block-lapaz-footer .site-footer__links li {
+		padding-left: 0;
+		border-left: none;
+	}
+}
+
+@media (max-width: 360px) {
+
+	.wp-block-lapaz-footer .site-footer__panel {
+		padding: var(--space-4);
+	}
+
+	.wp-block-lapaz-footer .site-footer__totop {
+		width: 48px;
+		height: 48px;
+		top: var(--space-4);
+		right: var(--space-4);
+	}
+
+	.wp-block-lapaz-footer .site-footer__logos {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--space-4);
+	}
+
+	.wp-block-lapaz-footer .site-footer__logo {
+		height: auto;
+		width: 100%;
+		max-width: 180px;
+	}
+
+	.wp-block-lapaz-footer .site-footer__paz-logo {
+		height: auto;
+		width: 100%;
+	}
+
+	.wp-block-lapaz-footer .site-footer__text,
+	.wp-block-lapaz-footer .site-footer__social-label,
+	.wp-block-lapaz-footer .site-footer__links a {
+		font-size: 0.875rem;
+	}
+}

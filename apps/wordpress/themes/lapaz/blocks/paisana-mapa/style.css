@@ -1,0 +1,330 @@
+/*
+ * Bloque lapaz/paisana-mapa. CSS copiado de PaisSanaMapaIntro.astro, PaisSanaMapaCarrusel.astro, PaisSanaRegionTabBtn.astro
+ * con bin/astro-css-to-block.mjs: sin :global() y con cada selector bajo el bloque.
+ */
+
+/* PaisSanaMapaIntro.astro */
+.wp-block-lapaz-paisana-mapa .mapa-intro {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-8, 2rem);
+	align-items: center;
+}
+
+/* TEXT COLUMN */
+.wp-block-lapaz-paisana-mapa .mapa-intro-text {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4, 1rem);
+}
+
+.wp-block-lapaz-paisana-mapa .mapa-intro-text h2 {
+	text-transform: uppercase;
+	margin-bottom: var(--space-2, 0.5rem);
+	font-weight: 800;
+}
+
+.wp-block-lapaz-paisana-mapa .instrucciones-navegacion {
+	margin-top: var(--space-4, 1rem);
+	background-color: var(--color-surface-muted, #f5f5f4);
+	padding: var(--space-6, 1.5rem);
+	border-radius: var(--radius-card, 8px);
+	border-left: 4px solid var(--color-accent, #0f766e);
+}
+
+.wp-block-lapaz-paisana-mapa .instrucciones-navegacion h3 {
+	margin-bottom: var(--space-2, 0.5rem);
+}
+
+.wp-block-lapaz-paisana-mapa .cta-text {
+	font-weight: var(--font-weight-komet-heavy, 800);
+	margin-top: var(--space-2, 0.5rem);
+}
+
+/* IMAGE COLUMN */
+.wp-block-lapaz-paisana-mapa .mapa-intro-card {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	padding: var(--space-2, 0.5rem);
+	box-sizing: border-box;
+}
+
+.wp-block-lapaz-paisana-mapa .paper-frame {
+	position: relative;
+	display: block;
+	width: 100%;
+	max-width: 420px;
+	margin-inline: auto;
+}
+
+.wp-block-lapaz-paisana-mapa .bg-paper {
+	width: 100%;
+	height: auto;
+	display: block;
+	object-fit: contain;
+	pointer-events: none;
+}
+
+.wp-block-lapaz-paisana-mapa .retrato-photo {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotate(-2deg);
+	width: 74%;
+	height: auto;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	box-sizing: border-box;
+	background-color: #fff;
+	border: 6px solid #fff;
+	box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.25);
+	z-index: 2;
+}
+
+.wp-block-lapaz-paisana-mapa .paper-frame:hover .retrato-photo {
+	transform: translate(-50%, -50%) rotate(0deg) scale(1.02);
+	transition: transform 0.3s ease;
+}
+
+@media (min-width: 850px) {
+
+	.wp-block-lapaz-paisana-mapa .mapa-intro {
+		grid-template-columns: 1fr 1fr;
+		gap: var(--space-12, 3rem);
+	}
+
+	.wp-block-lapaz-paisana-mapa .paper-frame {
+		max-width: 540px;
+	}
+
+	.wp-block-lapaz-paisana-mapa .retrato-photo {
+		border-width: 10px;
+		box-shadow: 0 1.5rem 2.5rem rgba(0, 0, 0, 0.35), 0 0.4rem 1rem rgba(0, 0, 0, 0.2);
+	}
+}
+
+@media (max-width: 360px) {
+
+	.wp-block-lapaz-paisana-mapa .mapa-intro-card {
+		padding: 0;
+	}
+
+	.wp-block-lapaz-paisana-mapa .retrato-photo {
+		border-width: 4px;
+		box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+	}
+}
+
+/* PaisSanaMapaCarrusel.astro */
+.wp-block-lapaz-paisana-mapa .mapa-carrusel {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-8, 2rem);
+	width: 100%;
+	font-family: var(--font-komet);
+}
+
+/* TABS NAVIGATION */
+.wp-block-lapaz-paisana-mapa .region-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-4, 1rem);
+	justify-content: center;
+	align-items: center;
+}
+
+/* CONTENT GRID */
+.wp-block-lapaz-paisana-mapa .region-content-container {
+	position: relative;
+	width: 100%;
+	margin-top: var(--space-8, 2rem);
+}
+
+.wp-block-lapaz-paisana-mapa .region-content-grid {
+	display: none;
+	grid-template-columns: 1fr;
+	gap: var(--space-8, 2rem);
+	align-items: start;
+}
+
+.wp-block-lapaz-paisana-mapa .region-content-grid.active {
+	display: grid;
+	animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+
+	from { opacity: 0; transform: translateY(10px); }
+
+	to { opacity: 1; transform: translateY(0); }
+}
+
+/* LEFT COL: STATS */
+.wp-block-lapaz-paisana-mapa .region-stats {
+	display: flex;
+	flex-direction: column;
+	align-self: start;
+	gap: var(--space-8, 2rem);
+	background-color: transparent;
+	padding: 0;
+	min-width: 280px;
+}
+
+.wp-block-lapaz-paisana-mapa .total-badge {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.wp-block-lapaz-paisana-mapa .total-badge .count {
+	font-family: var(--font-komet);
+	font-size: clamp(4rem, 8vw, 6rem); 
+	font-weight: var(--font-weight-komet-heavy, 800);
+	line-height: 1;
+	color: var(--color-nav-text, #32509d);
+}
+
+.wp-block-lapaz-paisana-mapa .total-badge .label {
+	font-family: var(--font-komet);
+	font-size: 1.5rem;
+	font-weight: var(--font-weight-komet-heavy, 800);
+	text-transform: uppercase;
+	color: var(--color-nav-text, #32509d);
+}
+
+.wp-block-lapaz-paisana-mapa .deptos-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	gap: var(--space-4, 1rem);
+	font-size: 1.125rem;
+	padding-top: var(--space-4, 1rem);
+	color: var(--color-nav-text, #32509d);
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-light, 300);
+	text-transform: uppercase;
+}
+
+.wp-block-lapaz-paisana-mapa .deptos-list li {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 0.5em;
+	font-weight: var(--font-weight-komet-light, 300);
+}
+
+.wp-block-lapaz-paisana-mapa .deptos-list li strong {
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-heavy, 800);
+}
+
+/* RIGHT COL: MAP & PINS */
+.wp-block-lapaz-paisana-mapa .region-map-wrapper {
+	position: relative;
+	width: 100%;
+	max-width: 480px;
+	margin-inline: auto;
+	border-radius: var(--radius-card, 8px);
+	background-color: transparent;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.wp-block-lapaz-paisana-mapa .map-image {
+	width: 100%;
+	max-width: 100%;
+	height: auto;
+	object-fit: contain;
+	display: block;
+	padding: 0;
+}
+
+@media (min-width: 850px) {
+
+	.wp-block-lapaz-paisana-mapa .region-content-grid {
+		grid-template-columns: 1fr 2fr;
+	}
+
+	.wp-block-lapaz-paisana-mapa .region-map-wrapper {
+		max-width: 650px;
+	}
+}
+
+@media (max-width: 360px) {
+
+	.wp-block-lapaz-paisana-mapa .deptos-list {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* PaisSanaRegionTabBtn.astro */
+.wp-block-lapaz-paisana-mapa .tab-btn {
+	background: transparent;
+	border: 2px solid var(--tab-color);
+	color: var(--tab-color);
+	font-family: var(--font-monique-regular);
+	padding: var(--space-3, 0.75rem) var(--space-2, 0.5rem);
+	cursor: pointer;
+	transition: all 0.2s ease;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.25rem;
+	background-color: var(--color-surface, #fff);
+	border-radius: var(--radius-control, 6px);
+	
+	/* Responsive sizing */
+	flex: 1 1 calc(33.333% - 1rem);
+	min-width: 110px;
+	text-align: center;
+}
+
+.wp-block-lapaz-paisana-mapa .tab-btn:hover {
+	background-color: var(--color-surface-muted, #f5f5f4);
+}
+
+.wp-block-lapaz-paisana-mapa .tab-btn.active {
+	background-color: var(--tab-color);
+	color: var(--color-surface, #fff);
+}
+
+.wp-block-lapaz-paisana-mapa .tab-label {
+	font-size: 0.75rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	opacity: 0.9;
+}
+
+.wp-block-lapaz-paisana-mapa .tab-name {
+	font-size: clamp(1.1rem, 2vw, 1.4rem);
+	font-weight: 700;
+	line-height: 1.1;
+}
+
+@media (min-width: 850px) {
+
+	.wp-block-lapaz-paisana-mapa .tab-btn {
+		flex: 1 1 0; /* On larger screens, distribute equally */
+		padding: var(--space-4, 1rem) var(--space-2, 0.5rem);
+	}
+}
+
+/* El bloque agrupa PaisSanaMapaIntro y PaisSanaMapaCarrusel, que en Astro eran hermanos
+   dentro de .paisana-page (flex con gap de 10rem). */
+.wp-block-lapaz-paisana-mapa {
+	display: flex;
+	flex-direction: column;
+	gap: 10rem;
+}
+
+/* Región sin departamentos (en Astro era un estilo inline). */
+.wp-block-lapaz-paisana-mapa .deptos-vacio {
+	color: var(--color-text-muted);
+}

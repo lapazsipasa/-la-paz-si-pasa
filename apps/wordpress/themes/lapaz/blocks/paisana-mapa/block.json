@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lapaz/paisana-mapa",
+	"title": "PaisSana · Mapa de regiones",
+	"category": "theme",
+	"icon": "location-alt",
+	"description": "«Paissanos en el mapa» y pestañas por región. Totales y departamentos se editan en la página Proyectos destacados.",
+	"textdomain": "lapaz",
+	"supports": {
+		"autoRegister": true,
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"render": "file:./render.php",
+	"style": "file:./style.css",
+	"viewScript": "file:./view.js"
+}

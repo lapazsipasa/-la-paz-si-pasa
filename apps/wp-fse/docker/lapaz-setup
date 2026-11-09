@@ -1,0 +1,120 @@
+#!/bin/bash
+set -euo pipefail
+
+# Uso: lapaz-setup [--seed]   (--seed carga además el contenido inicial de /opt/seed)
+cargar_seed=false
+[ "${1:-}" = "--seed" ] && cargar_seed=true
+
+: "${WORDPRESS_URL:?Define WORDPRESS_URL}"
+wp=(wp --path=/var/www/html)
+
+if ! "${wp[@]}" core is-installed; then
+    : "${WP_ADMIN_EMAIL:?Define WP_ADMIN_EMAIL}"
+    admin_password="$(openssl rand -base64 18)"
+    # La contraseña pasa por stdin para que no aparezca en los argumentos del proceso.
+    printf '%s\n' "$admin_password" | "${wp[@]}" core install \
+        --url="$WORDPRESS_URL" \
+        --title="La Paz Sí Pasa" \
+        --admin_user="${WP_ADMIN_USER:-admin}" \
+        --admin_email="$WP_ADMIN_EMAIL" \
+        --prompt=admin_password \
+        --skip-email
+    printf 'Guarda esta contraseña de administrador; se muestra una sola vez: %s\n' "$admin_password"
+    unset admin_password
+fi
+
+if ! "${wp[@]}" language core install es_CO --activate; then
+    "${wp[@]}" language core install es_ES --activate
+fi
+"${wp[@]}" theme activate lapaz
+"${wp[@]}" plugin activate secure-custom-fields
+
+# Contenido de ejemplo de una instalación nueva: no es parte del sitio y entraría al sitemap.
+# Los nombres cambian con el idioma del instalador: en español son hola-mundo y pagina-ejemplo.
+for slug in hello-world sample-page hola-mundo pagina-ejemplo; do
+    for id in $("${wp[@]}" post list --post_type=post,page --name="$slug" --post_status=any --format=ids); do
+        "${wp[@]}" post delete "$id" --force
+    done
+done
+
+# Plugins y temas que trae la imagen y el sitio no usa (AI es experimental). Se borran:
+# desactivados igual quedan en el disco, se actualizan y amplían la superficie de ataque.
+for plugin in ai ai-provider-for-anthropic ai-provider-for-google hello akismet; do
+    if "${wp[@]}" plugin is-installed "$plugin" 2>/dev/null; then
+        "${wp[@]}" plugin deactivate "$plugin" 2>/dev/null || true
+        "${wp[@]}" plugin delete "$plugin"
+    fi
+done
+for tema in $("${wp[@]}" theme list --status=inactive --field=name); do
+    "${wp[@]}" theme delete "$tema"
+done
+
+# Sin comentarios ni pingbacks por defecto en contenido nuevo.
+"${wp[@]}" option update default_comment_status closed
+"${wp[@]}" option update default_ping_status closed
+"${wp[@]}" rewrite structure '/%postname%/' --hard
+# Verificación: si .htaccess quedó sin reglas, todas las páginas darían 404 de Apache.
+grep -q "RewriteRule" /var/www/html/.htaccess || { echo "ERROR: .htaccess sin reglas de reescritura" >&2; exit 1; }
+
+# Portada: la página Inicio (slug home) guarda los campos de group_home, como lee Astro.
+home_id="$("${wp[@]}" post list --post_type=page --name=home --post_status=any --format=ids)"
+if [ -z "$home_id" ]; then
+    home_id="$("${wp[@]}" post create --post_type=page --post_name=home --post_title=Inicio --post_status=publish --porcelain)"
+fi
+"${wp[@]}" option update show_on_front page
+"${wp[@]}" option update page_on_front "$home_id"
+
+page_id="$("${wp[@]}" post list --post_type=page --name=proyectos-destacados --post_status=any --format=ids)"
+if [ -z "$page_id" ]; then
+    "${wp[@]}" post create --post_type=page --post_name=proyectos-destacados \
+        --post_title="Proyectos destacados" --post_status=publish
+fi
+
+nav_id="$("${wp[@]}" option get lapaz_nav_ref 2>/dev/null || true)"
+if [[ ! "$nav_id" =~ ^[1-9][0-9]*$ ]] || [ "$("${wp[@]}" post get "$nav_id" --field=post_type 2>/dev/null || true)" != wp_navigation ]; then
+    nav_content='<!-- wp:navigation-link {"label":"Lo que hacemos","url":"/#lo-que-hacemos","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Proyectos destacados","url":"/proyectos-destacados","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Actualidad","url":"/#actualidad","kind":"custom"} /-->'
+    nav_id="$("${wp[@]}" post create --post_type=wp_navigation --post_title=Principal \
+        --post_status=publish --post_content="$nav_content" --porcelain)"
+    "${wp[@]}" option update lapaz_nav_ref "$nav_id"
+fi
+
+if [ "${WP_ENVIRONMENT_TYPE:-production}" = local ]; then
+    for plugin in query-monitor create-block-theme; do
+        if ! "${wp[@]}" plugin is-installed "$plugin"; then
+            "${wp[@]}" plugin install "$plugin"
+        fi
+        "${wp[@]}" plugin activate "$plugin"
+    done
+fi
+
+# Caché de página: solo con WP_CACHE=true (Dokploy). Modo simple (PHP), sin tocar .htaccess;
+# no cachea a usuarios con sesión; se vacía sola al guardar contenido.
+if [ "${WP_CACHE:-}" = true ]; then
+    "${wp[@]}" plugin activate wp-super-cache
+    "${wp[@]}" eval '
+        wp_cache_verify_config_file();
+        wp_cache_create_advanced_cache();
+        wp_cache_enable();
+        wp_super_cache_enable();
+        wp_cache_setting( "wp_cache_mod_rewrite", 0 );
+        wp_cache_setting( "wp_cache_not_logged_in", 2 );
+        // Los enlaces terminan en «/» (/%postname%/). Sin esto solo se servía la portada desde
+        // caché: el plugin lo ajusta al guardar su panel, que aquí no se usa.
+        wp_cache_setting( "wp_cache_slash_check", 1 );
+        echo "Caché de página: activa\n";
+    '
+elif "${wp[@]}" plugin is-active wp-super-cache 2>/dev/null; then
+    "${wp[@]}" plugin deactivate wp-super-cache
+fi
+
+if [ "$cargar_seed" = true ]; then
+    # Por secciones: en el servidor una sola corrida larga puede cortarse por tiempo.
+    for seccion in retratos videos ferias audio_relatos subcuentas; do
+        SEED_SOLO="$seccion" "${wp[@]}" eval-file /opt/seed/seed.php
+    done
+fi
+
+printf '\nURL: %s\nTema activo: %s\nID del menú: %s\n' \
+    "$WORDPRESS_URL" "$("${wp[@]}" option get stylesheet)" "$nav_id"

@@ -1,0 +1,212 @@
+/*
+ * Bloque lapaz/paisana-productores. CSS copiado de PaisSanaProductoresVideos.astro
+ * con bin/astro-css-to-block.mjs: sin :global() y con cada selector bajo el bloque.
+ */
+
+/* PaisSanaProductoresVideos.astro */
+.wp-block-lapaz-paisana-productores {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-8, 2rem);
+	width: 100%;
+}
+
+/* HEADER TEXT & TUCAN */
+.wp-block-lapaz-paisana-productores .productores-header-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-6, 1.5rem);
+	align-items: center;
+}
+
+.wp-block-lapaz-paisana-productores .productores-header-text h2 {
+	margin: 0;
+	font-family: var(--font-monique-regular);
+	font-weight: 800;
+	color: var(--color-nav-text, #32509d);
+}
+
+.wp-block-lapaz-paisana-productores .productores-header-text h3 {
+	margin-top: var(--space-2, 0.5rem);
+	margin-bottom: var(--space-4, 1rem);
+	font-family: var(--font-komet);
+	font-size: 1.5rem;
+	font-weight: var(--font-weight-komet-regular, 400);
+	color: var(--color-nav-text, #32509d);
+}
+
+.wp-block-lapaz-paisana-productores .productores-header-text p {
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-light, 300);
+	line-height: 1.6;
+	color: var(--color-nav-text, #32509d);
+}
+
+.wp-block-lapaz-paisana-productores .productores-header-text strong {
+	font-weight: var(--font-weight-komet-heavy, 800);
+}
+
+.wp-block-lapaz-paisana-productores .productores-header-tucan {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.wp-block-lapaz-paisana-productores .tucan-img {
+	max-width: 200px;
+	height: auto;
+	object-fit: contain;
+	filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+	transition: transform 0.4s ease;
+}
+
+.wp-block-lapaz-paisana-productores .tucan-img:hover {
+	transform: rotate(-3deg) scale(1.05);
+}
+
+/* VIDEOS LIST */
+.wp-block-lapaz-paisana-productores .videos-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	margin-top: var(--space-4, 1rem);
+}
+
+/* VIDEO ROW CARD */
+.wp-block-lapaz-paisana-productores .video-row-card {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-6, 1.5rem);
+	background-color: transparent;
+	border-top: 1px solid var(--color-nav-text, #32509d);
+	border-bottom: none;
+	border-left: none;
+	border-right: none;
+	padding-block: var(--space-6, 1.5rem);
+	padding-inline: 0;
+}
+
+.wp-block-lapaz-paisana-productores .video-row-card:last-child {
+	border-bottom: 1px solid var(--color-nav-text, #32509d);
+}
+
+/* THUMBNAIL / PLYR CONTAINER */
+.wp-block-lapaz-paisana-productores .video-thumb {
+	position: relative;
+	border-radius: 6px;
+	overflow: hidden;
+	aspect-ratio: 16 / 9;
+	width: 100%;
+	order: 1;
+}
+
+.wp-block-lapaz-paisana-productores .video-placeholder,
+.wp-block-lapaz-paisana-productores .video-unavailable {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	border: 0;
+	background: var(--color-surface-muted, #f5f5f4);
+}
+
+.wp-block-lapaz-paisana-productores .video-placeholder {
+	position: relative;
+	display: grid;
+	place-items: center;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.wp-block-lapaz-paisana-productores .video-placeholder img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.wp-block-lapaz-paisana-productores .video-placeholder span {
+	z-index: 1;
+	display: grid;
+	place-items: center;
+	width: 3rem;
+	height: 3rem;
+	border-radius: 50%;
+	background: rgb(255 255 255 / 90%);
+	color: var(--color-nav-text, #32509d);
+}
+
+.wp-block-lapaz-paisana-productores .video-unavailable {
+	display: grid;
+	place-items: center;
+	color: var(--color-nav-text, #32509d);
+}
+
+/* PLYR STYLES OVERRIDE */
+.wp-block-lapaz-paisana-productores .plyr {
+	--plyr-color-main: #32509d;
+	border-radius: 6px;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+}
+
+/* VIDEO INFO */
+.wp-block-lapaz-paisana-productores .video-info {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2, 0.5rem);
+	justify-content: center;
+	color: var(--color-nav-text, #32509d);
+	font-family: var(--font-komet);
+	order: 2;
+}
+
+.wp-block-lapaz-paisana-productores .video-info h3 {
+	margin: 0;
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-heavy, 800);
+	font-size: 1.5rem;
+	color: var(--color-nav-text, #32509d);
+	line-height: 1.25;
+}
+
+.wp-block-lapaz-paisana-productores .video-subtitle {
+	margin: 0;
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-light, 300);
+	font-size: 0.95rem;
+	color: var(--color-nav-text, #32509d);
+	opacity: 0.9;
+}
+
+.wp-block-lapaz-paisana-productores .video-desc {
+	margin: 0;
+	margin-top: var(--space-2, 0.5rem);
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-light, 300);
+	font-size: 1rem;
+	line-height: 1.5;
+	color: var(--color-nav-text, #32509d);
+}
+
+@media (min-width: 850px) {
+
+	.wp-block-lapaz-paisana-productores .productores-header-grid {
+		grid-template-columns: 3fr 1fr;
+	}
+
+	.wp-block-lapaz-paisana-productores .video-row-card {
+		grid-template-columns: 1.2fr 1fr;
+		align-items: center;
+		padding-block: var(--space-8, 2rem);
+	}
+
+	.wp-block-lapaz-paisana-productores .video-thumb {
+		order: 1;
+	}
+
+	.wp-block-lapaz-paisana-productores .video-info {
+		order: 2;
+	}
+}

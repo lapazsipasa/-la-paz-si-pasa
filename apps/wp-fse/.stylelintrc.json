@@ -1,0 +1,14 @@
+{
+	"extends": "@wordpress/stylelint-config",
+	"rules": {
+		"declaration-no-important": true,
+		"selector-max-id": 0,
+		"selector-max-specificity": "0,4,1",
+		"selector-class-pattern": [
+			"^[a-z0-9]+(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?(--[a-z0-9]+(-[a-z0-9]+)*)?$",
+			{ "message": "Usa kebab-case o BEM (bloque__elemento--modificador)" }
+		],
+		"color-named": "never",
+		"declaration-block-no-duplicate-properties": true
+	}
+}

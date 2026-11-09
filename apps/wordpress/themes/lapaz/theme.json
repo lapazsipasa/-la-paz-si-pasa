@@ -1,0 +1,327 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": true,
+		"useRootPaddingAwareAlignments": true,
+		"color": {
+			"defaultPalette": false,
+			"defaultGradients": false,
+			"defaultDuotone": false,
+			"palette": [
+				{
+					"slug": "brand",
+					"name": "Marca",
+					"color": "#171717"
+				},
+				{
+					"slug": "accent",
+					"name": "Acento",
+					"color": "#0f766e"
+				},
+				{
+					"slug": "surface",
+					"name": "Superficie",
+					"color": "#ffffff"
+				},
+				{
+					"slug": "surface-muted",
+					"name": "Superficie suave",
+					"color": "#f5f5f4"
+				},
+				{
+					"slug": "text",
+					"name": "Texto",
+					"color": "#1c1917"
+				},
+				{
+					"slug": "text-muted",
+					"name": "Texto suave",
+					"color": "#57534e"
+				},
+				{
+					"slug": "border",
+					"name": "Borde",
+					"color": "#d6d3d1"
+				},
+				{
+					"slug": "nav-text",
+					"name": "Azul",
+					"color": "#32509d"
+				},
+				{
+					"slug": "nav-border",
+					"name": "Azul borde",
+					"color": "#32509d"
+				},
+				{
+					"slug": "nav-bg-active",
+					"name": "Celeste",
+					"color": "#cbe9f8"
+				},
+				{
+					"slug": "loquehacemos-bg",
+					"name": "Verde",
+					"color": "#008861"
+				},
+				{
+					"slug": "actualidad-bg",
+					"name": "Rosa",
+					"color": "#d49ec7"
+				},
+				{
+					"slug": "scrollbar-thumb",
+					"name": "Azul scroll",
+					"color": "#3b8fd4"
+				}
+			]
+		},
+		"layout": {
+			"contentSize": "72rem",
+			"wideSize": "1376px"
+		},
+		"spacing": {
+			"defaultSpacingSizes": false,
+			"spacingSizes": [
+				{
+					"slug": "1",
+					"name": "1",
+					"size": "0.25rem"
+				},
+				{
+					"slug": "2",
+					"name": "2",
+					"size": "0.5rem"
+				},
+				{
+					"slug": "3",
+					"name": "3",
+					"size": "0.75rem"
+				},
+				{
+					"slug": "4",
+					"name": "4",
+					"size": "1rem"
+				},
+				{
+					"slug": "5",
+					"name": "5",
+					"size": "1.25rem"
+				},
+				{
+					"slug": "6",
+					"name": "6",
+					"size": "1.5rem"
+				},
+				{
+					"slug": "8",
+					"name": "8",
+					"size": "2rem"
+				},
+				{
+					"slug": "10",
+					"name": "10",
+					"size": "2.5rem"
+				},
+				{
+					"slug": "12",
+					"name": "12",
+					"size": "3rem"
+				},
+				{
+					"slug": "16",
+					"name": "16",
+					"size": "4rem"
+				}
+			]
+		},
+		"typography": {
+			"defaultFontSizes": false,
+			"fontFamilies": [
+				{
+					"slug": "komet",
+					"name": "Komet",
+					"fontFamily": "Komet, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+					"fontFace": [
+						{
+							"fontFamily": "Komet",
+							"fontWeight": "300",
+							"fontStyle": "normal",
+							"fontDisplay": "swap",
+							"ascentOverride": "100%",
+							"descentOverride": "20%",
+							"lineGapOverride": "0%",
+							"src": [
+								"file:./assets/fonts/Komet_Light.woff2"
+							]
+						},
+						{
+							"fontFamily": "Komet",
+							"fontWeight": "400",
+							"fontStyle": "normal",
+							"fontDisplay": "swap",
+							"ascentOverride": "100%",
+							"descentOverride": "20%",
+							"lineGapOverride": "0%",
+							"src": [
+								"file:./assets/fonts/Komet_Regular.woff2"
+							]
+						},
+						{
+							"fontFamily": "Komet",
+							"fontWeight": "700",
+							"fontStyle": "normal",
+							"fontDisplay": "swap",
+							"ascentOverride": "100%",
+							"descentOverride": "20%",
+							"lineGapOverride": "0%",
+							"src": [
+								"file:./assets/fonts/Komet_Bold.woff2"
+							]
+						},
+						{
+							"fontFamily": "Komet",
+							"fontWeight": "800",
+							"fontStyle": "normal",
+							"fontDisplay": "swap",
+							"ascentOverride": "100%",
+							"descentOverride": "20%",
+							"lineGapOverride": "0%",
+							"src": [
+								"file:./assets/fonts/Komet_Heavy.woff2"
+							]
+						},
+						{
+							"fontFamily": "Komet",
+							"fontWeight": "900",
+							"fontStyle": "normal",
+							"fontDisplay": "swap",
+							"ascentOverride": "100%",
+							"descentOverride": "20%",
+							"lineGapOverride": "0%",
+							"src": [
+								"file:./assets/fonts/Komet_Black.woff2"
+							]
+						}
+					]
+				},
+				{
+					"slug": "monique",
+					"name": "Monique Round",
+					"fontFamily": "\"Monique Round\", Komet, ui-sans-serif, system-ui, sans-serif",
+					"fontFace": [
+						{
+							"fontFamily": "Monique Round",
+							"fontWeight": "400",
+							"fontStyle": "normal",
+							"fontDisplay": "swap",
+							"ascentOverride": "100%",
+							"descentOverride": "20%",
+							"lineGapOverride": "0%",
+							"src": [
+								"file:./assets/fonts/Monique-RegularRound40.woff2"
+							]
+						},
+						{
+							"fontFamily": "Monique Round",
+							"fontWeight": "700",
+							"fontStyle": "normal",
+							"fontDisplay": "swap",
+							"ascentOverride": "100%",
+							"descentOverride": "20%",
+							"lineGapOverride": "0%",
+							"src": [
+								"file:./assets/fonts/Monique-BoldRound40.woff2"
+							]
+						}
+					]
+				}
+			]
+		},
+		"custom": {
+			"radius": {
+				"card": "8px",
+				"control": "6px"
+			},
+			"shadow": {
+				"soft": "0 20px 60px rgb(28 25 23 / 10%)"
+			},
+			"font-weight": {
+				"light": "300",
+				"regular": "400",
+				"bold": "700",
+				"heavy": "800",
+				"black": "900"
+			}
+		}
+	},
+	"styles": {
+		"color": {
+			"background": "var(--wp--preset--color--surface)",
+			"text": "var(--wp--preset--color--nav-text)"
+		},
+		"spacing": {
+			"blockGap": "0",
+			"padding": {
+				"top": "0",
+				"right": "clamp(1rem, 3vw, 1.5rem)",
+				"bottom": "0",
+				"left": "clamp(1rem, 3vw, 1.5rem)"
+			}
+		},
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--komet)",
+			"fontWeight": "300",
+			"lineHeight": "1.6"
+		},
+		"elements": {
+			"heading": {
+				"color": {
+					"text": "var(--wp--preset--color--nav-text)"
+				},
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--monique)",
+					"fontWeight": "700",
+					"lineHeight": "1.1"
+				}
+			},
+			"h1": {
+				"typography": {
+					"fontSize": "clamp(2.5rem, 6vw, 5rem)"
+				}
+			},
+			"h2": {
+				"typography": {
+					"fontSize": "clamp(2.2rem, 4vw, 3.5rem)"
+				}
+			},
+			"h3": {
+				"typography": {
+					"fontSize": "clamp(1.35rem, 3vw, 2rem)"
+				}
+			},
+			"link": {
+				"color": {
+					"text": "inherit"
+				}
+			}
+		}
+	},
+	"templateParts": [
+		{
+			"name": "header",
+			"title": "Encabezado",
+			"area": "header"
+		},
+		{
+			"name": "nav-desktop",
+			"title": "Navegación de escritorio",
+			"area": "uncategorized"
+		},
+		{
+			"name": "footer",
+			"title": "Pie de página",
+			"area": "footer"
+		}
+	]
+}

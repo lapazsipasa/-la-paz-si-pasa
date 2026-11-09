@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lapaz/actualidad",
+	"title": "Actualidad",
+	"category": "theme",
+	"icon": "video-alt3",
+	"description": "Video destacado y carrusel «Ver más». Los videos se editan en el menú Videos.",
+	"textdomain": "lapaz",
+	"supports": {
+		"autoRegister": true,
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"render": "file:./render.php",
+	"style": "file:./style.css",
+	"viewScript": "file:./view.js"
+}

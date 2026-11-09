@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lapaz/paisana-productores",
+	"title": "PaisSana · Productores",
+	"category": "theme",
+	"icon": "video-alt2",
+	"description": "Crónicas en video de productores. Muestra los videos con la etiqueta PaisSana (menú Videos).",
+	"textdomain": "lapaz",
+	"supports": {
+		"autoRegister": true,
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"render": "file:./render.php",
+	"style": "file:./style.css",
+	"viewScript": "file:./view.js"
+}

@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lapaz/paisana-audios",
+	"title": "PaisSana · El corazón del campo",
+	"category": "theme",
+	"icon": "format-audio",
+	"description": "Reproductor de relatos sonoros. Los relatos se editan en el menú Relatos de audio.",
+	"textdomain": "lapaz",
+	"supports": {
+		"autoRegister": true,
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"render": "file:./render.php",
+	"style": "file:./style.css",
+	"viewScript": "file:./view.js"
+}

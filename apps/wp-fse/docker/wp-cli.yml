@@ -1,0 +1,5 @@
+# WP-CLI no puede preguntarle a Apache si tiene mod_rewrite (corre fuera de Apache), así que
+# «wp rewrite … --hard» escribía un bloque de WordPress VACÍO en .htaccess y todas las URLs
+# bonitas daban 404 de Apache. La imagen sí tiene mod_rewrite: se le dice a WP-CLI.
+apache_modules:
+  - mod_rewrite

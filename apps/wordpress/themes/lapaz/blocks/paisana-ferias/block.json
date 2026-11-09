@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lapaz/paisana-ferias",
+	"title": "PaisSana · Ferias",
+	"category": "theme",
+	"icon": "store",
+	"description": "«PaisSana en ferias» y acordeón de ferias con galería y videos. Las ferias se editan en el menú Ferias.",
+	"textdomain": "lapaz",
+	"supports": {
+		"autoRegister": true,
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"render": "file:./render.php",
+	"style": [ "file:./intro.css", "file:./style.css" ],
+	"viewScript": "file:./view.js"
+}

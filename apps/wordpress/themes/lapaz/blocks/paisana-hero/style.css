@@ -1,0 +1,353 @@
+/*
+ * Bloque lapaz/paisana-hero. CSS copiado de ProyectosNav.astro, PaisSanaHero.astro
+ * con bin/astro-css-to-block.mjs: sin :global() y con cada selector bajo el bloque.
+ */
+
+/* ProyectosNav.astro */
+.wp-block-lapaz-paisana-hero .proyectos-nav {
+	display: flex;
+	justify-content: flex-start;
+	padding: var(--space-4) 0;
+}
+
+.wp-block-lapaz-paisana-hero .nav-list {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: var(--space-4);
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.wp-block-lapaz-paisana-hero .nav-list li {
+	display: flex;
+	flex: 1;
+}
+
+.wp-block-lapaz-paisana-hero .btn-project {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 var(--space-6);
+	color: #fff;
+	font-family: var(--font-monique-regular);
+	font-weight: 400;
+	font-size: 0.875rem;
+	text-transform: uppercase;
+	text-decoration: none;
+	letter-spacing: 0.5px;
+	height: 100%;
+	width: 100%;
+	min-height: 48px;
+	text-align: center;
+	transition: opacity 0.2s;
+}
+
+.wp-block-lapaz-paisana-hero .btn-project:hover {
+	opacity: 0.9;
+}
+
+.wp-block-lapaz-paisana-hero .btn-blue {
+	background-color: var(--color-nav-border, #32509d);
+}
+
+.wp-block-lapaz-paisana-hero .btn-green {
+	background-color: var(--color-loquehacemos-bg, #008861);
+}
+
+.wp-block-lapaz-paisana-hero .btn-orange {
+	background-color: #eb7b00; /* Color naranja basado en el diseño */
+}
+
+@media (min-width: 850px) {
+
+	.wp-block-lapaz-paisana-hero .nav-list {
+		flex-direction: row;
+		gap: 2rem;
+	}
+}
+
+@media (max-width: 360px) {
+
+	.wp-block-lapaz-paisana-hero .btn-project {
+		padding-inline: var(--space-3, 12px);
+	}
+}
+
+/* PaisSanaHero.astro */
+.wp-block-lapaz-paisana-hero .paisana-hero {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-12, 3rem);
+	width: 100%;
+	color: var(--color-text);
+}
+
+.wp-block-lapaz-paisana-hero .hero-top-grid,
+.wp-block-lapaz-paisana-hero .hero-bottom-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-8, 2rem);
+}
+
+/* BRAND SECTION */
+.wp-block-lapaz-paisana-hero .hero-brand {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4, 1rem);
+}
+
+.wp-block-lapaz-paisana-hero .brand-logo {
+	width: 100%;
+	max-width: 350px;
+	height: auto;
+	object-fit: contain;
+}
+
+/* Es el h1 de la pagina, pero mantiene el tamano de h2 del mockup. */
+.wp-block-lapaz-paisana-hero .hero-brand h1 {
+	margin-top: var(--space-4, 1rem);
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-heavy, 800);
+	font-size: clamp(2.2rem, 4vw, 3.5rem);
+}
+
+/* STATS SECTION */
+.wp-block-lapaz-paisana-hero .hero-stats {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4, 1rem);
+}
+
+.wp-block-lapaz-paisana-hero .flor-content {
+	position: relative;
+	padding: 0;
+}
+
+.wp-block-lapaz-paisana-hero .flor-img {
+	position: absolute;
+	top: 0;
+	right: 0;
+	max-width: 180px;
+	height: auto;
+	object-fit: contain;
+	pointer-events: none;
+	z-index: 0;
+}
+
+.wp-block-lapaz-paisana-hero .hero-stats h3 {
+	position: relative;
+	z-index: 1;
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-heavy, 800);
+}
+
+.wp-block-lapaz-paisana-hero .stats-list {
+	list-style: none;
+	padding: 1rem 5rem 3rem 1rem;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-6, 1.5rem);
+	z-index: 1;
+	position: relative;
+}
+
+.wp-block-lapaz-paisana-hero .stats-list li {
+	list-style: none;
+	list-style-type: none;
+	display: flex;
+	align-items: flex-start;
+	gap: var(--space-4, 1rem);
+}
+
+.wp-block-lapaz-paisana-hero .stat-icon-wrapper {
+	flex-shrink: 0;
+	width: 48px;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.wp-block-lapaz-paisana-hero .stat-icon-wrapper img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.wp-block-lapaz-paisana-hero .stat-content {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-1, 0.25rem);
+}
+
+.wp-block-lapaz-paisana-hero .stats-list li:first-child {
+	flex-direction: column;
+	gap: var(--space-1, 0.25rem);
+}
+
+.wp-block-lapaz-paisana-hero .stat-number {
+	font-size: clamp(2.5rem, 6vw, 3.5rem);
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-heavy, 800);
+	color: var(--color-nav-text, #32509d);
+	line-height: 1;
+}
+
+.wp-block-lapaz-paisana-hero .stat-text {
+	padding: 0 1rem 0 0;
+}
+
+/* BENEFITS SECTION */
+.wp-block-lapaz-paisana-hero .hero-benefits {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4, 1rem);
+	padding-right: 0;
+}
+
+.wp-block-lapaz-paisana-hero .hero-benefits h3 {
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-heavy, 800);
+}
+
+.wp-block-lapaz-paisana-hero .benefits-list {
+	list-style: disc;
+	padding: 0 0 0 1.5rem;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-4, 1rem);
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- otro elemento; no compite con el selector anterior. */
+.wp-block-lapaz-paisana-hero .benefits-list li {
+	position: relative;
+}
+
+/* PHOTO SECTION */
+.wp-block-lapaz-paisana-hero .hero-photo {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 1rem;
+}
+
+.wp-block-lapaz-paisana-hero .hero-photo img {
+	width: 100%;
+	max-width: 80%;
+	height: auto;
+	display: block;
+	object-fit: cover;
+	aspect-ratio: 1 / 1;
+	box-sizing: border-box;
+	border: 10px solid var(--color-surface);
+	box-shadow: 0 2.2rem 3rem rgba(0, 0, 0, 0.55), 0 0.4rem 1rem rgba(0, 0, 0, 0.3);
+	transform: rotate(-4deg);
+	transition: transform 0.5s ease;
+}
+
+.wp-block-lapaz-paisana-hero .hero-photo:hover img {
+	transform: rotate(-2deg) scale(1.02);
+}
+
+/* HERO NAV BUTTONS */
+.wp-block-lapaz-paisana-hero .hero-nav {
+	width: 100%;
+}
+
+.wp-block-lapaz-paisana-hero .hero-nav__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-4);
+}
+
+.wp-block-lapaz-paisana-hero .hero-nav__list a {
+	display: block;
+	text-align: center;
+	padding-block: var(--space-3);
+	border: 1px solid var(--color-nav-border);
+	color: var(--color-nav-text);
+	font-family: var(--font-monique-regular);
+	font-size: 0.9rem;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	text-decoration: none;
+	background: var(--color-surface);
+	transition: background-color 0.15s ease;
+	line-height: 1.5;
+}
+
+.wp-block-lapaz-paisana-hero .hero-nav__list a:hover,
+.wp-block-lapaz-paisana-hero .hero-nav__list a:focus-visible {
+	background: var(--color-nav-bg-active);
+}
+
+@media (min-width: 850px) {
+
+	.wp-block-lapaz-paisana-hero .hero-nav__list {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.wp-block-lapaz-paisana-hero .hero-top-grid {
+		grid-template-columns: 1fr 1fr;
+		align-items: start;
+		gap: 0;
+	}
+
+	.wp-block-lapaz-paisana-hero .hero-bottom-grid {
+		grid-template-columns: 1fr 1fr;
+		align-items: center;
+	}
+
+	.wp-block-lapaz-paisana-hero .hero-brand {
+		padding: 0 var(--space-8, 2rem) 0 0;
+	}
+
+	.wp-block-lapaz-paisana-hero .hero-stats {
+		border-left: 1px solid var(--color-nav-text, #32509d);
+		padding: 0 0 0 var(--space-8, 2rem);
+	}
+
+	.wp-block-lapaz-paisana-hero .flor-img {
+		max-width: 250px;
+	}
+
+	.wp-block-lapaz-paisana-hero .stat-text {
+		padding: 0 3rem 0 0;
+	}
+
+	.wp-block-lapaz-paisana-hero .hero-benefits {
+		padding-right: var(--space-4, 1rem);
+	}
+}
+
+@media (max-width: 360px) {
+
+	.wp-block-lapaz-paisana-hero .stats-list {
+		padding-right: 16px;
+	}
+
+	.wp-block-lapaz-paisana-hero .flor-content {
+		padding: 1rem;
+	}
+
+	.wp-block-lapaz-paisana-hero .flor-img {
+		max-width: 100px;
+	}
+}
+
+/* proyectos-destacados.astro: .paisana-header agrupa ProyectosNav y PaisSanaHero. */
+.wp-block-lapaz-paisana-hero {
+	display: flex;
+	flex-direction: column;
+	gap: clamp(2rem, 4vw, 3.5rem);
+}

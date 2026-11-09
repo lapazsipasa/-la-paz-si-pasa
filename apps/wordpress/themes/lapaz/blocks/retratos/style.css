@@ -1,0 +1,292 @@
+/*
+ * Bloque lapaz/retratos. CSS copiado de RetratosPaz, IntroText y RetratosPazSlider
+ * (apps/frontend/src/components), sin :global() y con cada selector bajo el bloque,
+ * porque aquí no existe el aislamiento de estilos de Astro.
+ */
+
+/* RetratosPaz.astro */
+
+.wp-block-lapaz-retratos {
+	display: grid;
+	grid-template-columns: 35% 1fr;
+	align-items: start;
+	gap: var(--space-8);
+	width: 100%;
+	min-width: 0;
+}
+
+.wp-block-lapaz-retratos .retratos-texto,
+.wp-block-lapaz-retratos .retratos-slider {
+	min-width: 0;
+}
+
+@media (max-width: 849px) {
+
+	.wp-block-lapaz-retratos {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 360px) {
+
+	.wp-block-lapaz-retratos {
+		gap: var(--space-4);
+	}
+}
+
+/* IntroText.astro */
+
+.wp-block-lapaz-retratos .retratos-texto {
+	display: grid;
+	gap: var(--space-4);
+}
+
+.wp-block-lapaz-retratos .retratos-texto__sello {
+	width: 160px;
+	height: 96px;
+	flex-shrink: 0;
+	padding-bottom: var(--space-4);
+}
+
+.wp-block-lapaz-retratos .retratos-texto__titulo {
+	color: var(--color-nav-text);
+	text-transform: uppercase;
+	font-size: clamp(1.25rem, 3.5vw, 2rem);
+	padding: var(--space-4) 0;
+	line-height: 1.1;
+}
+
+.wp-block-lapaz-retratos .retratos-texto__parrafo {
+	color: var(--color-nav-text);
+	font-family: var(--font-komet);
+	font-size: 1.125rem;
+	font-weight: 300;
+	line-height: 1.6;
+}
+
+.wp-block-lapaz-retratos .retratos-texto__parrafo strong {
+	font-weight: 700;
+}
+
+.wp-block-lapaz-retratos .retratos-texto__destacado {
+	color: var(--color-nav-text);
+	padding: var(--space-8) 0;
+	font-weight: 800;
+	text-transform: uppercase;
+	font-size: 1.125rem;
+}
+
+@media (max-width: 849px) {
+
+	.wp-block-lapaz-retratos .retratos-texto__sello {
+		width: 120px;
+		height: 72px;
+	}
+}
+
+@media (max-width: 360px) {
+
+	.wp-block-lapaz-retratos .retratos-texto__sello {
+		width: 96px;
+		height: 58px;
+	}
+
+	.wp-block-lapaz-retratos .retratos-texto__parrafo,
+	.wp-block-lapaz-retratos .retratos-texto__destacado {
+		font-size: 1rem;
+	}
+}
+
+/* RetratosPazSlider.astro */
+
+.wp-block-lapaz-retratos .retratos-slider {
+
+	/* shadow-1: strong, offset — reads as stacked on top of another photo */
+	--shadow-1: 0 2.2rem 3rem rgba(0, 0, 0, 0.55), 0 0.4rem 1rem rgba(0, 0, 0, 0.3);
+}
+
+.wp-block-lapaz-retratos .retratos-slider__page {
+	position: relative;
+	width: 100%;
+	max-width: 1100px;
+	margin-inline: auto;
+}
+
+.wp-block-lapaz-retratos .retratos-slider__visual {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 1240 / 830;
+}
+
+.wp-block-lapaz-retratos .retratos-slider__background,
+.wp-block-lapaz-retratos .retratos-slider__background img {
+	position: absolute;
+	inset: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.wp-block-lapaz-retratos .retratos-slider__background img {
+	object-fit: fill;
+}
+
+.wp-block-lapaz-retratos .retratos-slider__foto {
+	position: absolute;
+	left: 0%;
+	top: 15%;
+	width: 45%;
+	height: 67.23%;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	box-sizing: border-box;
+	border: 10px solid var(--color-surface);
+	box-shadow: var(--shadow-1);
+	transform: rotate(-4deg);
+	z-index: 1;
+}
+
+.wp-block-lapaz-retratos .retratos-slider__foto[aria-hidden="true"] {
+	display: none;
+}
+
+.wp-block-lapaz-retratos .retratos-slider__texto {
+	position: absolute;
+	right: 9%;
+	top: 15%;
+	width: 38%;
+	color: var(--color-nav-text);
+	transform: rotate(-4deg);
+}
+
+@media (max-width: 849px) {
+
+	.wp-block-lapaz-retratos .retratos-slider__visual {
+		aspect-ratio: 1 / 1.1;
+	}
+
+	.wp-block-lapaz-retratos .retratos-slider__texto {
+		position: static;
+		width: 100%;
+		margin-top: var(--space-8);
+		transform: none;
+		text-align: center;
+	}
+
+	.wp-block-lapaz-retratos .retratos-slider__foto {
+		left: 50%;
+		top: 12%;
+		width: 55%;
+		height: 50%;
+		transform: translateX(-50%) rotate(-2deg);
+	}
+
+	.wp-block-lapaz-retratos .retratos-slider__arrow {
+		bottom: 8%;
+	}
+
+	.wp-block-lapaz-retratos .retratos-slider__arrow--prev {
+		left: 20%;
+	}
+
+	.wp-block-lapaz-retratos .retratos-slider__arrow--next {
+		right: 20%;
+	}
+}
+
+.wp-block-lapaz-retratos .retratos-slider__titulo {
+	font-size: clamp(1rem, 2.2vw, 1.75rem);
+	margin: 0 0 var(--space-3) 0;
+	text-transform: uppercase;
+	color: var(--color-nav-text);
+}
+
+.wp-block-lapaz-retratos .retratos-slider__etiqueta {
+	font-size: .7rem;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	border-bottom: 1px solid var(--color-nav-border);
+	padding-bottom: var(--space-2);
+	margin-bottom: var(--space-3);
+}
+
+.wp-block-lapaz-retratos .retratos-slider__campos[aria-hidden="true"] {
+	display: none;
+}
+
+.wp-block-lapaz-retratos .retratos-slider__campos p {
+	margin: 0 0 var(--space-3) 0;
+	font-size: 1rem;
+}
+
+.wp-block-lapaz-retratos .retratos-slider__campo strong {
+	text-transform: uppercase;
+	font-size: 0.7rem;
+	letter-spacing: 0.04em;
+}
+
+.wp-block-lapaz-retratos .retratos-slider__arrow {
+	position: absolute;
+	bottom: 4%;
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	display: grid;
+	place-items: center;
+	cursor: pointer;
+	background: var(--color-surface);
+	border: 1px solid var(--color-nav-border);
+	color: var(--color-nav-text);
+	transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.wp-block-lapaz-retratos .retratos-slider__arrow svg {
+	width: 20px;
+	height: 15px;
+}
+
+.wp-block-lapaz-retratos .retratos-slider__arrow--prev {
+	left: 12%;
+}
+
+.wp-block-lapaz-retratos .retratos-slider__arrow--next {
+	right: 6%;
+}
+
+.wp-block-lapaz-retratos .retratos-slider__arrow--next svg {
+	transform: rotate(180deg);
+}
+
+.wp-block-lapaz-retratos .retratos-slider__arrow:hover {
+	background: var(--color-nav-text);
+	border-color: var(--color-nav-text);
+	color: var(--color-surface);
+}
+
+@media (min-width: 361px) and (max-width: 849px) {
+
+	.wp-block-lapaz-retratos .retratos-slider__foto {
+		width: 80%;
+		height: auto;
+	}
+
+	.wp-block-lapaz-retratos .retratos-slider__arrow {
+		top: 91%;
+		bottom: auto;
+	}
+}
+
+@media (max-width: 360px) {
+
+	.wp-block-lapaz-retratos .retratos-slider__foto {
+		width: 80%;
+		height: auto;
+	}
+
+	.wp-block-lapaz-retratos .retratos-slider__arrow {
+		bottom: -2%;
+		width: 38px;
+		height: 38px;
+		z-index: 2;
+	}
+}

@@ -1,0 +1,10 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+    level: max
+    paths:
+        - ../wordpress/themes/lapaz
+        - mu-plugins
+    scanFiles:
+        - phpstan/scf-stubs.php

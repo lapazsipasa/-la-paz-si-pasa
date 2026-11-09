@@ -1,0 +1,27 @@
+{
+  "name": "lapaz-wp-fse-tooling",
+  "private": true,
+  "description": "Herramientas de calidad del tema lapaz (solo desarrollo y CI).",
+  "type": "module",
+  "scripts": {
+    "lint:css": "stylelint \"../wordpress/themes/lapaz/**/*.css\" \"!../wordpress/themes/lapaz/assets/vendor/**\"",
+    "lint:js": "cd ../wordpress/themes/lapaz && eslint -c ../../../wp-fse/eslint.config.mjs .",
+    "typecheck:js": "tsc -p jsconfig.json",
+    "e2e": "node tests/e2e/navbar.mjs"
+  },
+  "devDependencies": {
+    "@wordpress/eslint-plugin": "^28.1.0",
+    "@wordpress/prettier-config": "^5.1.0",
+    "@wordpress/stylelint-config": "^27.1.0",
+    "ajv-cli": "^5.0.0",
+    "ajv-formats": "^3.0.1",
+    "eslint": "^9.39.5",
+    "globals": "^17.14.0",
+    "pixelmatch": "^8.0.0",
+    "pngjs": "^7.0.0",
+    "postcss": "^8.5.32",
+    "prettier": "npm:wp-prettier@^3.0.3",
+    "stylelint": "^17.16.0",
+    "typescript": "^6.0.3"
+  }
+}

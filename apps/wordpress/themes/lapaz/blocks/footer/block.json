@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lapaz/footer",
+	"title": "Footer La Paz Sí Pasa",
+	"category": "theme",
+	"icon": "align-wide",
+	"description": "Pie del sitio: logos, texto de cierre y redes. Contenido fijo según la cotización.",
+	"textdomain": "lapaz",
+	"supports": {
+		"autoRegister": true,
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"render": "file:./render.php",
+	"style": "file:./style.css",
+	"viewScript": "file:./view.js"
+}

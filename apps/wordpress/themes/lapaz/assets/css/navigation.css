@@ -1,0 +1,220 @@
+/*
+ * Navbar sobre el bloque nativo core/navigation.
+ *
+ * Copia el diseño de Nav.astro, NavMenu.astro y NavMenuDesktop.astro (apps/frontend)
+ * y lo aplica a las clases de core/navigation. Solo carga en páginas con el bloque
+ * (wp_enqueue_block_style). Afecta solo a los bloques con clase lapaz-nav-mobile o
+ * lapaz-nav-desktop; cualquier otra navegación conserva el estilo de WordPress.
+ * El JS (abrir, cerrar, Esc, foco, bloqueo del scroll) es el nativo del bloque.
+ */
+
+/* =========================================
+   Ítems (compartido móvil y escritorio)
+   ========================================= */
+.lapaz-nav-mobile .wp-block-navigation-item__content,
+.lapaz-nav-desktop .wp-block-navigation-item__content {
+	display: block;
+	width: 100%;
+	text-align: center;
+	padding-block: var(--space-3);
+	padding-inline: var(--space-2);
+	border: 1px solid var(--color-nav-border);
+	color: var(--color-nav-text);
+	font-family: var(--font-monique-regular);
+	font-size: 0.9rem;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	text-decoration: none;
+	background: var(--color-surface);
+	transition: background-color 0.15s ease;
+	line-height: 1.5;
+}
+
+.lapaz-nav-mobile .wp-block-navigation-item__content:hover,
+.lapaz-nav-mobile .wp-block-navigation-item__content:focus-visible,
+.lapaz-nav-desktop .wp-block-navigation-item__content:hover,
+.lapaz-nav-desktop .wp-block-navigation-item__content:focus-visible {
+	background: var(--color-nav-bg-active);
+}
+
+.lapaz-nav-mobile .wp-block-navigation-item,
+.lapaz-nav-desktop .wp-block-navigation-item {
+	width: 100%;
+}
+
+/* =========================================
+   Escritorio (NavMenuDesktop): ≥ 850px
+   ========================================= */
+
+/* core/navigation copia la clase al <ul> interno: se acota a <nav>. */
+nav.lapaz-nav-desktop {
+
+	/* = .container--wide de NavMenuDesktop (la clase no se usa: core la copiaría al <ul>). */
+	width: 100%;
+	max-width: var(--wide-width);
+	margin-inline: auto;
+	padding: 40px clamp(1rem, 3vw, 1.5rem) var(--space-4);
+}
+
+.lapaz-nav-desktop.wp-block-navigation .wp-block-navigation__container {
+	display: grid;
+
+	/* se adapta al número de ítems del menú */
+	grid-auto-flow: column;
+	grid-auto-columns: 1fr;
+	gap: var(--space-4);
+	width: 100%;
+	flex: 1;
+}
+
+@media (max-width: 849px) {
+
+	nav.lapaz-nav-desktop.wp-block-navigation {
+		display: none;
+	}
+}
+
+/* =========================================
+   Móvil (Nav + NavMenu): < 850px
+   ========================================= */
+header.wp-block-group.site-header {
+	display: none;
+}
+
+@media (max-width: 849px) {
+
+	header.wp-block-group.site-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: nowrap;
+		position: relative;
+		padding: var(--space-4) var(--space-10);
+		background: var(--color-surface);
+		border-bottom: 1px solid var(--color-nav-border);
+	}
+
+	.site-header__brand,
+	.site-header__brand a {
+		margin: 0;
+		color: var(--color-brand);
+		font-family: var(--font-monique-regular);
+		font-size: 1rem;
+		font-weight: 700;
+		line-height: 1.6;
+		text-transform: uppercase;
+		text-decoration: none;
+	}
+}
+
+@media (max-width: 360px) {
+
+	header.wp-block-group.site-header {
+		padding: var(--space-4);
+	}
+}
+
+/* Botón hamburguesa: mismas 3 barras de 20×2px y 4px de separación que Nav.astro. */
+.lapaz-nav-mobile .wp-block-navigation__responsive-container-open,
+.lapaz-nav-mobile .wp-block-navigation__responsive-container-close {
+	display: grid;
+	place-items: center;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	border: 1px solid var(--color-nav-border);
+	border-radius: var(--radius-control);
+	background-color: var(--color-surface);
+	color: var(--color-nav-text);
+	cursor: pointer;
+}
+
+.lapaz-nav-mobile .wp-block-navigation__responsive-container-open svg {
+	display: none;
+}
+
+.lapaz-nav-mobile .wp-block-navigation__responsive-container-open {
+	background-image:
+		linear-gradient(currentcolor, currentcolor),
+		linear-gradient(currentcolor, currentcolor),
+		linear-gradient(currentcolor, currentcolor);
+	background-repeat: no-repeat;
+	background-size: 20px 2px;
+	background-position:
+		center calc(50% - 6px),
+		center,
+		center calc(50% + 6px);
+}
+
+/* Cerrar: misma caja, en el lugar de la hamburguesa, con la X de las barras rotadas. */
+.lapaz-nav-mobile .wp-block-navigation__responsive-container-close {
+	position: fixed;
+	top: var(--space-4);
+	right: var(--space-10);
+	z-index: 20;
+}
+
+/* La X son las mismas barras de 20×2px rotadas, como en Nav.astro. */
+.lapaz-nav-mobile .wp-block-navigation__responsive-container-close svg {
+	display: none;
+}
+
+.lapaz-nav-mobile .wp-block-navigation__responsive-container-close::before,
+.lapaz-nav-mobile .wp-block-navigation__responsive-container-close::after {
+	content: "";
+	grid-area: 1 / 1;
+	width: 20px;
+	height: 2px;
+	background: currentcolor;
+	transform: rotate(45deg);
+}
+
+.lapaz-nav-mobile .wp-block-navigation__responsive-container-close::after {
+	transform: rotate(-45deg);
+}
+
+@media (max-width: 360px) {
+
+	.lapaz-nav-mobile .wp-block-navigation__responsive-container-close {
+		right: var(--space-4);
+	}
+}
+
+/* Overlay a pantalla completa (NavMenu .nav__list.is-open). */
+.lapaz-nav-mobile .wp-block-navigation__responsive-container.is-menu-open {
+	padding: var(--space-4);
+	background-color: var(--color-nav-bg-active);
+}
+
+/* Centra los ítems en la pantalla: cada envoltorio del diálogo ocupa todo el alto. */
+.lapaz-nav-mobile .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-close,
+.lapaz-nav-mobile .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-dialog {
+	height: 100%;
+}
+
+.lapaz-nav-mobile .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content {
+	align-items: stretch;
+	justify-content: center;
+	height: 100%;
+	padding-top: 0;
+}
+
+.lapaz-nav-mobile .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__container {
+	display: grid;
+	grid-template-columns: 1fr;
+	align-content: center;
+	gap: var(--space-4);
+	width: 100%;
+}
+
+.lapaz-nav-mobile .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content {
+	padding-block: var(--space-3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.lapaz-nav-mobile .wp-block-navigation-item__content,
+	.lapaz-nav-desktop .wp-block-navigation-item__content {
+		transition: none;
+	}
+}

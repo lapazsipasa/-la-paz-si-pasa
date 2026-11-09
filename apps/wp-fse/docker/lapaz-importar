@@ -1,0 +1,50 @@
+#!/bin/bash
+# Importa el contenido de otro WordPress con el mismo modelo de contenido (el headless de
+# producción): base de datos + uploads, cambio de URLs y configuración del tema FSE.
+#
+# Uso (dentro del contenedor cms, como www-data):
+#   lapaz-importar /ruta/dump.sql[.gz] [/ruta/uploads.tar.gz]
+#
+# - Antes de importar guarda un respaldo de la base actual en /tmp (se puede volver con wp db import).
+# - El dump puede traer otro WP_HOME (https://cms.lapazsipasa.com): se reemplaza por WORDPRESS_URL.
+# - El tarball de uploads debe contener el CONTENIDO de wp-content/uploads (2026/, 2025/…).
+# - Al final corre lapaz-setup: activa el tema, SCF, portada, menú y limpieza.
+set -euo pipefail
+
+dump="${1:?Uso: lapaz-importar dump.sql[.gz] [uploads.tar.gz]}"
+uploads="${2:-}"
+: "${WORDPRESS_URL:?Define WORDPRESS_URL}"
+wp=(wp --path=/var/www/html)
+
+[ -f "$dump" ] || { echo "No existe $dump" >&2; exit 1; }
+[ -z "$uploads" ] || [ -f "$uploads" ] || { echo "No existe $uploads" >&2; exit 1; }
+
+respaldo="/tmp/antes-de-importar-$(date +%Y%m%d-%H%M%S).sql"
+"${wp[@]}" db export "$respaldo" --quiet
+echo "Respaldo de la base actual: $respaldo"
+
+if [[ "$dump" == *.gz ]]; then
+    gunzip -c "$dump" | "${wp[@]}" db import -
+else
+    "${wp[@]}" db import "$dump"
+fi
+
+# Directo de la base: «wp option get home» devuelve la constante WP_HOME del wp-config,
+# no el valor que trae el dump, y el reemplazo de URLs no se haría.
+prefijo="$("${wp[@]}" db prefix)"
+origen="$("${wp[@]}" db query "SELECT option_value FROM ${prefijo}options WHERE option_name = 'home'" --skip-column-names)"
+echo "URL de origen: $origen → destino: $WORDPRESS_URL"
+if [ "$origen" != "$WORDPRESS_URL" ]; then
+    # guid no se toca: identifica entradas, no es una URL que se visite.
+    "${wp[@]}" search-replace "$origen" "$WORDPRESS_URL" --all-tables-with-prefix --skip-columns=guid --report-changed-only
+fi
+
+if [ -n "$uploads" ]; then
+    tar -xzf "$uploads" -C /var/www/html/wp-content/uploads
+    echo "Uploads extraídos en wp-content/uploads"
+fi
+
+lapaz-setup
+"${wp[@]}" cache flush
+"${wp[@]}" rewrite flush --hard
+echo "Importación lista. Si algo salió mal: wp db import $respaldo"

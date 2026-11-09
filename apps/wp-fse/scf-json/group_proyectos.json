@@ -1,0 +1,313 @@
+{
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": [],
+  "active": true,
+  "description": "Cifras de PaisSana. Solo aparece en la página Proyectos destacados (filtro en lapaz-core).",
+  "show_in_rest": 0,
+  "key": "group_proyectos_lapazsipasa",
+  "title": "Proyectos destacados · PaisSana",
+  "fields": [
+    {
+      "key": "field_proyectos_tab_cifras",
+      "label": "Datos relevantes (PaisSana)",
+      "name": "",
+      "type": "tab",
+      "placement": "top",
+      "endpoint": 0
+    },
+    {
+      "key": "field_proyectos_cifra_1_valor",
+      "label": "Cifra 1",
+      "name": "cifra_1_valor",
+      "type": "text",
+      "instructions": "Número tal como se muestra (por ejemplo 3.402).",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "450",
+      "placeholder": "450",
+      "maxlength": 12
+    },
+    {
+      "key": "field_proyectos_cifra_1_texto",
+      "label": "Texto de la cifra 1",
+      "name": "cifra_1_texto",
+      "type": "textarea",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "75",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "Organizaciones y productores vigentes con acuerdos comerciales en pie.",
+      "rows": 2,
+      "new_lines": ""
+    },
+    {
+      "key": "field_proyectos_cifra_2_valor",
+      "label": "Cifra 2",
+      "name": "cifra_2_valor",
+      "type": "text",
+      "instructions": "Número tal como se muestra (por ejemplo 3.402).",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "3.402",
+      "placeholder": "3.402",
+      "maxlength": 12
+    },
+    {
+      "key": "field_proyectos_cifra_2_texto",
+      "label": "Texto de la cifra 2",
+      "name": "cifra_2_texto",
+      "type": "textarea",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "75",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "Productos con sello de origen que garantizan calidad y procedencia.",
+      "rows": 2,
+      "new_lines": ""
+    },
+    {
+      "key": "field_proyectos_cifra_3_valor",
+      "label": "Cifra 3",
+      "name": "cifra_3_valor",
+      "type": "text",
+      "instructions": "Número tal como se muestra (por ejemplo 3.402).",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "168",
+      "placeholder": "168",
+      "maxlength": 12
+    },
+    {
+      "key": "field_proyectos_cifra_3_texto",
+      "label": "Texto de la cifra 3",
+      "name": "cifra_3_texto",
+      "type": "textarea",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "75",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "Municipios sembrando el cambio en las regiones más afectadas por el conflicto.",
+      "rows": 2,
+      "new_lines": ""
+    },
+    {
+      "key": "field_proyectos_tab_regiones",
+      "label": "Regiones del mapa",
+      "name": "",
+      "type": "tab",
+      "placement": "top",
+      "endpoint": 0
+    },
+    {
+      "key": "field_proyectos_region_caribe_total",
+      "label": "Caribe · productores",
+      "name": "region_caribe_total",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": 61,
+      "min": 0,
+      "step": 1
+    },
+    {
+      "key": "field_proyectos_region_caribe_deptos",
+      "label": "Caribe · departamentos",
+      "name": "region_caribe_deptos",
+      "type": "textarea",
+      "instructions": "Un departamento por línea, con el formato NOMBRE: número.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "75",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "LA GUAJIRA: 3\nSUCRE: 17\nCESAR: 18\nBOLÍVAR: 13\nMAGDALENA: 1\nCÓRDOBA: 8\nATLÁNTICO: 1",
+      "rows": 8,
+      "new_lines": ""
+    },
+    {
+      "key": "field_proyectos_region_pacifica_total",
+      "label": "Pacífica · productores",
+      "name": "region_pacifica_total",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": 120,
+      "min": 0,
+      "step": 1
+    },
+    {
+      "key": "field_proyectos_region_pacifica_deptos",
+      "label": "Pacífica · departamentos",
+      "name": "region_pacifica_deptos",
+      "type": "textarea",
+      "instructions": "Un departamento por línea, con el formato NOMBRE: número.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "75",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "CHOCÓ: 16\nVALLE DEL CAUCA: 34\nCAUCA: 63\nNARIÑO: 7",
+      "rows": 5,
+      "new_lines": ""
+    },
+    {
+      "key": "field_proyectos_region_andina_total",
+      "label": "Andina · productores",
+      "name": "region_andina_total",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": 152,
+      "min": 0,
+      "step": 1
+    },
+    {
+      "key": "field_proyectos_region_andina_deptos",
+      "label": "Andina · departamentos",
+      "name": "region_andina_deptos",
+      "type": "textarea",
+      "instructions": "Un departamento por línea, con el formato NOMBRE: número.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "75",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "RISARALDA: 2\nTOLIMA: 35\nCALDAS: 1\nHUILA: 11\nQUINDÍO: 1\nBOYACÁ: 10\nANTIOQUIA: 47\nBOGOTÁ: 20\nSANTANDER: 9\nCUNDINAMARCA: 1\nNORTE DE SANTANDER: 15",
+      "rows": 12,
+      "new_lines": ""
+    },
+    {
+      "key": "field_proyectos_region_orinoquia_total",
+      "label": "Orinoquía · productores",
+      "name": "region_orinoquia_total",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": 93,
+      "min": 0,
+      "step": 1
+    },
+    {
+      "key": "field_proyectos_region_orinoquia_deptos",
+      "label": "Orinoquía · departamentos",
+      "name": "region_orinoquia_deptos",
+      "type": "textarea",
+      "instructions": "Un departamento por línea, con el formato NOMBRE: número.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "75",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "ARAUCA: 57\nCASANARE: 25\nVICHADA: 0\nMETA: 11",
+      "rows": 5,
+      "new_lines": ""
+    },
+    {
+      "key": "field_proyectos_region_amazonia_total",
+      "label": "Amazonía · productores",
+      "name": "region_amazonia_total",
+      "type": "number",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": 42,
+      "min": 0,
+      "step": 1
+    },
+    {
+      "key": "field_proyectos_region_amazonia_deptos",
+      "label": "Amazonía · departamentos",
+      "name": "region_amazonia_deptos",
+      "type": "textarea",
+      "instructions": "Un departamento por línea, con el formato NOMBRE: número.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "75",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "AMAZONAS: 1\nGUAVIARE: 4\nPUTUMAYO: 9\nCAQUETÁ: 28",
+      "rows": 5,
+      "new_lines": ""
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "page"
+      }
+    ]
+  ],
+  "modified": 0
+}

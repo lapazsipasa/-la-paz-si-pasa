@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lapaz/hero",
+	"title": "Hero La Paz Sí Pasa",
+	"category": "theme",
+	"icon": "cover-image",
+	"description": "Foto de portada con el logo. La foto se cambia en la página Inicio (campo «Imagen del hero»).",
+	"textdomain": "lapaz",
+	"supports": {
+		"autoRegister": true,
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"render": "file:./render.php",
+	"style": "file:./style.css"
+}

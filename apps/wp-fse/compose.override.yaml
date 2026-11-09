@@ -1,0 +1,15 @@
+services:
+  cms:
+    ports:
+      - "8090:80"
+    environment:
+      WORDPRESS_URL: http://localhost:8090
+      WP_ENVIRONMENT_TYPE: local
+      WP_DEVELOPMENT_MODE: theme
+      WORDPRESS_DEBUG: "1"
+    # Permite editar el tema sin reconstruir la imagen en cada cambio.
+    volumes:
+      - ../wordpress/themes/lapaz:/var/www/html/wp-content/themes/lapaz
+      - ./mu-plugins:/var/www/html/wp-content/mu-plugins
+      - ../wordpress/scf-json:/var/www/html/wp-content/scf-json:ro
+      - ./scf-json:/var/www/html/wp-content/scf-json-lapaz:ro

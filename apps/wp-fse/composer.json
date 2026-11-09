@@ -1,0 +1,12 @@
+{
+  "require-dev": {
+    "wp-coding-standards/wpcs": "^3.0",
+    "phpstan/phpstan": "^2.3",
+    "szepeviktor/phpstan-wordpress": "^2.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  }
+}

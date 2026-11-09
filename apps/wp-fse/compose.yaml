@@ -1,0 +1,90 @@
+name: lapaz-fse
+
+services:
+  db:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: ${WORDPRESS_DB_NAME:-wordpress}
+      MARIADB_USER: ${WORDPRESS_DB_USER:-wordpress}
+      MARIADB_PASSWORD: ${WORDPRESS_DB_PASSWORD:?Define WORDPRESS_DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${WORDPRESS_DB_ROOT_PASSWORD:?Define WORDPRESS_DB_ROOT_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  cms:
+    build:
+      context: ../..
+      dockerfile: apps/wp-fse/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME:-wordpress}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD:?Define WORDPRESS_DB_PASSWORD}
+      WORDPRESS_URL: ${WORDPRESS_URL:?Define WORDPRESS_URL}
+      WP_ENVIRONMENT_TYPE: ${WP_ENVIRONMENT_TYPE:-production}
+      WP_DEVELOPMENT_MODE: ${WP_DEVELOPMENT_MODE:-}
+      # true en Dokploy (staging y producción); vacío en local y CI, donde las pruebas editan contenido.
+      WP_CACHE: ${WP_CACHE:-}
+      WP_ADMIN_USER: ${WP_ADMIN_USER:-admin}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL:-}
+      # SMTP (lapaz-smtp.php): sin SMTP_HOST no se usa. En producción: Resend, como el headless.
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+      SMTP_FROM_NAME: ${SMTP_FROM_NAME:-La Paz Sí Pasa}
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_HOME', getenv('WORDPRESS_URL'));
+        define('WP_SITEURL', getenv('WORDPRESS_URL'));
+        define('DISALLOW_FILE_EDIT', true);
+        // Caché de página (WP Super Cache): solo con WP_CACHE=true. WPCACHEHOME definido aquí
+        // para que el plugin no intente editar wp-config.php.
+        defined('WP_CACHE') || define('WP_CACHE', getenv('WP_CACHE') === 'true');
+        defined('WPCACHEHOME') || define('WPCACHEHOME', '/var/www/html/wp-content/plugins/wp-super-cache/');
+        // En producción todo (tema, plugins, mu-plugins) viene en la imagen: nadie instala nada desde el admin.
+        define('DISALLOW_FILE_MODS', getenv('WP_ENVIRONMENT_TYPE') === 'production');
+        define('WP_ENVIRONMENT_TYPE', getenv('WP_ENVIRONMENT_TYPE'));
+        // 'theme' en local: WordPress no cachea theme.json ni plantillas mientras se edita.
+        define('WP_DEVELOPMENT_MODE', getenv('WP_DEVELOPMENT_MODE') ?: '');
+        // El proxy termina TLS antes de llegar a Apache.
+        if (isset($$_SERVER['HTTP_X_FORWARDED_PROTO']) && $$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+            $$_SERVER['HTTPS'] = 'on';
+        }
+        if (parse_url(getenv('WORDPRESS_URL'), PHP_URL_SCHEME) === 'https') {
+            define('FORCE_SSL_ADMIN', true);
+        }
+    # El tema viaja en la imagen para sobrevivir al reemplazo del clon en Dokploy.
+    volumes:
+      - wordpress_data:/var/www/html
+    expose:
+      - "80"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost/wp-login.php"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+volumes:
+  db_data:
+  wordpress_data:

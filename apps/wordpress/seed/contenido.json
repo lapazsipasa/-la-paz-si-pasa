@@ -549,5 +549,122 @@
       "lugar": "Condoto, Chocó",
       "archivo": "audio/15-pss-maria-mosquera-ser-choco.m4a"
     }
+  ],
+  "subcuentas": [
+    {
+      "nombre": "Atención Integral de las Víctimas",
+      "archivo": "subcuentas/victimas.png",
+      "orden": 1
+    },
+    {
+      "nombre": "Servicio Social para la Paz",
+      "archivo": "subcuentas/servicio-social-paz.png",
+      "orden": 2
+    },
+    {
+      "nombre": "Ministerio del Trabajo",
+      "archivo": "subcuentas/min-trabajo.png",
+      "orden": 3
+    },
+    {
+      "nombre": "Zona ZEII Catatumbo - Catastro",
+      "archivo": "subcuentas/catastro-zeii-catatumbo.png",
+      "orden": 4
+    },
+    {
+      "nombre": "ARN - Acciones comunitarias y restaurativas",
+      "archivo": "subcuentas/arn-acciones-comunitarias.png",
+      "orden": 5
+    },
+    {
+      "nombre": "Agencia de Desarrollo Rural",
+      "archivo": "subcuentas/agencia-desarrollo-rural.png",
+      "orden": 6
+    },
+    {
+      "nombre": "Agencia Francesa de Desarrollo - AFD",
+      "archivo": "subcuentas/afd.png",
+      "orden": 7
+    },
+    {
+      "nombre": "Ministerio de Agricultura y Desarrollo Rural",
+      "archivo": "subcuentas/min-agricultura.png",
+      "orden": 8
+    },
+    {
+      "nombre": "Banco de Desarrollo Alemán - KFW",
+      "archivo": "subcuentas/kfw.png",
+      "orden": 9
+    },
+    {
+      "nombre": "Visión Amazonía",
+      "archivo": "subcuentas/vision-amazonia.png",
+      "orden": 10
+    },
+    {
+      "nombre": "BID Facilidad",
+      "archivo": "subcuentas/bid-facilidad.png",
+      "orden": 11
+    },
+    {
+      "nombre": "Herencia Colombia",
+      "archivo": "subcuentas/heco.png",
+      "orden": 12
+    },
+    {
+      "nombre": "Agencia Nacional de Tierras",
+      "archivo": "subcuentas/agencia-nacional-tierras.png",
+      "orden": 13
+    },
+    {
+      "nombre": "Implementación del Acuerdo de Paz",
+      "archivo": "subcuentas/implementacion-acuerdo-paz.png",
+      "orden": 14
+    },
+    {
+      "nombre": "Catastro Multipropósito",
+      "archivo": "subcuentas/catastro-multiproposito.png",
+      "orden": 15
+    },
+    {
+      "nombre": "Tejiendo Paz - Funcionamiento",
+      "archivo": "subcuentas/fcp-funcionamiento.png",
+      "orden": 16
+    },
+    {
+      "nombre": "Primera Infancia ICBF",
+      "archivo": "subcuentas/icbf-primera-infancia.png",
+      "orden": 17
+    },
+    {
+      "nombre": "Niñez y Adolescencia ICBF",
+      "archivo": "subcuentas/icbf-ninez-adolescencia.png",
+      "orden": 18
+    },
+    {
+      "nombre": "Ambiente y Desarrollo Sostenible",
+      "archivo": "subcuentas/min-ambiente.png",
+      "orden": 19
+    },
+    {
+      "nombre": "BID Préstamo",
+      "archivo": "subcuentas/bid-prestamo.png",
+      "orden": 20
+    },
+    {
+      "nombre": "Programas de Desarrollo con Enfoque Territorial",
+      "archivo": "subcuentas/pdet.png",
+      "orden": 21
+    },
+    {
+      "nombre": "ARN Reincorporación",
+      "archivo": "subcuentas/arn-reincorporacion.png",
+      "orden": 22
+    },
+    {
+      "nombre": "Sustitución",
+      "archivo": "subcuentas/sustitucion.png",
+      "orden": 23
+    }
   ]
 }

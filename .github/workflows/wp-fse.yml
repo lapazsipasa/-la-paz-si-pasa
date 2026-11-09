@@ -1,0 +1,124 @@
+# Calidad del tema FSE: mismo bin/check que en local, más pruebas de la portada.
+# La comparación visual contra Astro es solo local (Linux y macOS rasterizan distinto las fuentes).
+name: wp-fse
+
+on:
+  pull_request:
+    paths: ['apps/wp-fse/**', 'apps/wordpress/themes/**', '.github/workflows/wp-fse.yml']
+  push:
+    branches: [main, frontend, feat/wordpress-fse]
+    paths: ['apps/wp-fse/**', 'apps/wordpress/themes/**', '.github/workflows/wp-fse.yml']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wp-fse-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Calidad determinista
+        run: apps/wp-fse/bin/check
+
+  e2e:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: apps/wp-fse
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.23.4
+          cache: npm
+          cache-dependency-path: apps/wp-fse/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - name: WordPress local (compose + override)
+        run: |
+          {
+            # compose.yaml exige WORDPRESS_URL antes de aplicar el override.
+            echo "WORDPRESS_URL=http://localhost:8090"
+            echo "WORDPRESS_DB_PASSWORD=$(openssl rand -hex 16)"
+            echo "WORDPRESS_DB_ROOT_PASSWORD=$(openssl rand -hex 16)"
+            echo "WP_ADMIN_EMAIL=ci@example.test"
+          } > .env
+          docker compose up -d --build --wait
+          docker compose exec -T -u www-data cms lapaz-setup > /dev/null
+          docker compose exec -T -u www-data cms wp eval "$(cat <<'PHP'
+          $files = glob(WP_CONTENT_DIR . "/scf-json-lapaz/*.json");
+          if (!$files) { WP_CLI::error("Faltan los grupos SCF propios"); }
+          foreach ($files as $file) {
+              $group = json_decode(file_get_contents($file), true);
+              if (!is_array($group)) { WP_CLI::error("Grupo SCF inválido"); }
+              acf_import_field_group($group);
+          }
+          PHP
+          )"
+          docker compose exec -T -u www-data -e SEED_SOLO=retratos cms wp eval-file /opt/seed/seed.php
+          docker compose exec -T -u www-data -e SEED_SOLO=subcuentas cms wp eval-file /opt/seed/seed.php
+          docker compose exec -T -u www-data -e SEED_SOLO=videos cms wp eval-file /opt/seed/seed.php
+          docker compose exec -T -u www-data -e SEED_SOLO=audio_relatos cms wp eval-file /opt/seed/seed.php
+          docker compose exec -T -u www-data -e SEED_SOLO=ferias cms wp eval-file /opt/seed/seed.php
+      - name: Noticias de ejemplo (solo CI)
+        run: |
+          docker compose exec -T -u www-data cms wp eval "$(cat <<'PHP'
+          $noticias = [
+              ["El fondo entrega resultados de gestión", "20260510"],
+              ["Nuevos proyectos en territorios PDET", "20260322"],
+              ["Balance de Colombia Sostenible", "20260114"],
+              ["Ejemplo cuarto 2026", "20260102"],
+              ["Ejemplo 2025 A", "20250918"],
+              ["Ejemplo 2025 B", "20250602"],
+          ];
+          foreach ($noticias as $i => $noticia) {
+              $id = wp_insert_post(["post_type" => "noticia", "post_status" => "publish", "post_title" => $noticia[0]], true);
+              if (is_wp_error($id)) { WP_CLI::error($id->get_error_message()); }
+              update_field("field_noticia_url", "https://example.com/ejemplo-" . $i, $id);
+              update_field("field_noticia_fecha", $noticia[1], $id);
+          }
+          PHP
+          )"
+      - name: Navbar (comportamiento)
+        env:
+          CHROME_BIN: google-chrome
+        run: node tests/e2e/navbar.mjs
+      - name: Retratos (comportamiento)
+        env:
+          CHROME_BIN: google-chrome
+        run: node tests/e2e/retratos.mjs
+      - name: Hero, footer y plantillas (comportamiento)
+        env:
+          CHROME_BIN: google-chrome
+        run: node tests/e2e/layout.mjs
+      - name: Lo que hacemos (comportamiento y CTA editable)
+        env:
+          CHROME_BIN: google-chrome
+        run: node tests/e2e/lo-que-hacemos.mjs
+      - name: Actualidad (comportamiento)
+        env:
+          CHROME_BIN: google-chrome
+        run: node tests/e2e/actualidad.mjs
+      - name: PaisSana (cinco bloques)
+        env:
+          CHROME_BIN: google-chrome
+        run: |
+          node tests/e2e/paisana-hero.mjs
+          node tests/e2e/paisana-mapa.mjs
+          node tests/e2e/paisana-audios.mjs
+          node tests/e2e/paisana-productores.mjs
+          node tests/e2e/paisana-ferias.mjs
+      - name: SEO y producción aislada
+        env:
+          CHROME_BIN: google-chrome
+        run: node tests/e2e/seo.mjs
+      - name: Seguridad HTTP anónima
+        run: node tests/e2e/seguridad.mjs
+      - name: Logs si falla
+        if: failure()
+        run: docker compose logs cms

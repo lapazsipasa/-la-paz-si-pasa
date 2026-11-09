@@ -14,6 +14,8 @@ docs/
 # Dependencias (monorepo, a cualquier profundidad)
 **/node_modules/
 **/vendor/
+# Excepción: código de terceros del tema que se sirve al navegador (Plyr). Va con SHA256SUMS.
+!apps/wordpress/themes/lapaz/assets/vendor/
 
 # Salidas de compilación, cachés y pruebas
 **/dist/

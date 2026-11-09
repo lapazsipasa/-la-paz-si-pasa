@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lapaz/lo-que-hacemos",
+	"title": "Lo que hacemos",
+	"category": "theme",
+	"icon": "networking",
+	"description": "Texto del fondo, carrusel de subcuentas, banner de prensa y noticias por año. Subcuentas y noticias se editan en sus menús; la URL del banner, en la página Inicio.",
+	"textdomain": "lapaz",
+	"supports": {
+		"autoRegister": true,
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"render": "file:./render.php",
+	"style": "file:./style.css",
+	"viewScript": "file:./view.js"
+}

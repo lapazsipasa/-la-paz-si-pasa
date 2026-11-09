@@ -1,0 +1,264 @@
+/*
+ * Bloque lapaz/lo-que-hacemos. CSS copiado de LoQueHacemos.astro, LoQueHacemosTextoDestacado.astro, LoQueHacemosSubcuentas.astro, LoQueHacemosBannerCta.astro, LoQueHacemosNoticiasTimeline.astro
+ * con bin/astro-css-to-block.mjs: sin :global() y con cada selector bajo el bloque.
+ */
+
+/* LoQueHacemos.astro */
+.wp-block-lapaz-lo-que-hacemos .lo-que-hacemos__titulo {
+	background: var(--color-loquehacemos-bg);
+	color: var(--color-surface);
+	font-family: var(--font-monique-regular);
+	font-weight: 400;
+	font-size: clamp(1.5rem, 4vw, 2.2rem);
+	padding: clamp(var(--space-4), 4vw, var(--space-8));
+	text-transform: uppercase;
+}
+
+.wp-block-lapaz-lo-que-hacemos .lo-que-hacemos__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--space-4);
+}
+
+.wp-block-lapaz-lo-que-hacemos .lo-que-hacemos__columna {
+	display: grid;
+	gap: var(--space-12);
+	align-content: start;
+	min-width: 0;
+	padding: var(--space-8) var(--space-6);
+}
+
+.wp-block-lapaz-lo-que-hacemos .lo-que-hacemos__subcuentas {
+	min-width: 0;
+}
+
+.wp-block-lapaz-lo-que-hacemos .lo-que-hacemos__subtitulo {
+	font-family: var(--font-monique-regular);
+	font-weight: 300;
+	font-size: 1.25rem;
+	text-transform: uppercase;
+	color: var(--color-nav-text);
+	margin-bottom: var(--space-4);
+}
+
+@media (max-width: 849px) {
+
+	.wp-block-lapaz-lo-que-hacemos .lo-que-hacemos__grid {
+		grid-template-columns: 1fr;
+	}
+
+	.wp-block-lapaz-lo-que-hacemos .lo-que-hacemos__columna {
+		padding: var(--space-6) var(--space-4);
+	}
+}
+
+@media (max-width: 360px) {
+
+	.wp-block-lapaz-lo-que-hacemos .lo-que-hacemos__columna {
+		padding: var(--space-6) var(--space-1);
+	}
+}
+
+/* LoQueHacemosTextoDestacado.astro */
+.wp-block-lapaz-lo-que-hacemos .destacado {
+	color: var(--color-nav-text);
+}
+
+.wp-block-lapaz-lo-que-hacemos .destacado__titulo {
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-heavy);
+	color: var(--color-nav-text);
+	font-size: 1.2rem;
+	line-height: 1.5;
+	padding-bottom: var(--space-4);
+}
+
+.wp-block-lapaz-lo-que-hacemos .destacado p {
+	font-weight: 300;
+	line-height: 1.6;
+}
+
+/* LoQueHacemosSubcuentas.astro */
+.wp-block-lapaz-lo-que-hacemos .subcuentas {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	max-width: 100%;
+	min-width: 0;
+}
+
+.wp-block-lapaz-lo-que-hacemos .subcuentas__track {
+	list-style: none;
+	margin: 0;
+	padding: var(--space-2) 0;
+	display: flex;
+	flex: 1 1 auto;
+	gap: var(--space-4);
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	min-width: 0;
+	scrollbar-width: none;
+}
+
+.wp-block-lapaz-lo-que-hacemos .subcuentas__track::-webkit-scrollbar {
+	display: none;
+}
+
+.wp-block-lapaz-lo-que-hacemos .subcuentas__track li {
+	scroll-snap-align: start;
+	flex: none;
+}
+
+.wp-block-lapaz-lo-que-hacemos .subcuentas__track img {
+	display: block;
+	height: 72px;
+	width: auto;
+	object-fit: contain;
+}
+
+.wp-block-lapaz-lo-que-hacemos .subcuentas__nav {
+	flex: none;
+	border: none;
+	background: none;
+	color: var(--color-nav-text);
+	font-size: 1.5rem;
+	cursor: pointer;
+	padding: var(--space-2);
+}
+
+@media (max-width: 360px) {
+
+	.wp-block-lapaz-lo-que-hacemos .subcuentas__track li {
+		flex: 1 0 100%;
+		width: 100%;
+	}
+
+	.wp-block-lapaz-lo-que-hacemos .subcuentas__track img {
+		width: 100%;
+		height: auto;
+	}
+}
+
+/* LoQueHacemosBannerCta.astro */
+.wp-block-lapaz-lo-que-hacemos .banner-cta {
+	display: block;
+}
+
+.wp-block-lapaz-lo-que-hacemos .banner-cta img {
+	width: 100%;
+	height: auto;
+}
+
+/* LoQueHacemosNoticiasTimeline.astro */
+.wp-block-lapaz-lo-que-hacemos .timeline {
+	background: var(--color-nav-bg-active);
+	color: var(--color-nav-text);
+	height: 100%;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	padding: var(--space-4);
+	min-width: 0;
+}
+
+.wp-block-lapaz-lo-que-hacemos .timeline__titulo {
+	font-family: var(--font-monique-regular);
+	text-align: center;
+	text-transform: uppercase;
+	color: var(--color-nav-text);
+}
+
+.wp-block-lapaz-lo-que-hacemos .timeline__scroll {
+	border: none;
+	background: none;
+	color: var(--color-nav-text);
+	cursor: pointer;
+	font-size: 1.1rem;
+	padding: var(--space-2);
+}
+
+.wp-block-lapaz-lo-que-hacemos .timeline__list {
+
+	/* Referencia de offsetTop para el scroll por filas de view.js (en Astro faltaba y saltaba al fondo). */
+	position: relative;
+	overflow-y: auto;
+	max-height: 480px;
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-nav-text) transparent;
+}
+
+.wp-block-lapaz-lo-que-hacemos .timeline__list::-webkit-scrollbar {
+	width: 6px;
+}
+
+.wp-block-lapaz-lo-que-hacemos .timeline__list::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.wp-block-lapaz-lo-que-hacemos .timeline__list::-webkit-scrollbar-thumb {
+	background-color: var(--color-scrollbar-thumb);
+	border-radius: 3px;
+}
+
+.wp-block-lapaz-lo-que-hacemos .timeline__row {
+	display: grid;
+	grid-template-columns: 4.5rem 1fr;
+	gap: var(--space-4);
+}
+
+.wp-block-lapaz-lo-que-hacemos .timeline__row + .timeline__row {
+	border-top: 2px solid var(--border-subtle-light);
+}
+
+.wp-block-lapaz-lo-que-hacemos .timeline__year {
+	font-family: var(--font-monique-regular);
+	font-size: 1.5rem;
+	padding: var(--space-4) var(--space-2);
+	border-right: 2px solid var(--border-subtle-light);
+}
+
+.wp-block-lapaz-lo-que-hacemos .timeline__news {
+	list-style: disc;
+	padding: var(--space-4) var(--space-4) var(--space-4) 1.2rem;
+	display: grid;
+	gap: var(--space-3);
+}
+
+.wp-block-lapaz-lo-que-hacemos .timeline__news a {
+	color: var(--color-nav-text);
+	font-family: var(--font-komet);
+	font-weight: 300;
+	text-decoration: none;
+	overflow-wrap: break-word;
+}
+
+@media (max-width: 849px) {
+
+	.wp-block-lapaz-lo-que-hacemos .timeline__list {
+		max-height: 60vh;
+	}
+
+	.wp-block-lapaz-lo-que-hacemos .timeline__row {
+		grid-template-columns: 3.5rem 1fr;
+	}
+
+	.wp-block-lapaz-lo-que-hacemos .timeline__year {
+		font-size: 1.25rem;
+	}
+}
+
+@media (max-width: 360px) {
+
+	.wp-block-lapaz-lo-que-hacemos .timeline__list {
+		max-height: 50vh;
+	}
+
+	.wp-block-lapaz-lo-que-hacemos .timeline__row {
+		grid-template-columns: 1fr;
+	}
+
+	.wp-block-lapaz-lo-que-hacemos .timeline__year {
+		border-right: none;
+		border-bottom: 2px solid var(--border-subtle-light);
+		padding: var(--space-2) 0;
+	}
+}

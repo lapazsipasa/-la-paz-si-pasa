@@ -101,6 +101,7 @@ function upsert($post_type, $titulo, $campos)
         update_field($nombre, $valor, $id);
     }
     aviso(sprintf('%-13s %s  #%d %s', $post_type, $previos ? 'actualizado' : 'creado     ', $id, $titulo));
+    return $id;
 }
 
 // Un argumento opcional limita la carga a una seccion. Sirve cuando el entorno
@@ -145,6 +146,14 @@ if ($toca('ferias')) foreach ($datos['ferias'] as $f) {
         'orden' => $f['orden'],
         'abierta_por_defecto' => !empty($f['abierta_por_defecto']),
     ]);
+}
+
+// Subcuentas: el adapter las ordena por menu_order, que no es un campo SCF.
+if ($toca('subcuentas')) foreach ($datos['subcuentas'] ?? [] as $s) {
+    $id = upsert('subcuenta', $s['nombre'], ['icono' => medio($s['archivo'])]);
+    if ($id) {
+        wp_update_post(['ID' => $id, 'menu_order' => $s['orden']]);
+    }
 }
 
 if ($toca('audio_relatos')) foreach ($datos['audio_relatos'] as $a) {

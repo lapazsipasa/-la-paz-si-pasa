@@ -1,0 +1,152 @@
+#!/usr/bin/env bash
+# Calidad determinista del tema lapaz: si algo falla, el comando falla.
+# Todo corre en contenedores con versión fija, igual en local y en CI.
+# Uso (desde cualquier carpeta): apps/wp-fse/bin/check
+set -uo pipefail
+
+FSE="$(cd "$(dirname "$0")/.." && pwd)"
+ROOT="$(cd "$FSE/../.." && pwd)"
+THEME="apps/wordpress/themes/lapaz"
+WP_IMAGE="wordpress:7.1.3-php8.3-apache"
+NODE_IMAGE="node:22.23.4-alpine"
+fallos=()
+
+paso() {
+	local nombre="$1"
+	shift
+	printf '\n▶ %s\n' "$nombre"
+	if "$@"; then
+		printf '✓ %s\n' "$nombre"
+	else
+		printf '✗ %s\n' "$nombre"
+		fallos+=("$nombre")
+	fi
+}
+
+en_composer() { docker run --rm -v "$ROOT":/app -w /app/apps/wp-fse composer:2 sh -c "$1"; }
+en_node() { docker run --rm -v "$ROOT":/app -w /app/apps/wp-fse "$NODE_IMAGE" sh -c "$1"; }
+
+# Dependencias (instalación reproducible desde los lockfiles).
+en_composer "composer install -q --no-progress" >/dev/null
+en_node "npm ci --no-audit --no-fund --silent" >/dev/null
+
+# PHP
+paso "PHPCS (WordPress Coding Standards)" en_composer "vendor/bin/phpcs -q"
+paso "PHPStan (nivel máximo)" en_composer "vendor/bin/phpstan analyse --no-progress --memory-limit=1G"
+
+# CSS y JS
+# Las copias de terceros se actualizan desde su distribución, no con los linters del tema.
+paso "Stylelint" en_node "cd ../wordpress/themes/lapaz && ../../../wp-fse/node_modules/.bin/stylelint '**/*.css' --config ../../../wp-fse/.stylelintrc.json --ignore-pattern 'assets/vendor/**'"
+# Las interpolaciones ${...} pertenecen a JavaScript y deben llegar intactas a Node.
+# shellcheck disable=SC2016
+paso "Prefijo de bloque en CSS" en_node 'node --input-type=module << "JS"
+import fs from "node:fs";
+import path from "node:path";
+import postcss from "postcss";
+import selectorParser from "postcss-selector-parser";
+
+const blocks = "../wordpress/themes/lapaz/blocks";
+for (const block of fs.existsSync(blocks) ? fs.readdirSync(blocks, { withFileTypes: true }) : []) {
+    const file = path.join(blocks, block.name, "style.css");
+    if (!block.isDirectory() || !fs.existsSync(file)) continue;
+    const prefix = `wp-block-lapaz-${block.name}`;
+    postcss.parse(fs.readFileSync(file, "utf8"), { from: file }).walkRules(rule => {
+        // Las at-rules y su contenido quedan fuera de esta regla de prefijos.
+        for (let parent = rule.parent; parent; parent = parent.parent) {
+            if (parent.type === "atrule") return;
+        }
+        selectorParser(selectors => selectors.each(selector => {
+            const first = selector.nodes.find(node => node.type !== "comment");
+            if (first?.type === "pseudo" && first.value.startsWith("::view-transition-") && selector.nodes.filter(node => node.type !== "comment").length === 1) return;
+            if (first?.type !== "class" || first.value !== prefix) {
+                console.error(`${file}:${rule.source.start.line}: ${selector} debe empezar por .${prefix}`);
+                process.exitCode = 1;
+            }
+        })).processSync(rule.selector);
+    });
+}
+JS'
+paso "ESLint" en_node "npm run -s lint:js -- --ignore-pattern 'assets/vendor/**'"
+paso "TypeScript estricto sobre JS" en_node "npm run -s typecheck:js"
+
+# Esquemas oficiales (copiados en schemas/ para que el resultado no dependa de la red)
+validar_esquemas() {
+	en_node "npx ajv validate --spec=draft7 --strict=false -c ajv-formats -s schemas/theme.json -d ../wordpress/themes/lapaz/theme.json" || return 1
+	local bloques
+	bloques="$(cd "$ROOT" && find "$THEME/blocks" -name block.json 2>/dev/null)"
+	[ -z "$bloques" ] && return 0
+	for b in $bloques; do
+		en_node "npx ajv validate --spec=draft7 --strict=false -c ajv-formats -s schemas/block.json -d ../../$b" || return 1
+	done
+}
+paso "Esquemas theme.json / block.json" validar_esquemas
+
+# Marcado de bloques de plantillas y partes, con el parser de WordPress.
+paso "Plantillas y partes" docker run --rm -v "$ROOT":/app "$WP_IMAGE" \
+	php /app/apps/wp-fse/bin/validate-templates.php "/app/$THEME"
+
+# Tamaño máximo por archivo: un archivo grande es una señal para dividir.
+limites() {
+	local ok=0 archivo lineas max
+	while IFS= read -r archivo; do
+		case "$archivo" in
+			*render.php) max=200 ;;
+			*.php) max=300 ;;
+			*.css) max=400 ;;
+			*.js) max=200 ;;
+			*) continue ;;
+		esac
+		lineas=$(wc -l <"$archivo")
+		if [ "$lineas" -gt "$max" ]; then
+			echo "$archivo: $lineas líneas (máximo $max)"
+			ok=1
+		fi
+	done < <(cd "$ROOT" && find "$THEME" apps/wp-fse/mu-plugins -type f \( -name '*.php' -o -name '*.css' -o -name '*.js' \) -not -path '*/vendor/*' | sed "s|^|$ROOT/|")
+	return "$ok"
+}
+paso "Tamaño de archivos" limites
+
+# Código de terceros (assets/vendor): debe ser idéntico al publicado. Un autofixer o una
+# edición a mano lo rompen sin que ningún linter lo note (pasó con plyr.min.js).
+vendor_intacto() {
+	local ok=0 total=0 dir
+	# Cada carpeta de assets/vendor debe tener su SHA256SUMS. Si no hay ninguna, falla:
+	# un .gitignore que excluya vendor/ haría pasar este chequeo en vacío (pasó con Plyr).
+	for dir in "$ROOT/$THEME"/assets/vendor/*/; do
+		[ -d "$dir" ] || continue
+		total=$((total + 1))
+		if [ ! -f "$dir/SHA256SUMS" ]; then
+			echo "Falta SHA256SUMS en $dir"
+			ok=1
+			continue
+		fi
+		(cd "$dir" && sha256sum -c --quiet SHA256SUMS) || ok=1
+	done
+	if [ "$total" -eq 0 ]; then
+		echo "No hay nada en $THEME/assets/vendor: ¿quedó fuera del repo por .gitignore?"
+		ok=1
+	fi
+	return "$ok"
+}
+paso "Integridad de assets/vendor" vendor_intacto
+
+# Infraestructura
+paso "Configuración de Apache" docker run --rm \
+	--mount "type=bind,source=$FSE/docker/apache/zz-lapaz-seguridad.conf,target=/etc/apache2/conf-enabled/zz-lapaz-seguridad.conf,readonly" \
+	"$WP_IMAGE" bash -c 'a2enmod headers >/dev/null && apache2ctl -t'
+paso "ShellCheck" docker run --rm -v "$ROOT":/app -w /app/apps/wp-fse koalaman/shellcheck:v0.10.0 \
+	docker/entrypoint.sh docker/lapaz-setup docker/lapaz-importar bin/check bin/migrar-desde-headless.sh
+paso "Hadolint" sh -c "docker run --rm -i hadolint/hadolint:v2.12.0-alpine hadolint - <'$FSE/Dockerfile'"
+paso "Workflow de CI (actionlint)" docker run --rm -v "$ROOT":/repo -w /repo rhysd/actionlint:1.7.7 .github/workflows/wp-fse.yml
+paso "Compose de producción" sh -c "cd '$FSE' && WORDPRESS_DB_PASSWORD=x WORDPRESS_DB_ROOT_PASSWORD=x WORDPRESS_URL=https://ejemplo.test docker compose -f compose.yaml config -q"
+
+# Seguridad
+paso "Semgrep (p/php)" docker run --rm -v "$ROOT":/src -w /src semgrep/semgrep:1.140.0 \
+	semgrep scan --config p/php --error --quiet --metrics=off "$THEME" apps/wp-fse/mu-plugins
+
+printf '\n'
+if [ "${#fallos[@]}" -gt 0 ]; then
+	printf '✗ Falló: %s\n' "${fallos[@]}"
+	exit 1
+fi
+printf '✓ Todo en verde\n'
