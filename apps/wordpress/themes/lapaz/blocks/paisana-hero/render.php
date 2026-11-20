@@ -22,7 +22,7 @@ $lapaz_wrapper = get_block_wrapper_attributes( array( 'class' => 'paisana-header
 <div <?php echo $lapaz_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() ya escapa. ?>>
 	<nav class="proyectos-nav" aria-label="<?php esc_attr_e( 'Navegación de proyectos', 'lapaz' ); ?>">
 		<ul class="nav-list">
-			<li><a href="#" class="btn-project btn-blue"><?php esc_html_e( 'PAISSANA', 'lapaz' ); ?></a></li>
+			<li><a href="<?php echo esc_url( home_url( '/paissana/' ) ); ?>" class="btn-project btn-blue"><?php esc_html_e( 'PAISSANA', 'lapaz' ); ?></a></li>
 			<li><a href="#" class="btn-project btn-green"><?php esc_html_e( 'PROGRAMA COLOMBIA SOSTENIBLE', 'lapaz' ); ?></a></li>
 			<li><a href="#" class="btn-project btn-orange"><?php esc_html_e( 'PROGRAMA PILOTO DE INVERSIONES PRIORITARIAS', 'lapaz' ); ?></a></li>
 		</ul>

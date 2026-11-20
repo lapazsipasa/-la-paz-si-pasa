@@ -1,0 +1,393 @@
+/*
+ * Bloque lapaz/catalogo: filtros, rejilla de productores y distribución.
+ * Mismo lenguaje que el sitio: azul sobre blanco, rótulos Monique en mayúsculas,
+ * botones cuadrados como .btn-project, panel azul claro como el de noticias.
+ */
+.wp-block-lapaz-catalogo {
+	--cat-azul: var(--wp--preset--color--nav-text);
+	--cat-claro: var(--wp--preset--color--nav-bg-active);
+	--cat-verde: var(--wp--preset--color--loquehacemos-bg);
+	--cat-linea: color-mix(in srgb, var(--cat-azul) 28%, #fff);
+
+	width: 100%;
+	color: var(--cat-azul);
+	font-family: var(--font-komet);
+	font-weight: 300;
+}
+
+.wp-block-lapaz-catalogo section {
+	padding-block: var(--space-8);
+	scroll-margin-top: var(--space-8);
+}
+
+.wp-block-lapaz-catalogo .sec-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--space-2) var(--space-4);
+	margin-bottom: var(--space-6);
+	padding-bottom: var(--space-3);
+	border-bottom: 2px solid var(--cat-azul);
+}
+
+.wp-block-lapaz-catalogo .sec-title {
+	margin: 0;
+	color: var(--cat-azul);
+	font-family: var(--font-monique-regular);
+	font-size: clamp(1.5rem, 4vw, 2.2rem);
+	font-weight: 400;
+	text-transform: uppercase;
+}
+
+.wp-block-lapaz-catalogo .sec-kicker {
+	margin: 0 0 0 auto;
+	font-size: 0.9375rem;
+}
+
+/* Botones: aspecto de .btn-project */
+.wp-block-lapaz-catalogo .btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 48px;
+	padding: 0 var(--space-6);
+	border: 0;
+	background: var(--cat-azul);
+	color: #fff;
+	font-family: var(--font-monique-regular);
+	font-size: 0.875rem;
+	font-weight: 400;
+	letter-spacing: 0.5px;
+	text-decoration: none;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: opacity 0.2s;
+}
+
+.wp-block-lapaz-catalogo .btn:hover {
+	opacity: 0.9;
+}
+
+.wp-block-lapaz-catalogo .btn.mas {
+	display: flex;
+	width: fit-content;
+	margin: var(--space-8) auto 0;
+	background: var(--cat-verde);
+}
+
+/* Formulario */
+.wp-block-lapaz-catalogo .filtros {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-3);
+	align-items: stretch;
+}
+
+.wp-block-lapaz-catalogo .busca {
+	display: flex;
+	flex: 1 1 260px;
+	align-items: center;
+	gap: var(--space-2);
+	min-height: 48px;
+	padding: 0 var(--space-4);
+	border: 1px solid var(--cat-azul);
+	background: #fff;
+}
+
+.wp-block-lapaz-catalogo .busca:focus-within {
+	outline: 3px solid var(--cat-azul);
+	outline-offset: 2px;
+}
+
+.wp-block-lapaz-catalogo .busca input {
+	flex: 1;
+	min-width: 0;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	color: var(--cat-azul);
+	font: inherit;
+	font-weight: 400;
+}
+
+.wp-block-lapaz-catalogo .busca input::placeholder {
+	color: var(--wp--preset--color--text-muted);
+}
+
+.wp-block-lapaz-catalogo select {
+	flex: 1 1 200px;
+	min-height: 48px;
+	padding: 0 var(--space-4);
+	border: 1px solid var(--cat-azul);
+	border-radius: 0;
+	background: #fff;
+	color: var(--cat-azul);
+	font: inherit;
+	font-weight: 400;
+}
+
+.wp-block-lapaz-catalogo select:focus-visible,
+.wp-block-lapaz-catalogo .btn:focus-visible {
+	outline: 3px solid var(--cat-azul);
+	outline-offset: 2px;
+}
+
+.wp-block-lapaz-catalogo.js-activo .btn.buscar {
+	display: none;
+}
+
+/* Chips de categoría: el input queda oculto pero enfocable */
+.wp-block-lapaz-catalogo .chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+	margin-top: var(--space-4);
+}
+
+.wp-block-lapaz-catalogo .chip {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	min-height: 40px;
+	padding: 0 var(--space-4);
+	border: 1px solid var(--cat-azul);
+	border-radius: 999px;
+	background: #fff;
+	color: var(--cat-azul);
+	font-family: var(--font-monique-regular);
+	font-size: 0.8125rem;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: background-color 0.2s, color 0.2s;
+}
+
+.wp-block-lapaz-catalogo .chip input {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.wp-block-lapaz-catalogo .chip:hover {
+	background: var(--cat-claro);
+}
+
+.wp-block-lapaz-catalogo .chip:has(input:checked) {
+	background: var(--cat-azul);
+	color: #fff;
+}
+
+.wp-block-lapaz-catalogo .chip:has(input:focus-visible) {
+	outline: 3px solid var(--cat-azul);
+	outline-offset: 2px;
+}
+
+/* Resultados */
+.wp-block-lapaz-catalogo .resultados {
+	margin-top: var(--space-6);
+	transition: opacity 0.2s;
+}
+
+.wp-block-lapaz-catalogo .resultados.cargando {
+	opacity: 0.45;
+}
+
+.wp-block-lapaz-catalogo .conteo {
+	margin: 0 0 var(--space-4);
+}
+
+.wp-block-lapaz-catalogo .conteo b {
+	font-weight: 800;
+	font-variant-numeric: tabular-nums;
+}
+
+.wp-block-lapaz-catalogo .grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+	gap: var(--space-4);
+}
+
+.wp-block-lapaz-catalogo .card {
+	display: flex;
+	flex-direction: column;
+	padding: var(--space-4);
+	border: 1px solid var(--cat-linea);
+	border-top: 4px solid var(--cat-azul);
+	border-radius: var(--radius-control);
+	background: #fff;
+}
+
+.wp-block-lapaz-catalogo .card h4 {
+	margin: 0 0 var(--space-1);
+	color: var(--cat-azul);
+	font-family: var(--font-komet);
+	font-size: 1.0625rem;
+	font-weight: 800;
+	line-height: 1.25;
+	overflow-wrap: anywhere;
+}
+
+.wp-block-lapaz-catalogo .card .ubic {
+	margin-bottom: var(--space-3);
+	font-family: var(--font-monique-regular);
+	font-size: 0.75rem;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+}
+
+.wp-block-lapaz-catalogo .card ul {
+	margin: 0 0 var(--space-3);
+	padding-left: 1.2rem;
+	list-style: disc;
+}
+
+.wp-block-lapaz-catalogo .card li {
+	font-size: 0.9375rem;
+}
+
+.wp-block-lapaz-catalogo .card .tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+	margin-top: auto;
+	padding-top: var(--space-3);
+	border-top: 1px solid var(--cat-linea);
+}
+
+.wp-block-lapaz-catalogo .tag {
+	padding: 2px var(--space-2);
+	background: var(--cat-claro);
+	font-family: var(--font-monique-regular);
+	font-size: 0.6875rem;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+}
+
+.wp-block-lapaz-catalogo .tag.et {
+	background: var(--cat-verde);
+	color: #fff;
+}
+
+.wp-block-lapaz-catalogo .vacio {
+	padding: var(--space-12) var(--space-4);
+	border: 1px dashed var(--cat-azul);
+	text-align: center;
+	font-weight: 400;
+}
+
+/* Distribución: panel azul claro como el de noticias */
+.wp-block-lapaz-catalogo .distribucion {
+	margin-top: var(--space-8);
+	background: var(--cat-claro);
+}
+
+.wp-block-lapaz-catalogo .distribucion .wrap {
+	padding-inline: var(--space-4);
+}
+
+.wp-block-lapaz-catalogo .dist {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-8);
+}
+
+.wp-block-lapaz-catalogo .dist h3 {
+	margin: 0 0 var(--space-1);
+	font-family: var(--font-monique-regular);
+	font-size: 1.25rem;
+	font-weight: 400;
+	text-transform: uppercase;
+}
+
+.wp-block-lapaz-catalogo .nota {
+	margin: 0 0 var(--space-4);
+	font-size: 0.875rem;
+}
+
+.wp-block-lapaz-catalogo .barras {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-1);
+}
+
+.wp-block-lapaz-catalogo .barra {
+	display: grid;
+	grid-template-columns: minmax(90px, 9.5rem) minmax(0, 1fr) 3rem;
+	align-items: center;
+	gap: var(--space-3);
+	padding: var(--space-1) var(--space-2);
+	color: var(--cat-azul);
+	font-size: 0.875rem;
+	text-decoration: none;
+}
+
+.wp-block-lapaz-catalogo .barra:focus-visible {
+	outline: 3px solid var(--cat-azul);
+	outline-offset: 2px;
+}
+
+.wp-block-lapaz-catalogo .barra .nm {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.wp-block-lapaz-catalogo .barra .pista {
+	display: block;
+	height: 12px;
+	background: #fff;
+}
+
+.wp-block-lapaz-catalogo .barra .fill {
+	display: block;
+	height: 100%;
+	background: var(--cat-azul);
+	transition: background-color 0.2s;
+}
+
+.wp-block-lapaz-catalogo .barra .v {
+	font-variant-numeric: tabular-nums;
+	text-align: right;
+}
+
+.wp-block-lapaz-catalogo .barra:hover {
+	background: #fff;
+}
+
+.wp-block-lapaz-catalogo .barra.on {
+	font-weight: 800;
+}
+
+.wp-block-lapaz-catalogo .barra.on .fill {
+	background: var(--cat-verde);
+}
+
+@media (min-width: 850px) {
+
+	.wp-block-lapaz-catalogo .dist {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--space-12);
+	}
+}
+
+@media (max-width: 360px) {
+
+	.wp-block-lapaz-catalogo .barra {
+		grid-template-columns: minmax(70px, 7rem) minmax(0, 1fr) 2.5rem;
+		gap: var(--space-2);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.wp-block-lapaz-catalogo .resultados,
+	.wp-block-lapaz-catalogo .chip,
+	.wp-block-lapaz-catalogo .btn,
+	.wp-block-lapaz-catalogo .barra .fill {
+		transition: none;
+	}
+}
