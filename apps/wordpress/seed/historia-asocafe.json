@@ -61,14 +61,9 @@
  "video_antetitulo": "Serranía de San Lucas, sur de Bolívar",
  "cronica_antetitulo": "Un café que salva vidas",
  "cronica": {
-  "rotulo": "",
-  "rotulo_color": "naranja",
-  "titulo": "",
   "bajada": "La historia del sur de Bolívar está cambiando gracias a un grupo de familias que creyó más en el café que en los cultivos de uso ilícito. Hoy pueden mostrar con orgullo un producto de exportación que es ejemplo en la serranía de San Lucas.",
   "entradilla": "En una pared de madera de la casa de los Barajas cuelgan las fotografías familiares. Arcadio, de veinticinco años, señala una de ellas y recuerda a su padre, muerto hace cinco años, que antes de irse le repitió una sola instrucción: cuidar el cultivo, porque era la única forma de sostener a la familia.",
   "cuerpo": "<p>Son las diez de la mañana y el sudor ya le corre por la frente. En la serranía de San Lucas, al sur del departamento de Bolívar y muy cerca del río Magdalena, el termómetro llega a los 40 grados. Arcadio ofrece un café antes de subir al cafetal y, mientras el agua hierve, la cocina se llena de un olor dulce.</p>\n<p>Durante cuarenta años esta región vivió bajo la disputa por los cultivos de uso ilícito y por el oro de sus ríos. Hace algunos años llegaron los primeros programas de sustitución, y con ellos unos sembrados nuevos que le devolvieron el horizonte a familias como la de Arcadio.</p>\n<h3>Quien llegó al café por accidente</h3>\n<p>Édgar Mendoza, cuñado de Arcadio, nunca planeó ser caficultor. Empezó ayudándole a su suegro a recoger la cosecha en las tardes, hasta que el viejo le cedió un terreno para que sembrara lo suyo. Mendoza es hoy el presidente de Asocafé y puede reconocer, en el primer sorbo, la altura y las tonalidades de un café.</p>\n<p>Ese poder no es mítico: nació de un recuerdo preciso, el del primer café de calidad que probó sin azúcar. Le pareció increíble que un producto tan común en el país recibiera tan mal trato en su propia tierra. Desde entonces se propuso que en las casas de la región se tomara un café bueno.</p>\n<p>En ese mismo corregimiento, otras 35 familias campesinas se atrevieron a apostarle al grano en un territorio donde la economía es casi imposible. Tres décadas después, aquel ensayo es la Asociación de Caficultores y Productores Agropecuarios de Santa Rosa del Sur —Asocafé—, que sostiene, junto a otras cooperativas de la región, a 723 familias cafeteras que cultivan 1.386 hectáreas en todo Bolívar.</p>\n<blockquote><p>Si cultivar café me une a mis hijos, a mis padres, a mis hermanos, ahí hay paz</p><p>Édgar Mendoza, presidente de Asocafé</p></blockquote>\n<h3>Setenta años entre cafetales</h3>\n<p>En lo alto de una de esas montañas vive Manuel Plazas. Llegó a Fátima en 1974 y, mirando esas laderas verdes, imaginó que el café podía ser un proyecto de vida largo. Lo fue: con las cosechas les dio educación a sus hijos y los vio graduarse de la universidad. A sus setenta años dice que la herencia que les dejó fue trabajar la tierra honradamente, sin ilícitos, y que cada uno de ellos regresa hoy, desde su profesión, a retribuirle algo a este territorio.</p>\n<p>A la planta de Asocafé llegan los bultos cargados desde la serranía. Entre máquinas y estantes esperan los cafés listos para la distribución de las familias asociadas. Buena parte de esa infraestructura llegó con el proyecto <strong>“Fortalecimiento de la producción de café especial de 121 familias”</strong>, cofinanciado por el Programa Colombia Sostenible y ejecutado por el Fondo Colombia en Paz con recursos del Banco Interamericano de Desarrollo, además del respaldo de la Alcaldía de Santa Rosa del Sur y del Programa de Alianzas Comerciales de Usaid.</p>\n<h3>Lo que queda en el territorio</h3>\n<p>De esa apuesta salió el café de la familia de Arcadio, presente en el mercado con el sello Café Barajas. La misma convicción llevó el café gourmet de Mendoza a competir en Cartagena y, sobre todo, hizo que 240 familias campesinas del sur de Bolívar cambiaran la coca por el grano. Esa transición hoy tiene soportes concretos: plantas de transformación, sistemas de energía solar y asistencia técnica que están cambiando la manera en que la comunidad procesa y vende lo que cosecha.</p>\n<p>Mendoza lo resume con una cuenta sencilla. Si él vive en unidad con su vecino, que también cultiva café, ya son dos familias en paz. Pero en Santa Rosa no son dos: son más de cuatrocientas, y si todas piensan igual, serán más de cuatrocientas familias santarroseñas viviendo en tranquilidad.</p>",
-  "apertura": "",
-  "apertura_credito": "",
   "fotos": [
    {
     "imagen": {
@@ -79,8 +74,6 @@
     "credito": "Fotografía: Diego Dussán"
    }
   ],
-  "ficha_titulo": "",
-  "ficha_texto": "",
   "ficha_datos": [
    {
     "cifra": "El proyecto",
@@ -102,9 +95,7 @@
     "cifra": "Lo que dejó",
     "texto": "Planta de transformación, energía solar y asistencia técnica"
    }
-  ],
-  "ficha_clara": false,
-  "fotos_izquierda": false
+  ]
  },
  "cronica_fuente": "Crónica elaborada por el Fondo Colombia en Paz a partir del reportaje <em>“Café: un café que salva vidas”</em>, de Laura Camila Calvo Flórez, con fotografías de Diego Dussán, publicado en Revista Diners. Fotografías adicionales del archivo de la Jefatura de Relacionamiento Estratégico y Comunicaciones del FCP.",
  "galeria": [
