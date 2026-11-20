@@ -75,10 +75,13 @@ fi
 productores_id="$("${wp[@]}" post list --post_type=page --name=productores --post_status=any --format=ids)"
 paissana_id="$("${wp[@]}" post list --post_type=page --name=paissana --post_status=any --format=ids)"
 if [ -z "$productores_id" ] && [ -n "$paissana_id" ]; then
-    "${wp[@]}" post update "$paissana_id" --post_name=productores --post_title="Productores PaisSana"
+    "${wp[@]}" post update "$paissana_id" --post_name=productores --post_title="Productores PaisSana" --post_status=publish
 elif [ -z "$productores_id" ]; then
     "${wp[@]}" post create --post_type=page --post_name=productores \
         --post_title="Productores PaisSana" --post_status=publish
+fi
+if [ -n "$productores_id" ] && [ -n "$paissana_id" ]; then
+    echo "Aviso: existen las páginas «paissana» y «productores»; no se borra nada, revisa «paissana» a mano." >&2
 fi
 
 # Menú principal. Proyectos destacados es un enlace de página (id): sin 301 y con estado activo.

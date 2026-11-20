@@ -53,7 +53,7 @@
     "slug": "historias",
     "with_front": false,
     "feeds": false,
-    "pages": true
+    "pages": false
   },
   "query_var": "post_type",
   "query_var_name": "",

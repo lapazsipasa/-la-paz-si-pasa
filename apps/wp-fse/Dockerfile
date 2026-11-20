@@ -50,7 +50,7 @@ RUN a2enmod headers \
         'log_errors = On' \
         'upload_max_filesize = 32M' \
         'post_max_size = 40M' \
-        'memory_limit = 256M' \
+        'memory_limit = 128M' \
         'max_execution_time = 60' \
         'session.cookie_httponly = 1' \
         'session.use_strict_mode = 1' \

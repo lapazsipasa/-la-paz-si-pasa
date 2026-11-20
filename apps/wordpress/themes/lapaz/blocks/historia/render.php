@@ -19,6 +19,17 @@ defined( 'ABSPATH' ) || exit;
 
 $lapaz_id = isset( $block->context['postId'] ) && is_numeric( $block->context['postId'] ) ? (int) $block->context['postId'] : get_queried_object_id();
 $lapaz_id = is_post_type_archive( 'historia' ) ? lapaz_historia_mostrada() : $lapaz_id; // /historias/ pinta la más reciente.
+if ( 0 === $lapaz_id && is_post_type_archive( 'historia' ) ) {
+	?>
+<div <?php echo get_block_wrapper_attributes(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() ya escapa. ?>>
+	<div class="wrap">
+		<h1 class="titular"><?php esc_html_e( 'Historias PaisSana', 'lapaz' ); ?></h1>
+		<p><?php esc_html_e( 'Todavía no hay ninguna historia publicada.', 'lapaz' ); ?></p>
+	</div>
+</div>
+	<?php
+	return;
+}
 if ( 'historia' !== get_post_type( $lapaz_id ) ) {
 	return;
 }

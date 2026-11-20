@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function lapaz_url_catalogo_base(): string {
 	$pagina = get_page_by_path( 'productores' );
-	$url    = $pagina instanceof WP_Post ? get_permalink( $pagina ) : false;
+	$url    = $pagina instanceof WP_Post && 'publish' === $pagina->post_status ? get_permalink( $pagina ) : false;
 
 	return is_string( $url ) ? $url : home_url( '/productores/' );
 }
