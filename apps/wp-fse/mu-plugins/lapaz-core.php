@@ -104,7 +104,12 @@ add_filter( 'acf/location/match_rule', 'lapaz_grupos_por_pagina', 10, 4 );
  * Contenido que alimenta tarjetas y cifras de otras páginas (Inicio, Proyectos destacados, el
  * catálogo): al publicarlo, cambiarlo o borrarlo hay que vaciar la caché de página.
  */
-const LAPAZ_TIPOS_EN_CACHE = array( 'productor', 'boletin', 'historia' );
+const LAPAZ_TIPOS_EN_CACHE = array( 'productor', 'boletin', 'historia', 'page', 'wp_navigation', ...LAPAZ_CPTS );
+
+/**
+ * Taxonomías del catálogo: renombrar o borrar un término cambia barras y nombres de las tarjetas.
+ */
+const LAPAZ_TAXONOMIAS_EN_CACHE = array( 'departamento', 'categoria_productor', 'tiempo_operacion', 'etnia' );
 
 /**
  * Pide vaciar la caché de página al terminar la petición. Se vacía UNA vez por petición,
@@ -155,3 +160,19 @@ function lapaz_cache_al_borrar( int $post_id, WP_Post $entrada ): void {
 	}
 }
 add_action( 'deleted_post', 'lapaz_cache_al_borrar', 10, 2 );
+
+/**
+ * Crear, editar o borrar un término de las taxonomías del catálogo.
+ *
+ * @param int    $term_id  Término.
+ * @param int    $tt_id    Término en la taxonomía.
+ * @param string $taxonomy Taxonomía.
+ */
+function lapaz_cache_al_cambiar_termino( int $term_id, int $tt_id, string $taxonomy ): void {
+	if ( in_array( $taxonomy, LAPAZ_TAXONOMIAS_EN_CACHE, true ) ) {
+		lapaz_cache_marcar( 'productor' );
+	}
+}
+add_action( 'created_term', 'lapaz_cache_al_cambiar_termino', 10, 3 );
+add_action( 'edited_term', 'lapaz_cache_al_cambiar_termino', 10, 3 );
+add_action( 'delete_term', 'lapaz_cache_al_cambiar_termino', 10, 3 );

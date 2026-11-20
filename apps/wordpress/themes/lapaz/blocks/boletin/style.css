@@ -186,6 +186,7 @@
 }
 
 .wp-block-lapaz-boletin .tema {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	min-width: 0;
@@ -198,9 +199,30 @@
 	transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.wp-block-lapaz-boletin .tema:is(:hover, :focus-visible) {
+.wp-block-lapaz-boletin .tema:is(:hover, :has(a:focus-visible)) {
 	border-color: var(--color-nav-text);
 	box-shadow: var(--shadow-soft);
+}
+
+/* El enlace del título se estira sobre toda la tarjeta; el foco se dibuja en la tarjeta. */
+.wp-block-lapaz-boletin .tema h3 a:any-link {
+	color: inherit;
+	text-decoration: none;
+}
+
+.wp-block-lapaz-boletin .tema h3 a::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+}
+
+.wp-block-lapaz-boletin .tema h3 a:focus-visible {
+	outline: none;
+}
+
+.wp-block-lapaz-boletin .tema:has(a:focus-visible) {
+	outline: 2px solid currentcolor;
+	outline-offset: 3px;
 }
 
 .wp-block-lapaz-boletin .thumb {
@@ -249,10 +271,11 @@
 
 .wp-block-lapaz-boletin .ir {
 	margin-top: auto;
+	pointer-events: none;
 	padding-top: var(--space-3);
 }
 
-.wp-block-lapaz-boletin .tema:is(:hover, :focus-visible) .flecha {
+.wp-block-lapaz-boletin .tema:is(:hover, :has(a:focus-visible)) .flecha {
 	display: inline-block;
 	transform: translateX(4px);
 }
@@ -283,7 +306,7 @@
 		transition: none;
 	}
 
-	.wp-block-lapaz-boletin .tema:is(:hover, :focus-visible) .flecha {
+	.wp-block-lapaz-boletin .tema:is(:hover, :has(a:focus-visible)) .flecha {
 		transform: none;
 	}
 }

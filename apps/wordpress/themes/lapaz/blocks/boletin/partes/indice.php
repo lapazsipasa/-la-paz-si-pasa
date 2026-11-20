@@ -45,7 +45,7 @@ $lapaz_intro = lapaz_field_text( 'indice_intro', $lapaz_id );
 					)
 				) : '';
 				?>
-				<a class="tema" href="#seccion-<?php echo absint( lapaz_boletin_num( $lapaz_tema, 'n' ) ); ?>">
+				<article class="tema">
 					<div class="thumb">
 						<?php echo $lapaz_t_imagen; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_get_attachment_image() ya escapa. ?>
 						<span class="num"><?php echo esc_html( sprintf( '%02d', lapaz_boletin_num( $lapaz_tema, 'n' ) ) ); ?></span>
@@ -53,14 +53,14 @@ $lapaz_intro = lapaz_field_text( 'indice_intro', $lapaz_id );
 					<div class="cont">
 						<div class="nombre"><?php echo esc_html( lapaz_boletin_str( $lapaz_tema, 'nombre' ) ); ?></div>
 						<?php if ( '' !== $lapaz_t_titulo ) : ?>
-							<h3><?php echo esc_html( $lapaz_t_titulo ); ?></h3>
+							<h3><a href="#seccion-<?php echo absint( lapaz_boletin_num( $lapaz_tema, 'n' ) ); ?>"><?php echo esc_html( $lapaz_t_titulo ); ?></a></h3>
 						<?php endif; ?>
 						<?php if ( '' !== $lapaz_t_resumen ) : ?>
 							<p><?php echo esc_html( $lapaz_t_resumen ); ?></p>
 						<?php endif; ?>
-						<span class="ir"><?php esc_html_e( 'Ir a la sección', 'lapaz' ); ?> <span class="flecha" aria-hidden="true">→</span></span>
+						<span class="ir" aria-hidden="true"><?php esc_html_e( 'Ir a la sección', 'lapaz' ); ?> <span class="flecha">→</span></span>
 					</div>
-				</a>
+				</article>
 			<?php endforeach; ?>
 		</div>
 	</div>

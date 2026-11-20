@@ -20,6 +20,9 @@ defined( 'ABSPATH' ) || exit;
 function lapaz_register_editorial_style(): void {
 	wp_register_style( 'lapaz-editorial', get_theme_file_uri( 'assets/css/editorial.css' ), array(), lapaz_version() );
 	wp_style_add_data( 'lapaz-editorial', 'path', get_theme_file_path( 'assets/css/editorial.css' ) );
+	// Solo lectura larga (boletín e historia): cuerpo, fichas y «Otras ediciones».
+	wp_register_style( 'lapaz-lectura', get_theme_file_uri( 'assets/css/lectura.css' ), array(), lapaz_version() );
+	wp_style_add_data( 'lapaz-lectura', 'path', get_theme_file_path( 'assets/css/lectura.css' ) );
 }
 add_action( 'init', 'lapaz_register_editorial_style', 9 );
 

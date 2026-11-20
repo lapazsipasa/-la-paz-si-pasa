@@ -27,7 +27,7 @@ const leer = ( page ) =>
 		const el = href?.startsWith( '#' ) ? document.getElementById( href.slice( 1 ) ) : null;
 		return Boolean( el && el.matches( 'section.seccion' ) );
 	};
-	const tarjetas = q( 'section.indice a.tema' ).map( ( a ) => a.getAttribute( 'href' ) );
+	const tarjetas = q( 'section.indice .tema h3 a' ).map( ( a ) => a.getAttribute( 'href' ) );
 	const barra = q( 'nav.nav a[href^="#seccion"]' ).map( ( a ) => a.getAttribute( 'href' ) );
 	const cifras = q( 'section.seccion.cifras .cifras-grid > *' );
 	return {

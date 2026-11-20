@@ -1,6 +1,6 @@
 /**
  * Historia: reproduce el video al pulsar (iframe de YouTube sin cookies o <video>) y el
- * lightbox de la galería (<dialog> modal: clic fuera, botón o Escape lo cierran; el foco vuelve a la foto).
+ * lightbox de la galería (<dialog> modal: clic fuera, botón o Escape lo cierran; el foco vuelve a la foto, en el evento `close`).
  */
 
 /**
@@ -44,16 +44,22 @@ document.querySelectorAll( '.wp-block-lapaz-historia' ).forEach( ( bloque ) => {
 	/** @type {HTMLElement|null} */
 	let origen = null;
 
-	const cerrarLightbox = () => {
-		if ( ! ( lightbox instanceof HTMLDialogElement ) ) {
+	// El navegador cierra el <dialog> (Escape, gesto del sistema) o el código: la limpieza va en `close`.
+	const limpiar = () => {
+		// Si ya se reabrió, el `close` tardío del cierre anterior no debe deshacerlo.
+		if (
+			! lightbox ||
+			( lightbox instanceof HTMLDialogElement && lightbox.open )
+		) {
 			return;
 		}
 		lightbox.classList.remove( 'on' );
-		lightbox.close();
+		document.body.style.overflow = '';
 		ampliada?.removeAttribute( 'src' );
 		origen?.focus();
 		origen = null;
 	};
+	lightbox?.addEventListener( 'close', limpiar );
 
 	bloque.addEventListener( 'click', ( event ) => {
 		if ( ! ( event.target instanceof Element ) ) {
@@ -81,24 +87,17 @@ document.querySelectorAll( '.wp-block-lapaz-historia' ).forEach( ( bloque ) => {
 			// showModal() deja el resto de la página inerte y lo pone sobre todo.
 			lightbox.showModal();
 			lightbox.classList.add( 'on' );
+			document.body.style.overflow = 'hidden';
 			cerrar.focus();
 			return;
 		}
-		if ( event.target === lightbox || event.target.closest( '.cerrar' ) ) {
-			cerrarLightbox();
-		}
-	} );
-
-	document.addEventListener( 'keydown', ( event ) => {
-		if ( ! lightbox?.classList.contains( 'on' ) ) {
-			return;
-		}
-		if ( event.key === 'Escape' ) {
-			cerrarLightbox();
-		} else if ( event.key === 'Tab' && cerrar instanceof HTMLElement ) {
-			// El botón de cerrar es lo único enfocable: el foco no sale del diálogo.
-			event.preventDefault();
-			cerrar.focus();
+		if (
+			lightbox instanceof HTMLDialogElement &&
+			( event.target === lightbox || event.target.closest( '.cerrar' ) )
+		) {
+			lightbox.close();
+			// `close` llega en una tarea aparte: limpiar ya evita un instante con el estado viejo (es idempotente).
+			limpiar();
 		}
 	} );
 } );

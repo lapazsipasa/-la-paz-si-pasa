@@ -15,5 +15,5 @@
 		"reusable": false
 	},
 	"render": "file:./render.php",
-	"style": [ "lapaz-editorial", "file:./style.css", "file:./componentes.css" ]
+	"style": [ "lapaz-editorial", "lapaz-lectura", "file:./style.css", "file:./componentes.css" ]
 }
