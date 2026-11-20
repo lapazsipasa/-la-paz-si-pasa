@@ -40,7 +40,7 @@
 :is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo-portada, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada) :is(.titular, .titulo-art, .sobre h1, .hero h1, .dest-cont h3) {
 	margin: 0;
 	font-family: var(--font-komet);
-	font-weight: var(--font-weight-komet-black);
+	font-weight: var(--font-weight-komet-heavy);
 	line-height: 1.05;
 	letter-spacing: -0.02em;
 	text-transform: none;
