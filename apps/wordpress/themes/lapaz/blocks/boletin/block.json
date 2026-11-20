@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lapaz/boletin",
+	"title": "Boletín · Edición",
+	"category": "theme",
+	"icon": "media-document",
+	"description": "Una edición completa de Caminos de Transformación. Se llena en el menú Boletines.",
+	"textdomain": "lapaz",
+	"supports": {
+		"autoRegister": true,
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"render": "file:./render.php",
+	"style": [ "file:./style.css", "file:./articulo.css", "file:./moldes.css" ]
+}

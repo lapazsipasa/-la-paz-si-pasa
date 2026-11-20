@@ -1,0 +1,295 @@
+/* Bloque lapaz/boletin: cabeceras de sección, pie y moldes de cifras, tarjetas y agenda. */
+
+/* Cabecera de sección */
+.wp-block-lapaz-boletin .papel {
+	background: var(--bo-papel);
+}
+
+.wp-block-lapaz-boletin .sec-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--space-2) var(--space-4);
+	margin-bottom: var(--space-8);
+	padding-bottom: var(--space-3);
+	border-bottom: 2px solid var(--bo-azul);
+}
+
+.wp-block-lapaz-boletin .sec-num {
+	font-family: var(--font-monique-regular);
+	font-weight: 400;
+	font-size: 1rem;
+	letter-spacing: 0.5px;
+	color: var(--bo-verde);
+}
+
+.wp-block-lapaz-boletin .sec-title {
+	margin: 0;
+	font-family: var(--font-monique-regular);
+	font-weight: 400;
+	font-size: clamp(1.5rem, 4vw, 2.2rem);
+	line-height: 1.15;
+	text-transform: uppercase;
+	color: var(--bo-azul);
+}
+
+.wp-block-lapaz-boletin .sec-kicker {
+	flex: 1 1 16rem;
+	margin: 0;
+	text-align: left;
+	font-size: 0.9375rem;
+	line-height: 1.4;
+}
+
+.wp-block-lapaz-boletin .volver {
+	display: inline-block;
+	margin-top: var(--space-8);
+	padding-block: var(--space-2);
+	font-family: var(--font-monique-regular);
+	font-weight: 400;
+	font-size: 0.875rem;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: var(--bo-azul);
+}
+
+.wp-block-lapaz-boletin .volver:hover {
+	text-decoration: underline;
+	text-underline-offset: 4px;
+}
+
+.wp-block-lapaz-boletin .cifras {
+	background: var(--bo-papel);
+}
+
+.wp-block-lapaz-boletin .cifras-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+	gap: var(--space-4);
+}
+
+.wp-block-lapaz-boletin .cifra {
+	display: grid;
+	align-content: start;
+	gap: var(--space-2);
+	min-width: 0;
+	padding: var(--space-6) var(--space-4);
+	background: var(--wp--preset--color--surface);
+	border: 1px solid var(--bo-linea);
+	border-radius: var(--radius-card);
+}
+
+.wp-block-lapaz-boletin .cifra.destacada {
+	background: var(--bo-azul);
+	border-color: var(--bo-azul);
+	color: #fff;
+}
+
+.wp-block-lapaz-boletin .cifra .n {
+	font-family: var(--font-monique-regular);
+	font-weight: 400;
+	font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+	line-height: 1.1;
+	overflow-wrap: anywhere;
+	font-variant-numeric: tabular-nums;
+}
+
+.wp-block-lapaz-boletin .cifra .l {
+	font-size: 0.9375rem;
+	line-height: 1.4;
+}
+
+.wp-block-lapaz-boletin .nota-cifras {
+	margin: var(--space-4) 0 0;
+	font-size: 0.875rem;
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Tarjetas */
+.wp-block-lapaz-boletin .tarjetas {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+	gap: var(--space-6);
+}
+
+.wp-block-lapaz-boletin .tarjeta {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-3);
+	min-width: 0;
+	padding: var(--space-6) var(--space-4);
+	background: var(--wp--preset--color--surface);
+	border: 1px solid var(--bo-linea);
+	border-top: 4px solid var(--bo-azul);
+	border-radius: var(--radius-card);
+}
+
+.wp-block-lapaz-boletin .tarjeta.naranja {
+	border-top-color: var(--bo-naranja);
+}
+
+.wp-block-lapaz-boletin .tarjeta.verde {
+	border-top-color: var(--bo-verde);
+}
+
+.wp-block-lapaz-boletin .etiqueta {
+	font-family: var(--font-monique-regular);
+	font-weight: 400;
+	font-size: 0.875rem;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+	color: var(--bo-verde);
+}
+
+.wp-block-lapaz-boletin .tarjeta h3 {
+	margin: 0;
+	font-weight: var(--font-weight-komet-heavy);
+	font-size: 1.25rem;
+	line-height: 1.25;
+	color: var(--bo-azul);
+}
+
+.wp-block-lapaz-boletin .tarjeta p {
+	margin: 0;
+	font-size: 0.9375rem;
+	line-height: 1.55;
+}
+
+.wp-block-lapaz-boletin .monto {
+	margin-top: auto;
+	padding-top: var(--space-3);
+	border-top: 1px solid var(--bo-linea);
+	font-family: var(--font-monique-regular);
+	font-weight: 400;
+	font-size: 1.375rem;
+	font-variant-numeric: tabular-nums;
+}
+
+.wp-block-lapaz-boletin .monto span {
+	display: block;
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-regular);
+	font-size: 0.875rem;
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Agenda */
+.wp-block-lapaz-boletin .agenda {
+	background: var(--bo-claro);
+}
+
+.wp-block-lapaz-boletin .linea-tiempo {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--space-4);
+}
+
+.wp-block-lapaz-boletin .hito {
+	position: relative;
+	min-width: 0;
+	padding: var(--space-4) var(--space-4) var(--space-4) var(--space-6);
+	background: var(--wp--preset--color--surface);
+	border-radius: var(--radius-card);
+}
+
+.wp-block-lapaz-boletin .hito::before {
+	content: "";
+	position: absolute;
+	top: var(--space-4);
+	bottom: var(--space-4);
+	left: var(--space-3);
+	width: 4px;
+	background: var(--bo-naranja);
+	border-radius: 2px;
+}
+
+.wp-block-lapaz-boletin .cuando {
+	margin-bottom: var(--space-1);
+	font-family: var(--font-monique-regular);
+	font-weight: 400;
+	font-size: 0.875rem;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+	color: var(--bo-verde);
+}
+
+.wp-block-lapaz-boletin .hito h4 {
+	margin: 0 0 var(--space-2);
+	font-weight: var(--font-weight-komet-heavy);
+	font-size: 1.125rem;
+	line-height: 1.25;
+	color: var(--bo-azul);
+}
+
+.wp-block-lapaz-boletin .hito p {
+	margin: 0;
+	font-size: 0.9375rem;
+	line-height: 1.5;
+}
+
+/* Ediciones anteriores y pie */
+.wp-block-lapaz-boletin .anteriores {
+	border-top: 1px solid var(--bo-linea);
+}
+
+.wp-block-lapaz-boletin .anteriores ul {
+	display: grid;
+	gap: var(--space-2);
+	margin: var(--space-4) 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.wp-block-lapaz-boletin .anteriores a {
+	font-weight: var(--font-weight-komet-bold);
+	color: var(--bo-azul);
+}
+
+.wp-block-lapaz-boletin .anteriores li span {
+	margin-left: var(--space-2);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.wp-block-lapaz-boletin .pie {
+	padding-block: var(--space-8);
+	background: var(--bo-papel);
+}
+
+.wp-block-lapaz-boletin .pie .wrap {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-6);
+	justify-content: space-between;
+}
+
+.wp-block-lapaz-boletin .pie-datos {
+	max-width: 46rem;
+	font-size: 0.9375rem;
+}
+
+.wp-block-lapaz-boletin .pie-datos p {
+	margin: 0 0 var(--space-2);
+}
+
+.wp-block-lapaz-boletin .creditos {
+	font-size: 0.875rem;
+	line-height: 1.5;
+}
+
+.wp-block-lapaz-boletin .creditos b {
+	display: block;
+	margin-bottom: var(--space-1);
+	font-family: var(--font-monique-regular);
+	font-weight: 400;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+	color: var(--bo-verde);
+}
+
+@media (min-width: 850px) {
+
+	.wp-block-lapaz-boletin .linea-tiempo {
+		grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+	}
+}

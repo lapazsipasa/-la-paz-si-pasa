@@ -1,7 +1,7 @@
 <?php
 /**
  * SEO y rendimiento del <head> (port de BaseLayout.astro): título, descripción, Open Graph,
- * Twitter, íconos; sitemap solo con páginas; WebP al subir; sin script de emojis.
+ * Twitter, íconos; sitemap con páginas, boletín e historias; WebP al subir; sin script de emojis.
  *
  * La descripción de cada página es su extracto (se edita en la página). Sin extracto,
  * se usan los textos de Astro. canonical y robots los imprime el core.
@@ -22,6 +22,13 @@ function lapaz_page_excerpt(): void {
 add_action( 'init', 'lapaz_page_excerpt' );
 
 /**
+ * Si la página es una edición del boletín o el archivo /boletin/ (que pinta la más reciente).
+ */
+function lapaz_es_boletin(): bool {
+	return is_singular( 'boletin' ) || is_post_type_archive( 'boletin' );
+}
+
+/**
  * Título del documento: «Página | La Paz Sí Pasa»; en la portada,
  * «La Paz Sí Pasa | Fondo Colombia en Paz» (como en Astro).
  *
@@ -39,6 +46,8 @@ function lapaz_document_title_parts( array $partes ): array {
 		$partes['title'] = __( 'Página no encontrada', 'lapaz' );
 	} elseif ( is_page( 'proyectos-destacados' ) ) {
 		$partes['title'] = __( 'PaisSana, proyectos destacados', 'lapaz' );
+	} elseif ( lapaz_es_boletin() ) {
+		$partes['title'] = lapaz_boletin_titulo( lapaz_boletin_mostrado() );
 	}
 	unset( $partes['tagline'] );
 
@@ -61,6 +70,18 @@ function lapaz_meta_description(): string {
 	if ( is_singular() && has_excerpt() ) {
 		return wp_strip_all_tags( get_the_excerpt() );
 	}
+	if ( lapaz_es_boletin() ) {
+		$sumario = lapaz_field_text( 'portada_sumario', lapaz_boletin_mostrado() );
+		if ( '' !== $sumario ) {
+			return wp_strip_all_tags( $sumario );
+		}
+	}
+	if ( is_singular( 'historia' ) ) {
+		$resumen = lapaz_field_text( 'resumen', get_queried_object_id() );
+		if ( '' !== $resumen ) {
+			return wp_strip_all_tags( $resumen );
+		}
+	}
 	if ( is_page( 'proyectos-destacados' ) ) {
 		return __( 'PaisSana reúne a las familias productoras de los territorios PDET: mapas por región, relatos en audio, ferias y videos del café, el cacao y las artesanías.', 'lapaz' );
 	}
@@ -79,18 +100,41 @@ function lapaz_print_meta(): void {
 	$descripcion = lapaz_meta_description();
 	$url         = is_singular() ? (string) get_permalink() : home_url( '/' );
 	$imagen      = get_theme_file_uri( 'assets/img/seo/og.jpg' );
-	$meta        = array(
+	$ancho       = 1200;
+	$alto        = 630;
+	$alt         = __( 'La Paz Sí Pasa, pasa en los territorios', 'lapaz' );
+	if ( lapaz_es_boletin() ) {
+		$edicion = lapaz_boletin_mostrado();
+		$url     = (string) get_permalink( $edicion );
+		$foto    = wp_get_attachment_image_src( lapaz_boletin_id_imagen( function_exists( 'get_field' ) ? get_field( 'portada_foto', $edicion ) : 0 ), 'large' );
+		if ( is_array( $foto ) ) {
+			list( $imagen, $ancho, $alto ) = $foto;
+			$alt                           = lapaz_field_text( 'portada_titular', $edicion );
+		}
+	}
+	$tipo = 'website';
+	if ( is_singular( 'historia' ) ) {
+		$tipo     = 'article';
+		$historia = get_queried_object_id();
+		$portada  = lapaz_field_image_id( 'portada_foto', $historia );
+		$foto     = wp_get_attachment_image_src( $portada > 0 ? $portada : lapaz_field_image_id( 'foto', $historia ), 'large' );
+		if ( is_array( $foto ) ) {
+			list( $imagen, $ancho, $alto ) = $foto;
+			$alt                           = get_the_title( $historia );
+		}
+	}
+	$meta = array(
 		array( 'name', 'description', $descripcion ),
-		array( 'property', 'og:type', 'website' ),
+		array( 'property', 'og:type', $tipo ),
 		array( 'property', 'og:site_name', 'La Paz Sí Pasa' ),
 		array( 'property', 'og:locale', 'es_CO' ),
 		array( 'property', 'og:url', $url ),
 		array( 'property', 'og:title', $titulo ),
 		array( 'property', 'og:description', $descripcion ),
 		array( 'property', 'og:image', $imagen ),
-		array( 'property', 'og:image:width', '1200' ),
-		array( 'property', 'og:image:height', '630' ),
-		array( 'property', 'og:image:alt', __( 'La Paz Sí Pasa, pasa en los territorios', 'lapaz' ) ),
+		array( 'property', 'og:image:width', (string) $ancho ),
+		array( 'property', 'og:image:height', (string) $alto ),
+		array( 'property', 'og:image:alt', $alt ),
 		array( 'name', 'twitter:card', 'summary_large_image' ),
 		array( 'name', 'twitter:title', $titulo ),
 		array( 'name', 'twitter:description', $descripcion ),
@@ -107,13 +151,30 @@ function lapaz_print_meta(): void {
 add_action( 'wp_head', 'lapaz_print_meta', 2 );
 
 /**
- * Sitemap solo con páginas: no hay blog, y los CPT no tienen URL propia.
+ * /boletin/ declara como canónica la URL de la edición que muestra (el core ya lo hace en cada edición).
+ */
+function lapaz_boletin_canonical(): void {
+	if ( is_post_type_archive( 'boletin' ) && lapaz_boletin_mostrado() > 0 ) {
+		printf( '<link rel="canonical" href="%s" />' . "\n", esc_url( (string) get_permalink( lapaz_boletin_mostrado() ) ) );
+	}
+}
+add_action( 'wp_head', 'lapaz_boletin_canonical', 3 );
+
+/**
+ * Sitemap con páginas, ediciones del boletín e historias: el resto de los CPT no tiene URL propia.
  *
  * @param array<string, WP_Post_Type> $tipos Tipos de contenido del sitemap.
  * @return array<string, WP_Post_Type>
  */
 function lapaz_sitemap_post_types( array $tipos ): array {
-	return array_intersect_key( $tipos, array( 'page' => true ) );
+	return array_intersect_key(
+		$tipos,
+		array(
+			'page'     => true,
+			'boletin'  => true,
+			'historia' => true,
+		)
+	);
 }
 add_filter( 'wp_sitemaps_post_types', 'lapaz_sitemap_post_types' );
 
