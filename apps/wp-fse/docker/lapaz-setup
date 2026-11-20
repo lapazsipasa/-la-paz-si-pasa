@@ -66,8 +66,8 @@ fi
 
 page_id="$("${wp[@]}" post list --post_type=page --name=proyectos-destacados --post_status=any --format=ids)"
 if [ -z "$page_id" ]; then
-    "${wp[@]}" post create --post_type=page --post_name=proyectos-destacados \
-        --post_title="Proyectos destacados" --post_status=publish
+    page_id="$("${wp[@]}" post create --post_type=page --post_name=proyectos-destacados \
+        --post_title="Proyectos destacados" --post_status=publish --porcelain)"
 fi
 
 # Catálogo PaisSana: la plantilla page-paissana.html pinta la página con slug «paissana».
@@ -77,21 +77,31 @@ if [ -z "$paissana_id" ]; then
         --post_title="PaisSana" --post_status=publish
 fi
 
-nav_id="$("${wp[@]}" option get lapaz_nav_ref 2>/dev/null || true)"
-if [[ ! "$nav_id" =~ ^[1-9][0-9]*$ ]] || [ "$("${wp[@]}" post get "$nav_id" --field=post_type 2>/dev/null || true)" != wp_navigation ]; then
-    nav_content='<!-- wp:navigation-link {"label":"Lo que hacemos","url":"/#lo-que-hacemos","kind":"custom"} /-->
+# Menú principal. Proyectos destacados es un enlace de página (id): sin 301 y con estado activo.
+nav_nuevo='<!-- wp:navigation-link {"label":"Lo que hacemos","url":"/#lo-que-hacemos","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Actualidad","url":"/#actualidad","kind":"custom"} /-->
+<!-- wp:navigation-link {"label":"Proyectos destacados","type":"page","id":'"$page_id"',"kind":"post-type","url":"/proyectos-destacados/"} /-->
+<!-- wp:navigation-link {"label":"Boletín","url":"/boletin/","kind":"custom"} /-->'
+# Contenidos de fábrica anteriores: los 3 enlaces originales, con y sin «Boletín» al final.
+nav_viejo='<!-- wp:navigation-link {"label":"Lo que hacemos","url":"/#lo-que-hacemos","kind":"custom"} /-->
 <!-- wp:navigation-link {"label":"Proyectos destacados","url":"/proyectos-destacados","kind":"custom"} /-->
 <!-- wp:navigation-link {"label":"Actualidad","url":"/#actualidad","kind":"custom"} /-->'
-    nav_id="$("${wp[@]}" post create --post_type=wp_navigation --post_title=Principal \
-        --post_status=publish --post_content="$nav_content" --porcelain)"
-    "${wp[@]}" option update lapaz_nav_ref "$nav_id"
-fi
-
-# El menú gana el enlace «Boletín» una sola vez; lo que el editor haya cambiado se conserva.
-nav_actual="$("${wp[@]}" post get "$nav_id" --field=post_content)"
-if ! grep -q '"url":"/boletin/"' <<<"$nav_actual"; then
-    "${wp[@]}" post update "$nav_id" --post_content="$nav_actual
+nav_viejo_boletin="$nav_viejo
 <!-- wp:navigation-link {\"label\":\"Boletín\",\"url\":\"/boletin/\",\"kind\":\"custom\"} /-->"
+
+nav_id="$("${wp[@]}" option get lapaz_nav_ref 2>/dev/null || true)"
+if [[ ! "$nav_id" =~ ^[1-9][0-9]*$ ]] || [ "$("${wp[@]}" post get "$nav_id" --field=post_type 2>/dev/null || true)" != wp_navigation ]; then
+    nav_id="$("${wp[@]}" post create --post_type=wp_navigation --post_title=Principal \
+        --post_status=publish --post_content="$nav_nuevo" --porcelain)"
+    "${wp[@]}" option update lapaz_nav_ref "$nav_id"
+else
+    # Migración: solo si el menú sigue siendo uno de fábrica; si el editor lo cambió, no se toca.
+    nav_actual="$("${wp[@]}" post get "$nav_id" --field=post_content)"
+    if [ "$nav_actual" = "$nav_viejo" ] || [ "$nav_actual" = "$nav_viejo_boletin" ]; then
+        "${wp[@]}" post update "$nav_id" --post_content="$nav_nuevo"
+    elif [ "$nav_actual" != "$nav_nuevo" ]; then
+        echo "Aviso: el menú Principal fue editado; no se reordenó. Orden recomendado: Lo que hacemos, Actualidad, Proyectos destacados (enlace de página), Boletín." >&2
+    fi
 fi
 
 if [ "${WP_ENVIRONMENT_TYPE:-production}" = local ]; then

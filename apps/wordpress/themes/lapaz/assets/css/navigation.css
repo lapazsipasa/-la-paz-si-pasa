@@ -37,6 +37,12 @@
 	background: var(--color-nav-bg-active);
 }
 
+/* Ítem de la sección actual (lo marca inc/navegacion.php): mismo fondo que :hover. */
+.lapaz-nav-mobile .current-menu-item > .wp-block-navigation-item__content,
+.lapaz-nav-desktop .current-menu-item > .wp-block-navigation-item__content {
+	background: var(--color-nav-bg-active);
+}
+
 .lapaz-nav-mobile .wp-block-navigation-item,
 .lapaz-nav-desktop .wp-block-navigation-item {
 	width: 100%;

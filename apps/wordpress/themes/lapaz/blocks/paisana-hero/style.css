@@ -61,6 +61,17 @@
 	background-color: var(--color-naranja);
 }
 
+/* Programas aún sin página: grises, sin enlace ni hover. */
+.wp-block-lapaz-paisana-hero .btn-disabled,
+.wp-block-lapaz-paisana-hero .btn-disabled:hover {
+	background-color: var(--color-surface-muted);
+	color: var(--color-text-muted);
+	border: 1px solid var(--color-border);
+	box-sizing: border-box;
+	opacity: 1;
+	cursor: not-allowed;
+}
+
 @media (min-width: 850px) {
 
 	.wp-block-lapaz-paisana-hero .nav-list {
