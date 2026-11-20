@@ -124,6 +124,46 @@ El headless de producción y el sitio FSE tienen **el mismo modelo de contenido*
 4. `cms.lapazsipasa.com`: 301 al dominio principal, o se da de baja.
 5. El headless sigue en el servidor actual como respaldo hasta la limpieza final.
 
+## Despliegue de boletín y catálogo PaisSana
+
+Estado: **sin probar en un servidor**. Está en la rama `feat/boletin-catalogo-fcp`, sin PR ni merge. Cada paso marcado «TODO: confirmar en staging» hay que comprobarlo antes de producción. Contexto: [spec](specs/boletin-catalogo-fcp.md#flujo-de-ramas-y-github).
+
+Orden: primero staging (`st.lapazsipasa.com`, TODO: confirmar que está arriba), después producción. Todos los comandos se corren en la terminal del servicio `cms` en Dokploy, como en [Primer arranque](#2-primer-arranque).
+
+1. **Merge y deploy.** Squash a `main` con `apps/wp-fse/bin/check` en verde y aprobación de William. Dokploy despliega `main`. Después, **Redeploy** del servicio.
+2. **Configuración.** Sin `--seed`:
+   ```bash
+   su www-data -s /bin/bash -c 'lapaz-setup'
+   ```
+   Qué hace (según `apps/wp-fse/docker/lapaz-setup`):
+   - crea la página `/paissana/` si no existe;
+   - migra el menú Principal, pero solo si sigue siendo el de fábrica. Si el editor lo cambió, imprime «Aviso: el menú Principal fue editado». En ese caso, ajustarlo en *Editor del sitio → Navegación* con el orden: Lo que hacemos, Actualidad, Proyectos destacados (enlace de página), Boletín;
+   - aplica las reglas de enlaces (`rewrite structure --hard`);
+   - con `WP_CACHE=true`, excluye `?buscar=` de la caché de página.
+3. **Grupos SCF.** `lapaz-setup` no importa los grupos nuevos. SCF los lee de `scf-json-lapaz/` (`apps/wp-fse/mu-plugins/lapaz-core.php`). Comprobar en *Historias PaisSana*, *Boletines* y *Productores* que aparecen sus campos. Si no aparecen, importarlos con el mismo bucle de `.github/workflows/wp-fse.yml` (líneas 55 a 61). TODO: confirmar en staging si hace falta.
+4. **Carga inicial por secciones.** Solo estas tres, en este orden. Cada una es idempotente (busca por título y actualiza):
+   ```bash
+   su www-data -s /bin/bash -c 'SEED_SOLO=productores wp --path=/var/www/html eval-file /opt/seed/seed.php'
+   su www-data -s /bin/bash -c 'SEED_SOLO=boletines wp --path=/var/www/html eval-file /opt/seed/seed.php'
+   su www-data -s /bin/bash -c 'SEED_SOLO=historias wp --path=/var/www/html eval-file /opt/seed/seed.php'
+   ```
+   **No usar `lapaz-setup --seed` en producción.** Corre todas las secciones y actualiza por título las entradas de portada, videos y ferias, así que pisa lo que el editor haya cambiado.
+   Resultado esperado: 316 productores, una edición (`Edición 02`) y una historia (`Asocafé`). El seed no toca la portada ni las ferias.
+5. **Caché.** `lapaz-setup` deja la caché activa, y WP Super Cache se vacía sola al guardar contenido (comentario en `lapaz-setup`). Si una página sigue vieja: TODO: confirmar en staging cómo vaciarla a mano (`wp super-cache flush`).
+6. **Usuario Editor.** Un usuario por persona externa, con rol Editor, no administrador. Usar un nombre de usuario y un correo propios; no van en esta wiki:
+   ```bash
+   su www-data -s /bin/bash -c 'wp --path=/var/www/html user create <usuario> <correo> --role=editor'
+   ```
+   La clave la genera WP-CLI y la muestra una vez: entregarla por otro canal, nunca en git ni en la wiki. TODO: confirmar en staging que la muestra así. Datos de la persona: pendientes del Fondo.
+7. **Comprobación posterior** (en producción, con navegador sin sesión):
+   - HTTP 200: `/`, `/proyectos-destacados/`, `/boletin/`, `/boletin/edicion-02/`, `/paissana/` y `/paissana/historias/asocafe/` (TODO: confirmar el slug de la historia).
+   - `/paissana/?buscar=cafe` devuelve resultados y no queda en caché (`cache_rejected_uri`, en `lapaz-setup`).
+   - En `/` y `/proyectos-destacados/` aparecen las tarjetas de boletín, historia y banner del catálogo.
+   - El menú Principal tiene «Boletín» y el enlace lleva a `/boletin/`.
+   - `/guia-de-estilos/` da 404 en producción (la página solo se crea con `WP_ENVIRONMENT_TYPE=local`).
+   - `/wp-sitemap.xml` incluye `boletin` e `historia`, y no `productor`. TODO: confirmar en staging.
+   - Entrar con el usuario Editor: puede editar boletines, historias y productores, y no puede instalar plugins ni cambiar ajustes. TODO: confirmar en staging.
+
 ## Operación
 
 | Tarea | Comando o lugar |

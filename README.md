@@ -13,7 +13,8 @@ retire.
 
 ```text
 apps/wordpress/themes/lapaz/  tema de bloques: theme.json, plantillas, bloques
-apps/wordpress/scf-json/      tipos de contenido y campos (SCF)
+apps/wordpress/scf-json/      tipos de contenido y campos (SCF), compartidos con el headless
+apps/wp-fse/scf-json/         tipos y campos solo del sitio FSE (boletín, productor, historia)
 apps/wp-fse/                  WordPress del sitio: Dockerfile, compose, mu-plugins,
                               scripts (lapaz-setup, lapaz-importar) y pruebas
 apps/frontend/                Astro del sitio anterior (headless)

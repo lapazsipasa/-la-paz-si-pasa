@@ -1,6 +1,6 @@
 # Contrato entre piezas: boletín, catálogo e historias
 
-Estado: **vigente** · 2026-11-19 · parte de [boletin-catalogo-fcp](../boletin-catalogo-fcp.md)
+Estado: **vigente** · actualizado 2026-11-20 (construido en la rama `feat/boletin-catalogo-fcp`, sin desplegar) · parte de [boletin-catalogo-fcp](../boletin-catalogo-fcp.md)
 
 Lo que cada pieza puede dar por hecho de las demás. La fuente de verdad de los campos son los JSON de `apps/wp-fse/scf-json/`.
 
@@ -69,10 +69,15 @@ Todos los campos de imagen y archivo devuelven el ID del adjunto.
 | Bloque | Dónde | Qué pinta |
 |---|---|---|
 | `lapaz/boletin` | `single-boletin.html`, `archive-boletin.html` | una edición completa |
+| `lapaz/boletin-destacado` | `front-page.html` | tarjeta del último boletín (acceso) |
 | `lapaz/catalogo-portada` | `page-paissana.html` | hero con las tres cifras |
-| `lapaz/historia-destacada` | `page-paissana.html` | tarjeta de la historia más reciente |
 | `lapaz/catalogo` | `page-paissana.html` | buscador, resultados y distribución |
+| `lapaz/catalogo-banner` | `front-page.html`, `page-proyectos-destacados.html` | banner de acceso al catálogo (no va en `/paissana/`) |
+| `lapaz/historia-destacada` | `page-paissana.html`, `front-page.html`, `page-proyectos-destacados.html` | tarjeta de la historia más reciente. Atributo `enlaceCatalogo` (booleano): muestra el enlace al catálogo; en Inicio y Proyectos destacados va sin él |
 | `lapaz/historia` | `single-historia.html` | una historia completa |
+| `lapaz/guia-estilos` | `page-guia-de-estilos.html` | guía de estilos viva; la página solo existe en local |
+
+Las páginas interiores nuevas (`/boletin/`, `/paissana/`, historias) usan `lapaz/hero` con la clase `is-style-compacto` (hero compacto). `/paissana/` lleva además la clase `paisana-page--catalogo` en la página.
 
 ## Marcado
 
@@ -81,6 +86,7 @@ Cada `render.php` conserva las clases y la anidación del prototipo dentro de su
 **Comunes**
 
 - No hay `topbar` ni `footer` del prototipo: el sitio ya tiene los suyos.
+- Títulos de tarjetas, hitos y ficha: `h3`.
 - Sin estilos en línea. Fondo de sección: clase `papel`. Foto panorámica de apertura: `figure.apertura`.
 - Los `id` son solo anclas. El CSS selecciona por clase.
 
@@ -98,7 +104,7 @@ Cada `render.php` conserva las clases y la anidación del prototipo dentro de su
 - `form.filtros` (método GET) con `label.busca > input[type=search]`, dos `select` y `button.btn.buscar`.
 - Categorías: `div.chips > label.chip > input[type=checkbox] + span`.
 - Con JavaScript, la raíz del bloque recibe `js-activo`. Mientras navega, el contenedor de resultados recibe `cargando`.
-- `p.conteo`, `div.grid > article.card` (`h4`, `.ubic`, `ul > li`, `.tags > .tag`, `.tag.et`), `div.vacio`, `a.btn.mas`.
+- `p.conteo`, `div.grid > article.card` (`h3`, `.ubic`, `ul > li`, `.tags > .tag`, `.tag.et`), `div.vacio`, `a.btn.mas`.
 - Distribución: `section.distribucion.papel` con `.dist`, `.barras` y `a.barra` (`.nm`, `.pista > .fill` con el ancho en línea, `.v`). Activa: `on`.
 
 **Historia**
@@ -125,10 +131,13 @@ Rutas del tema relativas a `apps/wordpress/themes/lapaz/`.
 | Pieza | Archivos |
 |---|---|
 | Modelo | `apps/wp-fse/scf-json/` |
-| Boletín | `blocks/boletin/` (menos los `.css`), `inc/boletin.php`, `templates/single-boletin.html`, `templates/archive-boletin.html`, `inc/seo.php` |
+| Boletín | `blocks/boletin/` y `blocks/boletin-destacado/` (menos los `.css`), `inc/boletin.php`, `templates/single-boletin.html`, `templates/archive-boletin.html`, `inc/seo.php` |
 | Catálogo | `blocks/catalogo/` y `blocks/catalogo-portada/` (menos los `.css`), `inc/catalogo.php`, `templates/page-paissana.html`, `blocks/paisana-hero/render.php`, `apps/wp-fse/mu-plugins/lapaz-catalogo.php` |
 | Historia | `blocks/historia/` y `blocks/historia-destacada/` (menos los `.css`), `inc/historia.php`, `templates/single-historia.html` |
-| CSS | los `.css` de los cinco bloques |
+| Accesos | `blocks/catalogo-banner/`, `blocks/boletin-destacado/`, `inc/accesos.php`, `templates/front-page.html`, `templates/page-proyectos-destacados.html` |
+| Navegación | `inc/navegacion.php` (estado activo del menú), `wp_navigation` en `apps/wp-fse/docker/lapaz-setup` |
+| CSS | los `.css` de los bloques, y la hoja compartida `assets/css/editorial.css` (registrada en `inc/blocks.php`) |
+| Guía de estilos | `blocks/guia-estilos/`, `inc/guia-estilos.php`, `inc/guia-estilos-contraste.php`, `templates/page-guia-de-estilos.html` |
 | Seed | `apps/wordpress/seed/` |
 | Pruebas | `apps/wp-fse/tests/e2e/` |
-| Integración | `functions.php`, `apps/wp-fse/docker/lapaz-setup`, `apps/wp-fse/compose.override.yaml`, `wiki/` |
+| Integración | `functions.php` (carga `inc/*.php`), `apps/wp-fse/docker/lapaz-setup`, `apps/wp-fse/compose.override.yaml`, `wiki/` |

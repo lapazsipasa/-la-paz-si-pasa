@@ -1,5 +1,21 @@
 # Updates
 
+## 2026-11-20 · boletín y catálogo PaisSana: construido en la rama
+
+**Estado:** construido y con commits en `feat/boletin-catalogo-fcp` (22 commits sobre `lapazsipasa/main`, el último `8347916`). **Sin push, sin PR y sin desplegar:** nada sale a producción hasta que William lo apruebe. Producción sigue en el sitio FSE de 2026-11-09. Bloques, menú y accesos en el [changelog](changelog.md).
+
+**Pendiente antes del PR:**
+- SEO: pasar a The SEO Framework para que el editor cambie título, descripción e imagen por página. Sin probar ni integrar.
+- Ajustes de los formularios del admin (en curso).
+- Correr `apps/wp-fse/bin/check` y la suite `seo.mjs`. TODO: confirmar resultado.
+- Regenerar las bases visuales.
+- Manual para la persona externa y su usuario Editor (sin clave en el repo).
+- Staging (`st.lapazsipasa.com`), PR y deploy. Pasos en [despliegue-fse.md](despliegue-fse.md#despliegue-de-boletín-y-catálogo-paissana).
+
+**Bloqueo:** aprobación de William para push, PR y deploy. Del Fondo: video de Asocafé, datos de la persona externa, si el boletín deja de decir «interno» y limpiar las noticias de ejemplo.
+
+**Siguiente paso:** integrar y probar The SEO Framework en local; luego `bin/check`, `seo.mjs` y las bases visuales.
+
 ## 2026-11-19 · boletín y catálogo PaisSana
 
 **Estado:** diseño documentado, sin código. Rama `feat/boletin-catalogo-fcp`, sin commits. [Spec](specs/boletin-catalogo-fcp.md), [boletín](specs/boletin-catalogo-fcp/boletin-estructura.md), [catálogo e historia del mes](specs/boletin-catalogo-fcp/paissana-catalogo.md) y [decisiones](decisions/boletin-catalogo-fcp.md). Insumos del Fondo en `raw/`, fuera de git.

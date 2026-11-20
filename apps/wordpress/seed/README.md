@@ -54,7 +54,17 @@ El `--user 33` no es opcional: la imagen `wpcli` es Alpine y ahí `www-data` es
 uid 82, pero la de WordPress es Debian y usa uid 33, que es quien posee
 `wp-content/uploads`. Sin eso, cada subida falla con «no se ha podido escribir».
 
-## Producción (Dokploy)
+## Sitio FSE (producción desde 2026-11-09)
+
+El sitio de producción es el FSE (`apps/wp-fse/`). Su carga inicial y su operación están en [despliegue-fse.md](../../../wiki/despliegue-fse.md). Resumen:
+
+- Instalación nueva: `su www-data -s /bin/bash -c 'lapaz-setup --seed'` carga todas las secciones.
+- Sitio ya en uso: no usar `--seed`. Cargar solo lo nuevo, una sección por comando: `SEED_SOLO=productores`, `SEED_SOLO=boletines`, `SEED_SOLO=historias` (con `wp --path=/var/www/html eval-file /opt/seed/seed.php`). Las secciones de portada, videos y ferias se actualizan por título y pisan los cambios del editor.
+- Lista de secciones: [arriba, en «Secciones del sitio FSE»](#secciones-del-sitio-fse).
+
+## Headless de respaldo (Dokploy, servidor viejo)
+
+Solo aplica al headless (`compose.prod.yaml`), que sigue en el servidor viejo como respaldo.
 
 Prerrequisito: **Secure Custom Fields tiene que estar instalado y activo**. Es un
 plugin, no vive en el repo, y sin él no se registra ningún CPT — el sitio queda

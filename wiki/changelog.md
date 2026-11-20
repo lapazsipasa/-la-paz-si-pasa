@@ -2,6 +2,16 @@
 
 Qué cambió, con fecha y PR. Lo reciente arriba.
 
+- **2026-11-19 a 2026-11-20** · feat: boletín y catálogo PaisSana · **en la rama `feat/boletin-catalogo-fcp`, sin push, PR ni deploy** · [spec](specs/boletin-catalogo-fcp.md)
+  - Modelo: tipos `boletin`, `productor` (5 taxonomías) e `historia`, en `apps/wp-fse/scf-json/` (`87fa755`).
+  - Boletín: bloque `lapaz/boletin`, edición nueva con 8 secciones precargadas, `/boletin/` y `editorial.css` (`40af34e`, `1fc1301`).
+  - Catálogo: `lapaz/catalogo` con buscador y filtros en el servidor, página `/paissana/`, mu-plugin `lapaz-catalogo.php` (`854b66a`).
+  - Historia del mes: `lapaz/historia` y tarjeta `lapaz/historia-destacada` (`d423dc1`).
+  - Seed: 316 productores, edición 02 e historia de Asocafé (`69ae2a0`).
+  - Estilo: tokens en `theme.json`, Komet Heavy en titulares (`1fc1301`, `00c7eaf`); guía de estilos viva solo en local, `lapaz/guia-estilos` (`f0de368`).
+  - Menú: «Boletín», orden nuevo, estado activo por sección y los dos botones de programa en gris (`2d5d049`); hero compacto en catálogo, historias y boletín (`0f25dc8`).
+  - Accesos: boletín e historia en Inicio y Proyectos destacados (`872a85a`); banner `lapaz/catalogo-banner` (`8347916`).
+  - Pruebas: suites e2e `boletin`, `catalogo`, `historia` y `navegacion`; CI (`c710ccf`, `cd68174`). Correcciones de tres revisiones de AGY (`667cf01`, `e6eb811`, `e152e69`); responsive (`afa96b4`); documentación de SEO y navegación (`dcd0a81`).
 - **2026-11-09** · deploy: producción pasa al sitio FSE en el servidor nuevo (compose `MonoRepo`, `apps/wp-fse/compose.yaml`, `main` `v2.0.0`); DNS de `lapazsipasa.com`, `www` y `st` a `<IP_SERVIDOR>` · [despliegue](despliegue-fse.md#producción-desde-2026-11-09)
 - **2026-11-08** · feat(lapaz): etapa 7.5, operación: SMTP con Resend (`lapaz-smtp.php`), `lapaz-setup --seed`, `lapaz-importar` (base y uploads del headless) y guía de despliegue en Dokploy · rama `feat/wordpress-fse`, sin commit todavía · [guía de despliegue](despliegue-fse.md)
 - **2026-11-08** · feat(lapaz): etapa 7, SEO (`inc/seo.php`: título, descripción desde el extracto, OG y Twitter, favicon, sitemap solo con páginas, `noindex` fuera de producción), limpieza de WordPress (global-styles, `<head>`, feeds, comentarios, XML-RPC en 403) y revisión de seguridad (7 hallazgos corregidos) · rama `feat/wordpress-fse`, sin commit todavía · [etapa 7](specs/wordpress-fse/etapa-7-seo-rendimiento.md)

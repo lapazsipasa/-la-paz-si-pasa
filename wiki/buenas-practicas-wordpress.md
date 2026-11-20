@@ -27,8 +27,9 @@ Checklist para construir el tema `lapaz` (WP 7.1, PHP 8.3, SCF, Dokploy). Está 
 - **`render.php`:**
   - el elemento raíz lleva `get_block_wrapper_attributes()`;
   - el archivo se carga en cada instancia, así que no se declaran funciones dentro (van en `inc/helpers.php`).
-- **JS:** `viewScript` (`file:./view.js`). Se carga con `defer` y solo donde está el bloque. `viewScriptModule` solo se usa con Interactivity API, que aquí no se usa. [Block metadata](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/)
+- **JS:** `viewScript` (`file:./view.js`). Se carga con `defer` y solo donde está el bloque. `viewScriptModule` con Interactivity API se usa solo en `lapaz/catalogo` (ver [decisión 3](decisions/boletin-catalogo-fcp.md#3-interactivity-api-solo-en-el-bloque-del-catálogo)). El resto de bloques usa `viewScript`. [Block metadata](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/)
 - **CSS por bloque:** `style` (editor y sitio) o `viewStyle` (solo sitio). En temas de bloques se carga solo en las páginas que tienen el bloque, y si pesa menos de 40 KB va inline.
+- **CSS compartido de los bloques editoriales** (boletín, catálogo, historia): `assets/css/editorial.css`, cargado con `inc/blocks.php`. Los colores, tipos y tamaños salen de los tokens de `theme.json`: no se escriben valores hex sueltos en los bloques ni en las hojas por bloque.
 - **Bloques core** (como `core/navigation`): `wp_enqueue_block_style( 'core/navigation', [ handle, src, path ] )`. Su JS extra se encola desde el filtro `render_block_<bloque>`.
 - **Clases que core copia a elementos internos:** `core/navigation` repite `className` en su `<ul>`. Los selectores se acotan al elemento (`nav.lapaz-nav-desktop`) y no se usan clases utilitarias como `container--wide` en el bloque.
 

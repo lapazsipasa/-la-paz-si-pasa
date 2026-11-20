@@ -1,6 +1,6 @@
 # Boletín: estructura y alimentación mensual
 
-Estado: **diseño, pendiente de aprobación** · 2026-11-19 · parte de [boletin-catalogo-fcp](../boletin-catalogo-fcp.md)
+Estado: **construido en la rama `feat/boletin-catalogo-fcp`** (2026-11-19 a 2026-11-20), sin desplegar. Avance por etapa en [boletin-catalogo-fcp](../boletin-catalogo-fcp.md#estado-por-etapa-2026-11-20). Diseño de origen: 2026-11-19.
 
 ## Objetivo
 
@@ -63,7 +63,7 @@ Nadie lo escribe y no se puede desincronizar:
 
 Al pulsar *Boletines → Añadir edición*, el formulario abre con las **8 secciones de siempre ya creadas y vacías**, en su orden y con su molde y nombre. Se pueden quitar, reordenar o agregar. Un mes con 6 secciones o con dos artículos en «Historias» no necesita desarrollador.
 
-Se hace con un valor inicial del campo flexible para entradas nuevas (filtro `acf/load_value`), no con una plantilla de bloques.
+Se hace al crear la edición: `lapaz_boletin_secciones_por_defecto` (`inc/boletin.php`, gancho `wp_insert_post`) escribe las 8 filas con `update_field` solo en un borrador automático nuevo (`auto-draft`). No usa `acf/load_value` ni una plantilla de bloques.
 
 ### Flujo de cada mes
 
@@ -87,7 +87,7 @@ Se hace con un valor inicial del campo flexible para entradas nuevas (filtro `ac
 - Un bloque dinámico **`lapaz/boletin`** (`block.json` + `render.php` + `style.css`), en las plantillas `single-boletin.html` y `archive-boletin.html`. Es el patrón del tema: los datos en SCF y el bloque los pinta ([decisión 4 de arquitectura](../../decisions/wordpress-fse-arquitectura.md)).
 - `render.php` conserva los **nombres de clase del prototipo** (`sec-head`, `articulo`, `cifras-grid`, `tarjeta`, `hito`…). Ese es el contrato con quien porte el CSS.
 - El CSS del prototipo se porta a `style.css` con los tokens de `theme.json`: Komet y Monique Round en lugar de Fredoka y Mulish, y la paleta del sitio en lugar de las variables propias. Sin Google Fonts.
-- No necesita JavaScript: anclas nativas y barra fija con CSS.
+- No necesita JavaScript: anclas nativas. La barra de secciones no es fija: se pospuso (ver [navegación](../../navegacion.md), punto b4).
 - Va dentro del header y el footer del sitio. La barra superior y el pie del prototipo se reducen a una franja con número y periodo, y a los créditos.
 
 ### Carga de la edición 02

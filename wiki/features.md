@@ -2,7 +2,11 @@
 
 Capacidades entregadas. Lee esto antes de proponer una nueva.
 
-## Home (`/`)
+Hay dos sitios con el mismo contenido: el **sitio FSE** (WordPress con tema de bloques, en producción desde 2026-11-09) y el **headless + Astro** (respaldo en el servidor viejo, sin tráfico). Las secciones de abajo describen el headless; la sección [FSE en producción](#vigentes-en-producción-sitio-fse-desde-2026-11-09) describe lo que sirve hoy.
+
+## Respaldo: headless + Astro (servidor viejo)
+
+### Home (`/`)
 
 - Hero desde la página WordPress con slug `home`.
 - Retratos de la Paz: slider desde el CPT `retrato`.
@@ -24,9 +28,9 @@ Capacidades entregadas. Lee esto antes de proponer una nueva.
 - Caché de página y revalidación con `POST /api/revalidate` (requiere secreto).
 - Diagnóstico de fuente por bloque con `?debug-content=1`. TODO: decidir si se oculta en producción; hoy también responde allí.
 
-## En la rama feat/wordpress-fse (no en producción)
+## Vigentes en producción (sitio FSE, desde 2026-11-09)
 
-Lo que el editor puede cambiar, sin desarrollo, en el sitio de bloques (`apps/wp-fse/`). Producción sigue siendo el headless de arriba hasta el cambio de dominio (etapa 8).
+Lo que el editor puede cambiar, sin desarrollo, en el sitio de bloques (`apps/wp-fse/`). Fuente: [despliegue-fse.md](despliegue-fse.md#producción-desde-2026-11-09).
 
 - **Menú:** *Editor del sitio → Navegación*. Mismo menú que hoy, editable.
 - **Hero:** foto de la portada, campo «Imagen del hero» al editar Inicio. Si se quita, vuelve la foto por defecto.
@@ -40,3 +44,14 @@ Lo que el editor puede cambiar, sin desarrollo, en el sitio de bloques (`apps/wp
 - **Ferias:** CPT `feria`, por `orden`, con galería y videos.
 - **Productores:** videos con la etiqueta PaisSana.
 - **Descripción para buscadores:** el extracto de la página. Sin extracto, usa el texto por defecto.
+
+## En la rama feat/boletin-catalogo-fcp (no en producción)
+
+Construido y con commits, sin push ni PR. Detalle en la [spec](specs/boletin-catalogo-fcp.md) y el [changelog](changelog.md).
+
+- **Boletín mensual:** tipo `boletin`. Una edición nueva trae 8 secciones vacías (artículo, cifras, tarjetas o agenda). Se publica en `/boletin/`; las ediciones anteriores quedan en «Otras ediciones».
+- **Historia del mes:** tipo `historia`, una por mes con ficha, video, crónica y galería. `/paissana/` y la tarjeta de Inicio y Proyectos destacados muestran la más reciente.
+- **Catálogo de productores:** tipo `productor` con departamento, categoría, tiempo de operación, etnia y población. `/paissana/` busca y filtra (con y sin JavaScript), con 316 productores de carga inicial.
+- **Menú:** «Boletín» en el menú principal, orden nuevo y estado activo por sección. Los dos botones de programa quedan en gris.
+- **Accesos:** tarjetas de último boletín e historia, y banner del catálogo, en Inicio y Proyectos destacados.
+- **Guía de estilos:** `/guia-de-estilos/` solo existe en local. TODO: confirmar que no llega a producción.

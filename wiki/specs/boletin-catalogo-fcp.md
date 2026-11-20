@@ -1,7 +1,7 @@
 # Boletín y catálogo PaisSana
 
-**Estado:** borrador · diseño del boletín y del catálogo documentado el 2026-11-19, pendiente de aprobación
-**Repo:** `apps/wordpress/themes/lapaz/`, `apps/wordpress/scf-json/`, `apps/wp-fse/` · rama `feat/boletin-catalogo-fcp` · inicio 2026-11-19
+**Estado:** construido en la rama `feat/boletin-catalogo-fcp` (22 commits, del 2026-11-19 al 2026-11-20). **Sin push, PR ni deploy:** pendiente de aprobación de William.
+**Repo:** `apps/wordpress/themes/lapaz/`, `apps/wp-fse/scf-json/`, `apps/wp-fse/`, `apps/wordpress/seed/` · rama `feat/boletin-catalogo-fcp` · inicio 2026-11-19
 
 ## Objetivo
 
@@ -73,7 +73,7 @@ El diseño de cada parte está en su documento:
 Los de cada parte están en su documento. Los de toda la feature:
 
 - [ ] `/boletin/` muestra la edición 02 completa con Komet, Monique Round y la paleta de `theme.json`, sin Google Fonts, a 360, 850 y 1440 px.
-- [ ] El menú principal tiene «Boletín» y lleva a `/boletin/`.
+- [x] El menú principal tiene «Boletín» y lleva a `/boletin/`. Construido en `2d5d049`; comprobar en staging.
 - [ ] Un usuario Editor publica una edición nueva y una historia nueva sin ayuda, siguiendo el manual.
 - [ ] `/paissana` muestra el catálogo con los 316 productores. La búsqueda y los filtros funcionan con y sin JavaScript, y el botón PAISSANA de Proyectos destacados lleva ahí.
 - [ ] Un Editor agrega, edita o despublica un productor y el catálogo se actualiza.
@@ -87,7 +87,7 @@ Cada etapa necesita aprobación antes de construirse. Las reglas de delegación 
 
 Reparto (indicación de William, 2026-11-19): el Claude principal **solo orquesta**; el desarrollo y las pruebas van a subagentes Sonnet y Opus; la revisión a AGY. **Codex y Grok ya no se usan** (Grok no llegó a entregar ningún archivo; su CSS pasó a subagentes Sonnet).
 
-Rutas: `scf-json/` y `seed/` están en `apps/wordpress/`; `blocks/`, `inc/` y `templates/` en el tema `lapaz`; `tests/` en `apps/wp-fse/`.
+Rutas: los JSON del sitio FSE están en `apps/wp-fse/scf-json/` (no en `apps/wordpress/scf-json/`, que es del headless); `seed/` en `apps/wordpress/seed/`; `blocks/`, `inc/` y `templates/` en el tema `apps/wordpress/themes/lapaz/`; el MU-plugin del catálogo en `apps/wp-fse/mu-plugins/lapaz-catalogo.php`; `tests/` en `apps/wp-fse/tests/e2e/`.
 
 | # | Etapa | Quién | Archivos | Depende de |
 |---|---|---|---|---|
@@ -108,6 +108,36 @@ En paralelo:
 2. **Ola B:** el subagente de pruebas corre las suites y `bin/check`, AGY revisa (7) y un subagente escribe el borrador del manual (8).
 3. **Ola C:** Claude hace el Google Doc y la etapa 9.
 
+## Estado por etapa (2026-11-20)
+
+Evidencia: commits de la rama (`git log lapazsipasa/main..HEAD`). Lo que no tiene commit figura como pendiente.
+
+| # | Etapa | Estado | Commits | Pendiente |
+|---|---|---|---|---|
+| 0 | Base: `raw/` en `.gitignore` | hecha | `4ebb073` | — |
+| 1 | Modelo: tipos, taxonomías y grupos | hecha | `87fa755` | — |
+| 2a | Boletín: bloque `lapaz/boletin`, plantillas, 8 secciones iniciales | hecha | `40af34e`, `667cf01`, `e6eb811`, `e152e69` | Ajustes del admin (formularios) |
+| 2b | CSS de los bloques, tokens y hoja `editorial.css` | hecha | `1fc1301`, `00c7eaf`, `afa96b4` | Bases visuales por regenerar |
+| 3a | Catálogo: `lapaz/catalogo`, `/paissana/`, búsqueda, botón PAISSANA | hecha | `854b66a` | TODO: confirmar Lighthouse |
+| 4 | Historia del mes: `lapaz/historia` y `lapaz/historia-destacada` | hecha | `d423dc1` | Ajustes del admin (campos de «Crónica») |
+| 5 | Seed: 316 productores, edición 02, historia de Asocafé | hecha | `69ae2a0` | — |
+| 6 | Pruebas: suites e2e `boletin`, `catalogo`, `historia`, `navegacion`; CI | escritas | `c710ccf`, `cd68174`, `afa96b4` | Correr `bin/check` y `seo.mjs`. TODO: confirmar resultado |
+| 7 | Revisión independiente (AGY) | tres rondas hechas | `667cf01`, `e6eb811`, `e152e69` | Revisión 4: Parte B aplicada en la documentación; Parte A (formularios del admin) pendiente |
+| 8 | Manual para la persona externa | pendiente | — | Borrador y Google Doc |
+| 9 | PR, staging, merge, deploy, seed en producción y usuario Editor | pendiente | — | Aprobación de William |
+
+Extras de la rama, fuera de la lista original:
+
+| Tarea | Estado | Commits |
+|---|---|---|
+| R1 responsive | hecha | `afa96b4` |
+| R2 SEO y enlaces (propuesta) | documentada; plugin de SEO pendiente | `dcd0a81` |
+| R3 navegación (propuesta) | documentada; aplicada en parte (menú, hero compacto) | `dcd0a81`, `2d5d049`, `0f25dc8` |
+| R4 accesos en Inicio y Proyectos destacados | hecha | `872a85a`, `8347916` |
+| Guía de estilos viva (solo local) | hecha | `f0de368` |
+
+Pendiente, en lo que no tiene commit: integrar The SEO Framework para que el editor cambie título, descripción e imagen por página (sin probar); ajustes de formularios del admin; regenerar bases visuales; manual y usuario Editor.
+
 ## Revisiones y navegación (pedidas por William el 2026-11-19)
 
 Nada de esto ni de lo anterior sale a producción hasta que William lo apruebe: sin push, PR ni deploy.
@@ -125,7 +155,7 @@ Nada de esto ni de lo anterior sale a producción hasta que William lo apruebe: 
 
 ## Flujo de ramas y GitHub
 
-1. Rama `feat/boletin-catalogo-fcp`, creada desde `feat/wordpress-fse`. Lleva `lapazsipasa/main` más 2 commits de documentación.
+1. Rama `feat/boletin-catalogo-fcp`, creada desde `feat/wordpress-fse`. Lleva 22 commits sobre `lapazsipasa/main` (a 2026-11-20).
 2. Un commit por etapa. Push a `lapazsipasa` (`lapazsipasa/-la-paz-si-pasa`, cuenta del cliente, de la que sale producción; `kashipu` es colaborador con escritura, sin admin). `origin` (`kashipu/la-paz-si-pasa`) es la copia personal de William.
 3. PR contra `main` con enlace a esta spec. Revisión del Fondo en staging (`st.lapazsipasa.com`, TODO: confirmar que está arriba).
 4. Squash merge con `bin/check` en verde y aprobación de William. Dokploy despliega `main`.

@@ -1,6 +1,6 @@
 # PaisSana: catálogo, buscador e historia del mes
 
-Estado: **diseño, pendiente de aprobación** · 2026-11-19 · parte de [boletin-catalogo-fcp](../boletin-catalogo-fcp.md)
+Estado: **construido en la rama `feat/boletin-catalogo-fcp`** (2026-11-19 a 2026-11-20), sin desplegar. Avance por etapa en [boletin-catalogo-fcp](../boletin-catalogo-fcp.md#estado-por-etapa-2026-11-20). Diseño de origen: 2026-11-19.
 
 ## Objetivo
 
@@ -55,7 +55,7 @@ Por qué taxonomías y no campos: WordPress las guarda en tablas con índice, fi
 
 La búsqueda nativa de WordPress (`s` en `WP_Query`) mira título, extracto y contenido. No mira campos ni nombres de términos.
 
-Para que «Planadas» o «cacao» encuentren productores sin SQL a mano, cada productor guarda al salvarse un **texto de búsqueda** en `post_content`: municipio, departamento, categorías y productos. El editor no lo ve ni lo escribe. Lo genera un filtro (`wp_insert_post_data`) y el seed pasa por el mismo camino.
+Para que «Planadas» o «cacao» encuentren productores sin SQL a mano, cada productor guarda al salvarse un **texto de búsqueda** en `post_content`: municipio, departamento, categorías y productos. El editor no lo ve ni lo escribe. Lo genera el MU-plugin `apps/wp-fse/mu-plugins/lapaz-catalogo.php`: engancha `wp_after_insert_post`, `set_object_terms` y `acf/save_post`, encola el productor y lo indexa en `shutdown`, cuando campos y términos ya están escritos. El seed pasa por el mismo camino.
 
 La búsqueda queda como una consulta nativa: `s` limitado a título y contenido con `search_columns`.
 
