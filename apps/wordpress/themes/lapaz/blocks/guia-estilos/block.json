@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lapaz/guia-estilos",
+	"title": "Guía de estilos",
+	"category": "theme",
+	"icon": "art",
+	"description": "Guía de estilos viva: colores, tipografía, espaciado y reglas de uso, leídos de theme.json.",
+	"textdomain": "lapaz",
+	"supports": {
+		"autoRegister": true,
+		"html": false,
+		"inserter": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"render": "file:./render.php",
+	"style": [ "lapaz-editorial", "file:./style.css", "file:./componentes.css" ]
+}

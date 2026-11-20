@@ -95,6 +95,11 @@ if ! grep -q '"url":"/boletin/"' <<<"$nav_actual"; then
 fi
 
 if [ "${WP_ENVIRONMENT_TYPE:-production}" = local ]; then
+    # Guía de estilos viva (bloque lapaz/guia-estilos): solo existe en local.
+    if [ -z "$("${wp[@]}" post list --post_type=page --name=guia-de-estilos --post_status=any --format=ids)" ]; then
+        "${wp[@]}" post create --post_type=page --post_name=guia-de-estilos \
+            --post_title="Guía de estilos" --post_status=publish
+    fi
     for plugin in query-monitor create-block-theme; do
         if ! "${wp[@]}" plugin is-installed "$plugin"; then
             "${wp[@]}" plugin install "$plugin"

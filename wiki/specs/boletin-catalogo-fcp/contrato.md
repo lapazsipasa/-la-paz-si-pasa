@@ -8,6 +8,14 @@ Lo que cada pieza puede dar por hecho de las demás. La fuente de verdad de los 
 
 Las secciones nuevas mantienen el estilo del sitio actual: colores, tipografías, escala, botones, contenedores. El prototipo del Fondo aporta solo estructura, retícula y contenido.
 
+Criterio visual que dio William el 2026-11-19, al ver la primera versión del boletín:
+
+- **Monique Round** solo en destacados cortos en mayúsculas: nombre de sección, numeración, etiquetas y botones, en Regular (400). No funciona en títulos grandes ni en minúsculas. El tema carga Regular y Bold (700); el Bold lo usan los encabezados de las páginas que ya existían.
+- **Títulos y subtítulos** en Komet Heavy (800), o Bold (700) en jerarquías menores. Komet Black (900) no se usa.
+- **Priman los fondos oscuros** (el azul del sitio) con texto blanco, para que el celeste destaque como acento.
+- **Pocos colores a la vez.** Verde y naranja solo como acento puntual, nunca compitiendo con celeste y azul en un mismo bloque.
+- Las páginas que ya existían (`/` y `/proyectos-destacados/`) no cambian.
+
 ## Modelo
 
 Los JSON van en `apps/wp-fse/scf-json/` y no en `apps/wordpress/scf-json/`: son exclusivos del sitio FSE y el headless no los necesita.

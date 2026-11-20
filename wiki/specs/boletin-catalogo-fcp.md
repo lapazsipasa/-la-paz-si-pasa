@@ -83,29 +83,45 @@ Los de cada parte están en su documento. Los de toda la feature:
 
 ## Etapas y agentes
 
-Cada etapa necesita aprobación antes de construirse. Las reglas de delegación están en [entorno-desarrollo](../entorno-desarrollo.md#agentes): una sola ventana de Orca, paneles divididos, un brief por agente con archivos asignados que no se solapan, y solo Claude hace commit. Los agentes no hacen push ni corren docker, salvo Codex con `bin/check`.
+Cada etapa necesita aprobación antes de construirse. Las reglas de delegación están en [entorno-desarrollo](../entorno-desarrollo.md#agentes): una sola ventana de Orca, paneles divididos, un brief por agente con archivos asignados que no se solapan, y solo el Claude principal hace commit. Los agentes no hacen push ni levantan o bajan docker.
+
+Reparto (indicación de William, 2026-11-19): el Claude principal **solo orquesta**; el desarrollo y las pruebas van a subagentes Sonnet y Opus; la revisión a AGY. **Codex y Grok ya no se usan** (Grok no llegó a entregar ningún archivo; su CSS pasó a subagentes Sonnet).
 
 Rutas: `scf-json/` y `seed/` están en `apps/wordpress/`; `blocks/`, `inc/` y `templates/` en el tema `lapaz`; `tests/` en `apps/wp-fse/`.
 
 | # | Etapa | Quién | Archivos | Depende de |
 |---|---|---|---|---|
 | 0 | Base: `raw/` en `.gitignore` y commit de la documentación | Claude | `.gitignore`, `wiki/` | — |
-| 1 | Modelo: tipos `boletin`, `productor` e `historia`, taxonomías y grupos de campos (incluido el molde Artículo compartido) | Claude | `scf-json/` | 0 |
-| 2a | Boletín: bloque `lapaz/boletin`, plantillas, valor inicial de una edición nueva | Claude | `blocks/boletin/{block.json,render.php}`, `inc/boletin.php`, `templates/*boletin*` | 1 |
-| 2b | Boletín: portar el CSS del prototipo a los tokens del tema y transcribir la edición 02 al seed | **Grok** | `blocks/boletin/style.css`, `seed/boletin-02.json` | contrato: clases del prototipo y nombres de campo de 1 |
-| 3a | Catálogo: prueba del módulo ES sin build, bloque `lapaz/catalogo`, texto de búsqueda, página `/paissana`, enlace del botón PAISSANA | Claude | `blocks/catalogo/{block.json,render.php,view.js}`, `inc/catalogo.php`, `templates/page-paissana.html`, `blocks/paisana-hero/render.php` | 1 |
-| 3b | Catálogo e historia: portar el CSS y transcribir la historia de Asocafé al seed | **Grok** | `blocks/catalogo/style.css`, `blocks/historia/style.css`, `seed/historia-asocafe.json` | contrato de 1 |
-| 4 | Historia del mes: bloque `lapaz/historia` y tarjeta del destacado | Claude | `blocks/historia/{block.json,render.php,view.js}`, `inc/historia.php` | 1 |
-| 5 | Seed: productores a texto legible, y `seed.php` con taxonomías y campos flexibles | Claude | `seed/productores.json`, `seed/seed.php`, `seed/media/` | 1 |
-| 6 | Pruebas: e2e `boletin.mjs`, `catalogo.mjs` e `historia.mjs`, idempotencia del seed, `bin/check` | **Codex** | `tests/e2e/` | escribe contra los criterios desde 1 y corre al cerrar 2 a 5 |
+| 1 | Modelo: tipos `boletin`, `productor` e `historia`, taxonomías, grupos de campos (incluido el molde Artículo compartido) y [contrato](boletin-catalogo-fcp/contrato.md) | Claude | `apps/wp-fse/scf-json/` | 0 |
+| 2a | Boletín: bloque `lapaz/boletin`, plantillas, valor inicial de una edición nueva | subagente Sonnet | `blocks/boletin/{block.json,render.php}`, `inc/boletin.php`, `templates/*boletin*` | 1 |
+| 2b | CSS de los cinco bloques, con el estilo del sitio actual | subagentes Sonnet | `blocks/*/*.css` | contrato de 1 |
+| 3a | Catálogo: prueba del módulo ES sin build, bloque `lapaz/catalogo`, texto de búsqueda, página `/paissana`, enlace del botón PAISSANA | subagente Opus | `blocks/catalogo/{block.json,render.php,view.js}`, `inc/catalogo.php`, `templates/page-paissana.html`, `blocks/paisana-hero/render.php` | 1 |
+| 4 | Historia del mes: bloque `lapaz/historia` y tarjeta del destacado | subagente Sonnet | `blocks/historia/{block.json,render.php,view.js}`, `inc/historia.php` | 1 |
+| 5 | Seed: productores a texto legible, transcripción de la edición 02 y de la historia de Asocafé, y `seed.php` con taxonomías y campos flexibles | subagente Sonnet | `seed/` | 1 |
+| 6 | Pruebas: e2e `boletin.mjs`, `catalogo.mjs` e `historia.mjs`, idempotencia del seed, `bin/check` | subagente Sonnet | `tests/e2e/` | escribe contra los criterios desde 1 y corre al cerrar 2 a 5 |
 | 7 | Revisión independiente: buenas prácticas, accesibilidad, seguridad de los parámetros, que no haya secretos en el diff | **AGY** (solo lectura) | informe en el scratchpad | 2 a 5 |
-| 8 | Manual: borrador (Grok), y Google Doc con capturas en el Drive de William (Claude) | Grok, Claude | scratchpad, Drive | 2 a 5 |
+| 8 | Manual: borrador y Google Doc con capturas en el Drive de William | subagente Sonnet, Claude | scratchpad, Drive | 2 a 5 |
 | 9 | PR, staging, merge y deploy; seed en producción y usuario Editor | Claude, con aprobación | — | 6 en verde, 7 sin bloqueos |
 
 En paralelo:
-1. **Ola A:** Claude hace 1 y publica el contrato (nombres de campo y clases). Luego Claude hace 2a, 3a, 4 y 5, Grok hace 2b y 3b, y Codex escribe las pruebas de 6.
-2. **Ola B:** Codex corre `bin/check`, AGY revisa (7) y Grok escribe el borrador del manual (8).
+1. **Ola A:** Claude hace 1 y publica el contrato. Luego, a la vez: subagentes en 2a, 2b, 3a, 4 y 5, y otro escribe las pruebas de 6.
+2. **Ola B:** el subagente de pruebas corre las suites y `bin/check`, AGY revisa (7) y un subagente escribe el borrador del manual (8).
 3. **Ola C:** Claude hace el Google Doc y la etapa 9.
+
+## Revisiones y navegación (pedidas por William el 2026-11-19)
+
+Nada de esto ni de lo anterior sale a producción hasta que William lo apruebe: sin push, PR ni deploy.
+
+| # | Tarea | Quién | Entregable | Depende de |
+|---|---|---|---|---|
+| R1 | Revisión de responsive de las páginas nuevas y del menú con el enlace «Boletín», con sus arreglos de CSS | subagente Sonnet | [revision-responsive.md](boletin-catalogo-fcp/revision-responsive.md) | CSS unificado |
+| R2 | Revisión general de SEO, URLs y enlaces de todo el sitio | subagente Sonnet | [revision-seo-enlaces.md](boletin-catalogo-fcp/revision-seo-enlaces.md) | — |
+| R3 | Estructura del sitio y navegación: mapa actual, problemas y propuesta | subagente Opus | [navegacion.md](../navegacion.md) | — |
+| R4 | Accesos desde las páginas existentes (`/` y `/proyectos-destacados/`) a boletín, catálogo e historias: dónde van los banners o botones, y su construcción en local | subagente Sonnet | [accesos-paginas-existentes.md](boletin-catalogo-fcp/accesos-paginas-existentes.md) | R3 |
+
+- R1 a R3 corren a la vez. R2 y R3 solo leen y proponen; los cambios que propongan se aplican después, con aprobación.
+- R4 espera a R3, porque dónde van los accesos depende de la navegación propuesta. Sus cambios tocan páginas que ya existían: van en commits aparte y con capturas de antes y después.
+- La guía de estilos del sitio está en [guia-de-estilos.md](../guia-de-estilos.md).
 
 ## Flujo de ramas y GitHub
 

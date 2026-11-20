@@ -1,0 +1,400 @@
+/*
+ * Bloque lapaz/guia-estilos. Todo en tokens del tema; los colores de cada muestra llegan
+ * como variables --c, --t y --f puestas en línea desde PHP. Aplica sus propias reglas:
+ * Monique solo en rótulos cortos en mayúsculas, títulos en Komet con peso.
+ */
+
+.wp-block-lapaz-guia-estilos {
+	display: grid;
+	gap: var(--space-16);
+	padding-block: var(--space-12);
+	font-synthesis: none;
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-light);
+	color: var(--color-nav-text);
+}
+
+.wp-block-lapaz-guia-estilos code {
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	font-size: 0.8125rem;
+	font-weight: var(--font-weight-komet-regular);
+	overflow-wrap: anywhere;
+}
+
+/* Cabecera */
+.wp-block-lapaz-guia-estilos .guia__rotulo,
+.wp-block-lapaz-guia-estilos .guia__veredicto,
+.wp-block-lapaz-guia-estilos .guia__etiqueta {
+	margin: 0;
+	font-family: var(--font-monique-regular);
+	font-weight: var(--font-weight-komet-regular);
+	font-size: var(--font-size-rotulo);
+	letter-spacing: var(--tracking-rotulo);
+	text-transform: uppercase;
+}
+
+.wp-block-lapaz-guia-estilos .guia__titulo {
+	margin: var(--space-2) 0 var(--space-4);
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-heavy);
+	font-size: clamp(2.5rem, 6vw, 4rem);
+	line-height: 1.05;
+	letter-spacing: -0.02em;
+}
+
+.wp-block-lapaz-guia-estilos .guia__intro {
+	max-width: 46rem;
+	font-size: var(--font-size-cuerpo);
+}
+
+.wp-block-lapaz-guia-estilos .guia__indice {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2) var(--space-6);
+	margin-top: var(--space-6);
+}
+
+.wp-block-lapaz-guia-estilos .guia__indice a {
+	font-weight: var(--font-weight-komet-bold);
+	text-underline-offset: 3px;
+}
+
+.wp-block-lapaz-guia-estilos .guia__indice a:focus-visible {
+	outline: 2px solid currentcolor;
+	outline-offset: 3px;
+}
+
+/* Secciones y títulos */
+.wp-block-lapaz-guia-estilos .guia__seccion {
+	display: grid;
+	gap: var(--space-6);
+	min-width: 0;
+	scroll-margin-top: var(--space-6);
+}
+
+.wp-block-lapaz-guia-estilos .guia__h2 {
+	margin: 0;
+	padding-bottom: var(--space-3);
+	border-bottom: 2px solid var(--color-nav-text);
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-heavy);
+	font-size: var(--font-size-seccion);
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+}
+
+.wp-block-lapaz-guia-estilos .guia__h3 {
+	margin: var(--space-4) 0 0;
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-heavy);
+	font-size: 1.25rem;
+	line-height: 1.2;
+	letter-spacing: -0.01em;
+}
+
+.wp-block-lapaz-guia-estilos .guia__nota {
+	max-width: 46rem;
+	margin: 0;
+	font-size: var(--font-size-nota);
+}
+
+/* Paleta */
+.wp-block-lapaz-guia-estilos .guia__muestras {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+	gap: var(--space-4);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.wp-block-lapaz-guia-estilos .guia__muestra {
+	display: grid;
+	gap: var(--space-1);
+	min-width: 0;
+	align-content: start;
+}
+
+.wp-block-lapaz-guia-estilos .guia__color {
+	display: block;
+	height: 4.5rem;
+	margin-bottom: var(--space-2);
+	background: var(--c);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-card);
+}
+
+.wp-block-lapaz-guia-estilos .guia__nombre {
+	font-weight: var(--font-weight-komet-heavy);
+}
+
+/* Tablas */
+.wp-block-lapaz-guia-estilos .guia__tabla-caja {
+	overflow-x: auto;
+}
+
+.wp-block-lapaz-guia-estilos .guia__tabla {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--font-size-nota);
+}
+
+.wp-block-lapaz-guia-estilos .guia__tabla th,
+.wp-block-lapaz-guia-estilos .guia__tabla td {
+	padding: var(--space-2) var(--space-3);
+	border-bottom: 1px solid var(--border-subtle);
+	text-align: left;
+	white-space: nowrap;
+}
+
+.wp-block-lapaz-guia-estilos .guia__tabla th {
+	font-weight: var(--font-weight-komet-heavy);
+}
+
+.wp-block-lapaz-guia-estilos .guia__par {
+	display: inline-block;
+	min-width: 4rem;
+	padding: var(--space-1) var(--space-3);
+	background: var(--f);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-control);
+	color: var(--t);
+	font-weight: var(--font-weight-komet-heavy);
+	text-align: center;
+}
+
+/* Pesos */
+.wp-block-lapaz-guia-estilos .guia__pesos,
+.wp-block-lapaz-guia-estilos .guia__escala,
+.wp-block-lapaz-guia-estilos .guia__espacios,
+.wp-block-lapaz-guia-estilos .guia__custom {
+	display: grid;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.wp-block-lapaz-guia-estilos .guia__peso,
+.wp-block-lapaz-guia-estilos .guia__tamano {
+	display: grid;
+	grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+	gap: var(--space-2) var(--space-6);
+	align-items: baseline;
+	padding-block: var(--space-3);
+	border-bottom: 1px solid var(--border-subtle);
+}
+
+.wp-block-lapaz-guia-estilos .guia__especimen {
+	font-size: clamp(1.5rem, 4vw, 2.2rem);
+	line-height: 1.2;
+	overflow-wrap: anywhere;
+}
+
+.wp-block-lapaz-guia-estilos .guia__especimen--rotulo {
+	letter-spacing: var(--tracking-rotulo);
+}
+
+.wp-block-lapaz-guia-estilos .guia__peso-datos,
+.wp-block-lapaz-guia-estilos .guia__tamano-datos {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-1) var(--space-3);
+	align-items: baseline;
+	min-width: 0;
+}
+
+.wp-block-lapaz-guia-estilos .guia__peso-datos em {
+	flex-basis: 100%;
+	font-size: var(--font-size-nota);
+	font-style: normal;
+}
+
+.wp-block-lapaz-guia-estilos .guia__tamano {
+	grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+}
+
+.wp-block-lapaz-guia-estilos .guia__tamano-muestra {
+	grid-column: 2;
+	grid-row: 1;
+	overflow-wrap: anywhere;
+}
+
+.wp-block-lapaz-guia-estilos .guia__tamano-muestra--titulo {
+	font-weight: var(--font-weight-komet-heavy);
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+}
+
+.wp-block-lapaz-guia-estilos .guia__tamano-datos {
+	grid-column: 1;
+	grid-row: 1;
+}
+
+/* Reglas, correctas y a evitar */
+.wp-block-lapaz-guia-estilos .guia__reglas {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+	gap: var(--space-4);
+}
+
+.wp-block-lapaz-guia-estilos .guia__regla {
+	display: grid;
+	gap: var(--space-3);
+	align-content: start;
+	min-width: 0;
+	padding: var(--space-4);
+	border: 2px solid var(--color-nav-text);
+	border-radius: var(--radius-card);
+}
+
+.wp-block-lapaz-guia-estilos .guia__regla--mal {
+	border-style: dashed;
+	border-color: var(--color-naranja);
+}
+
+.wp-block-lapaz-guia-estilos .guia__regla > p {
+	margin: 0;
+}
+
+.wp-block-lapaz-guia-estilos .guia__ej-monique {
+	font-family: var(--font-monique-regular);
+	font-weight: var(--font-weight-komet-regular);
+	font-size: var(--font-size-seccion);
+	line-height: 1.15;
+	letter-spacing: var(--tracking-rotulo);
+	text-transform: uppercase;
+}
+
+/* Contraejemplo: minúsculas y negrita sobre Monique */
+.wp-block-lapaz-guia-estilos .guia__ej-monique--mal {
+	font-weight: var(--font-weight-komet-bold);
+	text-transform: none;
+	letter-spacing: normal;
+}
+
+.wp-block-lapaz-guia-estilos .guia__ej-titulo {
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-heavy);
+	font-size: var(--font-size-seccion);
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+}
+
+.wp-block-lapaz-guia-estilos .guia__ej-titulo--mal {
+	font-weight: var(--font-weight-komet-light);
+}
+
+.wp-block-lapaz-guia-estilos .guia__ej-nota {
+	font-size: var(--font-size-nota);
+}
+
+/* Espaciado y valores personalizados */
+.wp-block-lapaz-guia-estilos .guia__espacio {
+	display: grid;
+	grid-template-columns: 3rem minmax(0, 1fr) 5rem minmax(0, 14rem);
+	gap: var(--space-3);
+	align-items: center;
+	padding-block: var(--space-2);
+	border-bottom: 1px solid var(--border-subtle);
+}
+
+.wp-block-lapaz-guia-estilos .guia__barra {
+	display: block;
+	max-width: 100%;
+	height: var(--space-4);
+	background: var(--color-nav-text);
+}
+
+.wp-block-lapaz-guia-estilos .guia__custom {
+	grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+	gap: var(--space-6) var(--space-4);
+}
+
+.wp-block-lapaz-guia-estilos .guia__valor {
+	display: grid;
+	gap: var(--space-1);
+	align-content: start;
+	min-width: 0;
+}
+
+.wp-block-lapaz-guia-estilos .guia__valor-muestra {
+	display: block;
+	height: 4.5rem;
+	margin-bottom: var(--space-2);
+	background: var(--color-surface);
+	border: 1px solid var(--color-border);
+}
+
+.wp-block-lapaz-guia-estilos .guia__valor-muestra--texto {
+	display: grid;
+	place-items: center;
+	border-style: dashed;
+	font-size: 1.75rem;
+}
+
+/* Paneles de color */
+.wp-block-lapaz-guia-estilos .guia__panel {
+	display: grid;
+	gap: var(--space-3);
+	justify-items: start;
+	padding: var(--space-6);
+	border-radius: var(--radius-card);
+}
+
+.wp-block-lapaz-guia-estilos .guia__panel p {
+	margin: 0;
+}
+
+.wp-block-lapaz-guia-estilos .guia__panel--azul {
+	background: var(--color-nav-text);
+	color: var(--color-surface);
+}
+
+.wp-block-lapaz-guia-estilos .guia__panel--azul .guia__etiqueta {
+	padding: var(--space-1) var(--space-3);
+	background: var(--color-nav-bg-active);
+	border-radius: var(--radius-control);
+	color: var(--color-nav-text);
+}
+
+.wp-block-lapaz-guia-estilos .guia__panel--azul .guia__etiqueta--boton {
+	padding: var(--space-3) var(--space-6);
+	border-radius: 0;
+}
+
+.wp-block-lapaz-guia-estilos .guia__panel--celeste {
+	background: var(--color-nav-bg-active);
+}
+
+.wp-block-lapaz-guia-estilos .guia__etiqueta--naranja {
+	padding: var(--space-1) var(--space-3);
+	background: var(--color-naranja);
+	border-radius: var(--radius-control);
+	color: var(--color-surface);
+}
+
+.wp-block-lapaz-guia-estilos .guia__ej-titulo--verde {
+	color: var(--color-loquehacemos-bg);
+}
+
+@media (max-width: 40rem) {
+
+	.wp-block-lapaz-guia-estilos .guia__peso,
+	.wp-block-lapaz-guia-estilos .guia__tamano {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.wp-block-lapaz-guia-estilos .guia__tamano-muestra,
+	.wp-block-lapaz-guia-estilos .guia__tamano-datos {
+		grid-column: 1;
+		grid-row: auto;
+	}
+
+	.wp-block-lapaz-guia-estilos .guia__espacio {
+		grid-template-columns: 2.5rem minmax(0, 1fr) 4rem;
+	}
+
+	.wp-block-lapaz-guia-estilos .guia__espacio code:last-child {
+		grid-column: 1 / -1;
+	}
+}
