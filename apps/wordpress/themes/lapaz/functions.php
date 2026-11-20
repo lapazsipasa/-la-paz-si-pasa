@@ -24,6 +24,7 @@ require_once __DIR__ . '/inc/accesos.php';
 require_once __DIR__ . '/inc/historia.php';
 require_once __DIR__ . '/inc/guia-estilos.php';
 require_once __DIR__ . '/inc/seo.php';
+require_once __DIR__ . '/inc/seo-tsf.php';
 require_once __DIR__ . '/inc/navegacion.php';
 
 /**

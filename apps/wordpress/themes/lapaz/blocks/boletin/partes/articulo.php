@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  */
 
 $lapaz_a_color   = lapaz_boletin_str( $lapaz_seccion, 'rotulo_color' );
-$lapaz_a_clase   = 'rotulo-seccion' . ( in_array( $lapaz_a_color, array( 'verde', 'azul' ), true ) ? ' ' . $lapaz_a_color : '' );
+$lapaz_a_clase   = 'rotulo-seccion' . ( 'verde' === $lapaz_a_color ? ' verde' : '' );
 $lapaz_a_rotulo  = lapaz_boletin_str( $lapaz_seccion, 'rotulo' );
 $lapaz_a_titulo  = lapaz_boletin_str( $lapaz_seccion, 'titulo' );
 $lapaz_a_bajada  = lapaz_boletin_str( $lapaz_seccion, 'bajada' );

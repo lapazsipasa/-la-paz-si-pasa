@@ -215,7 +215,6 @@ function lapaz_guia_noindex( array $robots ): array {
 	}
 	return $robots;
 }
-add_filter( 'wp_robots', 'lapaz_guia_noindex' );
 
 /**
  * Fuera del sitemap de WordPress.
@@ -232,4 +231,9 @@ function lapaz_guia_fuera_del_sitemap( array $args, string $post_type ): array {
 	}
 	return $args;
 }
-add_filter( 'wp_sitemaps_posts_query_args', 'lapaz_guia_fuera_del_sitemap', 10, 2 );
+
+// Con The SEO Framework, la guía sale del índice y del sitemap en inc/seo-tsf.php.
+if ( ! defined( 'THE_SEO_FRAMEWORK_PRESENT' ) ) {
+	add_filter( 'wp_robots', 'lapaz_guia_noindex' );
+	add_filter( 'wp_sitemaps_posts_query_args', 'lapaz_guia_fuera_del_sitemap', 10, 2 );
+}

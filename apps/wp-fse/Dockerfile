@@ -38,6 +38,19 @@ RUN curl -fsSL "https://downloads.wordpress.org/plugin/wp-super-cache.${WPSC_VER
     && php -r '$z = new ZipArchive(); $z->open("/tmp/wpsc.zip") === true || exit(1); $z->extractTo("/opt/wp-content/plugins"); $z->close();' \
     && rm /tmp/wpsc.zip
 
+# The SEO Framework con versión fija: SEO editable por entrada (título, descripción, imagen para compartir).
+ARG TSF_VERSION=5.2.1
+ARG TSF_SHA256=9e18a34a4437ddf7ec5a6e1dea6d1e59408db6e59944b8fc672250b80fdbd3fa
+# hadolint ignore=SC2016
+RUN curl -fsSL "https://downloads.wordpress.org/plugin/autodescription.${TSF_VERSION}.zip" -o /tmp/tsf.zip \
+    && echo "${TSF_SHA256}  /tmp/tsf.zip" | sha256sum -c - \
+    && php -r '$z = new ZipArchive(); $z->open("/tmp/tsf.zip") === true || exit(1); $z->extractTo("/opt/wp-content/plugins"); $z->close();' \
+    && rm /tmp/tsf.zip
+
+# Traducción es_CO de The SEO Framework, guardada en el repo (ver LEEME.md): con DISALLOW_FILE_MODS WordPress
+# no la baja solo y la construcción no debe depender de wordpress.org. El entrypoint la copia a wp-content/languages/plugins.
+COPY apps/wp-fse/docker/languages/plugins/autodescription-es_CO.l10n.php apps/wp-fse/docker/languages/plugins/autodescription-es_CO.mo /opt/wp-content/languages/plugins/
+
 COPY apps/wordpress/php/zz-opcache-overrides.ini /usr/local/etc/php/conf.d/
 COPY apps/wp-fse/docker/apache/zz-lapaz-seguridad.conf /etc/apache2/conf-enabled/
 # Sin cabecera X-Powered-By con la versión de PHP. Límites para uso editorial: fotos y MP4 livianos

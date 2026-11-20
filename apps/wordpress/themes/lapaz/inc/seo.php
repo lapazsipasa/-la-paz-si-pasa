@@ -19,7 +19,6 @@ defined( 'ABSPATH' ) || exit;
 function lapaz_page_excerpt(): void {
 	add_post_type_support( 'page', 'excerpt' );
 }
-add_action( 'init', 'lapaz_page_excerpt' );
 
 /**
  * Si la página es una edición del boletín o el archivo /boletin/ (que pinta la más reciente).
@@ -62,7 +61,6 @@ function lapaz_document_title_parts( array $partes ): array {
 
 	return $partes;
 }
-add_filter( 'document_title_parts', 'lapaz_document_title_parts' );
 
 /**
  * Separador «|» del título, como en Astro.
@@ -70,7 +68,6 @@ add_filter( 'document_title_parts', 'lapaz_document_title_parts' );
 function lapaz_document_title_separator(): string {
 	return '|';
 }
-add_filter( 'document_title_separator', 'lapaz_document_title_separator' );
 
 /**
  * Descripción de la página: su extracto o el texto por defecto de Astro según la página.
@@ -102,7 +99,7 @@ function lapaz_meta_description(): string {
 }
 
 /**
- * Meta description, Open Graph, Twitter e íconos (si no hay ícono del sitio en Ajustes).
+ * Meta description, Open Graph y Twitter (respaldo: con The SEO Framework los imprime el plugin).
  */
 function lapaz_print_meta(): void {
 	$titulo      = wp_get_document_title();
@@ -153,12 +150,17 @@ function lapaz_print_meta(): void {
 	foreach ( $meta as list( $atributo, $nombre, $valor ) ) {
 		printf( '<meta %s="%s" content="%s" />' . "\n", esc_attr( $atributo ), esc_attr( $nombre ), esc_attr( $valor ) );
 	}
+}
+
+/**
+ * Íconos del sitio (si no hay ícono en Ajustes): no los imprime ningún plugin de SEO.
+ */
+function lapaz_print_icons(): void {
 	if ( ! has_site_icon() ) {
 		printf( '<link rel="icon" href="%s" type="image/svg+xml" />' . "\n", esc_url( get_theme_file_uri( 'assets/img/seo/favicon.svg' ) ) );
 		printf( '<link rel="apple-touch-icon" href="%s" />' . "\n", esc_url( get_theme_file_uri( 'assets/img/seo/apple-touch-icon.png' ) ) );
 	}
 }
-add_action( 'wp_head', 'lapaz_print_meta', 2 );
 
 /**
  * /boletin/ y /historias/ declaran como canónica la URL de la edición o la historia que muestran
@@ -171,7 +173,6 @@ function lapaz_archivo_canonical(): void {
 		printf( '<link rel="canonical" href="%s" />' . "\n", esc_url( (string) get_permalink( $edicion ) ) );
 	}
 }
-add_action( 'wp_head', 'lapaz_archivo_canonical', 3 );
 
 /**
  * Sitemap con páginas, ediciones del boletín e historias: el resto de los CPT no tiene URL propia.
@@ -189,7 +190,6 @@ function lapaz_sitemap_post_types( array $tipos ): array {
 		)
 	);
 }
-add_filter( 'wp_sitemaps_post_types', 'lapaz_sitemap_post_types' );
 
 /**
  * Sin sitemaps de usuarios ni de taxonomías: el sitio no tiene esas páginas.
@@ -201,7 +201,6 @@ add_filter( 'wp_sitemaps_post_types', 'lapaz_sitemap_post_types' );
 function lapaz_sitemap_providers( mixed $provider, string $name ): mixed {
 	return in_array( $name, array( 'users', 'taxonomies' ), true ) ? false : $provider;
 }
-add_filter( 'wp_sitemaps_add_provider', 'lapaz_sitemap_providers', 10, 2 );
 
 /**
  * Las imágenes JPEG que se suben generan sus tamaños en WebP (más livianos, mismo aspecto).
@@ -241,4 +240,20 @@ function lapaz_noindex_fuera_de_produccion( array $robots ): array {
 
 	return $robots;
 }
-add_filter( 'wp_robots', 'lapaz_noindex_fuera_de_produccion' );
+
+/*
+ * Respaldo: el SEO propio del tema solo corre sin The SEO Framework (inc/seo-tsf.php). Los plugins
+ * cargan antes que el tema, así que la constante ya existe aquí si el plugin está activo.
+ * Los íconos, el WebP y los emojis no los cubre el plugin: van siempre.
+ */
+if ( ! defined( 'THE_SEO_FRAMEWORK_PRESENT' ) ) {
+	add_action( 'init', 'lapaz_page_excerpt' );
+	add_filter( 'document_title_parts', 'lapaz_document_title_parts' );
+	add_filter( 'document_title_separator', 'lapaz_document_title_separator' );
+	add_action( 'wp_head', 'lapaz_print_meta', 2 );
+	add_action( 'wp_head', 'lapaz_archivo_canonical', 3 );
+	add_filter( 'wp_sitemaps_post_types', 'lapaz_sitemap_post_types' );
+	add_filter( 'wp_sitemaps_add_provider', 'lapaz_sitemap_providers', 10, 2 );
+	add_filter( 'wp_robots', 'lapaz_noindex_fuera_de_produccion' );
+}
+add_action( 'wp_head', 'lapaz_print_icons', 2 );

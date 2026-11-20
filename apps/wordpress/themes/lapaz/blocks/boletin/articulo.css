@@ -1,6 +1,6 @@
 /*
  * Bloque lapaz/boletin: molde artículo (texto a un lado, fotos y ficha al otro).
- * Cuerpo editorial (.cuerpo), titular, ficha y rótulos: assets/css/editorial.css.
+ * Titular, ficha y rótulos: assets/css/editorial.css; cuerpo (.cuerpo): assets/css/lectura.css.
  */
 .wp-block-lapaz-boletin .apertura {
 	margin: 0 0 var(--space-8);
@@ -21,7 +21,7 @@
 	align-items: start;
 }
 
-/* Rótulo azul; solo «Verde» cambia (6,55:1 sobre blanco): «Naranja» y «Azul» se pintan azul por la regla de pocos colores. */
+/* Rótulo azul por defecto; solo «Verde» cambia (6,55:1 sobre blanco), por la regla de pocos colores. */
 .wp-block-lapaz-boletin .rotulo-seccion {
 	color: var(--color-nav-text);
 }

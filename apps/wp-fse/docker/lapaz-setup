@@ -1,14 +1,41 @@
 #!/bin/bash
+# El PHP de wp eval va entre comillas simples a propósito: sus $ no son del shell.
+# shellcheck disable=SC2016
 set -euo pipefail
 
-# Uso: lapaz-setup [--seed]   (--seed carga además el contenido inicial de /opt/seed)
+# Uso: lapaz-setup [--seed [--forzar-seed]]   (--seed carga además el contenido inicial de /opt/seed)
 cargar_seed=false
-[ "${1:-}" = "--seed" ] && cargar_seed=true
+forzar_seed=false
+for arg in "$@"; do
+    case "$arg" in
+        --seed) cargar_seed=true ;;
+        --forzar-seed) forzar_seed=true ;;
+        *)
+            printf 'ERROR: opción desconocida: %s\nUso: lapaz-setup [--seed [--forzar-seed]]\n' "$arg" >&2
+            exit 2
+            ;;
+    esac
+done
 
 : "${WORDPRESS_URL:?Define WORDPRESS_URL}"
 wp=(wp --path=/var/www/html)
 
-if ! "${wp[@]}" core is-installed; then
+# Guarda: --seed sobre un sitio ya instalado en producción pisaría contenido editado a mano.
+# WordPress y compose.yaml toman «production» cuando la variable no está definida; aquí igual.
+if "${wp[@]}" core is-installed 2>/dev/null; then ya_instalado=true; else ya_instalado=false; fi
+if [ "$cargar_seed" = true ] && [ "$forzar_seed" = false ] && [ "$ya_instalado" = true ] \
+    && [ "${WP_ENVIRONMENT_TYPE:-production}" = production ]; then
+    cat >&2 <<'MSG'
+ERROR: --seed se rechaza: el sitio ya está instalado y WP_ENVIRONMENT_TYPE es production.
+El seed pisa retratos, videos, ferias, subcuentas y audios cuyo título coincida con contenido.json.
+Alternativa (una sola sección: productores, boletines o historias):
+SEED_SOLO=productores wp --path=/var/www/html eval-file /opt/seed/seed.php
+Si de verdad quieres cargar todo el seed: lapaz-setup --seed --forzar-seed
+MSG
+    exit 1
+fi
+
+if [ "$ya_instalado" = false ]; then
     : "${WP_ADMIN_EMAIL:?Define WP_ADMIN_EMAIL}"
     admin_password="$(openssl rand -base64 18)"
     # La contraseña pasa por stdin para que no aparezca en los argumentos del proceso.
@@ -27,7 +54,33 @@ if ! "${wp[@]}" language core install es_CO --activate; then
     "${wp[@]}" language core install es_ES --activate
 fi
 "${wp[@]}" theme activate lapaz
-"${wp[@]}" plugin activate secure-custom-fields
+"${wp[@]}" plugin activate secure-custom-fields   # sin SCF no hay CPT: si falla, se aborta
+
+# SEO (The SEO Framework): si no se activa, el sitio sigue con el SEO de respaldo del tema (inc/seo.php).
+if "${wp[@]}" plugin activate autodescription; then seo_tsf=true; else
+    seo_tsf=false
+    echo "Aviso: no se pudo activar autodescription; el sitio usa el SEO de respaldo del tema." >&2
+fi
+# Ajustes iniciales y migración, una sola vez para no pisar lo que un administrador cambie después.
+# El noindex fuera de producción lo pone el tema, no el plugin.
+if [ "$seo_tsf" = true ] && [ -z "$("${wp[@]}" option get lapaz_seo_configurado 2>/dev/null || true)" ]; then
+    # update_option( array ) fusiona con lo guardado o con los valores por defecto (plugin.class.php de TSF 5.2.1).
+    "${wp[@]}" eval '
+        \The_SEO_Framework\Data\Plugin::update_option( array(
+            "title_separator"        => "pipe",
+            "homepage_title_tagline" => "Fondo Colombia en Paz",
+            "ld_json_searchbox"      => 0,
+            "knowledge_name"         => "Fondo Colombia en Paz",
+        ) );
+        // Extracto de las páginas -> descripción del plugin, sin pisar una que ya exista.
+        foreach ( get_posts( array( "post_type" => "page", "post_status" => "any", "numberposts" => -1 ) ) as $p ) {
+            if ( "" !== $p->post_excerpt && "" === (string) get_post_meta( $p->ID, "_genesis_description", true ) ) {
+                update_post_meta( $p->ID, "_genesis_description", $p->post_excerpt );
+            }
+        }
+    '
+    "${wp[@]}" option update lapaz_seo_configurado 1
+fi
 
 # Contenido de ejemplo de una instalación nueva: no es parte del sitio y entraría al sitemap.
 # Los nombres cambian con el idioma del instalador: en español son hola-mundo y pagina-ejemplo.
@@ -142,8 +195,8 @@ if [ "${WP_CACHE:-}" = true ]; then
         // /productores/ con cualquier parámetro (?buscar=, ?ver=, ?x=…) no se guarda en caché: cualquiera
         // podría llenar el disco con URLs inventadas. /productores/ limpia sí. El plugin evalúa cada
         // expresión con preg_match("~expr~") contra la URI pedida, con la query incluida. Los dos
-        // primeros son los de fábrica.
-        wp_cache_setting( "cache_rejected_uri", array( "wp-.*\\.php", "index\\.php", "^/productores/.*\\?" ) );
+        // primeros son los de fábrica. /sitemap* y /wp-sitemap* (sitemap.xml del plugin) tampoco se guarda: debe estar al día.
+        wp_cache_setting( "cache_rejected_uri", array( "wp-.*\\.php", "index\\.php", "^/productores/.*\\?", "^/(wp-)?sitemap" ) );
         echo "Caché de página: activa\n";
     '
 elif "${wp[@]}" plugin is-active wp-super-cache 2>/dev/null; then
@@ -155,6 +208,49 @@ if [ "$cargar_seed" = true ]; then
     for seccion in retratos videos ferias audio_relatos subcuentas productores boletines historias; do
         SEED_SOLO="$seccion" "${wp[@]}" eval-file /opt/seed/seed.php
     done
+fi
+
+# Plantillas guardadas en la base: tapan en silencio los archivos del tema. Solo se avisa y solo
+# cuentan las publicadas del tema lapaz; un fallo aquí no aborta el script (falta vaciar la caché).
+if plantillas="$("${wp[@]}" eval '
+    foreach ( get_posts( array(
+        "post_type"   => array( "wp_template", "wp_template_part" ),
+        "post_status" => "publish",
+        "numberposts" => -1,
+        "tax_query"   => array( array( "taxonomy" => "wp_theme", "field" => "name", "terms" => "lapaz" ) ),
+    ) ) as $p ) {
+        echo $p->post_type . "," . $p->post_name . "\n";
+    }' 2>/dev/null)"; then
+    if [ -n "$plantillas" ]; then
+        echo "Aviso: hay plantillas personalizadas en la base; tapan los archivos del tema (tipo,nombre):" >&2
+        echo "$plantillas" >&2
+        echo "Revísalas en Editor del sitio → Plantillas → Gestionar → restablecer (Clear customizations)." >&2
+    fi
+else
+    echo "Aviso: no se pudo comprobar si hay plantillas personalizadas en la base." >&2
+fi
+
+# El sitemap del plugin se guarda en transitorios: se vacía al final, con páginas y seed ya creados.
+if [ "$seo_tsf" = true ]; then
+    "${wp[@]}" eval 'if ( class_exists( "\\The_SEO_Framework\\Sitemap\\Cache" ) ) { \The_SEO_Framework\Sitemap\Cache::clear_sitemap_caches(); }' \
+        || echo "Aviso: no se pudo vaciar la caché del sitemap." >&2
+fi
+
+# Tras un despliegue el volumen conserva las páginas guardadas de la versión anterior.
+if [ "${WP_CACHE:-}" = true ]; then
+    "${wp[@]}" eval '
+        if ( ! function_exists( "wp_cache_clear_cache" ) ) {
+            fwrite( STDERR, "Aviso: wp_cache_clear_cache() no está disponible; caché de página no vaciada.\n" );
+            return;
+        }
+        $dir = WP_CONTENT_DIR . "/cache";
+        if ( is_dir( $dir ) && ! is_writable( $dir ) ) {
+            fwrite( STDERR, "Aviso: $dir no es escribible por www-data; la caché de página no se vació.\n" );
+            return;
+        }
+        wp_cache_clear_cache();
+        echo "Caché de página: vaciada\n";
+    '
 fi
 
 printf '\nURL: %s\nTema activo: %s\nID del menú: %s\n' \

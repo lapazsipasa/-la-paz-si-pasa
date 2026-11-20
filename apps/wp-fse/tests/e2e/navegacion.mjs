@@ -327,13 +327,10 @@ async function guia() {
 	tests.check( '/guia-de-estilos/ responde 200 en local', r.status === 200, `HTTP ${ r.status }` );
 	const robots = html.match( /<meta name=['"]robots['"] content=['"]([^'"]*)/ )?.[ 1 ] ?? '';
 	tests.check( '/guia-de-estilos/ es noindex', /noindex/.test( robots ), robots );
-	const idx = await ( await fetch( u( '/wp-sitemap.xml' ) ) ).text();
-	const locs = [ ...idx.matchAll( /<loc>([^<]+)<\/loc>/g ) ].map( ( m ) => m[ 1 ].replaceAll( '&amp;', '&' ) );
-	let todo = idx;
-	for ( const l of locs ) todo += await ( await fetch( l ) ).text();
-	const urls = ( todo.match( /<loc>/g ) ?? [] ).length - locs.length;
-	tests.check( 'El sitemap lista al menos una URL de contenido', locs.length > 0 && urls > 0, String( urls ) );
-	tests.check( '/guia-de-estilos/ no está en el sitemap', ! /guia-de-estilos/.test( todo ) );
+	const xml = await ( await fetch( u( '/sitemap.xml' ) ) ).text();
+	const urls = ( xml.match( /<loc>/g ) ?? [] ).length;
+	tests.check( 'El sitemap lista al menos una URL de contenido', urls > 0, String( urls ) );
+	tests.check( '/guia-de-estilos/ no está en el sitemap', ! /guia-de-estilos/.test( xml ) );
 }
 
 await conLimpieza( tests, async () => {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Parte de lapaz/historia: crónica y columna lateral (fotos y ficha del molde Artículo).
+ * Parte de lapaz/historia: crónica y columna lateral (fotos y ficha).
  *
  * @package lapaz
  */

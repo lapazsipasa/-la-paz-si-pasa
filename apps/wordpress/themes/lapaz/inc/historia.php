@@ -201,7 +201,7 @@ function lapaz_historia_galeria( int $post_id ): array {
 }
 
 /**
- * Crónica (grupo `cronica`, molde Artículo) normalizada para pintarla.
+ * Crónica (grupo `cronica`) normalizada para pintarla.
  *
  * @param int $post_id Historia.
  * @return array{bajada: string, entradilla: string, cuerpo: string, fuente: string, fotos: list<array{id: int, credito: string}>, ficha: list<array{0: string, 1: string}>}
