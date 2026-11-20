@@ -1,18 +1,13 @@
-/* Bloque lapaz/historia: página de una historia PaisSana. */
+/*
+ * Bloque lapaz/historia: página de una historia PaisSana.
+ * Contenedor, cabeceras, rótulos, etiqueta, ficha y crédito: assets/css/editorial.css.
+ */
 .wp-block-lapaz-historia {
-	--hi-naranja: #eb7b00;
-	--hi-papel: color-mix(in srgb, var(--color-nav-bg-active) 35%, var(--color-surface));
-
 	display: grid;
 	gap: var(--space-12);
 	padding-block: var(--space-6) var(--space-16);
 	font-family: var(--font-komet);
 	color: var(--color-nav-text);
-}
-
-.wp-block-lapaz-historia .wrap {
-	width: 100%;
-	min-width: 0;
 }
 
 .wp-block-lapaz-historia :is(.volver-top, .seccion-ficha, .seccion-video, .seccion-cronica, .seccion-galeria) {
@@ -22,11 +17,6 @@
 .wp-block-lapaz-historia .volver-top a {
 	display: inline-block;
 	padding-block: var(--space-2);
-	font-family: var(--font-monique-regular);
-	font-weight: 400;
-	font-size: 0.875rem;
-	letter-spacing: 0.5px;
-	text-transform: uppercase;
 	text-decoration: none;
 	color: var(--color-nav-text);
 }
@@ -34,11 +24,6 @@
 .wp-block-lapaz-historia .volver-top a:hover {
 	text-decoration: underline;
 	text-underline-offset: 4px;
-}
-
-.wp-block-lapaz-historia :is(a, button):focus-visible {
-	outline: 2px solid var(--color-nav-text);
-	outline-offset: 3px;
 }
 
 /* Portada: foto con el título superpuesto */
@@ -73,26 +58,9 @@
 	gap: var(--space-3);
 }
 
-.wp-block-lapaz-historia .et {
-	justify-self: start;
-	padding: var(--space-1) var(--space-3);
-	background: var(--hi-naranja);
-	border-radius: var(--radius-control);
-	font-family: var(--font-monique-regular);
-	font-weight: 400;
-	font-size: 0.875rem;
-	letter-spacing: 0.5px;
-	text-transform: uppercase;
-	color: var(--wp--preset--color--text);
-}
-
 .wp-block-lapaz-historia .sobre h1 {
-	margin: 0;
 	max-width: 22ch;
-	font-family: var(--font-monique-regular);
-	font-weight: 400;
-	font-size: clamp(1.75rem, 4.5vw, 3.5rem);
-	line-height: 1.1;
+	font-size: clamp(2rem, 5vw, 4rem);
 	color: var(--color-surface);
 }
 
@@ -101,45 +69,15 @@
 	max-width: 48rem;
 	font-family: var(--font-komet);
 	font-weight: var(--font-weight-komet-regular);
-	font-size: clamp(1rem, 2vw, 1.125rem);
+	font-size: var(--font-size-cuerpo);
 	line-height: 1.5;
 	color: var(--color-surface);
 }
 
-/* Cabeceras de sección */
-.wp-block-lapaz-historia .sec-head {
-	display: grid;
-	gap: var(--space-2);
-	margin-bottom: var(--space-8);
-}
-
-.wp-block-lapaz-historia .sec-title {
-	margin: 0;
-	font-family: var(--font-monique-regular);
-	font-weight: 400;
-	font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-	line-height: 1.15;
-	color: var(--color-nav-text);
-}
-
-.wp-block-lapaz-historia .sec-kicker {
-	margin: 0;
-	font-family: var(--font-komet);
-	font-weight: var(--font-weight-komet-regular);
-	font-size: clamp(1rem, 2vw, 1.25rem);
-	line-height: 1.4;
-	color: var(--color-nav-text);
-}
-
 /* Ficha técnica */
 .wp-block-lapaz-historia .ficha-tec {
-	display: grid;
 	grid-template-columns: 1fr;
 	gap: var(--space-4);
-	margin: 0;
-	padding: var(--space-6) var(--space-4);
-	background: var(--color-nav-bg-active);
-	border-radius: var(--radius-card);
 }
 
 .wp-block-lapaz-historia .ficha-tec > div {
@@ -147,15 +85,6 @@
 	align-content: start;
 	gap: var(--space-1);
 	min-width: 0;
-}
-
-.wp-block-lapaz-historia .ficha-tec dt {
-	font-family: var(--font-monique-regular);
-	font-weight: 400;
-	font-size: 0.875rem;
-	letter-spacing: 0.5px;
-	text-transform: uppercase;
-	color: var(--color-loquehacemos-bg);
 }
 
 .wp-block-lapaz-historia .ficha-tec dd {
@@ -202,11 +131,6 @@
 	padding: 0;
 	background: none;
 	border: 0;
-	font-family: var(--font-monique-regular);
-	font-weight: 400;
-	font-size: 0.875rem;
-	letter-spacing: 0.5px;
-	text-transform: uppercase;
 	text-decoration: none;
 	color: var(--color-surface);
 	cursor: pointer;
@@ -218,9 +142,10 @@
 	width: 72px;
 	height: 72px;
 	padding-left: 4px;
-	background: var(--color-loquehacemos-bg);
+	background: var(--color-nav-bg-active);
 	border-radius: 50%;
-	box-shadow: 0 4px 15px rgb(0 0 0 / 30%);
+	box-shadow: var(--shadow-strong);
+	color: var(--color-nav-text);
 	font-size: 1.5rem;
 	transition: transform 0.2s ease;
 }
@@ -288,17 +213,9 @@
 .wp-block-lapaz-historia .galeria figcaption {
 	font-family: var(--font-komet);
 	font-weight: var(--font-weight-komet-light);
-	font-size: 0.875rem;
+	font-size: var(--font-size-rotulo);
 	line-height: 1.4;
 	color: var(--color-nav-text);
-}
-
-.wp-block-lapaz-historia .credito {
-	display: block;
-	margin-top: var(--space-1);
-	font-weight: var(--font-weight-komet-bold);
-	font-size: 0.8125rem;
-	color: var(--color-text-muted);
 }
 
 .wp-block-lapaz-historia .lightbox {
@@ -323,7 +240,7 @@
 	max-width: 48rem;
 	font-family: var(--font-komet);
 	font-weight: var(--font-weight-komet-regular);
-	font-size: 0.9375rem;
+	font-size: var(--font-size-nota);
 	line-height: 1.4;
 	text-align: center;
 	color: var(--color-surface);

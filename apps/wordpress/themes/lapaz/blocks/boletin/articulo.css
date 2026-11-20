@@ -1,4 +1,7 @@
-/* Bloque lapaz/boletin: molde artículo (texto a un lado, fotos y ficha al otro). */
+/*
+ * Bloque lapaz/boletin: molde artículo (texto a un lado, fotos y ficha al otro).
+ * Cuerpo editorial (.cuerpo), titular, ficha y rótulos: assets/css/editorial.css.
+ */
 .wp-block-lapaz-boletin .apertura {
 	margin: 0 0 var(--space-8);
 }
@@ -18,79 +21,19 @@
 	align-items: start;
 }
 
-.wp-block-lapaz-boletin .cuerpo {
-	min-width: 0;
-	max-width: 46rem;
-}
-
-.wp-block-lapaz-boletin .cuerpo > * {
-	margin-block: 0;
-}
-
-.wp-block-lapaz-boletin .cuerpo > * + * {
-	margin-top: var(--space-4);
-}
-
+/* Rótulo azul; el verde es una variante que elige el editor (6,55:1 sobre blanco). */
 .wp-block-lapaz-boletin .rotulo-seccion {
-	font-family: var(--font-monique-regular);
-	font-weight: 400;
-	font-size: 0.875rem;
-	letter-spacing: 0.5px;
-	text-transform: uppercase;
-	color: #9a4f00;
+	color: var(--color-nav-text);
 }
 
 .wp-block-lapaz-boletin .rotulo-seccion.verde {
-	color: var(--bo-verde);
-}
-
-.wp-block-lapaz-boletin .rotulo-seccion.azul {
-	color: var(--bo-azul);
+	color: var(--color-verde-texto);
 }
 
 .wp-block-lapaz-boletin .titulo-art {
-	margin: var(--space-2) 0 0;
-	font-family: var(--font-monique-regular);
-	font-weight: 400;
-	font-size: clamp(1.5rem, 3vw, 2.25rem);
-	line-height: 1.15;
-	color: var(--bo-azul);
-}
-
-.wp-block-lapaz-boletin .cuerpo p {
-	font-weight: var(--font-weight-komet-light);
-	font-size: clamp(1rem, 2vw, 1.125rem);
-	line-height: 1.7;
-	letter-spacing: -0.02em;
-}
-
-.wp-block-lapaz-boletin .cuerpo strong {
-	font-weight: var(--font-weight-komet-heavy);
-}
-
-.wp-block-lapaz-boletin .cuerpo .bajada {
-	font-weight: var(--font-weight-komet-bold);
-	font-size: clamp(1.125rem, 2.2vw, 1.375rem);
-	line-height: 1.5;
-}
-
-.wp-block-lapaz-boletin .cuerpo .entradilla {
-	font-weight: var(--font-weight-komet-regular);
-	font-style: italic;
-}
-
-.wp-block-lapaz-boletin .cuerpo h3 {
-	margin: var(--space-8) 0 0;
-	font-family: var(--font-monique-regular);
-	font-weight: 400;
-	font-size: clamp(1.25rem, 2.5vw, 1.75rem);
-	line-height: 1.15;
-	color: var(--bo-azul);
-}
-
-.wp-block-lapaz-boletin .cuerpo a {
-	color: var(--bo-azul);
-	text-underline-offset: 3px;
+	margin-top: var(--space-2);
+	font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+	color: var(--color-nav-text);
 }
 
 /* Columna de medios */
@@ -119,33 +62,19 @@
 	height: clamp(11rem, 40vw, 17rem);
 }
 
-/* Ficha de datos */
-.wp-block-lapaz-boletin .ficha {
-	display: grid;
-	gap: var(--space-3);
-	padding: var(--space-6) var(--space-4);
-	background: var(--bo-claro);
-	border-radius: var(--radius-card);
-}
-
+/* Ficha de datos (caja y título en editorial.css) */
 .wp-block-lapaz-boletin .ficha.clara {
-	background: var(--wp--preset--color--surface);
-	border: 1px solid var(--bo-linea);
+	background: var(--color-surface);
+	border: 1px solid var(--border-subtle);
 }
 
-.wp-block-lapaz-boletin .ficha h4 {
-	margin: 0;
-	font-family: var(--font-monique-regular);
-	font-weight: 400;
-	font-size: 1rem;
-	letter-spacing: 0.5px;
-	text-transform: uppercase;
-	color: var(--bo-verde);
+.wp-block-lapaz-boletin .ficha h3 {
+	font-size: 1.125rem;
 }
 
 .wp-block-lapaz-boletin .ficha p {
 	margin: 0;
-	font-size: 0.9375rem;
+	font-size: var(--font-size-nota);
 	line-height: 1.5;
 }
 
@@ -158,7 +87,7 @@
 }
 
 .wp-block-lapaz-boletin .ficha li {
-	font-size: 0.9375rem;
+	font-size: var(--font-size-nota);
 	line-height: 1.4;
 }
 
@@ -166,30 +95,6 @@
 	margin-right: var(--space-1);
 	font-weight: var(--font-weight-komet-heavy);
 	font-variant-numeric: tabular-nums;
-}
-
-.wp-block-lapaz-boletin .cuerpo blockquote {
-	margin: var(--space-8) 0;
-	padding: var(--space-4) var(--space-6);
-	background: var(--wp--preset--color--surface);
-	border-left: 4px solid var(--bo-naranja);
-	border-radius: var(--radius-control);
-}
-
-.wp-block-lapaz-boletin .cuerpo blockquote p + p {
-	margin-top: var(--space-3);
-	font-weight: var(--font-weight-komet-bold);
-	font-size: 0.9375rem;
-	letter-spacing: 0;
-	color: var(--bo-verde);
-}
-
-.wp-block-lapaz-boletin .cuerpo blockquote p:first-child {
-	font-family: var(--font-monique-regular);
-	font-weight: 400;
-	font-size: clamp(1.25rem, 2.5vw, 1.625rem);
-	line-height: 1.25;
-	letter-spacing: 0;
 }
 
 @media (min-width: 850px) {

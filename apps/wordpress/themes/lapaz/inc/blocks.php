@@ -13,6 +13,17 @@ declare( strict_types = 1 );
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Hoja compartida de los bloques editoriales (boletín, catálogo, historia). Cada block.json
+ * la nombra en "style", así WordPress solo la carga donde hay uno de esos bloques. Se
+ * registra antes que los bloques; con 'path' puede ir inline.
+ */
+function lapaz_register_editorial_style(): void {
+	wp_register_style( 'lapaz-editorial', get_theme_file_uri( 'assets/css/editorial.css' ), array(), lapaz_version() );
+	wp_style_add_data( 'lapaz-editorial', 'path', get_theme_file_path( 'assets/css/editorial.css' ) );
+}
+add_action( 'init', 'lapaz_register_editorial_style', 9 );
+
+/**
  * Registra cada carpeta de blocks/ que tenga block.json.
  * Con supports.autoRegister (WP 7.0+) aparecen en el editor sin JS.
  */

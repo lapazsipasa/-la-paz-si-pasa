@@ -15,6 +15,6 @@
 		"reusable": false
 	},
 	"render": "file:./render.php",
-	"style": [ "file:./style.css", "file:./cronica.css" ],
+	"style": [ "lapaz-editorial", "file:./style.css", "file:./cronica.css" ],
 	"viewScript": "file:./view.js"
 }

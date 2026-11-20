@@ -1,19 +1,16 @@
 /*
  * Bloque lapaz/catalogo-portada: hero del catálogo PaisSana. Panel azul del sitio
  * (como el banner verde de "Lo que hacemos") con logo, título, texto y tres cifras.
+ * Titular en Komet: assets/css/editorial.css.
  */
 .wp-block-lapaz-catalogo-portada {
-	--cp-azul: var(--wp--preset--color--nav-text);
-	--cp-claro: var(--wp--preset--color--nav-bg-active);
-
 	width: 100%;
-	margin-block: var(--space-8);
-	color: #fff;
+	color: var(--color-surface);
 	font-family: var(--font-komet);
 }
 
 .wp-block-lapaz-catalogo-portada .hero {
-	background: var(--cp-azul);
+	background: var(--color-nav-text);
 	overflow: hidden;
 }
 
@@ -32,20 +29,16 @@
 }
 
 .wp-block-lapaz-catalogo-portada .hero h1 {
-	margin: 0 0 var(--space-4);
-	color: #fff;
-	font-family: var(--font-monique-regular);
+	margin-bottom: var(--space-4);
+	color: var(--color-surface);
 	font-size: clamp(2.2rem, 4vw, 3.5rem);
-	font-weight: 400;
-	line-height: 1.05;
-	text-transform: uppercase;
 }
 
 .wp-block-lapaz-catalogo-portada .lead {
 	max-width: 52ch;
 	margin: 0 0 var(--space-6);
-	color: #fff;
-	font-weight: 300;
+	color: var(--color-surface);
+	font-weight: var(--font-weight-komet-light);
 	line-height: 1.6;
 }
 
@@ -58,14 +51,14 @@
 
 .wp-block-lapaz-catalogo-portada .tile {
 	padding: var(--space-4);
-	background: var(--cp-claro);
-	color: var(--cp-azul);
+	background: var(--color-nav-bg-active);
+	color: var(--color-nav-text);
 }
 
 .wp-block-lapaz-catalogo-portada .tile .n {
 	font-family: var(--font-monique-regular);
 	font-size: clamp(1.75rem, 5vw, 2.5rem);
-	font-weight: 400;
+	font-weight: var(--font-weight-komet-regular);
 	line-height: 1;
 	font-variant-numeric: tabular-nums;
 }
@@ -73,7 +66,7 @@
 .wp-block-lapaz-catalogo-portada .tile .l {
 	margin-top: var(--space-2);
 	font-size: 0.8125rem;
-	font-weight: 400;
+	font-weight: var(--font-weight-komet-regular);
 	line-height: 1.3;
 }
 

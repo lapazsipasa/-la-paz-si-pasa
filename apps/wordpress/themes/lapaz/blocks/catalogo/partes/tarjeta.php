@@ -19,7 +19,7 @@ if ( ! isset( $lapaz_tarjeta ) ) {
  */
 ?>
 <article class="card">
-	<h4><?php echo esc_html( $lapaz_tarjeta['nombre'] ); ?></h4>
+	<h3><?php echo esc_html( $lapaz_tarjeta['nombre'] ); ?></h3>
 	<div class="ubic"><?php echo esc_html( $lapaz_tarjeta['ubicacion'] ); ?></div>
 	<?php if ( array() !== $lapaz_tarjeta['productos'] ) : ?>
 		<ul>

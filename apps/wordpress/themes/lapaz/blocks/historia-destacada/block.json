@@ -13,6 +13,6 @@
 		"multiple": false,
 		"reusable": false
 	},
-	"style": "file:./style.css",
+	"style": [ "lapaz-editorial", "file:./style.css" ],
 	"render": "file:./render.php"
 }

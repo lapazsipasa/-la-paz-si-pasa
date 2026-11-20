@@ -1,36 +1,9 @@
-/* Bloque lapaz/historia-destacada: tarjeta «PaisSano destacado». */
+/*
+ * Bloque lapaz/historia-destacada: tarjeta «PaisSano destacado».
+ * Cabecera de sección, botón y etiqueta naranja: assets/css/editorial.css.
+ */
 .wp-block-lapaz-historia-destacada {
-	--hd-naranja: #eb7b00;
-
 	font-family: var(--font-komet);
-	color: var(--color-nav-text);
-}
-
-.wp-block-lapaz-historia-destacada .wrap {
-	display: grid;
-	gap: var(--space-8);
-}
-
-.wp-block-lapaz-historia-destacada .sec-head {
-	display: grid;
-	gap: var(--space-2);
-}
-
-.wp-block-lapaz-historia-destacada .sec-title {
-	margin: 0;
-	font-family: var(--font-monique-regular);
-	font-weight: 400;
-	font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-	line-height: 1.15;
-	color: var(--color-nav-text);
-}
-
-.wp-block-lapaz-historia-destacada .sec-kicker {
-	margin: 0;
-	font-family: var(--font-komet);
-	font-weight: var(--font-weight-komet-regular);
-	font-size: clamp(1rem, 2vw, 1.25rem);
-	line-height: 1.4;
 	color: var(--color-nav-text);
 }
 
@@ -38,8 +11,9 @@
 	display: grid;
 	grid-template-columns: 1fr;
 	overflow: hidden;
-	background: var(--color-nav-bg-active);
+	background: var(--color-nav-text);
 	border-radius: var(--radius-card);
+	color: var(--color-surface);
 }
 
 .wp-block-lapaz-historia-destacada .dest-card img {
@@ -60,43 +34,25 @@
 	padding: var(--space-6) var(--space-4);
 }
 
-.wp-block-lapaz-historia-destacada .badge {
-	padding: var(--space-1) var(--space-3);
-	background: var(--hd-naranja);
-	border-radius: var(--radius-control);
-	font-family: var(--font-monique-regular);
-	font-weight: 400;
-	font-size: 0.875rem;
-	letter-spacing: 0.5px;
-	text-transform: uppercase;
-	color: var(--wp--preset--color--text);
-}
-
 .wp-block-lapaz-historia-destacada .dest-cont h3 {
-	margin: 0;
-	font-family: var(--font-monique-regular);
-	font-weight: 400;
 	font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-	line-height: 1.15;
-	color: var(--color-nav-text);
+	color: var(--color-surface);
 }
 
+/* Celeste sobre el azul: 5,97:1. */
 .wp-block-lapaz-historia-destacada .lugar {
-	font-family: var(--font-monique-regular);
-	font-weight: 400;
 	font-size: 1rem;
-	text-transform: uppercase;
-	color: var(--color-loquehacemos-bg);
+	color: var(--color-nav-bg-active);
 }
 
 .wp-block-lapaz-historia-destacada .dest-cont p {
 	margin: 0;
 	font-family: var(--font-komet);
 	font-weight: var(--font-weight-komet-light);
-	font-size: clamp(1rem, 2vw, 1.125rem);
+	font-size: var(--font-size-cuerpo);
 	line-height: 1.6;
 	letter-spacing: -0.02em;
-	color: var(--color-nav-text);
+	color: var(--color-surface);
 }
 
 .wp-block-lapaz-historia-destacada .mini {
@@ -114,46 +70,15 @@
 
 .wp-block-lapaz-historia-destacada .mini span {
 	font-family: var(--font-monique-regular);
-	font-weight: 400;
 	font-size: clamp(1.75rem, 3vw, 2.25rem);
 	line-height: 1;
-	color: var(--color-nav-text);
+	color: var(--color-nav-bg-active);
 }
 
 .wp-block-lapaz-historia-destacada .mini small {
-	font-family: var(--font-komet);
 	font-weight: var(--font-weight-komet-regular);
-	font-size: 0.875rem;
+	font-size: var(--font-size-rotulo);
 	line-height: 1.3;
-	color: var(--color-nav-text);
-}
-
-.wp-block-lapaz-historia-destacada .btn {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	gap: var(--space-2);
-	min-height: 48px;
-	padding: 0 var(--space-6);
-	background: var(--color-loquehacemos-bg);
-	color: var(--color-surface);
-	font-family: var(--font-monique-regular);
-	font-weight: 400;
-	font-size: 0.875rem;
-	letter-spacing: 0.5px;
-	text-align: center;
-	text-transform: uppercase;
-	text-decoration: none;
-	transition: opacity 0.2s;
-}
-
-.wp-block-lapaz-historia-destacada .btn:hover {
-	opacity: 0.9;
-}
-
-.wp-block-lapaz-historia-destacada .btn:focus-visible {
-	outline: 2px solid var(--color-nav-text);
-	outline-offset: 3px;
 }
 
 @media (min-width: 850px) {
@@ -168,12 +93,5 @@
 
 	.wp-block-lapaz-historia-destacada .dest-cont {
 		padding: var(--space-10) var(--space-8);
-	}
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-	.wp-block-lapaz-historia-destacada .btn {
-		transition: none;
 	}
 }

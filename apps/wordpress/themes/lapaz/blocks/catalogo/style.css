@@ -1,18 +1,13 @@
 /*
  * Bloque lapaz/catalogo: filtros, rejilla de productores y distribución.
  * Mismo lenguaje que el sitio: azul sobre blanco, rótulos Monique en mayúsculas,
- * botones cuadrados como .btn-project, panel azul claro como el de noticias.
+ * panel azul claro como el de noticias. Cabecera de sección y botones: assets/css/editorial.css.
  */
 .wp-block-lapaz-catalogo {
-	--cat-azul: var(--wp--preset--color--nav-text);
-	--cat-claro: var(--wp--preset--color--nav-bg-active);
-	--cat-verde: var(--wp--preset--color--loquehacemos-bg);
-	--cat-linea: color-mix(in srgb, var(--cat-azul) 28%, #fff);
-
 	width: 100%;
-	color: var(--cat-azul);
+	color: var(--color-nav-text);
 	font-family: var(--font-komet);
-	font-weight: 300;
+	font-weight: var(--font-weight-komet-light);
 }
 
 .wp-block-lapaz-catalogo section {
@@ -20,59 +15,10 @@
 	scroll-margin-top: var(--space-8);
 }
 
-.wp-block-lapaz-catalogo .sec-head {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: baseline;
-	gap: var(--space-2) var(--space-4);
-	margin-bottom: var(--space-6);
-	padding-bottom: var(--space-3);
-	border-bottom: 2px solid var(--cat-azul);
-}
-
-.wp-block-lapaz-catalogo .sec-title {
-	margin: 0;
-	color: var(--cat-azul);
-	font-family: var(--font-monique-regular);
-	font-size: clamp(1.5rem, 4vw, 2.2rem);
-	font-weight: 400;
-	text-transform: uppercase;
-}
-
-.wp-block-lapaz-catalogo .sec-kicker {
-	margin: 0 0 0 auto;
-	font-size: 0.9375rem;
-}
-
-/* Botones: aspecto de .btn-project */
-.wp-block-lapaz-catalogo .btn {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 48px;
-	padding: 0 var(--space-6);
-	border: 0;
-	background: var(--cat-azul);
-	color: #fff;
-	font-family: var(--font-monique-regular);
-	font-size: 0.875rem;
-	font-weight: 400;
-	letter-spacing: 0.5px;
-	text-decoration: none;
-	text-transform: uppercase;
-	cursor: pointer;
-	transition: opacity 0.2s;
-}
-
-.wp-block-lapaz-catalogo .btn:hover {
-	opacity: 0.9;
-}
-
 .wp-block-lapaz-catalogo .btn.mas {
 	display: flex;
 	width: fit-content;
 	margin: var(--space-8) auto 0;
-	background: var(--cat-verde);
 }
 
 /* Formulario */
@@ -90,12 +36,12 @@
 	gap: var(--space-2);
 	min-height: 48px;
 	padding: 0 var(--space-4);
-	border: 1px solid var(--cat-azul);
-	background: #fff;
+	border: 1px solid var(--color-nav-text);
+	background: var(--color-surface);
 }
 
 .wp-block-lapaz-catalogo .busca:focus-within {
-	outline: 3px solid var(--cat-azul);
+	outline: 3px solid var(--color-nav-text);
 	outline-offset: 2px;
 }
 
@@ -105,9 +51,9 @@
 	border: 0;
 	outline: 0;
 	background: transparent;
-	color: var(--cat-azul);
+	color: var(--color-nav-text);
 	font: inherit;
-	font-weight: 400;
+	font-weight: var(--font-weight-komet-regular);
 }
 
 .wp-block-lapaz-catalogo .busca input::placeholder {
@@ -118,17 +64,16 @@
 	flex: 1 1 200px;
 	min-height: 48px;
 	padding: 0 var(--space-4);
-	border: 1px solid var(--cat-azul);
+	border: 1px solid var(--color-nav-text);
 	border-radius: 0;
-	background: #fff;
-	color: var(--cat-azul);
+	background: var(--color-surface);
+	color: var(--color-nav-text);
 	font: inherit;
-	font-weight: 400;
+	font-weight: var(--font-weight-komet-regular);
 }
 
-.wp-block-lapaz-catalogo select:focus-visible,
-.wp-block-lapaz-catalogo .btn:focus-visible {
-	outline: 3px solid var(--cat-azul);
+.wp-block-lapaz-catalogo select:focus-visible {
+	outline: 3px solid var(--color-nav-text);
 	outline-offset: 2px;
 }
 
@@ -150,13 +95,13 @@
 	align-items: center;
 	min-height: 40px;
 	padding: 0 var(--space-4);
-	border: 1px solid var(--cat-azul);
-	border-radius: 999px;
-	background: #fff;
-	color: var(--cat-azul);
+	border: 1px solid var(--color-nav-text);
+	border-radius: var(--radius-pill);
+	background: var(--color-surface);
+	color: var(--color-nav-text);
 	font-family: var(--font-monique-regular);
 	font-size: 0.8125rem;
-	letter-spacing: 0.5px;
+	letter-spacing: var(--tracking-rotulo);
 	text-transform: uppercase;
 	cursor: pointer;
 	transition: background-color 0.2s, color 0.2s;
@@ -173,16 +118,16 @@
 }
 
 .wp-block-lapaz-catalogo .chip:hover {
-	background: var(--cat-claro);
+	background: var(--color-nav-bg-active);
 }
 
 .wp-block-lapaz-catalogo .chip:has(input:checked) {
-	background: var(--cat-azul);
-	color: #fff;
+	background: var(--color-nav-text);
+	color: var(--color-surface);
 }
 
 .wp-block-lapaz-catalogo .chip:has(input:focus-visible) {
-	outline: 3px solid var(--cat-azul);
+	outline: 3px solid var(--color-nav-text);
 	outline-offset: 2px;
 }
 
@@ -201,7 +146,7 @@
 }
 
 .wp-block-lapaz-catalogo .conteo b {
-	font-weight: 800;
+	font-weight: var(--font-weight-komet-heavy);
 	font-variant-numeric: tabular-nums;
 }
 
@@ -215,19 +160,15 @@
 	display: flex;
 	flex-direction: column;
 	padding: var(--space-4);
-	border: 1px solid var(--cat-linea);
-	border-top: 4px solid var(--cat-azul);
-	border-radius: var(--radius-control);
-	background: #fff;
+	border: 1px solid var(--border-subtle);
+	border-top: 4px solid var(--color-nav-text);
+	border-radius: var(--radius-card);
+	background: var(--color-surface);
 }
 
-.wp-block-lapaz-catalogo .card h4 {
-	margin: 0 0 var(--space-1);
-	color: var(--cat-azul);
-	font-family: var(--font-komet);
+.wp-block-lapaz-catalogo .card h3 {
+	margin-bottom: var(--space-1);
 	font-size: 1.0625rem;
-	font-weight: 800;
-	line-height: 1.25;
 	overflow-wrap: anywhere;
 }
 
@@ -235,7 +176,7 @@
 	margin-bottom: var(--space-3);
 	font-family: var(--font-monique-regular);
 	font-size: 0.75rem;
-	letter-spacing: 0.5px;
+	letter-spacing: var(--tracking-rotulo);
 	text-transform: uppercase;
 }
 
@@ -246,7 +187,7 @@
 }
 
 .wp-block-lapaz-catalogo .card li {
-	font-size: 0.9375rem;
+	font-size: var(--font-size-nota);
 }
 
 .wp-block-lapaz-catalogo .card .tags {
@@ -255,34 +196,35 @@
 	gap: var(--space-2);
 	margin-top: auto;
 	padding-top: var(--space-3);
-	border-top: 1px solid var(--cat-linea);
+	border-top: 1px solid var(--border-subtle);
 }
 
 .wp-block-lapaz-catalogo .tag {
 	padding: 2px var(--space-2);
-	background: var(--cat-claro);
+	background: var(--color-nav-bg-active);
 	font-family: var(--font-monique-regular);
 	font-size: 0.6875rem;
-	letter-spacing: 0.5px;
+	letter-spacing: var(--tracking-rotulo);
 	text-transform: uppercase;
 }
 
+/* Verde de texto: blanco sobre el verde de marca se queda en 4,47:1. */
 .wp-block-lapaz-catalogo .tag.et {
-	background: var(--cat-verde);
-	color: #fff;
+	background: var(--color-verde-texto);
+	color: var(--color-surface);
 }
 
 .wp-block-lapaz-catalogo .vacio {
 	padding: var(--space-12) var(--space-4);
-	border: 1px dashed var(--cat-azul);
+	border: 1px dashed var(--color-nav-text);
 	text-align: center;
-	font-weight: 400;
+	font-weight: var(--font-weight-komet-regular);
 }
 
 /* Distribución: panel azul claro como el de noticias */
 .wp-block-lapaz-catalogo .distribucion {
 	margin-top: var(--space-8);
-	background: var(--cat-claro);
+	background: var(--color-nav-bg-active);
 }
 
 .wp-block-lapaz-catalogo .distribucion .wrap {
@@ -299,13 +241,13 @@
 	margin: 0 0 var(--space-1);
 	font-family: var(--font-monique-regular);
 	font-size: 1.25rem;
-	font-weight: 400;
+	font-weight: var(--font-weight-komet-regular);
 	text-transform: uppercase;
 }
 
 .wp-block-lapaz-catalogo .nota {
 	margin: 0 0 var(--space-4);
-	font-size: 0.875rem;
+	font-size: var(--font-size-rotulo);
 }
 
 .wp-block-lapaz-catalogo .barras {
@@ -320,13 +262,13 @@
 	align-items: center;
 	gap: var(--space-3);
 	padding: var(--space-1) var(--space-2);
-	color: var(--cat-azul);
-	font-size: 0.875rem;
+	color: var(--color-nav-text);
+	font-size: var(--font-size-rotulo);
 	text-decoration: none;
 }
 
 .wp-block-lapaz-catalogo .barra:focus-visible {
-	outline: 3px solid var(--cat-azul);
+	outline: 3px solid var(--color-nav-text);
 	outline-offset: 2px;
 }
 
@@ -339,13 +281,13 @@
 .wp-block-lapaz-catalogo .barra .pista {
 	display: block;
 	height: 12px;
-	background: #fff;
+	background: var(--color-surface);
 }
 
 .wp-block-lapaz-catalogo .barra .fill {
 	display: block;
 	height: 100%;
-	background: var(--cat-azul);
+	background: var(--color-nav-text);
 	transition: background-color 0.2s;
 }
 
@@ -355,15 +297,15 @@
 }
 
 .wp-block-lapaz-catalogo .barra:hover {
-	background: #fff;
+	background: var(--color-surface);
 }
 
 .wp-block-lapaz-catalogo .barra.on {
-	font-weight: 800;
+	font-weight: var(--font-weight-komet-heavy);
 }
 
 .wp-block-lapaz-catalogo .barra.on .fill {
-	background: var(--cat-verde);
+	background: var(--color-verde-texto);
 }
 
 @media (min-width: 850px) {
@@ -386,7 +328,6 @@
 
 	.wp-block-lapaz-catalogo .resultados,
 	.wp-block-lapaz-catalogo .chip,
-	.wp-block-lapaz-catalogo .btn,
 	.wp-block-lapaz-catalogo .barra .fill {
 		transition: none;
 	}

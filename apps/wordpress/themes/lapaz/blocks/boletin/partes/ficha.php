@@ -20,7 +20,7 @@ $lapaz_f_texto = lapaz_boletin_str( $lapaz_seccion, 'ficha_texto' );
 $lapaz_f_datos = lapaz_boletin_filas( $lapaz_seccion, 'ficha_datos' );
 ?>
 <div class="ficha<?php echo ! empty( $lapaz_seccion['ficha_clara'] ) ? ' clara' : ''; ?>">
-	<h4><?php echo esc_html( $lapaz_f_titulo ); ?></h4>
+	<h3><?php echo esc_html( $lapaz_f_titulo ); ?></h3>
 	<?php if ( '' !== $lapaz_f_texto ) : ?>
 		<p><?php echo esc_html( $lapaz_f_texto ); ?></p>
 	<?php endif; ?>

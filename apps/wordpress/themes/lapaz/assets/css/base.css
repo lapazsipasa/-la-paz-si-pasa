@@ -19,9 +19,14 @@
 	--color-nav-border: var(--wp--preset--color--nav-border);
 	--color-nav-bg-active: var(--wp--preset--color--nav-bg-active);
 	--color-loquehacemos-bg: var(--wp--preset--color--loquehacemos-bg);
+	--color-verde-texto: var(--wp--preset--color--verde-texto);
+	--color-naranja: var(--wp--preset--color--naranja);
+	--color-azul-noche: var(--wp--preset--color--azul-noche);
+	--color-papel: var(--wp--preset--color--papel);
 	--color-actualidad-bg: var(--wp--preset--color--actualidad-bg);
 	--color-scrollbar-thumb: var(--wp--preset--color--scrollbar-thumb);
 	--border-subtle-light: rgba(255, 255, 255, 0.6);
+	--border-subtle: var(--wp--custom--border--subtle);
 
 	--font-komet: var(--wp--preset--font-family--komet);
 	--font-monique-regular: var(--wp--preset--font-family--monique);
@@ -30,6 +35,11 @@
 	--font-weight-komet-bold: var(--wp--custom--font-weight--bold);
 	--font-weight-komet-heavy: var(--wp--custom--font-weight--heavy);
 	--font-weight-komet-black: var(--wp--custom--font-weight--black);
+	--font-size-rotulo: var(--wp--preset--font-size--rotulo);
+	--font-size-nota: var(--wp--preset--font-size--nota);
+	--font-size-cuerpo: var(--wp--preset--font-size--cuerpo);
+	--font-size-seccion: var(--wp--preset--font-size--seccion);
+	--tracking-rotulo: var(--wp--custom--letter-spacing--rotulo);
 
 	--space-1: var(--wp--preset--spacing--1);
 	--space-2: var(--wp--preset--spacing--2);
@@ -44,7 +54,9 @@
 
 	--radius-card: var(--wp--custom--radius--card);
 	--radius-control: var(--wp--custom--radius--control);
+	--radius-pill: var(--wp--custom--radius--pill);
 	--shadow-soft: var(--wp--custom--shadow--soft);
+	--shadow-strong: var(--wp--custom--shadow--strong);
 
 	--content-width: var(--wp--style--global--content-size);
 	--narrow-width: 48rem;

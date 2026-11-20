@@ -30,7 +30,7 @@ $lapaz_hitos = lapaz_boletin_filas( $lapaz_seccion, 'hitos' );
 					<div class="cuando"><?php echo esc_html( $lapaz_cuando ); ?></div>
 				<?php endif; ?>
 				<?php if ( '' !== $lapaz_h_tit ) : ?>
-					<h4><?php echo esc_html( $lapaz_h_tit ); ?></h4>
+					<h3><?php echo esc_html( $lapaz_h_tit ); ?></h3>
 				<?php endif; ?>
 				<?php if ( '' !== $lapaz_h_txt ) : ?>
 					<p><?php echo esc_html( $lapaz_h_txt ); ?></p>

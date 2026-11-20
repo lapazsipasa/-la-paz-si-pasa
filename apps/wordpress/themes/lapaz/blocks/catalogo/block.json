@@ -15,6 +15,6 @@
 		"interactivity": true
 	},
 	"render": "file:./render.php",
-	"style": "file:./style.css",
+	"style": [ "lapaz-editorial", "file:./style.css" ],
 	"viewScriptModule": "file:./view.js"
 }

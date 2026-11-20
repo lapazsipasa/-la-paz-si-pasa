@@ -58,7 +58,7 @@
 }
 
 .wp-block-lapaz-paisana-hero .btn-orange {
-	background-color: #eb7b00; /* Color naranja basado en el diseño */
+	background-color: var(--color-naranja);
 }
 
 @media (min-width: 850px) {
