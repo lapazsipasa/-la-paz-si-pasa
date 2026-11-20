@@ -51,7 +51,8 @@ jobs:
           docker compose up -d --build --wait
           docker compose exec -T -u www-data cms lapaz-setup > /dev/null
           docker compose exec -T -u www-data cms wp eval "$(cat <<'PHP'
-          $files = glob(WP_CONTENT_DIR . "/scf-json-lapaz/*.json");
+          // Solo los grupos de campos: los tipos y taxonomías de esa carpeta los registra SCF al cargar el JSON.
+          $files = glob(WP_CONTENT_DIR . "/scf-json-lapaz/group_*.json");
           if (!$files) { WP_CLI::error("Faltan los grupos SCF propios"); }
           foreach ($files as $file) {
               $group = json_decode(file_get_contents($file), true);
@@ -65,6 +66,9 @@ jobs:
           docker compose exec -T -u www-data -e SEED_SOLO=videos cms wp eval-file /opt/seed/seed.php
           docker compose exec -T -u www-data -e SEED_SOLO=audio_relatos cms wp eval-file /opt/seed/seed.php
           docker compose exec -T -u www-data -e SEED_SOLO=ferias cms wp eval-file /opt/seed/seed.php
+          docker compose exec -T -u www-data -e SEED_SOLO=productores cms wp eval-file /opt/seed/seed.php
+          docker compose exec -T -u www-data -e SEED_SOLO=boletines cms wp eval-file /opt/seed/seed.php
+          docker compose exec -T -u www-data -e SEED_SOLO=historias cms wp eval-file /opt/seed/seed.php
       - name: Noticias de ejemplo (solo CI)
         run: |
           docker compose exec -T -u www-data cms wp eval "$(cat <<'PHP'
@@ -113,6 +117,13 @@ jobs:
           node tests/e2e/paisana-audios.mjs
           node tests/e2e/paisana-productores.mjs
           node tests/e2e/paisana-ferias.mjs
+      - name: Boletín, catálogo PaisSana e historia del mes
+        env:
+          CHROME_BIN: google-chrome
+        run: |
+          node tests/e2e/boletin.mjs
+          node tests/e2e/catalogo.mjs
+          node tests/e2e/historia.mjs
       - name: SEO y producción aislada
         env:
           CHROME_BIN: google-chrome
