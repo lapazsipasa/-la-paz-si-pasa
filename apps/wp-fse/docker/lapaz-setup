@@ -70,6 +70,13 @@ if [ -z "$page_id" ]; then
         --post_title="Proyectos destacados" --post_status=publish
 fi
 
+# Catálogo PaisSana: la plantilla page-paissana.html pinta la página con slug «paissana».
+paissana_id="$("${wp[@]}" post list --post_type=page --name=paissana --post_status=any --format=ids)"
+if [ -z "$paissana_id" ]; then
+    "${wp[@]}" post create --post_type=page --post_name=paissana \
+        --post_title="PaisSana" --post_status=publish
+fi
+
 nav_id="$("${wp[@]}" option get lapaz_nav_ref 2>/dev/null || true)"
 if [[ ! "$nav_id" =~ ^[1-9][0-9]*$ ]] || [ "$("${wp[@]}" post get "$nav_id" --field=post_type 2>/dev/null || true)" != wp_navigation ]; then
     nav_content='<!-- wp:navigation-link {"label":"Lo que hacemos","url":"/#lo-que-hacemos","kind":"custom"} /-->
@@ -78,6 +85,13 @@ if [[ ! "$nav_id" =~ ^[1-9][0-9]*$ ]] || [ "$("${wp[@]}" post get "$nav_id" --fi
     nav_id="$("${wp[@]}" post create --post_type=wp_navigation --post_title=Principal \
         --post_status=publish --post_content="$nav_content" --porcelain)"
     "${wp[@]}" option update lapaz_nav_ref "$nav_id"
+fi
+
+# El menú gana el enlace «Boletín» una sola vez; lo que el editor haya cambiado se conserva.
+nav_actual="$("${wp[@]}" post get "$nav_id" --field=post_content)"
+if ! grep -q '"url":"/boletin/"' <<<"$nav_actual"; then
+    "${wp[@]}" post update "$nav_id" --post_content="$nav_actual
+<!-- wp:navigation-link {\"label\":\"Boletín\",\"url\":\"/boletin/\",\"kind\":\"custom\"} /-->"
 fi
 
 if [ "${WP_ENVIRONMENT_TYPE:-production}" = local ]; then
@@ -103,6 +117,9 @@ if [ "${WP_CACHE:-}" = true ]; then
         // Los enlaces terminan en «/» (/%postname%/). Sin esto solo se servía la portada desde
         // caché: el plugin lo ajusta al guardar su panel, que aquí no se usa.
         wp_cache_setting( "wp_cache_slash_check", 1 );
+        // El catálogo no guarda en caché las búsquedas de texto libre (?buscar=): cualquiera
+        // podría llenar el disco con búsquedas inventadas. Los dos primeros son los de fábrica.
+        wp_cache_setting( "cache_rejected_uri", array( "wp-.*\\.php", "index\\.php", "[?&]buscar=" ) );
         echo "Caché de página: activa\n";
     '
 elif "${wp[@]}" plugin is-active wp-super-cache 2>/dev/null; then
@@ -111,7 +128,7 @@ fi
 
 if [ "$cargar_seed" = true ]; then
     # Por secciones: en el servidor una sola corrida larga puede cortarse por tiempo.
-    for seccion in retratos videos ferias audio_relatos subcuentas; do
+    for seccion in retratos videos ferias audio_relatos subcuentas productores boletines historias; do
         SEED_SOLO="$seccion" "${wp[@]}" eval-file /opt/seed/seed.php
     done
 fi

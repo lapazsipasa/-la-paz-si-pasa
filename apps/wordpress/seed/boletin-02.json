@@ -1,0 +1,403 @@
+{
+ "titulo": "Edición 02",
+ "numero": 2,
+ "periodo": "Octubre – Noviembre 2026",
+ "rotulo": "Boletín · Jefatura de Relacionamiento Estratégico y Comunicaciones",
+ "indice_intro": "Ocho secciones con los resultados, las historias y los aliados que marcaron los meses de octubre y noviembre. Entre a cualquiera desde aquí.",
+ "creditos_foto": "Fernando López Ríos\nCamila Galindo Muñoz",
+ "portada_titular": "“Los PDET son un propósito nacional”",
+ "portada_sumario": "Los 170 municipios PDET reúnen más de 11.000 veredas en 19 departamentos y cerca de siete millones de personas: más de la cuarta parte de la población rural del país.",
+ "portada_firma_nombre": "Entrevista a Emilio Archila",
+ "portada_firma_cargo": "Exconsejero presidencial para la estabilización y la consolidación",
+ "portada_foto": {
+  "archivo": "boletin/portada-archila.jpg",
+  "alt": "Emilio Archila, exconsejero presidencial para la estabilización y la consolidación"
+ },
+ "portada_credito": "Fotografía: Fernando López Ríos",
+ "secciones": [
+  {
+   "nombre": "En portada",
+   "antetitulo": "Entrevista · Programas de Desarrollo con Enfoque Territorial",
+   "indice_titulo": "“Los PDET son un propósito nacional”",
+   "indice_imagen": {
+    "archivo": "boletin/archila-retrato.jpg",
+    "alt": ""
+   },
+   "indice_resumen": "Entrevista a Emilio Archila sobre cómo los Programas de Desarrollo con Enfoque Territorial entraron en una agenda internacional.",
+   "acf_fc_layout": "articulo",
+   "rotulo": "Entrevista",
+   "rotulo_color": "naranja",
+   "titulo": "“Los PDET son un propósito nacional”",
+   "bajada": "Emilio Archila cuenta cómo los Programas de Desarrollo con Enfoque Territorial se convirtieron en un caso para mostrar del Acuerdo de Paz y entraron en el radar de una agenda internacional.",
+   "entradilla": "Los municipios PDET concentran las brechas más profundas del país. Allí casi nadie tiene acceso a bienes y servicios públicos, se registran los mayores niveles de analfabetismo y persisten graves condiciones de inseguridad alimentaria: solo el 2 % de la población rural tiene acceso a internet, una cuarta parte de los hogares carece de energía eléctrica y más de la mitad no cuenta con fuentes de agua potable.",
+   "cuerpo": "<p>Para Archila, los PDET no son un instrumento de planeación diseñado desde Bogotá, sino un ejercicio en el que las comunidades identifican sus propias necesidades y estas se convierten en proyectos. Estabilizar esas regiones, advierte, tomará entre 20 y 25 años, y exige construir sobre lo ya construido en lugar de empezar de cero con cada gobierno.</p>\n<blockquote><p>Acá son las comunidades mismas las que dicen: ‘Estas son mis necesidades’</p><p>Emilio Archila, exconsejero presidencial para la estabilización y la consolidación</p></blockquote>\n<h3>Administrar los recursos</h3>\n<p>Con el Fondo Colombia en Paz se creó un indicador de construcción de paz —el marcador presupuestal—, que permitió hacer seguimiento a todos los recursos destinados a la implementación. El FCP no solo administró la partida asignada en el Presupuesto General de la Nación: fue el instrumento de planeación que articuló a entidades, organismos de cooperación y sector privado alrededor de las iniciativas PDET.</p>\n<p>El resultado fue un logo PDET fortalecido y un mensaje único de parte del Gobierno nacional, las gobernaciones, las alcaldías, la cooperación internacional y el sector privado al llegar a los territorios.</p>",
+   "apertura": "",
+   "apertura_credito": "",
+   "fotos_izquierda": false,
+   "fotos": [
+    {
+     "imagen": {
+      "archivo": "boletin/archila-retrato.jpg",
+      "alt": "Retrato de Emilio Archila durante la entrevista"
+     },
+     "formato": "alto",
+     "credito": "Fotografía: Fernando López Ríos"
+    },
+    {
+     "imagen": {
+      "archivo": "boletin/comunidades-indigenas.jpg",
+      "alt": "Diálogo con autoridades indígenas en territorio"
+     },
+     "formato": "panorama",
+     "credito": ""
+    }
+   ],
+   "ficha_titulo": "Los PDET en una línea",
+   "ficha_texto": "",
+   "ficha_datos": [
+    {
+     "cifra": "170",
+     "texto": "municipios priorizados"
+    },
+    {
+     "cifra": "11.000",
+     "texto": "veredas"
+    },
+    {
+     "cifra": "19",
+     "texto": "departamentos"
+    },
+    {
+     "cifra": "16",
+     "texto": "subregiones"
+    }
+   ],
+   "ficha_clara": true
+  },
+  {
+   "nombre": "El Fondo en cifras",
+   "antetitulo": "Programa Colombia Sostenible · Resultados 2018 – 2026",
+   "indice_titulo": "Resultados 2018 – 2026",
+   "indice_imagen": {
+    "archivo": "boletin/cafe-beneficiadero.jpg",
+    "alt": ""
+   },
+   "indice_resumen": "US$100 millones invertidos, 201 proyectos en 114 municipios PDET y 36.428 familias beneficiadas por Colombia Sostenible.",
+   "acf_fc_layout": "cifras",
+   "cifras": [
+    {
+     "numero": "US$100",
+     "texto": "millones invertidos por el FCP y el BID"
+    },
+    {
+     "numero": "201",
+     "texto": "proyectos en 114 municipios PDET"
+    },
+    {
+     "numero": "36.428",
+     "texto": "familias beneficiadas"
+    },
+    {
+     "numero": "15.254",
+     "texto": "mujeres participantes (42 %)"
+    },
+    {
+     "numero": "82.700",
+     "texto": "hectáreas intervenidas"
+    },
+    {
+     "numero": "164",
+     "texto": "acuerdos comerciales con el sector privado"
+    }
+   ],
+   "nota": "Entre 2018 y 2026, el Programa Colombia Sostenible —alianza del Fondo Colombia en Paz y el Banco Interamericano de Desarrollo— impulsó la conservación de la biodiversidad y la producción sostenible en territorios afectados por el conflicto armado."
+  },
+  {
+   "nombre": "Historias que transforman",
+   "antetitulo": "Una persona · un territorio · una transformación",
+   "indice_titulo": "El impacto del Programa Colombia Sostenible",
+   "indice_imagen": {
+    "archivo": "boletin/adriana-arizala.jpg",
+    "alt": ""
+   },
+   "indice_resumen": "En Tumaco, 65 mujeres afrodescendientes recuperaron frutales nativos y multiplicaron los ingresos de sus hogares.",
+   "acf_fc_layout": "articulo",
+   "rotulo": "Programa Colombia Sostenible",
+   "rotulo_color": "verde",
+   "titulo": "El impacto del Programa Colombia Sostenible",
+   "bajada": "La Universidad de los Andes encontró que 36.428 familias incrementaron entre 60 % y 77 % sus ingresos totales tras la implementación del programa, una iniciativa del BID y el Fondo Colombia en Paz.",
+   "entradilla": "Desde niña, Adriana Arizala entendió cómo funcionaban los roles tradicionales de género en el Pacífico nariñense. Décadas después, ese cuestionamiento se convirtió en una apuesta de paz: la Fundación de Mujeres Emprendedoras del Pacífico (FMEPAC) nació en Tumaco, uno de los 170 municipios PDET marcados históricamente por el conflicto armado y la ausencia estatal.",
+   "cuerpo": "<p>Tras la firma del Acuerdo Final de Paz, 65 mujeres afrodescendientes decidieron transformar la herencia del conflicto a través de la conservación de la biodiversidad. Recuperaron frutales nativos —borojó, chontaduro, guanábana y zapote—, crearon sistemas agroforestales en 65 hectáreas y pusieron en marcha un emprendimiento de pulpa de fruta congelada.</p>\n<blockquote><p>Teníamos que comprar cuando nosotros mismos lo podíamos producir</p><p>Adriana Arizala, cofundadora de FMEPAC</p></blockquote>\n<h3>Zonas verdes</h3>\n<p>En el corregimiento San Miguel del Tigre, en Yondó (Antioquia), 70 familias productoras apostaron a transformar ese estigma: el proyecto Bosques con Alas convirtió una antigua “zona roja” en un santuario de conservación con más de 25.000 árboles nativos sembrados. La evaluación académica identificó además un efecto de protección sobre cerca de 20.000 hectáreas adicionales fuera de las áreas de intervención directa.</p>",
+   "apertura": "",
+   "apertura_credito": "",
+   "fotos_izquierda": true,
+   "fotos": [
+    {
+     "imagen": {
+      "archivo": "boletin/adriana-arizala.jpg",
+      "alt": "Adriana Arizala, lideresa de la Fundación de Mujeres Emprendedoras del Pacífico"
+     },
+     "formato": "alto",
+     "credito": "Fotografía: Camila Galindo Muñoz"
+    }
+   ],
+   "ficha_titulo": "Resultados concretos",
+   "ficha_texto": "Programa Colombia Sostenible, 2018 – 2026.",
+   "ficha_datos": [
+    {
+     "cifra": "65",
+     "texto": "mujeres afrodescendientes en FMEPAC, Tumaco"
+    },
+    {
+     "cifra": "65",
+     "texto": "hectáreas con sistemas agroforestales"
+    },
+    {
+     "cifra": "60 % a 77 %",
+     "texto": "de aumento en los ingresos mensuales de los hogares"
+    },
+    {
+     "cifra": "50 %",
+     "texto": "de reducción en inseguridad alimentaria severa y moderada"
+    }
+   ],
+   "ficha_clara": false
+  },
+  {
+   "nombre": "Obras que conectan",
+   "antetitulo": "Programa de Inversiones Prioritarias en Municipios PDET · Caquetá",
+   "indice_titulo": "Las vías de la transformación",
+   "indice_imagen": {
+    "archivo": "boletin/caqueta-ganadero.jpg",
+    "alt": ""
+   },
+   "indice_resumen": "179 obras en más de 140 kilómetros de vías rurales de Caquetá, con el Gobierno alemán, la ART y el FCP.",
+   "acf_fc_layout": "articulo",
+   "rotulo": "Caquetá · Cooperación alemana",
+   "rotulo_color": "azul",
+   "titulo": "Las vías de la transformación",
+   "bajada": "Caminos terciarios y fortalecimiento de capacidades comunitarias son la apuesta del Gobierno alemán, la ART y el Fondo Colombia en Paz para cambiar la vida de una subregión con vocación lechera y cacaotera.",
+   "entradilla": "En medio de su finca, en lo alto de la vereda Santa Rosa, en Morelia, Leonardo Jiménez trabaja entre vacas y terneros. Lleva 33 años en esta tierra caqueteña, suficientes para recordar cuando sacar la leche y los productos del campo era una travesía. Su historia es apenas una entre las de las 7.900 personas que se han beneficiado de estas obras.",
+   "cuerpo": "<p>La apuesta se concreta en el fortalecimiento de la red vial terciaria de Caquetá, que Alemania impulsa a través de su banco de desarrollo, KfW. La inversión superó los 172.000 millones de pesos: 138.000 millones aportados por KfW y 34.000 millones por el Gobierno de Colombia. Con esos recursos se construyeron 179 obras en más de 140 kilómetros de vías rurales, distribuidas en 17 corredores.</p>\n<h3>Centro de la transformación</h3>\n<p>Con el liderazgo técnico de la ART se evaluaron los aspectos legales, administrativos y financieros de 51 organizaciones, entre ellas Juntas de Acción Comunal y Organizaciones de Base Comunitaria. Con los resultados se implementó un plan de fortalecimiento que incluyó 202 espacios de capacitación y 482 módulos de formación.</p>\n<blockquote><p>El mensaje que llevamos a Alemania es que podemos seguir confiando en las instituciones colombianas</p><p>Carlos Beteta, ingeniero y arquitecto a cargo del componente técnico de los proyectos de KfW</p></blockquote>\n<h3>Mujeres al frente</h3>\n<p>De las 51 organizaciones que participaron en el proceso de fortalecimiento comunitario, 25 son lideradas por mujeres: 9 corresponden a Juntas de Acción Comunal y 13 a Organizaciones de Base Comunitaria. Más que una intervención en la red vial terciaria, el programa es una apuesta por fortalecer las capacidades de quienes habitan y construyen el territorio.</p>",
+   "apertura": {
+    "archivo": "boletin/caqueta-ganadero.jpg",
+    "alt": "Habitante rural recorre a caballo una vereda de Morelia, Caquetá"
+   },
+   "apertura_credito": "Fotografía: Camila Galindo Muñoz",
+   "fotos_izquierda": false,
+   "fotos": [
+    {
+     "imagen": {
+      "archivo": "boletin/mujeres-caqueta.jpg",
+      "alt": "Recorrido comunitario por una vía terciaria en Caquetá"
+     },
+     "formato": "alto",
+     "credito": "Fotografía: Fernando López Ríos"
+    },
+    {
+     "imagen": {
+      "archivo": "boletin/placa-huella-comunidad.jpg",
+      "alt": "Comunidad recorre una vía en placa huella construida por el programa"
+     },
+     "formato": "panorama",
+     "credito": "Fotografía: Fernando López Ríos"
+    }
+   ],
+   "ficha_titulo": "La apuesta alemana · Fase 1",
+   "ficha_texto": "Fase piloto en Morelia, San José del Fragua y Valparaíso.",
+   "ficha_datos": [
+    {
+     "cifra": "46 millones de euros",
+     "texto": "invertidos: 36,8 de KfW y 9,2 de contrapartida de la ART"
+    },
+    {
+     "cifra": "179 obras",
+     "texto": "en más de 140 kilómetros y 17 corredores"
+    },
+    {
+     "cifra": "74 tramos",
+     "texto": "de placa huella y 105 obras complementarias"
+    },
+    {
+     "cifra": "51 organizaciones",
+     "texto": "comunitarias capacitadas"
+    },
+    {
+     "cifra": "42 JAC",
+     "texto": "con kits de mantenimiento vial"
+    },
+    {
+     "cifra": "7.900 personas",
+     "texto": "beneficiadas"
+    }
+   ],
+   "ficha_clara": false
+  },
+  {
+   "nombre": "Paz productiva",
+   "antetitulo": "Perfil a un PaisSano · Sáenz Leather",
+   "indice_titulo": "El custodio del cuero",
+   "indice_imagen": {
+    "archivo": "boletin/marroquineria-cuero.jpg",
+    "alt": ""
+   },
+   "indice_resumen": "El perfil de José Valerio Sáenz y el sello PaisSana, que hoy certifica 3.402 productos de 29 departamentos.",
+   "acf_fc_layout": "articulo",
+   "rotulo": "Perfil",
+   "rotulo_color": "naranja",
+   "titulo": "El custodio del cuero",
+   "bajada": "Luego de dejar su Arauca natal a causa del conflicto armado, José Valerio Sáenz vio en la marroquinería artesanal un camino para aferrarse a su tierra y compartir sus conocimientos.",
+   "entradilla": "En 2015, un año antes de haberse firmado el Acuerdo Final con las FARC, José Valerio Sáenz y su esposa Maritza Suárez salieron de Arauca y Yopal con dos morrales, uno en cada hombro, para apostarle a una nueva vida en Bogotá. El desplazamiento no apagó su pasión: la marroquinería artesanal.",
+   "cuerpo": "<p>En 2018, una hamaca de cuero fue galardonada como ‘mejor producto extranjero’ en la categoría de mobiliario de la feria NY NOW, en Estados Unidos. En 2023 participaron en Expoartesanías y se postularon para llevar en su obra el sello PaisSana, que reúne a productores de los territorios PDET y de las Zonas Más Afectadas por el Conflicto Armado.</p>\n<p>Con el apoyo del SENA diseñaron una plataforma virtual de aprendizaje para que cualquier persona pueda iniciarse en el oficio. Abrieron además una beca con 100 cupos para personas con discapacidad y madres cabeza de familia, a la que recibieron 1.200 inscripciones. Hoy sus creaciones se conocen en Australia, Alemania, Dinamarca, Estados Unidos y Emiratos Árabes Unidos.</p>",
+   "apertura": {
+    "archivo": "boletin/marroquineria-cuero.jpg",
+    "alt": "José Valerio Sáenz trabaja una pieza de cuero en su taller"
+   },
+   "apertura_credito": "Fotografía: Fernando López Ríos",
+   "fotos_izquierda": false,
+   "fotos": [
+    {
+     "imagen": {
+      "archivo": "boletin/cafe-beneficiadero.jpg",
+      "alt": "Productor procesa café en un beneficiadero"
+     },
+     "formato": "panorama",
+     "credito": "Fotografía: Fernando López Ríos"
+    }
+   ],
+   "ficha_titulo": "PaisSana: el sello de la paz",
+   "ficha_texto": "Lanzada el 6 de abril de 2022 en Pueblo Bello (Cesar), es la marca de certificación del FCP que identifica productos y servicios de municipios PDET y ZOMAC. Su lema: cuando compras PaisSana, el país sana.",
+   "ficha_datos": [
+    {
+     "cifra": "3.402 productos",
+     "texto": "certificados: cafés especiales, cacao, mieles, cosmética natural, snacks y marroquinería"
+    },
+    {
+     "cifra": "450 organizaciones",
+     "texto": "y productores, frente a 187 en 2025"
+    },
+    {
+     "cifra": "29 departamentos",
+     "texto": "y 168 municipios"
+    },
+    {
+     "cifra": "92 %",
+     "texto": "de los productores son víctimas del conflicto y 8 % firmantes de paz"
+    }
+   ],
+   "ficha_clara": false
+  },
+  {
+   "nombre": "Alianzas",
+   "antetitulo": "Cooperación internacional y filantropía",
+   "indice_titulo": "Cooperación internacional y filantropía",
+   "indice_imagen": {
+    "archivo": "boletin/placa-huella-comunidad.jpg",
+    "alt": ""
+   },
+   "indice_resumen": "KfW, la Agencia Francesa de Desarrollo y la AECID, y la nueva ruta filantrópica que explora el Fondo.",
+   "acf_fc_layout": "tarjetas",
+   "tarjetas": [
+    {
+     "etiqueta": "Filantropía",
+     "color": "naranja",
+     "titulo": "Una nueva ruta para financiar la paz",
+     "texto": "Ante la caída de la Asistencia Oficial al Desarrollo —7,1 % en 2024 y reducciones proyectadas de hasta 17 % para 2025—, el FCP avanza en la contratación de una organización especializada que actuará como patrocinador fiscal para recibir aportes voluntarios de personas, empresas y fundaciones.\nDe lograrlo, sería la primera entidad gubernamental del país en incorporar el modelo de filantropía internacional. Colombia capta hoy apenas el 0,04 % del mercado filantrópico global.",
+     "monto": "US$1 millón",
+     "monto_nota": "Aporte mínimo esperado en la primera etapa, de cooperantes de Estados Unidos y Europa"
+    },
+    {
+     "etiqueta": "KfW · Alemania",
+     "color": "azul",
+     "titulo": "Visita del Banco de Desarrollo Alemán en Caquetá",
+     "texto": "A finales de septiembre, el FCP recorrió junto a la cooperación alemana los municipios de Morelia, San José del Fragua y Valparaíso para hacer seguimiento en campo al Programa de Inversiones Prioritarias en Municipios PDET.\nLas fases II y III llevarán el modelo a Albania, Belén de los Andaquíes, Curillo, Milán y Solita, con 21 proyectos productivos de cacao, caucho, frutos amazónicos y ganadería.",
+     "monto": "€31.250.000",
+     "monto_nota": "Fases II y III: €25.000.000 de KfW y €6.250.000 de la ART"
+    },
+    {
+     "etiqueta": "AFD · Francia",
+     "color": "verde",
+     "titulo": "Montes de María y Catatumbo",
+     "texto": "La Agencia Francesa de Desarrollo brinda cooperación técnica y financiera para proyectos de transición energética, desarrollo rural y sostenibilidad ambiental en territorios PDET. Se estructuraron 12 proyectos enfocados en Pago por Servicios Ambientales y sistemas agroforestales y silvopastoriles.",
+     "monto": "$1.894.664.200",
+     "monto_nota": "Alcance estimado de 994 hectáreas y 981 familias de la subregión"
+    },
+    {
+     "etiqueta": "AECID · España",
+     "color": "azul",
+     "titulo": "Agua potable en El Tarra",
+     "texto": "En El Tarra (Norte de Santander), la Agencia Española de Cooperación Internacional para el Desarrollo cofinancia la construcción de una planta de tratamiento, la optimización del sistema de acueducto y el fortalecimiento de la empresa prestadora del servicio en el casco urbano.",
+     "monto": "€4.863.568",
+     "monto_nota": "€3.829.633 de la AECID y €1.033.935 del Gobierno nacional a través de la ART"
+    }
+   ]
+  },
+  {
+   "nombre": "Actualidad",
+   "antetitulo": "Nuevo proyecto institucional",
+   "indice_titulo": "Red Aulas Abiertas para la Reconciliación",
+   "indice_imagen": {
+    "archivo": "boletin/campesinos-montes.jpg",
+    "alt": ""
+   },
+   "indice_resumen": "La alianza con la educación superior para llevar investigación aplicada a los proyectos de las regiones PDET.",
+   "acf_fc_layout": "articulo",
+   "rotulo": "Nuevo proyecto",
+   "rotulo_color": "verde",
+   "titulo": "Red Aulas Abiertas para la Reconciliación",
+   "bajada": "El Fondo Colombia en Paz impulsa una alianza estratégica con la educación superior para conectar el conocimiento académico con la transformación de las regiones PDET.",
+   "entradilla": "",
+   "cuerpo": "<p>La iniciativa busca articular a universidades e instituciones nacionales y regionales con los proyectos productivos, ambientales y sociales que se desarrollan en los territorios. A través de la investigación aplicada, el acompañamiento técnico y la innovación social, las aulas se abrirán hacia la ruralidad para sistematizar los saberes locales, fortalecer las capacidades comunitarias y generar soluciones concretas frente a los desafíos del desarrollo regional.</p>\n<p>Con esta red, la academia trasciende los espacios tradicionales y se convierte en un actor directo de la construcción de paz. El modelo facilitará talleres de formación, proyectos pedagógicos e intercambios de saberes que unen la investigación científica con la realidad rural colombiana.</p>\n<blockquote><p>La paz debe incluir todos los esfuerzos posibles</p><p>Mariana Gómez Jiménez, directora del Fondo Colombia en Paz</p></blockquote>",
+   "apertura": "",
+   "apertura_credito": "",
+   "fotos_izquierda": true,
+   "fotos": [
+    {
+     "imagen": {
+      "archivo": "boletin/campesinos-montes.jpg",
+      "alt": "Campesinos participantes de proyectos productivos en territorio PDET"
+     },
+     "formato": "alto",
+     "credito": "Fotografía: Fernando López Ríos"
+    }
+   ],
+   "ficha_titulo": "",
+   "ficha_texto": "",
+   "ficha_datos": [],
+   "ficha_clara": false
+  },
+  {
+   "nombre": "La agenda",
+   "antetitulo": "Lo que viene en los próximos meses",
+   "indice_titulo": "Lo que viene",
+   "indice_imagen": {
+    "archivo": "boletin/mujeres-caqueta.jpg",
+    "alt": ""
+   },
+   "indice_resumen": "Fases II y III en cinco municipios de Caquetá, Colombia Sostenible Avanza y la puesta en marcha de Aulas Abiertas.",
+   "acf_fc_layout": "agenda",
+   "hitos": [
+    {
+     "cuando": "Fases II y III",
+     "titulo": "Cinco nuevos municipios en Caquetá",
+     "texto": "Albania, Belén de los Andaquíes, Curillo, Milán y Solita, con 25 millones de euros de KfW."
+    },
+    {
+     "cuando": "Colombia Sostenible Avanza",
+     "titulo": "Nueva ronda de financiación",
+     "texto": "US$135 millones (US$100 del BID y US$35 del FIDA) para 130.000 hectáreas adicionales y 40.000 familias, 41 % de ellas de mujeres."
+    },
+    {
+     "cuando": "En estructuración",
+     "titulo": "Patrocinador fiscal para filantropía",
+     "texto": "Contratación de la organización especializada que permitirá recibir aportes filantrópicos internacionales."
+    },
+    {
+     "cuando": "En implementación",
+     "titulo": "Red Aulas Abiertas",
+     "texto": "Vinculación de universidades nacionales y regionales a los proyectos productivos de las subregiones PDET."
+    }
+   ]
+  }
+ ]
+}

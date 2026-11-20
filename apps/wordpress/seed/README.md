@@ -6,9 +6,43 @@ comprimidos para web. `seed.php` lo carga en los CPT.
 
 Son 54 entradas: 15 `retrato`, 9 `video`, 15 `feria` y 15 `audio_relato`.
 
+Para el boletín, el catálogo y las historias (sitio FSE) hay tres secciones más,
+con su propio JSON: 316 `productor`, 1 `boletin` (edición 02) y 1 `historia`
+(Asocafé).
+
 Es idempotente: busca cada entrada por título y post_type y la actualiza en vez
 de duplicarla, y reconoce los medios por nombre de archivo. Se puede correr las
 veces que haga falta.
+
+## Secciones del sitio FSE
+
+Cada sección se corre sola con `SEED_SOLO=<sección>` (sin la variable corre todo)
+y se puede repetir: busca por título y reutiliza los medios por nombre de archivo.
+
+```bash
+docker compose -f apps/wp-fse/compose.yaml -p lapaz-fse exec -T -u www-data cms \
+  sh -c 'SEED_SOLO=productores wp eval-file /opt/seed/seed.php'   # o boletines, historias
+```
+
+| Sección | Archivo | Qué carga |
+|---|---|---|
+| `productores` | `productores.json` | 316 productores con sus 5 taxonomías (crea los términos que falten), `municipio`, `productos` y `enlace`. Si existe `lapaz_catalogo_indexar()` (mu-plugin `lapaz-catalogo`) la llama para generar el texto de búsqueda. |
+| `boletines` | `boletin-02.json` | Edición 02: campos de edición y portada y las 8 filas de `secciones`. |
+| `historias` | `historia-asocafe.json` | Historia de Asocafé: presentación, portada, ficha, video (sin fuente todavía), crónica y galería de 12 fotos. |
+
+`productores.json` sale de `raw/Catalogo PaisSana Asocafe/productores.json` (los
+índices pasan a texto; etnia «Ninguno», tiempo vacío y población «Ninguno de los
+Anteriores» no generan término). Las etiquetas de departamento, etnia, tiempo y
+población son las del prototipo (`const DATOS` de su `index.html`), que tiene las
+tildes que el JSON compacto no trae.
+
+En los JSON de boletín e historia, cada imagen es `{ "archivo": "boletin/x.jpg",
+"alt": "…" }` (ruta relativa a `media/`) y el seed la cambia por el ID del adjunto
+a cualquier profundidad. En la galería, `pie` va a la leyenda del adjunto y
+`credito` a su descripción. `cuerpo` es HTML del editor. El texto es el del
+prototipo, íntegro.
+
+Fotos en `media/boletin/` (10) y `media/paissana/` (12).
 
 ## Local
 
