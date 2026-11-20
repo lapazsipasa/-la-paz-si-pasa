@@ -216,13 +216,17 @@
 	inset: 0;
 }
 
-.wp-block-lapaz-boletin .tema h3 a:focus-visible {
-	outline: none;
-}
+/* Sin :has() el enlace conserva su propio foco. */
+@supports selector(:has(*)) {
 
-.wp-block-lapaz-boletin .tema:has(a:focus-visible) {
-	outline: 2px solid currentcolor;
-	outline-offset: 3px;
+	.wp-block-lapaz-boletin .tema h3 a:focus-visible {
+		outline: none;
+	}
+
+	.wp-block-lapaz-boletin .tema:has(a:focus-visible) {
+		outline: 2px solid currentcolor;
+		outline-offset: 3px;
+	}
 }
 
 .wp-block-lapaz-boletin .thumb {

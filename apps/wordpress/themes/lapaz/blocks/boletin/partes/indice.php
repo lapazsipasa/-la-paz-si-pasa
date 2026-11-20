@@ -31,6 +31,7 @@ $lapaz_intro = lapaz_field_text( 'indice_intro', $lapaz_id );
 				<?php
 				$lapaz_t_titulo  = lapaz_boletin_str( $lapaz_tema, 'indice_titulo' );
 				$lapaz_t_titulo  = '' !== $lapaz_t_titulo ? $lapaz_t_titulo : lapaz_boletin_str( $lapaz_tema, 'titulo' );
+				$lapaz_t_titulo  = '' !== $lapaz_t_titulo ? $lapaz_t_titulo : lapaz_boletin_str( $lapaz_tema, 'nombre' ); // Último respaldo: ninguna tarjeta sin enlace.
 				$lapaz_t_resumen = lapaz_boletin_str( $lapaz_tema, 'indice_resumen' );
 				$lapaz_t_id      = lapaz_boletin_imagen_indice( $lapaz_tema );
 				// Tarjetas de ~300 px (4 columnas), ~400 px (2) o a todo el ancho (1): no hace falta el tamaño `large`.

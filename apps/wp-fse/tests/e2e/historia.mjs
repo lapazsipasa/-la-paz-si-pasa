@@ -146,7 +146,11 @@ async function pagina() {
 			await esperar( tests, async () => ( await page.evaluate( `document.querySelector('.lightbox').open` ) ) === true );
 		};
 		const cerrado = async () => {
-			await esperar( tests, async () => ( await page.evaluate( `document.querySelector('.lightbox').open` ) ) === false );
+			const ok = await esperar( tests, async () => {
+				const c = await leerCerrado();
+				return ! c.abierto && ! c.on && ! c.src;
+			} );
+			tests.check( 'Lightbox: llega al estado cerrado completo (sin open, sin on, sin src)', ok );
 			return leerCerrado();
 		};
 		// Clic real (ratón) en un punto de la ventana.
