@@ -5,6 +5,17 @@ import { wp } from './paisana-lib.mjs';
 
 export { wp };
 
+// Rutas de las secciones nuevas: si cambian las URL, se tocan solo estas constantes.
+export const CATALOGO = '/productores/'; // catálogo de productores (con barra final)
+export const CATALOGO_SLUG = 'productores'; // slug de la página del catálogo en WordPress
+export const HISTORIAS = '/historias/'; // archivo de historias; cada historia vive en /historias/<slug>/
+export const ASOCAFE = `${ HISTORIAS }asocafe/`; // historia del seed
+export const BOLETIN = '/boletin/'; // archivo del boletín (edición más reciente)
+export const EDICION = `${ BOLETIN }edicion-02/`; // edición 02 del seed
+// Ruta que debe responder 404 tras el cambio de URL (p. ej. '/paissana/').
+export const RUTA_RETIRADA = '/paissana/';
+export const PLANTILLA_CATALOGO = 'page-productores'; // plantilla de bloques del catálogo
+
 const local = [ 'http://localhost:8090', 'http://127.0.0.1:8090' ];
 
 // Estas suites crean y borran contenido con wp-cli: solo valen contra el stack local.
@@ -159,4 +170,25 @@ export async function tipografiaGeneral( tests, page, etiqueta ) {
 	})()` );
 	tests.check( `${ etiqueta }: ningún texto en Monique Round con peso > 400`, r.total === 0, `${ r.total }: ${ r.negritas.join( '; ' ) }` );
 	tests.check( `${ etiqueta }: la raíz del bloque desactiva font-synthesis de peso`, r.raices.length > 0 && r.raices.every( ( x ) => ! /weight/.test( x.split( ': ' )[ 1 ] ) ), r.raices.join( '; ' ) );
+}
+
+// Noticias de ejemplo que el CI siembra («Noticias de ejemplo (solo CI)»), para suites que las esperan.
+// Solo se crean las que faltan por título y se borran al final por su marca; nunca se toca contenido real.
+const EJEMPLOS = [
+	[ 'El fondo entrega resultados de gestión', '20260510' ],
+	[ 'Nuevos proyectos en territorios PDET', '20260322' ],
+	[ 'Balance de Colombia Sostenible', '20260114' ],
+	[ 'Ejemplo cuarto 2026', '20260102' ],
+	[ 'Ejemplo 2025 A', '20250918' ],
+	[ 'Ejemplo 2025 B', '20250602' ],
+];
+export function borrarNoticiasEjemplo() {
+	wp( '$ids=get_posts(["post_type"=>"noticia","post_status"=>"any","numberposts"=>-1,"fields"=>"ids","meta_key"=>"_e2e_ejemplo","meta_value"=>"1"]); foreach($ids as $i) wp_delete_post($i,true); echo count($ids);' );
+}
+export function sembrarNoticiasEjemplo() {
+	borrarNoticiasEjemplo();
+	const datos = Buffer.from( JSON.stringify( EJEMPLOS ) ).toString( 'base64' );
+	wp(
+		`foreach(json_decode(base64_decode("${ datos }"),true) as $i=>$n){ if($GLOBALS["wpdb"]->get_var($GLOBALS["wpdb"]->prepare("SELECT ID FROM {$GLOBALS["wpdb"]->posts} WHERE post_type='noticia' AND post_status='publish' AND post_title=%s LIMIT 1",$n[0]))) continue; $id=wp_insert_post(["post_type"=>"noticia","post_status"=>"publish","post_title"=>$n[0]],true); update_field("field_noticia_url","https://example.com/ejemplo-".$i,$id); update_field("field_noticia_fecha",$n[1],$id); update_post_meta($id,"_e2e_ejemplo","1"); } echo 1;`
+	);
 }

@@ -5,6 +5,52 @@ import path from 'node:path';
 import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
 
+// Fuerza el pintado de las secciones con content-visibility:auto (fuera de pantalla no se pintan y su alto
+// se colapsa a contain-intrinsic-size) y espera imágenes y fuentes. Úsalo antes de medir o capturar.
+export async function prepararPintado( page ) {
+	await page.evaluate( `(async () => {
+		if ( ! document.getElementById( '__e2e-pintado' ) ) {
+			const st = document.createElement( 'style' );
+			st.id = '__e2e-pintado';
+			st.textContent = '*,*::before,*::after{content-visibility:visible !important}';
+			document.head.append( st );
+		}
+		const imgs = [ ...document.images ];
+		imgs.forEach( ( i ) => { i.loading = 'eager'; i.decoding = 'sync'; } );
+		await Promise.all( imgs.map( ( i ) => i.decode().catch( () => {} ) ) );
+		await document.fonts.ready;
+		await new Promise( ( r ) => requestAnimationFrame( () => requestAnimationFrame( r ) ) );
+		return 1;
+	})()` );
+	await new Promise( ( r ) => setTimeout( r, 500 ) );
+}
+
+// Limpieza de Chrome: un solo registro para todos los navegadores del proceso.
+// Se ejecuta en exit, señales y errores no capturados; mata el grupo de procesos y borra el perfil temporal.
+const abiertos = new Set();
+let limpiezaRegistrada = false;
+function limpiar( { browser, profile } ) {
+	try {
+		process.kill( -browser.pid, 'SIGKILL' );
+	} catch {}
+	fs.rmSync( profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 } );
+}
+function registrarLimpieza() {
+	if ( limpiezaRegistrada ) return;
+	limpiezaRegistrada = true;
+	process.on( 'exit', () => abiertos.forEach( limpiar ) );
+	for ( const sig of [ 'SIGINT', 'SIGTERM' ] )
+		process.on( sig, () => process.exit( sig === 'SIGINT' ? 130 : 143 ) );
+	process.on( 'uncaughtException', ( e ) => {
+		console.error( e );
+		process.exit( 1 );
+	} );
+	process.on( 'unhandledRejection', ( e ) => {
+		console.error( e );
+		process.exit( 1 );
+	} );
+}
+
 export function createBrowserTests() {
 	const args = process.argv.slice( 2 );
 	const baselineFrom = args.includes( '--baseline' )
@@ -20,7 +66,6 @@ export function createBrowserTests() {
 			: 'google-chrome' );
 
 	const sleep = ( ms ) => new Promise( ( r ) => setTimeout( r, ms ) );
-	const port = 9400 + Math.floor( Math.random() * 400 );
 	const profile = fs.mkdtempSync(
 		path.join( process.env.TMPDIR ?? '/tmp', 'lapaz-e2e-' )
 	);
@@ -28,14 +73,30 @@ export function createBrowserTests() {
 		chrome,
 		[
 			'--headless=new',
-			`--remote-debugging-port=${ port }`,
+			'--remote-debugging-port=0', // puerto libre; Chrome lo escribe en DevToolsActivePort
 			`--user-data-dir=${ profile }`,
 			'--hide-scrollbars',
 			'--no-sandbox',
 			'about:blank',
 		],
-		{ stdio: 'ignore' }
+		{ stdio: 'ignore', detached: true } // detached: grupo propio para matar también los procesos auxiliares
 	);
+	registrarLimpieza();
+	const entrada = { browser, profile };
+	abiertos.add( entrada );
+	// Puerto real: la primera línea de DevToolsActivePort.
+	const leerPuerto = async () => {
+		for ( let i = 0; i < 100; i++ ) {
+			try {
+				return Number(
+					fs.readFileSync( path.join( profile, 'DevToolsActivePort' ), 'utf8' ).split( '\n' )[ 0 ]
+				);
+			} catch {
+				await sleep( 100 );
+			}
+		}
+		throw new Error( 'Chrome no abrió el puerto de depuración' );
+	};
 
 	let failures = 0;
 	function check( name, ok, detail = '' ) {
@@ -48,14 +109,7 @@ export function createBrowserTests() {
 	}
 
 	async function openPage( url, width ) {
-		for ( let i = 0; i < 50; i++ ) {
-			try {
-				await fetch( `http://127.0.0.1:${ port }/json/version` );
-				break;
-			} catch {
-				await sleep( 200 );
-			}
-		}
+		const port = await leerPuerto();
 		const tab = await (
 			await fetch( `http://127.0.0.1:${ port }/json/new?about:blank`, {
 				method: 'PUT',
@@ -64,9 +118,12 @@ export function createBrowserTests() {
 		const ws = new WebSocket( tab.webSocketDebuggerUrl );
 		const pending = new Map();
 		const requests = [];
+		let loaded;
+		const loadEvent = new Promise( ( r ) => ( loaded = r ) );
 		let id = 0;
 		ws.onmessage = ( e ) => {
 			const m = JSON.parse( e.data );
+			if ( m.method === 'Page.loadEventFired' ) loaded();
 			if ( m.method === 'Network.requestWillBeSent' )
 				requests.push( m.params.request.url );
 			pending.get( m.id )?.( m.result );
@@ -87,7 +144,8 @@ export function createBrowserTests() {
 		await send( 'Page.enable' );
 		await send( 'Network.enable' );
 		await send( 'Page.navigate', { url } );
-		await sleep( 2500 );
+		// Carga real con tope de 8 s, fuentes listas y un respiro corto para los scripts de arranque.
+		await Promise.race( [ loadEvent, sleep( 8000 ) ] );
 		const evaluate = async ( expression ) =>
 			(
 				await send( 'Runtime.evaluate', {
@@ -96,6 +154,11 @@ export function createBrowserTests() {
 					returnByValue: true,
 				} )
 			).result.value;
+		await Promise.race( [
+			evaluate( 'document.fonts.ready.then( () => 1 )' ),
+			sleep( 3000 ),
+		] );
+		await sleep( 500 );
 		const key = async ( k ) => {
 			await send( 'Input.dispatchKeyEvent', {
 				type: 'keyDown',
@@ -113,6 +176,7 @@ export function createBrowserTests() {
 		};
 		// Captura recortada al rectángulo de un elemento.
 		const shot = async ( selector ) => {
+			if ( ! baselineFrom ) await prepararPintado( { evaluate } );
 			const r = await evaluate(
 				// Alinea el elemento a píxel entero antes de capturarlo: la misma sección cae en
 				// fracciones de píxel distintas según lo que haya arriba (Astro tiene más secciones
@@ -193,17 +257,9 @@ export function createBrowserTests() {
 		// Se espera a que Chrome salga antes de borrar su perfil; la limpieza nunca falla la prueba.
 		const exited = once( browser, 'exit' );
 		browser.kill();
-		await Promise.race( [ exited, sleep( 5000 ) ] );
-		try {
-			fs.rmSync( profile, {
-				recursive: true,
-				force: true,
-				maxRetries: 10,
-				retryDelay: 200,
-			} );
-		} catch {
-			console.warn( `No se pudo borrar ${ profile }` );
-		}
+		await Promise.race( [ exited, sleep( 3000 ) ] );
+		limpiar( entrada ); // SIGKILL al grupo si no cerró, y borra el perfil
+		abiertos.delete( entrada );
 		process.exitCode = failures ? 1 : 0;
 	}
 

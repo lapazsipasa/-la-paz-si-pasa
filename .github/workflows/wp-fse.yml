@@ -124,12 +124,15 @@ jobs:
           node tests/e2e/boletin.mjs
           node tests/e2e/catalogo.mjs
           node tests/e2e/historia.mjs
+          node tests/e2e/navegacion.mjs
       - name: SEO y producción aislada
         env:
           CHROME_BIN: google-chrome
         run: node tests/e2e/seo.mjs
-      - name: Seguridad HTTP anónima
-        run: node tests/e2e/seguridad.mjs
+      - name: Seguridad HTTP anónima y API REST cerrada
+        run: |
+          node tests/e2e/seguridad.mjs
+          node tests/e2e/rest.mjs
       - name: Logs si falla
         if: failure()
         run: docker compose logs cms

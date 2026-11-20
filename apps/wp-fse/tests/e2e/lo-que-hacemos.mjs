@@ -2,6 +2,7 @@
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import { createBrowserTests } from './lib.mjs';
+import { borrarNoticiasEjemplo, sembrarNoticiasEjemplo } from './fcp-lib.mjs';
 
 const expectedLogos = JSON.parse(
 	fs.readFileSync(
@@ -265,7 +266,10 @@ async function emptyContent() {
 	}
 }
 
+const local = ! baselineFrom && [ 'http://localhost:8090', 'http://127.0.0.1:8090' ].includes( new URL( site ).origin );
 try {
+	// Las seis noticias de ejemplo del CI: se siembran las que falten y se borran al final.
+	if ( local ) sembrarNoticiasEjemplo();
 	for ( const width of baselineFrom || visual
 		? [ 360, 850, 1440 ]
 		: [ 360, 1440 ] ) {
@@ -282,5 +286,6 @@ try {
 		await emptyContent();
 	}
 } finally {
+	if ( local ) borrarNoticiasEjemplo();
 	await finish();
 }
