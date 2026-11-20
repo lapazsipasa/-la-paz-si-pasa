@@ -24,6 +24,15 @@ export function exigirLocal( tests ) {
 		throw new Error( 'Estas pruebas requieren el stack local en :8090.' );
 }
 
+// Evaluar durante una navegación puede fallar: se trata como «aún no».
+export async function seguro( page, expr ) {
+	try {
+		return await page.evaluate( expr );
+	} catch {
+		return null;
+	}
+}
+
 export function wpJson( code ) {
 	return JSON.parse( wp( code ) );
 }

@@ -140,7 +140,7 @@ async function pagina() {
 				};
 			})()` );
 		const leerCerrado = () =>
-			page.evaluate( `(() => { const l = document.querySelector( '.lightbox' ); return { abierto: l.open, on: l.classList.contains( 'on' ), foco: document.activeElement === window.__boton }; })()` );
+			page.evaluate( `(() => { const l = document.querySelector( '.lightbox' ); return { abierto: l.open, on: l.classList.contains( 'on' ), foco: document.activeElement === window.__boton, src: l.querySelector( 'img' )?.getAttribute( 'src' ) || '' }; })()` );
 		const abrir = async () => {
 			await page.evaluate( `(() => { const b=document.querySelector('.galeria figure button'); window.__boton=b; b.scrollIntoView({block:'center'}); b.focus(); b.click(); return 1; })()` );
 			await esperar( tests, async () => ( await page.evaluate( `document.querySelector('.lightbox').open` ) ) === true );
@@ -164,18 +164,18 @@ async function pagina() {
 
 		await page.key( 'Escape' );
 		e = await cerrado();
-		tests.check( 'Lightbox: Escape lo cierra y devuelve el foco al botón', ! e.abierto && ! e.on && e.foco, JSON.stringify( e ) );
+		tests.check( 'Lightbox: Escape lo cierra y devuelve el foco al botón', ! e.abierto && ! e.on && e.foco && ! e.src, JSON.stringify( e ) );
 
 		await abrir();
 		const r = await page.evaluate( `(() => { const b = document.querySelector('.lightbox .cerrar').getBoundingClientRect(); return { x: b.left + b.width / 2, y: b.top + b.height / 2 }; })()` );
 		await clic( r.x, r.y );
 		e = await cerrado();
-		tests.check( 'Lightbox: «Cerrar» lo cierra y devuelve el foco', ! e.abierto && ! e.on && e.foco, JSON.stringify( e ) );
+		tests.check( 'Lightbox: «Cerrar» lo cierra y devuelve el foco', ! e.abierto && ! e.on && e.foco && ! e.src, JSON.stringify( e ) );
 
 		await abrir();
 		await clic( 4, 4 ); // fuera de la foto y del botón: cae en el fondo del diálogo
 		e = await cerrado();
-		tests.check( 'Lightbox: clic fuera lo cierra y devuelve el foco', ! e.abierto && ! e.on && e.foco, JSON.stringify( e ) );
+		tests.check( 'Lightbox: clic fuera lo cierra y devuelve el foco', ! e.abierto && ! e.on && e.foco && ! e.src, JSON.stringify( e ) );
 
 		await tipografiaGeneral( tests, page, 'Historia' );
 		const externas = page.requests.filter( ( u ) => /fonts\.(googleapis|gstatic)\.com/.test( u ) );
@@ -188,7 +188,7 @@ async function pagina() {
 
 async function nuevaHistoria() {
 	const nueva = wpJson(
-		'$id=wp_insert_post(["post_type"=>"historia","post_status"=>"publish","post_title"=>"__prueba historia","post_name"=>"prueba-historia","post_date"=>current_time("mysql")],true); echo wp_json_encode(["path"=>wp_parse_url(get_permalink($id),PHP_URL_PATH)]);'
+		'$u=get_posts(["post_type"=>"historia","post_status"=>"publish","numberposts"=>1,"orderby"=>"date","order"=>"DESC"]); $f=$u?gmdate("Y-m-d H:i:s",strtotime($u[0]->post_date)+3600):current_time("mysql"); if($f>current_time("mysql")) $f=current_time("mysql"); /* ponytail: si +1 h cae en el futuro, hora actual (no queda programada) */ $id=wp_insert_post(["post_type"=>"historia","post_status"=>"publish","post_title"=>"__prueba historia","post_name"=>"prueba-historia","post_date"=>$f],true); echo wp_json_encode(["path"=>wp_parse_url(get_permalink($id),PHP_URL_PATH)]);'
 	);
 	const d = await destacado( `?x=${ Date.now() }` );
 	tests.check( 'Historia nueva más reciente: el destacado cambia a ella', Boolean( d ) && d.rutas.length > 0 && d.rutas.every( ( r ) => r === nueva.path ), JSON.stringify( d?.rutas ) );

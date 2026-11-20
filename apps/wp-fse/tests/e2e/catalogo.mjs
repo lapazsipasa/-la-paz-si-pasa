@@ -1,6 +1,6 @@
 // node tests/e2e/catalogo.mjs — requiere el stack local en :8090 con el seed de productores.
 import { createBrowserTests } from './lib.mjs';
-import { CATALOGO, CATALOGO_SLUG, PLANTILLA_CATALOGO, conLimpieza, conteoDe, enteros, esperar, norm, productoresSeed, sembrar, sinDesborde, tarjetasDe, tipografiaGeneral, wp, wpJson } from './fcp-lib.mjs';
+import { CATALOGO, CATALOGO_SLUG, PLANTILLA_CATALOGO, conLimpieza, conteoDe, enteros, esperar, norm, productoresSeed, seguro, sembrar, sinDesborde, tarjetasDe, tipografiaGeneral, wp, wpJson } from './fcp-lib.mjs';
 
 const tests = createBrowserTests();
 const site = tests.site;
@@ -8,6 +8,7 @@ const url = ( params = '' ) => new URL( `${ CATALOGO }${ params }`, site ).href;
 const servido = async ( params ) => ( await fetch( url( params ) ) ).text();
 const productores = productoresSeed();
 const TOTAL = productores.length;
+const PENULTIMA = Math.floor( ( TOTAL - 1 ) / 36 ) * 36; // última tanda antes de agotar «Ver más»
 const textoDe = ( p ) => norm( [ p.nombre, p.departamento, p.municipio, ...p.categorias, ...p.productos ].join( ' ' ) );
 // «N de TOTAL productores · …» → { n, total }, exacto (nada de «algún entero del texto»).
 const parteConteo = ( texto ) => {
@@ -17,14 +18,6 @@ const parteConteo = ( texto ) => {
 const esConteo = ( texto, n, total = TOTAL ) => {
 	const c = parteConteo( texto );
 	return c !== null && c.n === n && c.total === total;
-};
-// Evaluar durante una navegación puede fallar: se trata como «aún no».
-const seguro = async ( page, expr ) => {
-	try {
-		return await page.evaluate( expr );
-	} catch {
-		return null;
-	}
 };
 // Clic real del ratón sobre un elemento (sin tocar JS de la página); devuelve su visibilidad.
 async function pulsar( page, selector ) {
@@ -180,7 +173,7 @@ async function altaYBaja() {
 	const nCat = parteConteo( antes[ 1 ] )?.n;
 	tests.check( 'Alta: punto de partida limpio (316, sin resultados para el municipio de prueba)', esConteo( antes[ 2 ], 0 ) && esConteo( antes[ 3 ], TOTAL ) && nDep > 0 && nCat > 0, JSON.stringify( antes ) );
 	const { id } = wpJson(
-		`$id=wp_insert_post(["post_type"=>"productor","post_status"=>"publish","post_title"=>"__prueba Productor"]); update_field("municipio","${ mun }",$id); update_field("productos","Producto de prueba",$id); wp_set_object_terms($id,["${ dep.slug }"],"departamento"); wp_set_object_terms($id,["${ cat.slug }"],"categoria_productor"); lapaz_catalogo_indexar($id); echo wp_json_encode(["id"=>$id]);`
+		`$id=wp_insert_post(["post_type"=>"productor","post_status"=>"publish","post_title"=>"__prueba Productor"]); update_field("municipio","${ mun }",$id); update_field("productos","Producto de prueba",$id); wp_set_object_terms($id,["${ dep.slug }"],"departamento"); wp_set_object_terms($id,["${ cat.slug }"],"categoria_productor"); echo wp_json_encode(["id"=>$id]);`
 	);
 	try {
 		const durante = await leer();
@@ -301,14 +294,14 @@ async function conJs() {
 		page.close();
 	}
 	// Agotar «Ver más»: el foco pasa al conteo.
-	page = await tests.openPage( url( '?ver=288' ), 1440 );
+	page = await tests.openPage( url( `?ver=${ PENULTIMA }` ), 1440 );
 	try {
 		await page.evaluate( 'window.__sinRecarga = 1' );
 		const antes = await page.evaluate( `({tarjetas:document.querySelectorAll('.card').length,mas:Boolean(document.querySelector('a.mas'))})` );
 		await page.evaluate( `document.querySelector('a.mas')?.click()` );
 		const agotado = await esperar( tests, async () => ( await seguro( page, `!document.querySelector('a.mas') && document.querySelectorAll('.card').length === ${ TOTAL }` ) ) === true );
 		const foco = await esperar( tests, async () => ( await seguro( page, `document.activeElement?.classList.contains('conteo') ?? false` ) ) === true, 3000 );
-		tests.check( 'Con JS: al agotar «Ver más» (288 → 316 tarjetas, sin enlace) el foco queda en el conteo', antes.tarjetas === 288 && antes.mas && agotado && foco && ( await marca( page ) ) && ! ( await cargando( page ) ), `${ JSON.stringify( antes ) } agotado=${ agotado } foco=${ await page.evaluate( 'document.activeElement?.tagName + "." + document.activeElement?.className' ) }` );
+		tests.check( 'Con JS: al agotar «Ver más» (penúltima tanda → todas las tarjetas, sin enlace) el foco queda en el conteo', antes.tarjetas === PENULTIMA && antes.mas && agotado && foco && ( await marca( page ) ) && ! ( await cargando( page ) ), `${ JSON.stringify( antes ) } agotado=${ agotado } foco=${ await page.evaluate( 'document.activeElement?.tagName + "." + document.activeElement?.className' ) }` );
 	} finally {
 		page.close();
 	}

@@ -1,7 +1,7 @@
 // node tests/e2e/navegacion.mjs — menú, estado activo, programas, hero compacto, accesos y guía de estilos.
 // Requiere el stack local en :8090 con el seed del boletín, los productores y la historia.
 import { createBrowserTests } from './lib.mjs';
-import { ASOCAFE, BOLETIN, CATALOGO, EDICION, HISTORIAS, conLimpieza, conteoDe, contar, enteros, esperar, norm, productoresSeed, sinDesborde, wp, wpJson } from './fcp-lib.mjs';
+import { ASOCAFE, BOLETIN, CATALOGO, EDICION, HISTORIAS, conLimpieza, conteoDe, contar, enteros, esperar, norm, productoresSeed, seguro, sinDesborde, wp, wpJson } from './fcp-lib.mjs';
 
 const tests = createBrowserTests();
 const site = tests.site;
@@ -288,7 +288,7 @@ async function banner() {
 		await page.evaluate( `(() => { const i = document.querySelector( '.wp-block-lapaz-catalogo-banner input[name=buscar]' ); i.focus(); return 1; })()` );
 		await page.send( 'Input.insertText', { text: 'cafe' } );
 		await key( page, 'Enter', 'Enter', 13, '\r' );
-		await esperar( tests, () => page.evaluate( `location.pathname === ${ JSON.stringify( CATALOGO ) } && document.readyState === 'complete' && Boolean( document.querySelector( '.conteo' ) )` ), 10000 );
+		await esperar( tests, () => seguro( page, `location.pathname === ${ JSON.stringify( CATALOGO ) } && document.readyState === 'complete' && Boolean( document.querySelector( '.conteo' ) )` ), 10000 );
 		const url = await page.evaluate( 'location.pathname + location.search + location.hash' );
 		tests.check( `Banner: escribir «cafe» y pulsar Enter lleva a ${ CATALOGO }?buscar=cafe#explorar`, url === `${ CATALOGO }?buscar=cafe#explorar`, url );
 		const conteo = await page.evaluate( `document.querySelector( '.conteo' )?.textContent.trim() ?? ''` );

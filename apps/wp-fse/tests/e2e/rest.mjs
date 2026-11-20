@@ -1,9 +1,10 @@
 // node tests/e2e/rest.mjs — sin sesión toda la API REST responde 401 y no filtra datos; con sesión, los tipos del catálogo no están en REST. Sin Chrome.
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { ASOCAFE, CATALOGO, RUTA_RETIRADA, productoresSeed, wpJson } from './fcp-lib.mjs';
+import { ASOCAFE, CATALOGO, RUTA_RETIRADA, exigirLocal, productoresSeed, wpJson } from './fcp-lib.mjs';
 
 const site = process.env.SITE_URL ?? 'http://localhost:8090';
+exigirLocal( { site } );
 const get = async ( path ) => {
 	const r = await fetch( new URL( path, site ), { redirect: 'manual', credentials: 'omit' } );
 	return { status: r.status, texto: await r.text() };
@@ -35,8 +36,10 @@ for ( const ruta of RUTAS ) {
 }
 
 const oembed = await get( '/wp-json/oembed/1.0/embed?url=' + encodeURIComponent( new URL( '/', site ).href ) );
-await test( 'oEmbed de una URL del sitio no devuelve autor', () =>
-	assert.ok( oembed.status === 401 || ! /author_(name|url)/.test( oembed.texto ) ) );
+await test( 'oEmbed de una URL del sitio: 401, o 200 sin autor', () => {
+	assert.ok( [ 200, 401 ].includes( oembed.status ), `HTTP ${ oembed.status }` );
+	if ( oembed.status === 200 ) assert.ok( ! /author_(name|url)/.test( oembed.texto ), 'No debe traer autor.' );
+} );
 
 // Con sesión de administrador (wp-cli, sin contraseñas): los tipos del catálogo no están en REST.
 const sesion = wpJson( `
