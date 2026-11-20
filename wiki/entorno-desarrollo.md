@@ -14,6 +14,7 @@ Cómo se trabaja en La Paz Sí Pasa: máquina, servicios locales, agentes, herra
 | Claude Code | 2.1 | agente principal: desarrolla, coordina y hace commit |
 | Codex CLI | 0.166 | pruebas, bases visuales, `bin/check` y CI |
 | AGY (Antigravity CLI) | 1.5 | agente de apoyo para tareas acotadas |
+| Grok Build CLI | 1.0.89 | agente de apoyo: contenido a bloques y borradores (desde 2026-11-19) |
 
 PHP, Composer, wp-cli y los linters no se instalan en la máquina: van en imágenes Docker con versión fija.
 
@@ -84,7 +85,7 @@ node tests/e2e/navbar.mjs --baseline http://127.0.0.1:4321
 
 ## Agentes
 
-**Claude desarrolla; los otros agentes prueban.** Claude tiene más cuota y lleva el contexto del proyecto, así que se dedica a construir. Desde la etapa 3, Codex se encarga de pruebas, bases visuales, `bin/check` y CI, y reporta los fallos del código del tema con archivo:línea para que Claude los arregle. AGY hace revisiones independientes de lectura. Claude corre a lo sumo un smoke rápido (que la página cargue).
+**Claude desarrolla; los otros agentes prueban.** Claude tiene más cuota y lleva el contexto del proyecto, así que se dedica a construir. Desde la etapa 3, Codex se encarga de pruebas, bases visuales, `bin/check` y CI, y reporta los fallos del código del tema con archivo:línea para que Claude los arregle. AGY hace revisiones independientes de lectura. Grok convierte contenido a bloques y escribe borradores en archivos asignados (desde 2026-11-19). Claude corre a lo sumo un smoke rápido (que la página cargue).
 
 Cómo se delega, siempre en la misma ventana de Orca para ver a todos trabajar:
 
@@ -96,6 +97,8 @@ Cómo se delega, siempre en la misma ventana de Orca para ver a todos trabajar:
      --command "codex --sandbox workspace-write --ask-for-approval on-request \"\$(cat brief.md)\""
    orca terminal split --terminal <panel> --direction horizontal \
      --command "agy --mode accept-edits -i \"\$(cat brief.md)\""
+   orca terminal split --terminal <panel> --direction horizontal \
+     --command "grok \"\$(cat brief.md)\""
    orca terminal set-pane-title --terminal <handle> --title "CODEX · infra"
    ```
 3. Claude sigue el avance con `orca terminal read --terminal <handle> --screen`, integra lo que reportan y hace commit cuando Codex confirma `bin/check` en verde. Solo Claude hace commit.

@@ -1,5 +1,15 @@
 # Updates
 
+## 2026-11-19 · boletín y catálogo PaisSana
+
+**Estado:** diseño documentado, sin código. Rama `feat/boletin-catalogo-fcp`, sin commits. [Spec](specs/boletin-catalogo-fcp.md), [boletín](specs/boletin-catalogo-fcp/boletin-estructura.md), [catálogo e historia del mes](specs/boletin-catalogo-fcp/paissana-catalogo.md) y [decisiones](decisions/boletin-catalogo-fcp.md). Insumos del Fondo en `raw/`, fuera de git.
+
+**Decidido con William:** boletín como formulario por secciones (4 moldes), buscador del catálogo nativo en el servidor, una historia PaisSana por mes, y contenido inicial en el seed.
+
+**Bloqueo:** aprobación del diseño. Del Fondo: video Asocafé, datos de la persona externa y si el boletín sigue llamándose «interno».
+
+**Siguiente paso:** aprobar y ejecutar la etapa 0 (`raw/` en `.gitignore`) y la 1 (modelo).
+
 ## 2026-11-09 · producción en FSE
 
 **Estado:** `lapazsipasa.com` ya sirve el sitio WordPress FSE desde el servidor nuevo (`<IP_SERVIDOR>`), con Let's Encrypt, contenido del seed y WP Super Cache. Se usó el mismo compose `MonoRepo` del headless, con la ruta `./apps/wp-fse/compose.yaml` y rama `main` (`v2.0.0`). El headless + Astro sigue en el servidor viejo, sin DNS, como respaldo. Detalle en [despliegue-fse.md](despliegue-fse.md#producción-desde-2026-11-09).

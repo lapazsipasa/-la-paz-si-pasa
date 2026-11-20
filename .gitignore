@@ -58,3 +58,6 @@ apps/frontend/documentacion/*.jpg
 .DS_Store
 Thumbs.db
 *.log
+
+# Insumos del cliente (material interno): no van al repo público.
+raw/
