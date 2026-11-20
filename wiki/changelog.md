@@ -2,7 +2,7 @@
 
 Qué cambió, con fecha y PR. Lo reciente arriba.
 
-- **2026-11-20** · entrega de la rama: URL nuevas, endurecimiento, accesibilidad, formularios del admin, pruebas y revisiones independientes · **en la rama `feat/boletin-catalogo-fcp` (34 commits sobre `lapazsipasa/main`), sin push, PR ni deploy** · [revisiones](specs/boletin-catalogo-fcp/revisiones-independientes.md)
+- **2026-11-20** · entrega de la rama: URL nuevas, endurecimiento, accesibilidad, formularios del admin, pruebas, revisiones independientes y SEO editable (sin commit) · **en la rama `feat/boletin-catalogo-fcp` (36 commits sobre `lapazsipasa/main`), sin push, PR ni deploy** · [revisiones](specs/boletin-catalogo-fcp/revisiones-independientes.md)
   - Catálogo en `/productores/` (plantilla `page-productores.html`) e historias en `/historias/<slug>/`, con archivo en `/historias/`. `/paissana/` deja de existir; `lapaz-setup` migra la página conservando su ID (`1e799ea`).
   - Menú: «Proyectos destacados» queda activo también en `/productores/` y `/historias/` (`1e799ea`).
   - Formularios del admin en lenguaje llano. La crónica de la historia deja de clonar el molde Artículo y el «Título» obligatorio (`a0c2b63`).
@@ -17,7 +17,9 @@ Qué cambió, con fecha y PR. Lo reciente arriba.
   - Correcciones de la revisión 10: listener `close` y bloqueo de scroll en el `<dialog>` del lightbox, vaciado de caché ampliado a menú (`wp_navigation`), páginas, los 6 CPT previos y taxonomías del catálogo, división de `assets/css/editorial.css` en `editorial.css` + `lectura.css`, y tarjetas del índice como `<article>` con enlace estirado (`1d87a5b`).
   - Correcciones de la revisión 12 en pruebas: `catalogo.mjs` prueba el indexado automático del MU-plugin, `rest.mjs` añade `exigirLocal()` y endurece la aserción de oEmbed, `seguro()` compartido en `fcp-lib.mjs`, fecha determinista y `PENULTIMA` dinámica (`e78e2f1`).
   - Correcciones de la revisión 17: foco de tarjetas del índice protegido con `@supports selector(:has(*))`, espera completa al cerrar el lightbox con Escape en `historia.mjs`, y respaldo al nombre de sección en `indice.php` (`35b50b3`).
-  - En curso, sin commit: guardas de `--seed`, aviso de plantillas y vaciado de caché en `lapaz-setup`; manual del editor v2; borrador de PR; integración de The SEO Framework (no entregada).
+  - Seed: `historia-asocafe.json` limpiado a los campos del formulario de crónica (`384db0d`).
+  - Documentación: wiki al día con revisiones 10–20, checklist y marcha atrás de despliegue, manual del editor v2, nota para el Fondo y borrador de PR (`2b7fe49`).
+  - Sin commit (integración de SEO y `lapaz-setup`): The SEO Framework (`autodescription` 5.2.1) en `Dockerfile` con traducción `es_CO` en `apps/wp-fse/docker/languages/plugins/` y copia en `entrypoint.sh`; guardas de `--seed`/`--forzar-seed`, opciones desconocidas, aviso de plantillas, vaciado de caché y configuración inicial única de SEO en `lapaz-setup`; integración en `inc/seo-tsf.php` con respaldo intacto en `inc/seo.php` e `inc/guia-estilos.php`; redirección 301 `/wp-sitemap*.xml` → `/sitemap.xml` en `lapaz-limpieza.php`; actualización en curso de `seo.mjs` y `navegacion.mjs`.
 - **2026-11-19 a 2026-11-20** · feat: boletín y catálogo PaisSana · **en la rama `feat/boletin-catalogo-fcp`, sin push, PR ni deploy** · [spec](specs/boletin-catalogo-fcp.md)
   - Modelo: tipos `boletin`, `productor` (5 taxonomías) e `historia`, en `apps/wp-fse/scf-json/` (`87fa755`).
   - Boletín: bloque `lapaz/boletin`, edición nueva con 8 secciones precargadas, `/boletin/` y `editorial.css` (`40af34e`, `1fc1301`).

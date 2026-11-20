@@ -165,11 +165,12 @@ Pendientes de decisión, servidor y staging: [revisiones independientes](specs/b
    ```
    Qué hace `apps/wp-fse/docker/lapaz-setup` (en el árbol de trabajo, sin commit):
    - si se pasa `--seed` en producción sobre un sitio ya instalado, lo rechaza antes de cambiar nada (salvo `--forzar-seed`), y rechaza las opciones desconocidas;
+   - activa The SEO Framework (`autodescription` 5.2.1) de forma tolerante (si falla, avisa y el tema usa el SEO de respaldo en `inc/seo.php`); una sola vez (`lapaz_seo_configurado`) aplica los ajustes iniciales y migra el extracto de las páginas a `_genesis_description`;
    - crea la página `productores` («Productores PaisSana»); si existe `paissana`, la renombra conservando su ID y la deja publicada; si existen ambas, avisa y no borra ninguna;
    - migra el menú Principal solo si sigue siendo el de fábrica; si el editor lo cambió, imprime aviso y no lo toca (ajustarlo luego en *Editor del sitio → Navegación*: Lo que hacemos, Actualidad, Proyectos destacados como enlace de página, Boletín);
    - aplica las reglas de enlaces (`rewrite structure --hard`);
-   - con `WP_CACHE=true`, excluye de la caché `/productores/` con parámetros (`^/productores/.*\?`) y vacía la caché de página al terminar (`wp_cache_clear_cache()`);
-   - avisa por `stderr` si existen plantillas personalizadas (`wp_template`/`wp_template_part`) en la base que tapen los archivos del tema.
+   - con `WP_CACHE=true`, excluye de la caché `/productores/` con parámetros (`^/productores/.*\?`) y los sitemaps (`^/(wp-)?sitemap`), vacía los transitorios del sitemap del plugin y vacía la caché de página al terminar (`wp_cache_clear_cache()`);
+   - avisa por `stderr` si existen plantillas personalizadas del tema `lapaz` (`wp_template`/`wp_template_part`) en la base que tapen los archivos del tema.
 7. **Grupos SCF.** `lapaz-setup` no los importa a la base: SCF los lee desde `scf-json-lapaz/` (`apps/wp-fse/mu-plugins/lapaz-core.php`). Comprobar en `/wp-admin/` que *Boletines*, *Historias PaisSana* y *Productores* muestran sus campos. Solo si no aparecieran (TODO: confirmar en staging), importarlos así:
    ```bash
    su www-data -s /bin/bash -c 'wp --path=/var/www/html eval "foreach (glob(WP_CONTENT_DIR . \"/scf-json-lapaz/group_*.json\") as \$f) { acf_import_field_group(json_decode(file_get_contents(\$f), true)); }"'
@@ -201,11 +202,14 @@ Pendientes de decisión, servidor y staging: [revisiones independientes](specs/b
 13. **API y archivos sensibles:** HTTP 401 sin sesión en `/wp-json/wp/v2/users` y `/wp-json/wp/v2/productor`; HTTP 403 en `/xmlrpc.php`, `/readme.html`, `/wp-content/debug.log` y sin listado en `/wp-content/uploads/`.
 14. **Cabeceras y consola:** sin `X-Powered-By`; `Strict-Transport-Security` solo en HTTPS; `Content-Security-Policy-Report-Only` en frontend y ausente en `/wp-login.php`; consola sin violaciones CSP en `/`, `/proyectos-destacados/` (reproduciendo video de YouTube y audio) y `/productores/` (TODO: confirmar en staging antes de pasar a modo activo).
 15. **Visual y navegación:** `/` y `/proyectos-destacados/` muestran tarjetas de boletín, historia y banner del catálogo; el menú Principal incluye «Boletín» y marca estado activo.
-16. **Caché:** `/productores/` limpio servido desde caché; `/productores/?buscar=cafe` sin cachear; editar un productor de prueba vacía la caché.
-17. **Editor y Salud del sitio:** entrar con el usuario Editor (edita boletines, historias y productores; no instala plugins ni cambia ajustes ni menú) y revisar *Salud del sitio* (TODO: confirmar en staging si aparece aviso de REST).
-18. **Limpieza:** tras 24–48 h estables, borrar `/tmp/pre-deploy-boletin-catalogo.sql` del contenedor (conservar la copia externa).
-
-Sitemap: la ruta y su contenido se comprueban en staging, pero la integración del plugin de SEO (en curso) puede cambiarla; no dar por vigente ninguna ruta todavía.
+16. **Caché:** `/productores/` limpio servido desde caché; `/productores/?buscar=cafe` y `/sitemap.xml` sin cachear; editar un productor de prueba vacía la caché.
+17. **SEO y sitemap (The SEO Framework):**
+    - plugin `autodescription` activo y caja **Ajustes de SEO** en español (`es_CO`) al editar una página, boletín o historia;
+    - en `/` y rutas nuevas: exactamente **una** `<title>`, **una** `description`, **una** `canonical`, **una** `robots` (**sin `noindex`** en producción) y `og:locale` = `es_CO`;
+    - `/sitemap.xml` responde `200` con páginas, boletines e historias (sin `productor` ni `guia-de-estilos`); `/wp-sitemap.xml` responde `301` → `/sitemap.xml`;
+    - **Google Search Console:** reenviar `/sitemap.xml` para reemplazar `/wp-sitemap.xml`.
+18. **Editor y Salud del sitio:** entrar con el usuario Editor (edita boletines, historias, productores y solo *General* + imagen social en **Ajustes de SEO**; no instala plugins ni cambia ajustes ni menú) y revisar *Salud del sitio* (TODO: confirmar en staging si aparece aviso de REST; TODO: confirmar que el Editor no ve el menú *SEO*).
+19. **Limpieza:** tras 24–48 h estables, borrar `/tmp/pre-deploy-boletin-catalogo.sql` del contenedor (conservar la copia externa).
 
 ### Plan de marcha atrás
 
@@ -234,3 +238,5 @@ Pasos para marcha atrás completa (código + base de datos):
 | Respaldo de uploads | *Volume backups* de Dokploy sobre `wordpress_data` |
 | Actualizar tema o plugins | push a la rama del servicio y deploy: todo va horneado en la imagen |
 | Logs | Dokploy → servicio → Logs (`cms`). Los errores de SMTP salen con el prefijo `[lapaz-smtp]` |
+| Actualizar The SEO Framework (`autodescription`) | En producción (`DISALLOW_FILE_MODS`) no se actualiza desde el panel: subir `TSF_VERSION` y `TSF_SHA256` en `apps/wp-fse/Dockerfile`, actualizar los dos archivos `es_CO` en `apps/wp-fse/docker/languages/plugins/` (ver su `LEEME.md`), reconstruir y desplegar |
+| Si The SEO Framework se desactiva | El sitio no se rompe: `inc/seo.php` e `inc/guia-estilos.php` retoman automáticamente título, descripción, Open Graph, canónicas, `noindex` fuera de producción y `/wp-sitemap.xml` (solo se pierde la caja editable por entrada) |

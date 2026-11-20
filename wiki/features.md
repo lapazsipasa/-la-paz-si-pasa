@@ -55,3 +55,4 @@ Construido y con commits, sin push ni PR. Detalle en la [spec](specs/boletin-cat
 - **Menú:** «Boletín» en el menú principal, orden nuevo y estado activo por sección. Los dos botones de programa quedan en gris.
 - **Accesos:** tarjetas de último boletín e historia, y banner del catálogo, en Inicio y Proyectos destacados.
 - **Guía de estilos:** `/guia-de-estilos/` solo existe en local. `lapaz-setup` la crea únicamente con `WP_ENVIRONMENT_TYPE=local`, y el bloque no pinta nada en producción. Comprobar en staging que da 404.
+- **SEO editable por entrada:** The SEO Framework (`autodescription` 5.2.1, sin commit todavía) añade la caja **Ajustes de SEO** (en español `es_CO`) en páginas, boletines e historias para cambiar título, descripción e imagen para compartir; el sitemap pasa a `/sitemap.xml` (con 301 desde `/wp-sitemap.xml`). Si se desactiva el plugin, el tema retoma su SEO de respaldo (`inc/seo.php`).

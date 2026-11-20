@@ -1,5 +1,27 @@
 # Updates
 
+## 2026-11-20 (cierre de sesión) · dónde quedó y qué sigue
+
+**Estado:** rama `feat/boletin-catalogo-fcp`, 38 commits sobre `lapazsipasa/main`. **Sin push, sin PR y sin desplegar**: falta la aprobación de William. El sitio local quedó reconstruido con la imagen nueva y el plugin de SEO activo.
+
+**Hecho hoy:**
+- Correcciones de las revisiones independientes 10, 12, 17, 19, 21 y 22, y limpieza del seed (revisión 18) y de sobras (revisión 23).
+- Plugin The SEO Framework integrado en la imagen, el arranque y el tema, con el SEO del tema como respaldo. Detalle en [seo-plugin](specs/boletin-catalogo-fcp/seo-plugin.md).
+- Guardas de `lapaz-setup` para el despliegue (revisión 15).
+- Manual del editor revisado, nota para el Fondo y borrador del PR.
+
+**Verificado en local con la imagen reconstruida:** `seguridad.mjs` 64 de 64, `seo.mjs` 280, `navegacion.mjs` 181. `bin/check` en verde salvo PHPCS.
+
+**Pendiente inmediato (lo primero al retomar):**
+1. `boletin.mjs` e `historia.mjs` fallan en la canónica de la entrada: en local todo va con `noindex` y el plugin no imprime canónica en páginas `noindex` (sí en `/boletin/` e `/historias/`). Pasar esas comprobaciones al modo de producción, como hace `seo.mjs`.
+2. PHPCS: `apps/wordpress/themes/lapaz/inc/boletin.php:57`, comentario sin descripción corta.
+3. Corrida final de `bin/check` y de todas las suites; `catalogo`, `rest`, `historia`, `boletin` y `lo-que-hacemos` no se han vuelto a correr con el plugin activo.
+4. Terminar de aplicar la documentación del plugin: quedó a medias. Aplicados: `changelog`, `despliegue-fse`, `features`, `manual-editor` y `seo-plugin`. Faltan: esta página (bloque de abajo, desactualizado), `revisiones-independientes.md` (entradas 21 a 25), `revision-seo-enlaces.md` y `prs/boletin-catalogo-fcp.md`.
+5. Revisión 25 (ajustes de SEO): la hizo un revisor independiente porque AGY agotó su cuota. Repetirla con AGY.
+6. Manual del editor: capturas y paso a documento de Google.
+
+**Bloqueo:** aprobación de William para staging y PR; pendientes del servidor y del Fondo en [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor).
+
 ## 2026-11-20 · boletín y catálogo: pruebas, accesibilidad y 17 revisiones
 
 **Estado:** entrega construida en la rama `feat/boletin-catalogo-fcp` (**34 commits** sobre `lapazsipasa/main`, el último `35b50b3`). **Sin push, sin PR y sin desplegar.** Producción sigue en el sitio FSE de 2026-11-09. Detalle por commit: [changelog](changelog.md). Estado de las revisiones y pendientes: [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md).

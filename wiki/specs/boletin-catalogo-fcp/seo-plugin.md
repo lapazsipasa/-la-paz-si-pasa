@@ -1,8 +1,21 @@
 # SEO editable por el equipo: The SEO Framework
 
-**Estado: diseño, pendiente de aprobación.** Fase 1 (probar y diseñar) hecha el 2026-11-20 sobre `http://localhost:8090`. No se integró nada: el plugin quedó instalado y desactivado, y el `<head>` del sitio es el de antes.
+**Estado: implementado en la rama `feat/boletin-catalogo-fcp` (sin commit todavía, sin desplegar).** Verificado en el sitio local reconstruido: `autodescription` 5.2.1 activo, caja «Ajustes de SEO» en español (`es_CO`), `/sitemap.xml` 200 con 5 URLs y `/wp-sitemap.xml` 301 → `/sitemap.xml`. Suites `seo.mjs` y `navegacion.mjs` en actualización (pendiente de la corrida final).
 
 Contexto: [decisiones](../../decisions/boletin-catalogo-fcp.md) y la auditoría [revision-seo-enlaces.md](revision-seo-enlaces.md). Hoy el SEO lo hace el tema (`inc/seo.php`, `inc/guia-estilos.php`) y quien edita solo puede cambiar el extracto de las páginas.
+
+## Cómo quedó (diferencias frente al diseño inicial)
+
+- **Respaldo del tema conservado:** en lugar de borrar las funciones del tema, `inc/seo.php:249-258` e `inc/guia-estilos.php:236-239` envuelven sus hooks en `if ( ! defined( 'THE_SEO_FRAMEWORK_PRESENT' ) )`; `lapaz_print_icons()`, WebP y limpieza de emojis corren siempre. Si el plugin se desactiva, el tema retoma todo el SEO sin romper el `<head>` (TODO: verificar desactivando el plugin en local).
+- **Traducción `es_CO` guardada en el repo:** `autodescription-es_CO.l10n.php` y `autodescription-es_CO.mo` viven en `apps/wp-fse/docker/languages/plugins/` (en vez de descargarse en tiempo de ejecución o desde GlotPress), se copian en `apps/wp-fse/Dockerfile:52` y se sincronizan al volumen en `apps/wp-fse/docker/entrypoint.sh:24-29`.
+- **Activación tolerante y ajustes únicos:** `apps/wp-fse/docker/lapaz-setup:60-83` activa `autodescription` sin abortar si falla (avisa por `stderr` y deja el respaldo del tema), aplica los 4 ajustes iniciales mediante `\The_SEO_Framework\Data\Plugin::update_option( array )` y migra los extractos de páginas dentro de la misma guarda única `lapaz_seo_configurado`.
+- **Vaciado de caché del sitemap al final:** `apps/wp-fse/docker/lapaz-setup:234-237` vacía `\The_SEO_Framework\Sitemap\Cache::clear_sitemap_caches()` (protegido con `class_exists()`) después de crear páginas y seed; `cache_rejected_uri` en `:199` excluye `^/(wp-)?sitemap`.
+- **Título de portada y separador por código:** `inc/seo-tsf.php:73-75,105-111` devuelve «La Paz Sí Pasa | Fondo Colombia en Paz» en portada, apaga la marca solo en portada (`the_seo_framework_use_title_branding`) y fija el separador `'|'` (`the_seo_framework_title_separator`).
+- **`og:locale` en `es_CO`:** `inc/seo-tsf.php:252-261` devuelve `get_locale()` vía `the_seo_framework_meta_render_data` (en lugar del `es_ES` de fábrica del plugin).
+- **`noindex` sin `nofollow` solo con búsqueda:** `inc/seo-tsf.php:217-233` pone `noindex` + `nofollow` en `guia-de-estilos` (en página y sitemap, cacheando el ID en estática) y fuera de producción (solo en consulta actual), y `noindex` a secas únicamente en `/productores/` cuando `buscar` no está vacío (filtros y `ver` mantienen su canónica a `/productores/`).
+- **El editor gana también en archivos `/boletin/` e `/historias/`:** `inc/seo-tsf.php:45-50,81-84,122-125,162-168` lee `_genesis_title`, `_genesis_description`, `_social_image_url` y `_social_image_id` de la entrada más reciente antes de caer a los campos SCF por defecto.
+- **Redirección de sitemaps antiguos:** `apps/wp-fse/mu-plugins/lapaz-limpieza.php:143-151` redirige con `301` `/wp-sitemap.xml` (con o sin barra final) y `/wp-sitemap-*.xml` hacia `/sitemap.xml` cuando el plugin está activo.
+- **Caja reducida para el Editor:** `inc/seo-tsf.php:271-279` oculta la pestaña **Visibilidad** (`visibility`) y, mediante `<style>` emitido dentro del propio filtro (solo en pantallas de edición), oculta los 5 campos sueltos de Open Graph/Twitter; el Editor ve **General** (`Meta título`, `Descripción meta`) y **Social** (`URL de la imagen social`) (TODO: confirmar en pantalla con un usuario Editor real).
 
 ## 0. Veredicto
 

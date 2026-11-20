@@ -342,24 +342,24 @@ Imprime o revisa esta lista antes de pulsar **Publicar**:
 
 ### Título, descripción e imagen para buscadores y redes
 
-El sitio completa solos estos datos a partir del contenido que llenas, pero puedes cambiar cómo se ve cualquier página, boletín o historia en Google, WhatsApp o redes sociales:
+El sitio completa solos estos datos a partir del contenido que llenas, pero puedes personalizar cómo aparece cualquier página, boletín o historia en Google, WhatsApp o redes sociales. En `/boletin/` y `/historias/` se muestran los datos que escribas en la caja de la edición o historia más reciente.
 
 1. **Dónde encontrar la caja:**
    - En un **Boletín** o una **Historia PaisSana**, baja desde el título: verás la caja **Ajustes de SEO**.
    - En una **Página** (como *Productores PaisSana*), baja hasta el final del editor y abre el panel plegado **Cajas meta**: ahí está **Ajustes de SEO**.
 2. **En la pestaña General:**
-   - **Título meta:** el título que aparecerá en Google. Si lo dejas vacío, el sitio usa el título normal. Fíjate en la barra de color debajo del campo: verde indica buen largo.
-   - **Descripción meta:** el resumen corto que se lee bajo el título en Google y al compartir (hasta 155 caracteres). Si la dejas vacía, el sitio toma el sumario del boletín o el resumen de la historia.
+   - **Meta título:** el título que aparecerá en Google. Si lo dejas vacío, el sitio usa el título normal. Debajo verás una barra de color con el estado (**Bien**, **Demasiado corto** o **Demasiado largo**; si te pasas mucho puede decir «Demasiado tiempo»). Deja sin marcar **¿Eliminar el título del sitio?** salvo que quieras omitir «| La Paz Sí Pasa».
+   - **Descripción meta:** el resumen corto que se lee bajo el título en Google y al compartir (ideal hasta 155 caracteres). Si la dejas vacía, el sitio toma el sumario del boletín o el resumen de la historia.
 3. **En la pestaña Social:**
-   - **Imagen para compartir:** haz clic en **Seleccionar imagen** para elegir una foto horizontal de la biblioteca de medios. Si la dejas vacía, se usa la foto de portada.
+   - **URL de la imagen social:** haz clic en **Seleccionar imagen** (o **Cambiar la imagen** / **Quita la imagen**) para elegir una foto horizontal de la biblioteca de medios. Si la dejas vacía, se usa la foto de portada.
 4. Haz clic en **Actualizar** o **Publicar** para guardar.
 
-[CAPTURA: Caja **Ajustes de SEO** en un boletín, con **Título meta** y **Descripción meta** y su barra de longitud.]
+*(Las etiquetas de la caja vienen traducidas al español; algún texto secundario del contador puede aparecer en inglés.)*
+
+[CAPTURA: Caja **Ajustes de SEO** en un boletín, con **Meta título** y **Descripción meta** y su barra de longitud.]
 [CAPTURA: Panel **Cajas meta** desplegado al final de una página, con la pestaña **Social** y el botón **Seleccionar imagen**.]
 
-[CONFIRMAR EN PANTALLA: los nombres exactos de la caja, las pestañas y los campos en español, cuando el plugin quede instalado con su traducción.]
-
-*(Mientras tanto, el sitio usa automáticamente el titular y el sumario del boletín, y el título y el resumen de la historia para mostrarlos en Google y al compartir en redes sociales.)*
+[CONFIRMAR EN PANTALLA: la ubicación de **Cajas meta** en las páginas; que el Editor solo ve las pestañas **General** y **Social**; y si la casilla **¿Eliminar el título del sitio?** surte efecto por entrada.]
 
 ### A quién acudir
 Si encuentras un error que no está en la sección 8, necesitas cambiar el menú principal o un cambio no aparece tras recargar, escribe al equipo técnico responsable del sitio indicando:
