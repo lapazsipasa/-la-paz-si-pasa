@@ -25,9 +25,8 @@
 .wp-block-lapaz-boletin .sin-edicion {
 	padding: var(--space-16) var(--space-4);
 	text-align: center;
-	font-family: var(--font-monique-regular);
+	font-family: var(--font-komet);
 	font-weight: var(--font-weight-komet-regular);
-	text-transform: uppercase;
 }
 
 /* Franja institucional */

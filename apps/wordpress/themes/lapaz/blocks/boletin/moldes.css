@@ -4,9 +4,10 @@
  * Agenda y pie son paneles protagonistas: azul, texto blanco y celeste de acento.
  */
 .wp-block-lapaz-boletin .volver {
-	display: inline-block;
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
 	margin-top: var(--space-8);
-	padding-block: var(--space-2);
 	text-decoration: none;
 	color: var(--color-nav-text);
 }

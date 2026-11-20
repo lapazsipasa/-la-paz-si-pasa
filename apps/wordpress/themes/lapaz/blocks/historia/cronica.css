@@ -43,13 +43,6 @@
 	border-radius: var(--radius-card);
 }
 
-.wp-block-lapaz-historia .cronica aside figcaption {
-	font-family: var(--font-komet);
-	font-weight: var(--font-weight-komet-bold);
-	font-size: 0.8125rem;
-	color: var(--color-text-muted);
-}
-
 .wp-block-lapaz-historia .ficha-tec.una-columna {
 	grid-template-columns: 1fr;
 	padding: var(--space-6) var(--space-4);

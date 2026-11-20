@@ -81,6 +81,14 @@
 	line-height: 1.3;
 }
 
+@media (max-width: 849px) {
+
+	/* Recorta el hueco de 10rem de .paisana-page (base.css) a 4rem; la clase doble gana a margin-block-end:0 del layout de WP. */
+	.wp-block-lapaz-historia-destacada.wp-block-lapaz-historia-destacada {
+		margin-bottom: calc(var(--space-12) * -2);
+	}
+}
+
 @media (min-width: 850px) {
 
 	.wp-block-lapaz-historia-destacada .dest-card {

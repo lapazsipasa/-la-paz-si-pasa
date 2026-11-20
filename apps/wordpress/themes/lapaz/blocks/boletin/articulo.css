@@ -21,7 +21,7 @@
 	align-items: start;
 }
 
-/* Rótulo azul; el verde es una variante que elige el editor (6,55:1 sobre blanco). */
+/* Rótulo azul; solo «Verde» cambia (6,55:1 sobre blanco): «Naranja» y «Azul» se pintan azul por la regla de pocos colores. */
 .wp-block-lapaz-boletin .rotulo-seccion {
 	color: var(--color-nav-text);
 }

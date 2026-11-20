@@ -15,8 +15,9 @@
 }
 
 .wp-block-lapaz-historia .volver-top a {
-	display: inline-block;
-	padding-block: var(--space-2);
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
 	text-decoration: none;
 	color: var(--color-nav-text);
 }
@@ -271,6 +272,13 @@
 
 .wp-block-lapaz-historia .lightbox :is(.cerrar):focus-visible {
 	outline-color: var(--color-surface);
+}
+
+@media (min-width: 480px) {
+
+	.wp-block-lapaz-historia .galeria {
+		grid-template-columns: repeat(2, 1fr);
+	}
 }
 
 @media (min-width: 850px) {
