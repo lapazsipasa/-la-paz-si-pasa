@@ -11,7 +11,7 @@ Página viva del sistema visual del tema FSE: colores, tipografía, espaciado, f
 Nada está copiado: el bloque `lapaz/guia-estilos` (oculto del insertador) lee `wp_get_global_settings()` y `wp_get_global_styles()` al renderizar, vía `inc/guia-estilos.php`.
 
 - Paleta, familias con sus pesos declarados en `fontFace`, `fontSizes`, `spacingSizes` y todo `settings.custom` (radius, border, shadow, letter-spacing, font-weight).
-- Componentes compartidos: la sección usa la hoja `lapaz-editorial` (declarada en el `block.json`) con el marcado real del boletín, dentro de un contenedor `wp-block-lapaz-boletin`.
+- Componentes compartidos: la sección usa las hojas `lapaz-editorial` y `lapaz-lectura` (declaradas en el `block.json`) con el marcado real del boletín, dentro de un contenedor `wp-block-lapaz-boletin`.
 - Tamaños de `h1–`h3` desde `styles.elements`.
 - El contraste de las combinaciones texto/fondo se calcula en PHP con la fórmula WCAG (AA: 4,5 texto normal, 3 texto grande).
 

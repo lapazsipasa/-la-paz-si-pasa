@@ -29,7 +29,7 @@ Checklist para construir el tema `lapaz` (WP 7.1, PHP 8.3, SCF, Dokploy). Está 
   - el archivo se carga en cada instancia, así que no se declaran funciones dentro (van en `inc/helpers.php`).
 - **JS:** `viewScript` (`file:./view.js`). Se carga con `defer` y solo donde está el bloque. `viewScriptModule` con Interactivity API se usa solo en `lapaz/catalogo` (ver [decisión 3](decisions/boletin-catalogo-fcp.md#3-interactivity-api-solo-en-el-bloque-del-catálogo)). El resto de bloques usa `viewScript`. [Block metadata](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/)
 - **CSS por bloque:** `style` (editor y sitio) o `viewStyle` (solo sitio). En temas de bloques se carga solo en las páginas que tienen el bloque, y si pesa menos de 40 KB va inline.
-- **CSS compartido de los bloques editoriales** (boletín, catálogo, historia): `assets/css/editorial.css`, cargado con `inc/blocks.php`. Los colores, tipos y tamaños salen de los tokens de `theme.json`: no se escriben valores hex sueltos en los bloques ni en las hojas por bloque.
+- **CSS compartido de los bloques editoriales** (boletín, catálogo, historia): `assets/css/editorial.css` (elementos comunes) y `assets/css/lectura.css` (artículos y crónicas), cargados con `inc/blocks.php`. Los colores, tipos y tamaños salen de los tokens de `theme.json`: no se escriben valores hex sueltos en los bloques ni en las hojas por bloque.
 - **Bloques core** (como `core/navigation`): `wp_enqueue_block_style( 'core/navigation', [ handle, src, path ] )`. Su JS extra se encola desde el filtro `render_block_<bloque>`.
 - **Clases que core copia a elementos internos:** `core/navigation` repite `className` en su `<ul>`. Los selectores se acotan al elemento (`nav.lapaz-nav-desktop`) y no se usan clases utilitarias como `container--wide` en el bloque.
 
@@ -104,7 +104,7 @@ Checklist para construir el tema `lapaz` (WP 7.1, PHP 8.3, SCF, Dokploy). Está 
 | wp-cli dentro de la imagen (`docker compose exec -u www-data cms wp …`) | setup, menús, contenido | en uso |
 | Query Monitor | errores de PHP, consultas, assets por página | solo en local (`lapaz-setup`) |
 | Create Block Theme | pasar al tema lo editado en el Editor del sitio. Probado hasta 6.9, así que hay que vigilarlo | solo en local |
-| `apps/wp-fse/bin/check` | 13 capas de análisis estático; ver la [etapa 1.5](specs/wordpress-fse/etapa-1-5-calidad.md) | en uso, también en CI |
+| `apps/wp-fse/bin/check` | 16 pasos de análisis estático; ver la [etapa 1.5](specs/wordpress-fse/etapa-1-5-calidad.md) | en uso, también en CI |
 | `tests/e2e/navbar.mjs` (CDP) | comportamiento y comparación de píxeles con Astro | en uso |
 | Skills oficiales `WordPress/agent-skills` (wp-block-development, wp-block-themes, wp-performance, wp-wpcli-and-ops, wp-project-triage) | guía para agentes | instaladas en `.claude/skills/` (no versionado) |
 

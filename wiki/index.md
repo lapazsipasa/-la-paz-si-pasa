@@ -37,12 +37,13 @@ Componente Astro (props tipadas)
 
 ## Entorno de desarrollo
 
-[entorno-desarrollo.md](entorno-desarrollo.md): servicios locales (8090 FSE, 8080 headless, 4321 Astro), agentes (Claude implementa; Codex y AGY en paneles de Orca), skills, calidad y secretos.
+[entorno-desarrollo.md](entorno-desarrollo.md): servicios locales (8090 FSE, 8080 headless, 4321 Astro), agentes (Claude orquesta con subagentes Sonnet/Opus; AGY revisa en solo lectura), skills, calidad y secretos.
 
 ## Especificaciones y guías
 
 - [Migración FSE: spec, etapas e inventario](specs/wordpress-fse.md) (etapas construidas; producción desde 2026-11-09)
-- [Boletín y catálogo PaisSana](specs/boletin-catalogo-fcp.md): [contrato entre piezas](specs/boletin-catalogo-fcp/contrato.md), [boletín](specs/boletin-catalogo-fcp/boletin-estructura.md), [catálogo e historia](specs/boletin-catalogo-fcp/paissana-catalogo.md), [accesos](specs/boletin-catalogo-fcp/accesos-paginas-existentes.md), [revisiones independientes y pendientes](specs/boletin-catalogo-fcp/revisiones-independientes.md)
+- [Boletín y catálogo PaisSana](specs/boletin-catalogo-fcp.md): [contrato entre piezas](specs/boletin-catalogo-fcp/contrato.md), [boletín](specs/boletin-catalogo-fcp/boletin-estructura.md), [catálogo e historia](specs/boletin-catalogo-fcp/paissana-catalogo.md), [accesos](specs/boletin-catalogo-fcp/accesos-paginas-existentes.md), [revisiones independientes y pendientes](specs/boletin-catalogo-fcp/revisiones-independientes.md), [nota para el Fondo](specs/boletin-catalogo-fcp/nota-para-el-fondo.md), [integración de SEO](specs/boletin-catalogo-fcp/seo-plugin.md) y [borrador de PR](prs/boletin-catalogo-fcp.md)
+- [Manual del editor](manual-editor.md): guía paso a paso para publicar boletines, historias y productores en WordPress
 - [Navegación del sitio](navegacion.md): mapa, problemas y decisiones de William (2026-11-19)
 - [Guía de estilos](guia-de-estilos.md): reglas visuales del sitio
 - [Despliegue en Dokploy, servidores y `lapaz-importar`](despliegue-fse.md)

@@ -364,5 +364,4 @@ Corrección (2026-11-20): «Otras historias» (b5) sí se construyó en `1e799ea
 
 ## Pendiente de verificar en staging
 
-- Que el filtro de activo por prefijo funcione con la caché de WP Super Cache (el HTML se cachea por URL, así que debería).
-- Lighthouse de una página interior con el hero compacto.
+Lista única en [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-probar-en-staging).

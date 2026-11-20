@@ -23,7 +23,7 @@ docker compose up -d cms db
 # migración FSE (rama feat/wordpress-fse): WordPress con tema lapaz en http://localhost:8090
 cd apps/wp-fse && cp .env.example .env   # completar contraseñas y WP_ADMIN_EMAIL
 docker compose up -d --build
-docker compose exec -u www-data cms lapaz-setup --seed   # primer arranque: configura y carga el seed
+docker compose exec -u www-data cms lapaz-setup --seed   # primer arranque (en producción ya instalada se bloquea salvo --forzar-seed)
 docker compose exec -u www-data cms lapaz-importar /tmp/headless.sql /tmp/uploads.tar.gz   # contenido de producción, ver despliegue
 docker run --rm -v "$PWD/../..":/app -w /app/apps/wp-fse composer:2 sh -c "composer install && vendor/bin/phpcs"
 ```

@@ -94,6 +94,8 @@ su www-data -s /bin/bash -c 'lapaz-setup --seed'   # instala, configura, carga e
 
 Con esto el sitio queda completo, con el contenido del seed (sin noticias reales).
 
+En producción (`WP_ENVIRONMENT_TYPE=production` o sin definir), si WordPress ya está instalado —por ejemplo, tras pasar por el instalador web—, `lapaz-setup --seed` se rechaza antes de modificar nada para no pisar contenido editado (guarda en el árbol de trabajo, sin commit). Si de verdad se requiere cargar todo el seed sobre una instalación existente: `lapaz-setup --seed --forzar-seed`.
+
 ## 3. Contenido real de producción
 
 El headless de producción y el sitio FSE tienen **el mismo modelo de contenido** (mismos CPT y campos SCF). El contenido se pasa con base de datos + uploads:
@@ -128,51 +130,101 @@ El headless de producción y el sitio FSE tienen **el mismo modelo de contenido*
 
 ## Despliegue de boletín y catálogo PaisSana
 
-Estado: **sin probar en un servidor**. Está en la rama `feat/boletin-catalogo-fcp`, sin PR ni merge. Cada paso marcado «TODO: confirmar en staging» hay que comprobarlo antes de producción. Contexto: [spec](specs/boletin-catalogo-fcp.md#flujo-de-ramas-y-github).
+Estado: **sin probar en un servidor**. Está en la rama `feat/boletin-catalogo-fcp`, sin PR ni merge. Cada paso marcado «TODO: confirmar en staging» se comprueba antes de producción. Contexto: [spec](specs/boletin-catalogo-fcp.md#flujo-de-ramas-y-github).
 
-Orden: primero staging (`st.lapazsipasa.com`, TODO: confirmar que está arriba), después producción. Todos los comandos se corren en la terminal del servicio `cms` en Dokploy, como en [Primer arranque](#2-primer-arranque).
+Orden: primero staging (`st.lapazsipasa.com`, TODO: confirmar que está arriba), después producción. Todos los comandos se corren en la terminal del servicio `cms` en Dokploy como `www-data` (`su www-data -s /bin/bash -c '…'`).
 
-Pendientes de decisión y de staging de esta entrega: [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor). Rutas nuevas: el catálogo está en `/productores/`, las historias en `/historias/<slug>/` (con archivo en `/historias/`) y `/paissana/` ya no existe ([decisión del 2026-11-20](navegacion.md#ajuste-del-2026-11-20-url-propias-para-productores-e-historias)).
+Pendientes de decisión, servidor y staging: [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor). Rutas nuevas: catálogo en `/productores/`, historias en `/historias/<slug>/` (con archivo en `/historias/`); `/paissana/` no existe ([decisión del 2026-11-20](navegacion.md#ajuste-del-2026-11-20-url-propias-para-productores-e-historias)).
 
-1. **Merge y deploy.** Squash a `main` con `apps/wp-fse/bin/check` en verde y aprobación de William. Dokploy despliega `main`. Después, **Redeploy** del servicio.
-   - **Reconstruir la imagen.** Trae las reglas nuevas de Apache (`docker/apache/zz-lapaz-seguridad.conf`) y de PHP (límites y errores fuera de pantalla). Sin reconstruir, no se aplican. TODO: confirmar en Dokploy que el Redeploy reconstruye la imagen.
-2. **Configuración.** Sin `--seed`:
+### Antes del despliegue (sobre el `cms` actual)
+
+1. **Respaldo obligatorio de la base de datos** (permisos `600`) y copia fuera del servidor:
+   ```bash
+   su www-data -s /bin/bash -c '( umask 077; wp --path=/var/www/html db export /tmp/pre-deploy-boletin-catalogo.sql --quiet )'
+   ```
+   Confirmar que el archivo tiene tamaño > 0 y descargarlo del servidor antes de seguir. En Dokploy, disparar también un *Backup* manual de `db_data` y un *Volume backup* de `wordpress_data`.
+2. **Revisar plantillas personalizadas en la base** (si existen, tapan las plantillas nuevas del tema):
+   ```bash
+   su www-data -s /bin/bash -c 'wp --path=/var/www/html post list --post_type=wp_template,wp_template_part --post_status=any --fields=ID,post_type,post_name'
+   ```
+3. **Revisar grupos SCF en la base** (confirmar que no haya conflictos con `group_boletin`, `group_historia`, `group_productor` o `group_articulo`):
+   ```bash
+   su www-data -s /bin/bash -c 'wp --path=/var/www/html post list --post_type=acf-field-group --fields=ID,post_name,post_status'
+   ```
+4. **Anotar conteos previos** para verificar después que nada existente se perdió:
+   ```bash
+   su www-data -s /bin/bash -c 'for t in retrato video feria audio_relato subcuenta noticia; do echo "$t: $(wp --path=/var/www/html post list --post_type=$t --post_status=publish --format=count)"; done'
+   ```
+
+### Durante el despliegue
+
+5. **Merge y deploy.** Squash a `main` con `apps/wp-fse/bin/check` en verde y aprobación de William (no hacer `git push` de la rama sin aplastar el historial anterior a `ff6445d`). Dokploy despliega `main`. Hacer **Redeploy** confirmando rebuild de la imagen `cms` (trae Apache `zz-lapaz-seguridad.conf`, límites de PHP y MariaDB `11.8`; TODO: confirmar en Dokploy que Redeploy reconstruye la imagen). Esperar contenedor `healthy`.
+6. **Configuración (sin `--seed`):**
    ```bash
    su www-data -s /bin/bash -c 'lapaz-setup'
    ```
-   Qué hace (según `apps/wp-fse/docker/lapaz-setup`):
-   - crea la página `productores` (título «Productores PaisSana»). Si existe `paissana`, la renombra conservando su ID, sin duplicarla;
-   - migra el menú Principal, pero solo si sigue siendo el de fábrica. Si el editor lo cambió, imprime «Aviso: el menú Principal fue editado». En ese caso, ajustarlo en *Editor del sitio → Navegación* con el orden: Lo que hacemos, Actualidad, Proyectos destacados (enlace de página), Boletín;
+   Qué hace `apps/wp-fse/docker/lapaz-setup` (en el árbol de trabajo, sin commit):
+   - si se pasa `--seed` en producción sobre un sitio ya instalado, lo rechaza antes de cambiar nada (salvo `--forzar-seed`), y rechaza las opciones desconocidas;
+   - crea la página `productores` («Productores PaisSana»); si existe `paissana`, la renombra conservando su ID y la deja publicada; si existen ambas, avisa y no borra ninguna;
+   - migra el menú Principal solo si sigue siendo el de fábrica; si el editor lo cambió, imprime aviso y no lo toca (ajustarlo luego en *Editor del sitio → Navegación*: Lo que hacemos, Actualidad, Proyectos destacados como enlace de página, Boletín);
    - aplica las reglas de enlaces (`rewrite structure --hard`);
-   - con `WP_CACHE=true`, excluye de la caché de página cualquier URL de `/productores/` con parámetros (`^/productores/.*\?`).
-3. **Grupos SCF.** `lapaz-setup` no importa los grupos nuevos. SCF los lee de `scf-json-lapaz/` (`apps/wp-fse/mu-plugins/lapaz-core.php`). Comprobar en *Historias PaisSana*, *Boletines* y *Productores* que aparecen sus campos. Si no aparecen, importarlos con el mismo bucle de `.github/workflows/wp-fse.yml` (líneas 55 a 61). TODO: confirmar en staging si hace falta.
-4. **Carga inicial por secciones.** Solo estas tres, en este orden. Cada una es idempotente (busca por título y actualiza):
+   - con `WP_CACHE=true`, excluye de la caché `/productores/` con parámetros (`^/productores/.*\?`) y vacía la caché de página al terminar (`wp_cache_clear_cache()`);
+   - avisa por `stderr` si existen plantillas personalizadas (`wp_template`/`wp_template_part`) en la base que tapen los archivos del tema.
+7. **Grupos SCF.** `lapaz-setup` no los importa a la base: SCF los lee desde `scf-json-lapaz/` (`apps/wp-fse/mu-plugins/lapaz-core.php`). Comprobar en `/wp-admin/` que *Boletines*, *Historias PaisSana* y *Productores* muestran sus campos. Solo si no aparecieran (TODO: confirmar en staging), importarlos así:
+   ```bash
+   su www-data -s /bin/bash -c 'wp --path=/var/www/html eval "foreach (glob(WP_CONTENT_DIR . \"/scf-json-lapaz/group_*.json\") as \$f) { acf_import_field_group(json_decode(file_get_contents(\$f), true)); }"'
+   ```
+8. **Carga inicial por secciones.** Solo estas tres, en este orden (cada una es idempotente por título; no usar `lapaz-setup --seed` en producción):
    ```bash
    su www-data -s /bin/bash -c 'SEED_SOLO=productores wp --path=/var/www/html eval-file /opt/seed/seed.php'
    su www-data -s /bin/bash -c 'SEED_SOLO=boletines wp --path=/var/www/html eval-file /opt/seed/seed.php'
    su www-data -s /bin/bash -c 'SEED_SOLO=historias wp --path=/var/www/html eval-file /opt/seed/seed.php'
    ```
-   **No usar `lapaz-setup --seed` en producción.** Corre todas las secciones y actualiza por título las entradas de portada, videos y ferias, así que pisa lo que el editor haya cambiado.
-   Resultado esperado: 316 productores, una edición (`Edición 02`) y una historia (`Asocafé`). El seed no toca la portada ni las ferias.
-5. **Caché.** `lapaz-setup` deja la caché activa. Al publicar, editar o borrar un productor, un boletín o una historia, `lapaz-core.php` la vacía una vez por petición (commit `239dcc9`). Si una página sigue vieja: TODO: confirmar en staging cómo vaciarla a mano (`wp super-cache flush`).
-6. **Usuario Editor.** Un usuario por persona externa, con rol Editor, no administrador. Usar un nombre de usuario y un correo propios; no van en esta wiki:
+9. **Vaciar caché de página tras los seeds** (por si se corrieron después de `lapaz-setup`):
    ```bash
-   su www-data -s /bin/bash -c 'wp --path=/var/www/html user create <usuario> <correo> --role=editor'
+   su www-data -s /bin/bash -c 'wp --path=/var/www/html eval "if (function_exists(\"wp_cache_clear_cache\")) { wp_cache_clear_cache(); echo \"Caché vaciada\n\"; }"'
    ```
-   La clave la genera WP-CLI y la muestra una vez: entregarla por otro canal, nunca en git ni en la wiki. TODO: confirmar en staging que la muestra así. Datos de la persona: pendientes del Fondo.
-7. **Comprobación posterior** (en producción, con navegador sin sesión y con la consola abierta):
-   - **API sin sesión:** `/wp-json/wp/v2/users` y los tipos nuevos responden 401. Salud del sitio no muestra el aviso de REST. TODO: confirmar en staging.
-   - **HTTP 200:** `/`, `/proyectos-destacados/`, `/productores/`, `/historias/`, `/historias/asocafe/` (local, 2026-11-19), `/boletin/` y `/boletin/edicion-02/`.
-   - **HTTP 404:** `/paissana/`. Si responde 200, quedó la página vieja: revisar `lapaz-setup` (si existen las dos páginas, no migra).
-   - **Cabeceras:** `X-Powered-By` no aparece; `Content-Security-Policy-Report-Only` sí; `Strict-Transport-Security` solo en HTTPS; `/wp-content/uploads/` sin listado; `readme.html` y `xmlrpc.php` en 403.
-   - **Consola:** sin violaciones de `Content-Security-Policy-Report-Only` en `/`, `/proyectos-destacados/` (con un video de YouTube y un audio) y `/productores/`. Si las hay, no pasar a `Content-Security-Policy` (TODO: confirmar en staging).
-   - **Caché:** `/productores/` se sirve desde caché; `/productores/?buscar=cafe` no se guarda. Al publicar un productor de prueba, la caché se vacía.
-   - En `/` y `/proyectos-destacados/` aparecen las tarjetas de boletín, historia y banner del catálogo.
-   - El menú Principal tiene «Boletín» y el enlace lleva a `/boletin/`.
-   - `/guia-de-estilos/` da 404 en producción (la página solo se crea con `WP_ENVIRONMENT_TYPE=local`).
-   - `/wp-sitemap.xml` incluye `boletin` e `historia`, y no `productor`. TODO: confirmar en staging.
-   - Entrar con el usuario Editor: puede editar boletines, historias y productores, y no puede instalar plugins ni cambiar ajustes. TODO: confirmar en staging.
-   - Lista completa de lo que solo se prueba en staging: [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-probar-en-staging).
+   Al publicar, editar o borrar entradas, menú o términos del catálogo, `lapaz-core.php` la vacía una vez por petición (`shutdown`).
+10. **Usuario Editor.** Un usuario por persona externa, rol Editor, nunca administrador (nombre y correo pendientes del Fondo; no van en el repo):
+    ```bash
+    su www-data -s /bin/bash -c 'wp --path=/var/www/html user create <usuario> <correo> --role=editor'
+    ```
+    La clave se muestra una sola vez (TODO: confirmar en staging): entregarla por otro canal.
+
+### Después del despliegue (navegador sin sesión + consola DevTools)
+
+11. **Verificar conteos** (esperado: `productor: 316`, `boletin: 1`, `historia: 1`, y los conteos del paso 4 sin cambios):
+    ```bash
+    su www-data -s /bin/bash -c 'for t in productor boletin historia retrato video feria audio_relato subcuenta noticia; do echo "$t: $(wp --path=/var/www/html post list --post_type=$t --post_status=publish --format=count)"; done'
+    ```
+12. **Rutas:** HTTP 200 en `/`, `/proyectos-destacados/`, `/productores/`, `/historias/`, `/historias/asocafe/`, `/boletin/` y `/boletin/edicion-02/`; HTTP 404 en `/paissana/` y `/guia-de-estilos/`.
+13. **API y archivos sensibles:** HTTP 401 sin sesión en `/wp-json/wp/v2/users` y `/wp-json/wp/v2/productor`; HTTP 403 en `/xmlrpc.php`, `/readme.html`, `/wp-content/debug.log` y sin listado en `/wp-content/uploads/`.
+14. **Cabeceras y consola:** sin `X-Powered-By`; `Strict-Transport-Security` solo en HTTPS; `Content-Security-Policy-Report-Only` en frontend y ausente en `/wp-login.php`; consola sin violaciones CSP en `/`, `/proyectos-destacados/` (reproduciendo video de YouTube y audio) y `/productores/` (TODO: confirmar en staging antes de pasar a modo activo).
+15. **Visual y navegación:** `/` y `/proyectos-destacados/` muestran tarjetas de boletín, historia y banner del catálogo; el menú Principal incluye «Boletín» y marca estado activo.
+16. **Caché:** `/productores/` limpio servido desde caché; `/productores/?buscar=cafe` sin cachear; editar un productor de prueba vacía la caché.
+17. **Editor y Salud del sitio:** entrar con el usuario Editor (edita boletines, historias y productores; no instala plugins ni cambia ajustes ni menú) y revisar *Salud del sitio* (TODO: confirmar en staging si aparece aviso de REST).
+18. **Limpieza:** tras 24–48 h estables, borrar `/tmp/pre-deploy-boletin-catalogo.sql` del contenedor (conservar la copia externa).
+
+Sitemap: la ruta y su contenido se comprueban en staging, pero la integración del plugin de SEO (en curso) puede cambiarla; no dar por vigente ninguna ruta todavía.
+
+### Plan de marcha atrás
+
+Volviendo solo a la imagen anterior (`v2.0.0`; TODO: confirmar que es la etiqueta que corre hoy en producción) **no se deshacen** en la base la página `productores`, el menú actualizado, los 316 productores, `Edición 02`, `Asocafé`, los 22 adjuntos ni el usuario Editor (el menú con `/boletin/` daría 404). Además, `db` sube de MariaDB `11` a `11.8` y no admite downgrade binario de `db_data`.
+
+- **Volver atrás de inmediato** si `/` o `/proyectos-destacados/` dan 500/404, `/wp-admin/` no carga o no guarda, se pierde contenido real o Apache/PHP falla al arrancar.
+- **Arreglar hacia delante** si falla solo una página nueva, falta ajustar un menú editado a mano, aparece una violación en `CSP-Report-Only` (no bloquea) o falta vaciar caché.
+
+Pasos para marcha atrás completa (código + base de datos):
+1. En Dokploy, apuntar el servicio al tag/commit anterior (`v2.0.0`) y hacer **Redeploy** (dejando `db` en `11.8`).
+2. Restaurar el respaldo previo:
+   ```bash
+   su www-data -s /bin/bash -c 'wp --path=/var/www/html db import /tmp/pre-deploy-boletin-catalogo.sql'
+   ```
+3. Vaciar caché y reescrituras:
+   ```bash
+   su www-data -s /bin/bash -c 'wp --path=/var/www/html cache flush && wp --path=/var/www/html rewrite flush --hard && wp --path=/var/www/html eval "if (function_exists(\"wp_cache_clear_cache\")) wp_cache_clear_cache();"'
+   ```
+4. Tras verificar el sitio, borrar `/tmp/pre-deploy-boletin-catalogo.sql` del contenedor.
 
 ## Operación
 

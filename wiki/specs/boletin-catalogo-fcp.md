@@ -1,6 +1,6 @@
 # Boletín y catálogo PaisSana
 
-**Estado:** construido en la rama `feat/boletin-catalogo-fcp` (28 commits, del 2026-11-19 al 2026-11-20). **Sin push, PR ni deploy:** pendiente de aprobación de William.
+**Estado:** construido en la rama `feat/boletin-catalogo-fcp` (34 commits, del 2026-11-19 al 2026-11-20). **Sin push, PR ni deploy:** pendiente de aprobación de William.
 **Repo:** `apps/wordpress/themes/lapaz/`, `apps/wp-fse/scf-json/`, `apps/wp-fse/`, `apps/wordpress/seed/` · rama `feat/boletin-catalogo-fcp` · inicio 2026-11-19
 
 ## Objetivo
@@ -117,13 +117,13 @@ Evidencia: commits de la rama (`git log lapazsipasa/main..HEAD`). Lo que no tien
 | 0 | Base: `raw/` en `.gitignore` | hecha | `4ebb073` | — |
 | 1 | Modelo: tipos, taxonomías y grupos | hecha | `87fa755` | — |
 | 2a | Boletín: bloque `lapaz/boletin`, plantillas, 8 secciones iniciales | hecha | `40af34e`, `667cf01`, `e6eb811`, `e152e69`, `a0c2b63` | — |
-| 2b | CSS de los bloques, tokens y hoja `editorial.css` | hecha | `1fc1301`, `00c7eaf`, `afa96b4`, `239dcc9` | Bases visuales por regenerar |
+| 2b | CSS de los bloques, tokens y hojas `editorial.css` + `lectura.css` | hecha | `1fc1301`, `00c7eaf`, `afa96b4`, `239dcc9`, `1d87a5b`, `35b50b3` | — |
 | 3a | Catálogo: `lapaz/catalogo`, `/productores/`, búsqueda, botón PAISSANA | hecha | `854b66a`, `1e799ea` | Probar en staging. TODO: confirmar Lighthouse |
 | 4 | Historia del mes: `lapaz/historia`, `lapaz/historia-destacada`, `/historias/` | hecha | `d423dc1`, `1e799ea`, `a0c2b63` | Probar en staging |
 | 5 | Seed: 316 productores, edición 02, historia de Asocafé | hecha | `69ae2a0` | Carga por secciones en staging (ver [despliegue](../despliegue-fse.md#despliegue-de-boletín-y-catálogo-paissana)) |
-| 6 | Pruebas: suites e2e `boletin`, `catalogo`, `historia`, `navegacion`, `rest`; CI | en cierre, no está en verde | `c710ccf`, `cd68174`, `afa96b4`, `239dcc9` | Cerrar T1 a T6 de la [revisión 8](boletin-catalogo-fcp/revisiones-independientes.md#8-pruebas-automáticas). Cambios sin commit en `tests/e2e/`. `navegacion.mjs` y `rest.mjs` fuera de CI. `bin/check` y `seo.mjs` sin resultado registrado. TODO: confirmar |
-| 7 | Revisión independiente (AGY) | nueve informes hechos; la 10 en curso | `667cf01`, `e6eb811`, `e152e69`, `a0c2b63`, `3b2941d`, `ff6445d`, `239dcc9` | Ver [revisiones independientes](boletin-catalogo-fcp/revisiones-independientes.md) |
-| 8 | Manual para la persona externa | borrador sin commit | — | Borrador en [`manual-editor.md`](../manual-editor.md): faltan capturas y confirmar en pantalla lo marcado. Después, Google Doc |
+| 6 | Pruebas: suites e2e `boletin`, `catalogo`, `historia`, `navegacion`, `rest`; CI | en rama; en verde salvo `seguridad` (54 de 64) | `c710ccf`, `cd68174`, `afa96b4`, `239dcc9`, `9bb6c80`, `e78e2f1`, `35b50b3` | Cerrar `bin/check`, `seguridad.mjs` (con la imagen reconstruida) y `seo.mjs`; ver [revisión 8](boletin-catalogo-fcp/revisiones-independientes.md#8-pruebas-automáticas) |
+| 7 | Revisión independiente (AGY) | 17 revisiones y 3 tareas; la 21 en curso | `667cf01`, `e6eb811`, `e152e69`, `a0c2b63`, `3b2941d`, `ff6445d`, `239dcc9`, `f0f5f67`, `1d87a5b`, `e78e2f1`, `35b50b3` | Ver [revisiones independientes](boletin-catalogo-fcp/revisiones-independientes.md) |
+| 8 | Manual para la persona externa | v2 en árbol de trabajo, sin commit | `3e08f05` (v1) | Faltan capturas y confirmar en pantalla lo marcado; después, Google Doc |
 | 9 | PR, staging, merge, deploy, seed en producción y usuario Editor | pendiente | — | Aprobación de William |
 
 Extras de la rama, fuera de la lista original:
@@ -163,7 +163,7 @@ Nada de esto ni de lo anterior sale a producción hasta que William lo apruebe: 
 
 ## Flujo de ramas y GitHub
 
-1. Rama `feat/boletin-catalogo-fcp`, creada desde `feat/wordpress-fse`. Lleva 28 commits sobre `lapazsipasa/main` (a 2026-11-20).
+1. Rama `feat/boletin-catalogo-fcp`, creada desde `feat/wordpress-fse`. Lleva 34 commits sobre `lapazsipasa/main` (a 2026-11-20).
 2. Un commit por etapa. Push a `lapazsipasa` (`lapazsipasa/-la-paz-si-pasa`, cuenta del cliente, de la que sale producción; `kashipu` es colaborador con escritura, sin admin). `origin` (`kashipu/la-paz-si-pasa`) es la copia personal de William.
 3. PR contra `main` con enlace a esta spec. Revisión del Fondo en staging (`st.lapazsipasa.com`, TODO: confirmar que está arriba).
 4. Squash merge con `bin/check` en verde y aprobación de William. Dokploy despliega `main`.
@@ -171,10 +171,7 @@ Nada de esto ni de lo anterior sale a producción hasta que William lo apruebe: 
 
 ## Pendientes del Fondo
 
-- Video `asocafe.mp4`, o enlace de YouTube o Vimeo. Mientras no llegue, se usa el enlace de Drive del paquete.
-- Nombre y correo de la persona externa para crear su usuario.
-- Si el boletín deja de llamarse «interno» al publicarse en el sitio abierto.
-- Autorización de las 12 personas con nombre en el seed, y corrección del registro «Llaneridad Gourmet» (municipio numérico). Ver [decisión 4](../decisions/boletin-catalogo-fcp.md#4-el-contenido-inicial-entra-al-seed-y-al-repo-público).
+Ver la lista única en [revisiones independientes](boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor) y el borrador listo para enviar en [nota para el Fondo](boletin-catalogo-fcp/nota-para-el-fondo.md).
 
 ## Decisiones que abre
 

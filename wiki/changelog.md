@@ -2,7 +2,7 @@
 
 Qué cambió, con fecha y PR. Lo reciente arriba.
 
-- **2026-11-20** · entrega de la rama: URL nuevas, endurecimiento, accesibilidad, formularios del admin y revisiones independientes · **en la rama `feat/boletin-catalogo-fcp`, sin push, PR ni deploy** · [revisiones](specs/boletin-catalogo-fcp/revisiones-independientes.md)
+- **2026-11-20** · entrega de la rama: URL nuevas, endurecimiento, accesibilidad, formularios del admin, pruebas y revisiones independientes · **en la rama `feat/boletin-catalogo-fcp` (34 commits sobre `lapazsipasa/main`), sin push, PR ni deploy** · [revisiones](specs/boletin-catalogo-fcp/revisiones-independientes.md)
   - Catálogo en `/productores/` (plantilla `page-productores.html`) e historias en `/historias/<slug>/`, con archivo en `/historias/`. `/paissana/` deja de existir; `lapaz-setup` migra la página conservando su ID (`1e799ea`).
   - Menú: «Proyectos destacados» queda activo también en `/productores/` y `/historias/` (`1e799ea`).
   - Formularios del admin en lenguaje llano. La crónica de la historia deja de clonar el molde Artículo y el «Título» obligatorio (`a0c2b63`).
@@ -11,7 +11,13 @@ Qué cambió, con fecha y PR. Lo reciente arriba.
   - Endurecimiento: un solo mensaje de error al iniciar sesión; contraseñas de aplicación desactivadas; oEmbed sin autor; Apache sin listado y con archivos sensibles bloqueados; HSTS y CSP en modo informe; límites de PHP; contenedores sin escalada de privilegios; acciones de CI fijadas por SHA. La wiki deja de publicar direcciones de servidores y paneles (`ff6445d`).
   - Accesibilidad AA: indicador de menú activo, contraste de barras, lightbox como `<dialog>`, foco en «Ver más», enlaces de 44 px (`239dcc9`).
   - Rendimiento: galería de 25 a 4 consultas, miniaturas y logo a su tamaño, caché de página vaciada al publicar un productor, boletín o historia (`239dcc9`).
-  - Pruebas: arnés y suites e2e en cierre, con cambios sin commit. No están en verde.
+  - Pruebas: arnés `lib.mjs` sin procesos Chrome huérfanos, constantes de ruta en `fcp-lib.mjs`, suites `boletin`, `catalogo`, `historia`, `navegacion` y `rest` (sin Chrome) en CI, y bases visuales actualizadas (`9bb6c80`).
+  - Documentación: registro de revisiones independientes, rutas nuevas, guía de despliegue y borrador inicial del manual del editor (`3e08f05`).
+  - Correcciones de la revisión 9: `/historias/` vacío con `<h1>` y aviso, archivo sin paginación, `lapaz_url_catalogo_base()` exige publicación, `lapaz-setup` avisa si conviven `paissana` y `productores`, `memory_limit = 128M`, CSP-Report-Only con YouTube/noembed y MariaDB `11.8` (`f0f5f67`).
+  - Correcciones de la revisión 10: listener `close` y bloqueo de scroll en el `<dialog>` del lightbox, vaciado de caché ampliado a menú (`wp_navigation`), páginas, los 6 CPT previos y taxonomías del catálogo, división de `assets/css/editorial.css` en `editorial.css` + `lectura.css`, y tarjetas del índice como `<article>` con enlace estirado (`1d87a5b`).
+  - Correcciones de la revisión 12 en pruebas: `catalogo.mjs` prueba el indexado automático del MU-plugin, `rest.mjs` añade `exigirLocal()` y endurece la aserción de oEmbed, `seguro()` compartido en `fcp-lib.mjs`, fecha determinista y `PENULTIMA` dinámica (`e78e2f1`).
+  - Correcciones de la revisión 17: foco de tarjetas del índice protegido con `@supports selector(:has(*))`, espera completa al cerrar el lightbox con Escape en `historia.mjs`, y respaldo al nombre de sección en `indice.php` (`35b50b3`).
+  - En curso, sin commit: guardas de `--seed`, aviso de plantillas y vaciado de caché en `lapaz-setup`; manual del editor v2; borrador de PR; integración de The SEO Framework (no entregada).
 - **2026-11-19 a 2026-11-20** · feat: boletín y catálogo PaisSana · **en la rama `feat/boletin-catalogo-fcp`, sin push, PR ni deploy** · [spec](specs/boletin-catalogo-fcp.md)
   - Modelo: tipos `boletin`, `productor` (5 taxonomías) e `historia`, en `apps/wp-fse/scf-json/` (`87fa755`).
   - Boletín: bloque `lapaz/boletin`, edición nueva con 8 secciones precargadas, `/boletin/` y `editorial.css` (`40af34e`, `1fc1301`).

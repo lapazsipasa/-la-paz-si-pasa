@@ -45,16 +45,15 @@ Campos de toda fila: `nombre`, `antetitulo`, `indice_titulo`, `indice_imagen`, `
 
 ### Molde Artículo (`group_articulo.json`)
 
-`rotulo`, `rotulo_color` (naranja/verde/azul), `titulo`, `bajada`, `entradilla`, `cuerpo` (HTML del editor: `p`, `h3`, `blockquote` con frase y autor en dos párrafos), `apertura`, `apertura_credito`, `fotos` (filas: `imagen`, `formato` alto/panorama, `credito`; máximo 3), `ficha_titulo`, `ficha_texto`, `ficha_datos` (filas: `cifra`, `texto`), `ficha_clara`, `fotos_izquierda`.
+`rotulo`, `rotulo_color` (azul/verde), `titulo`, `bajada`, `entradilla`, `cuerpo` (HTML del editor: `p`, `h3`, `blockquote` con frase y autor en dos párrafos), `apertura`, `apertura_credito`, `fotos` (filas: `imagen`, `formato` alto/panorama, `credito`; máximo 3), `ficha_titulo`, `ficha_texto`, `ficha_datos` (filas: `cifra`, `texto`), `ficha_clara`, `fotos_izquierda`.
 
 - En el boletín se clona dentro de la fila (sin prefijo).
-- En la historia se clona como grupo: `get_field( 'cronica' )` devuelve un array con esas mismas claves.
 - Orden de la columna de medios: primera foto, ficha, demás fotos.
 - La ficha se pinta solo si tiene título.
 
 ### `historia`
 
-`lugar`, `antetitulo`, `resumen`, `foto`, `cifras` (filas: `numero`, `texto`; máximo 3), `portada_foto`, `portada_titulo`, `portada_subtitulo`, `ficha` (filas: `dato`, `valor`), `video_fuente` (ninguno/youtube/archivo/enlace), `video_youtube`, `video_archivo`, `video_enlace`, `video_poster`, `video_antetitulo`, `cronica_antetitulo`, `cronica` (molde Artículo), `cronica_fuente`, `galeria`.
+`lugar`, `antetitulo`, `resumen`, `foto`, `cifras` (filas: `numero`, `texto`; máximo 3), `portada_foto`, `portada_titulo`, `portada_subtitulo`, `ficha` (filas: `dato`, `valor`), `video_fuente` (ninguno/youtube/archivo/enlace), `video_youtube`, `video_archivo`, `video_enlace`, `video_poster`, `video_antetitulo`, `cronica_antetitulo`, `cronica` (grupo propio con `bajada`, `entradilla`, `cuerpo`, `fotos` y `ficha_datos`, sin clonar el molde Artículo), `cronica_fuente`, `galeria`.
 
 En la galería, el pie de cada foto es la leyenda del adjunto y el crédito es su descripción.
 
@@ -74,7 +73,7 @@ Todos los campos de imagen y archivo devuelven el ID del adjunto.
 | `lapaz/catalogo` | `page-productores.html` | buscador, resultados y distribución |
 | `lapaz/catalogo-banner` | `front-page.html`, `page-proyectos-destacados.html` | banner de acceso al catálogo (no va en `/productores/`) |
 | `lapaz/historia-destacada` | `page-productores.html`, `front-page.html`, `page-proyectos-destacados.html` | tarjeta de la historia más reciente. Atributo `enlaceCatalogo` (booleano): muestra el enlace al catálogo; en Inicio y Proyectos destacados va sin él |
-| `lapaz/historia` | `single-historia.html` | una historia completa |
+| `lapaz/historia` | `single-historia.html`, `archive-historia.html` | una historia completa (en `/historias/`, la más reciente y «Otras historias») |
 | `lapaz/guia-estilos` | `page-guia-de-estilos.html` | guía de estilos viva; la página solo existe en local |
 
 Las páginas interiores nuevas (`/boletin/`, `/productores/`, `/historias/`) usan `lapaz/hero` con la clase `is-style-compacto` (hero compacto). `/productores/` lleva además la clase `paisana-page--catalogo` en la página.
@@ -133,10 +132,10 @@ Rutas del tema relativas a `apps/wordpress/themes/lapaz/`.
 | Modelo | `apps/wp-fse/scf-json/` |
 | Boletín | `blocks/boletin/` y `blocks/boletin-destacado/` (menos los `.css`), `inc/boletin.php`, `templates/single-boletin.html`, `templates/archive-boletin.html`, `inc/seo.php` |
 | Catálogo | `blocks/catalogo/` y `blocks/catalogo-portada/` (menos los `.css`), `inc/catalogo.php`, `templates/page-productores.html`, `blocks/paisana-hero/render.php`, `apps/wp-fse/mu-plugins/lapaz-catalogo.php` |
-| Historia | `blocks/historia/` y `blocks/historia-destacada/` (menos los `.css`), `inc/historia.php`, `templates/single-historia.html` |
+| Historia | `blocks/historia/` y `blocks/historia-destacada/` (menos los `.css`), `inc/historia.php`, `templates/single-historia.html`, `templates/archive-historia.html` |
 | Accesos | `blocks/catalogo-banner/`, `blocks/boletin-destacado/`, `inc/accesos.php`, `templates/front-page.html`, `templates/page-proyectos-destacados.html` |
 | Navegación | `inc/navegacion.php` (estado activo del menú), `wp_navigation` en `apps/wp-fse/docker/lapaz-setup` |
-| CSS | los `.css` de los bloques, y la hoja compartida `assets/css/editorial.css` (registrada en `inc/blocks.php`) |
+| CSS | los `.css` de los bloques, y las hojas compartidas `assets/css/editorial.css` y `assets/css/lectura.css` (registradas en `inc/blocks.php`) |
 | Guía de estilos | `blocks/guia-estilos/`, `inc/guia-estilos.php`, `inc/guia-estilos-contraste.php`, `templates/page-guia-de-estilos.html` |
 | Seed | `apps/wordpress/seed/` |
 | Pruebas | `apps/wp-fse/tests/e2e/` |

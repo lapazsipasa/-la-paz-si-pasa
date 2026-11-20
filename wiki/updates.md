@@ -1,26 +1,28 @@
 # Updates
 
-## 2026-11-20 · boletín y catálogo: URL nuevas, endurecimiento y revisiones cerradas
+## 2026-11-20 · boletín y catálogo: pruebas, accesibilidad y 17 revisiones
 
-**Estado:** entrega en la rama `feat/boletin-catalogo-fcp` (28 commits sobre `lapazsipasa/main`). **Sin push, sin PR y sin desplegar.** Producción sigue en el sitio FSE de 2026-11-09. Qué cambió hoy: [changelog](changelog.md). Revisiones y sus pendientes: [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md).
+**Estado:** entrega construida en la rama `feat/boletin-catalogo-fcp` (**34 commits** sobre `lapazsipasa/main`, el último `35b50b3`). **Sin push, sin PR y sin desplegar.** Producción sigue en el sitio FSE de 2026-11-09. Detalle por commit: [changelog](changelog.md). Estado de las revisiones y pendientes: [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md).
 
-- Catálogo en `/productores/`, historias en `/historias/<slug>/` y `/paissana/` retirado (`1e799ea`).
-- Admin en lenguaje llano; la crónica ya no pide el «Título» (`a0c2b63`).
-- API REST cerrada sin sesión y endurecimiento de WordPress, Apache, PHP y CI (`3b2941d`, `ff6445d`).
-- Accesibilidad AA y caché de página al publicar (`239dcc9`).
-- Revisiones independientes 1 a 9 con su estado. La 10 está en curso.
+- URLs definitivas (`/productores/`, `/historias/`, `/boletin/`), API REST cerrada y endurecimiento de WordPress, Apache, PHP y CI (`3b2941d`, `1e799ea`, `ff6445d`, `f0f5f67`).
+- Accesibilidad AA, división de CSS (`editorial.css` + `lectura.css`), lightbox `<dialog>` y vaciado de caché en `lapaz-core.php` (`239dcc9`, `1d87a5b`, `35b50b3`).
+- Suites e2e commiteadas y en CI (`9bb6c80`, `e78e2f1`).
+- Revisiones independientes 1 a 10, 12, 13 y 15 a 19 hechas (17 informes). 11, 14 y 20 fueron tareas de redacción. La 21 está en curso.
+- Sin commit (en curso): manual del editor v2, guardas de `lapaz-setup` (revisiones 15 y 19), integración de The SEO Framework (revisión 16) y limpieza de `historia-asocafe.json` (revisión 18).
+
+**Pruebas (estado hoy, en local):** en verde `navegacion` 181, `catalogo` 58, `boletin` 56, `historia` 43, `rest` 22 y `lo-que-hacemos` 24. `seguridad` 54 de 64 hasta reconstruir la imagen. `bin/check` completo y `seo.mjs` sin correr tras los últimos cambios.
 
 **Pendiente antes del PR:**
-- Pruebas: cerrar T1 a T6 de la [revisión 8](specs/boletin-catalogo-fcp/revisiones-independientes.md#8-pruebas-automáticas). Hay 12 archivos modificados y 2 nuevos en `apps/wp-fse/tests/e2e/` sin commit. `navegacion.mjs` y `rest.mjs` no corren en CI.
-- `apps/wp-fse/bin/check`, `seo.mjs` y el resto de suites: sin resultado registrado. TODO: confirmar.
-- Integrar y probar The SEO Framework (elegido por William) para título, descripción e imagen por página. Sin probar.
-- Regenerar las bases visuales (`baseline/`).
-- Manual del editor: borrador en `wiki/manual-editor.md` (sin commit; faltan capturas y confirmar en pantalla lo marcado). Después, Google Doc y usuario Editor. Sin clave en el repo.
-- Staging (`st.lapazsipasa.com`, TODO: confirmar que está arriba), PR y deploy.
+- Verificar y commitear los cambios de `lapaz-setup` (revisión 19) y la limpieza de `historia-asocafe.json` (revisión 18).
+- Correr `apps/wp-fse/bin/check`, reconstruir la imagen local y pasar `seguridad.mjs` (64/64) y `seo.mjs`.
+- Integración de The SEO Framework: en curso, sin commit. Decidir si entra en este PR o en uno aparte.
+- Capturas y puntos `[CONFIRMAR EN PANTALLA]` de [`manual-editor.md`](manual-editor.md), Google Doc y usuario Editor.
+- Aplastar el historial anterior a `ff6445d` antes de hacer `git push` a un remoto público.
+- Revisar y commitear la wiki sincronizada.
 
-**Bloqueo:** aprobación de William para push, PR y deploy. Del Fondo: autorización de los datos de 12 personas en el seed, corrección del registro «Llaneridad Gourmet», video de Asocafé, datos de la persona externa, si el boletín deja de decir «interno», y las noticias reales. Del servidor: panel de administración con HTTPS y puerto cerrado, límite de intentos de login, respaldos y rotación de claves ([lista completa](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor)).
+**Bloqueo:** aprobación de William para push, PR y deploy. Pendientes del Fondo y del servidor: [lista única](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor).
 
-**Siguiente paso:** cerrar las pruebas (T1 a T6) y correr `bin/check`. Después, integrar el plugin de SEO y preparar el staging.
+**Siguiente paso:** con la aprobación de William, cerrar los pendientes de arriba, correr `bin/check`, `seguridad.mjs` y `seo.mjs` con la imagen reconstruida, y abrir el PR contra `main` para probar en staging.
 
 ## 2026-11-20 · boletín y catálogo PaisSana: construido en la rama
 
