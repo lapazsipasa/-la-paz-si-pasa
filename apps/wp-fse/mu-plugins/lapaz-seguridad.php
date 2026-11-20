@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: La Paz Sí Pasa · Seguridad
- * Description: Evita enumerar usuarios (REST y archivos de autor). El resto del endurecimiento
+ * Description: Evita enumerar usuarios (REST y archivos de autor) y mantiene los productores fuera de la API REST. El resto del endurecimiento
  *              vive en la imagen (Apache, PHP, wp-config) para que aplique antes de WordPress.
  * Version: 0.1.0
  * Author: William Moreno
@@ -45,3 +45,22 @@ function lapaz_sin_archivos_de_autor(): void {
 	}
 }
 add_action( 'template_redirect', 'lapaz_sin_archivos_de_autor', 1 );
+
+/**
+ * Productores y sus taxonomías (incluida «poblacion») nunca van por REST: el sitio decidió no
+ * mostrar esos datos y la API los entregaría completos. Aplica aunque un grupo, tipo o taxonomía
+ * se importe desde el panel de SCF con show_in_rest activo.
+ *
+ * @param array<string, mixed> $args Argumentos de registro.
+ * @param string               $nombre Slug del tipo o la taxonomía.
+ * @return array<string, mixed>
+ */
+function lapaz_sin_rest_productores( array $args, string $nombre ): array {
+	if ( in_array( $nombre, array( 'productor', 'departamento', 'categoria_productor', 'tiempo_operacion', 'etnia', 'poblacion' ), true ) ) {
+		$args['show_in_rest'] = false;
+	}
+
+	return $args;
+}
+add_filter( 'register_post_type_args', 'lapaz_sin_rest_productores', 10, 2 );
+add_filter( 'register_taxonomy_args', 'lapaz_sin_rest_productores', 10, 2 );

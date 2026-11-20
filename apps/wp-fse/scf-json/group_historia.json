@@ -829,5 +829,5 @@
   "hide_on_screen": [],
   "active": true,
   "description": "Historia del mes (PaisSano destacado). La pinta el bloque lapaz/historia.",
-  "show_in_rest": 1
+  "show_in_rest": 0
 }

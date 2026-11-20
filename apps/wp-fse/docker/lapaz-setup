@@ -132,9 +132,11 @@ if [ "${WP_CACHE:-}" = true ]; then
         // Los enlaces terminan en «/» (/%postname%/). Sin esto solo se servía la portada desde
         // caché: el plugin lo ajusta al guardar su panel, que aquí no se usa.
         wp_cache_setting( "wp_cache_slash_check", 1 );
-        // El catálogo no guarda en caché las búsquedas de texto libre (?buscar=): cualquiera
-        // podría llenar el disco con búsquedas inventadas. Los dos primeros son los de fábrica.
-        wp_cache_setting( "cache_rejected_uri", array( "wp-.*\\.php", "index\\.php", "[?&]buscar=" ) );
+        // /paissana/ con cualquier parámetro (?buscar=, ?ver=, ?x=…) no se guarda en caché: cualquiera
+        // podría llenar el disco con URLs inventadas. /paissana/ limpia sí. El plugin evalúa cada
+        // expresión con preg_match("~expr~") contra la URI pedida, con la query incluida. Los dos
+        // primeros son los de fábrica.
+        wp_cache_setting( "cache_rejected_uri", array( "wp-.*\\.php", "index\\.php", "^/paissana/.*\\?" ) );
         echo "Caché de página: activa\n";
     '
 elif "${wp[@]}" plugin is-active wp-super-cache 2>/dev/null; then

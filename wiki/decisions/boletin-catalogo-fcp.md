@@ -41,3 +41,6 @@ Cada decisión dice qué se decidió, por qué y qué la haría cambiar.
 - **Por qué:** es la vía de las demás secciones, viaja con el deploy y se puede volver a cargar. Los datos se publican de todas formas en el sitio.
 - **Implica:** la etnia y la población atendida de cada productor quedan en un repositorio público.
 - **Cambiaría si** el Fondo pide retirar algún dato: se quita del JSON y del sitio.
+- **Ratificado el 2026-11-20.** La revisión de privacidad señaló que el seed trae la población atendida de cada productor (víctimas del conflicto, firmantes de paz, PNIS, discapacidad) y enlaces de redes, que el sitio no muestra, y 12 registros con nombre de persona natural, 7 de ellos con etnia o condición de víctima. William decidió no quitar nada: los datos quedan en el seed y en el sitio como los entregó el Fondo.
+- **Lo que sí se cerró:** la API REST de WordPress ya no entrega productores, sus taxonomías, boletines ni historias sin iniciar sesión. El catálogo muestra lo mismo que el prototipo del Fondo; lo demás no sale por otra vía.
+- **Pendiente del Fondo:** confirmar la autorización de esas personas para publicar sus datos, y corregir el registro «Llaneridad Gourmet», cuyo municipio viene como el número 17665.

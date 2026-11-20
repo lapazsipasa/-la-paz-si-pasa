@@ -88,7 +88,7 @@ function lapaz_catalogo_filtros(): array {
 	$pedidas = isset( $_GET['categoria'] ) && is_array( $_GET['categoria'] ) ? wp_unslash( $_GET['categoria'] ) : array();
 	// phpcs:enable
 	$categoria = array();
-	foreach ( $pedidas as $slug ) {
+	foreach ( array_slice( $pedidas, 0, 20 ) as $slug ) { // Como mucho 20 categorías.
 		if ( is_string( $slug ) && isset( $categorias[ $slug ] ) && ! in_array( $slug, $categoria, true ) ) {
 			$categoria[] = $slug;
 		}

@@ -99,9 +99,9 @@ function lapaz_historia_video( int $post_id ): array {
 		$poster = $source['thumbnail_url'];
 	} elseif ( 'archivo' === $fuente ) {
 		$archivo = lapaz_field_image_id( 'video_archivo', $post_id );
-		$url     = $archivo > 0 ? (string) wp_get_attachment_url( $archivo ) : '';
+		$url     = $archivo > 0 && str_starts_with( (string) get_post_mime_type( $archivo ), 'video/' ) ? (string) wp_get_attachment_url( $archivo ) : '';
 	} elseif ( 'enlace' === $fuente ) {
-		$url = esc_url_raw( lapaz_field_text( 'video_enlace', $post_id ), array( 'http', 'https' ) );
+		$url = esc_url_raw( lapaz_field_text( 'video_enlace', $post_id ), array( 'https' ) );
 	}
 
 	return '' === $url ? $ninguno : array(
