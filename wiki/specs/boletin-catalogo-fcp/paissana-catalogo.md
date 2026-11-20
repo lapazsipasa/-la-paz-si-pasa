@@ -72,7 +72,7 @@ Un bloque dinámico **`lapaz/catalogo`** lee los filtros de la URL y hace **una 
 
 Parámetros de la URL: `buscar`, `departamento`, `categoria` (varias), `tiempo`, `ver` (cuántas tarjetas). No se usa `s`, porque WordPress lo tomaría como búsqueda general y cargaría otra plantilla.
 
-Ejemplo: `/paissana/?buscar=cafe&departamento=cauca&categoria[]=alimentos-y-bebidas#explorar`
+Ejemplo: `/productores/?buscar=cafe&departamento=cauca&categoria[]=alimentos-y-bebidas#explorar`
 
 «Ver más» es un enlace a la misma URL con `ver=72`, luego `108`. Funciona sin JavaScript y el estado queda en la URL.
 
@@ -93,8 +93,8 @@ Las tres cifras del hero y las barras de distribución salen del **conteo nativo
 | Una consulta por petición, 36 filas | costo constante aunque el registro crezca |
 | Conteos nativos de términos | cifras y barras sin consultas adicionales |
 | Router de la Interactivity API | cambia solo la región; caché en memoria por URL y precarga |
-| Caché de página (WP Super Cache) | `/paissana/` sin filtros se sirve desde caché, como el resto del sitio |
-| CSS y JS solo en `/paissana` | el resto del sitio no carga nada del catálogo |
+| Caché de página (WP Super Cache) | `/productores/` sin filtros se sirve desde caché, como el resto del sitio. Con parámetros, no se guarda |
+| CSS y JS solo en `/productores/` | el resto del sitio no carga nada del catálogo |
 
 **Costo real:** cada combinación nueva de filtros es una petición a WordPress. El TTFB medido sin caché en el servidor es de 220 a 280 ms. Para 316 productores el filtrado en el navegador sería más inmediato; se eligió el nativo por URLs propias, funcionamiento sin JavaScript y por usar la búsqueda de WordPress ([decisión 2](../../decisions/boletin-catalogo-fcp.md)).
 
@@ -121,14 +121,14 @@ El «PaisSano destacado» cambia cada mes. Tipo de contenido **`historia`**, una
 | Crónica | el molde **Artículo** del [boletín](boletin-estructura.md#modelo), reutilizado, más la nota de fuente |
 | Galería | campo galería de SCF; pie y crédito salen de la leyenda de cada imagen |
 
-- `/paissana` muestra la historia más reciente en la tarjeta «PaisSano destacado».
-- Cada historia tiene su URL: `/paissana/historias/asocafe/`. Las anteriores siguen publicadas.
+- `/productores/` muestra la historia más reciente en la tarjeta «PaisSano destacado», y el archivo `/historias/` la muestra con «Otras historias».
+- Cada historia tiene su URL: `/historias/<slug>/` (la de Asocafé, `/historias/asocafe/`). Las anteriores siguen publicadas y listadas en `/historias/`.
 - Bloque `lapaz/historia` para la página de la historia. La ampliación de fotos reutiliza el lightbox que ya tiene `lapaz/paisana-ferias`.
 - La historia de Asocafé va al seed (`seed/historia-asocafe.json`, fotos en `seed/media/`).
 
-## Página `/paissana`
+## Página `/productores/`
 
-Página normal de WordPress con plantilla `page-paissana.html`: hero con las tres cifras, tarjeta de la historia del mes, bloque `lapaz/catalogo` y barras de distribución. El botón **PAISSANA** de `lapaz/paisana-hero` apunta aquí.
+Página normal de WordPress con slug `productores` y plantilla `page-productores.html`: hero con las tres cifras, tarjeta de la historia del mes, bloque `lapaz/catalogo` y barras de distribución. El botón **PAISSANA** de `lapaz/paisana-hero` apunta aquí. Se llamó `/paissana/` mientras se construía; `lapaz-setup` renombra esa página conservando su ID.
 
 ## Criterios de hecho
 
@@ -139,13 +139,13 @@ Página normal de WordPress con plantilla `page-paissana.html`: hero con las tre
 - [ ] «cafe» encuentra productores con «Café».
 - [ ] Buscar un municipio («Planadas») encuentra sus productores.
 - [ ] Un Editor agrega un productor y aparece en el catálogo y en los conteos.
-- [ ] Publicar una historia nueva cambia el destacado de `/paissana`; la anterior sigue en su URL.
+- [ ] Publicar una historia nueva cambia el destacado de `/productores/`; la anterior sigue en su URL y en `/historias/`.
 - [ ] Query Monitor: una consulta de productores por petición, sin consultas lentas.
 
 ## Por confirmar
 
 - **Al construir (primera tarea de la etapa):** que un módulo ES sin compilar funcione como `viewScriptModule` con `supports.interactivity`. La documentación solo describe el caso con `wp-scripts`; el tema no tiene build ([decisión 4 de arquitectura](../../decisions/wordpress-fse-arquitectura.md)). Si no funciona, el plan B es 25 líneas de JS propio (`fetch` de la URL y reemplazo de la región), con el mismo servidor.
-- **En staging:** que WP Super Cache sirva `/paissana/` desde caché, excluya `buscar=` y se vacíe al guardar un productor.
+- **En staging:** que WP Super Cache sirva `/productores/` desde caché, excluya cualquier URL con parámetros y se vacíe al guardar un productor (hook de `lapaz-core.php`, commit `239dcc9`).
 - **Con el Fondo:** el video de Asocafé y si se limpia el campo de enlaces para mostrarlo.
 
 ## Fuera de alcance

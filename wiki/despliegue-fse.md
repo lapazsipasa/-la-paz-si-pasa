@@ -132,16 +132,19 @@ Estado: **sin probar en un servidor**. Está en la rama `feat/boletin-catalogo-f
 
 Orden: primero staging (`st.lapazsipasa.com`, TODO: confirmar que está arriba), después producción. Todos los comandos se corren en la terminal del servicio `cms` en Dokploy, como en [Primer arranque](#2-primer-arranque).
 
+Pendientes de decisión y de staging de esta entrega: [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor). Rutas nuevas: el catálogo está en `/productores/`, las historias en `/historias/<slug>/` (con archivo en `/historias/`) y `/paissana/` ya no existe ([decisión del 2026-11-20](navegacion.md#ajuste-del-2026-11-20-url-propias-para-productores-e-historias)).
+
 1. **Merge y deploy.** Squash a `main` con `apps/wp-fse/bin/check` en verde y aprobación de William. Dokploy despliega `main`. Después, **Redeploy** del servicio.
+   - **Reconstruir la imagen.** Trae las reglas nuevas de Apache (`docker/apache/zz-lapaz-seguridad.conf`) y de PHP (límites y errores fuera de pantalla). Sin reconstruir, no se aplican. TODO: confirmar en Dokploy que el Redeploy reconstruye la imagen.
 2. **Configuración.** Sin `--seed`:
    ```bash
    su www-data -s /bin/bash -c 'lapaz-setup'
    ```
    Qué hace (según `apps/wp-fse/docker/lapaz-setup`):
-   - crea la página `/paissana/` si no existe;
+   - crea la página `productores` (título «Productores PaisSana»). Si existe `paissana`, la renombra conservando su ID, sin duplicarla;
    - migra el menú Principal, pero solo si sigue siendo el de fábrica. Si el editor lo cambió, imprime «Aviso: el menú Principal fue editado». En ese caso, ajustarlo en *Editor del sitio → Navegación* con el orden: Lo que hacemos, Actualidad, Proyectos destacados (enlace de página), Boletín;
    - aplica las reglas de enlaces (`rewrite structure --hard`);
-   - con `WP_CACHE=true`, excluye `?buscar=` de la caché de página.
+   - con `WP_CACHE=true`, excluye de la caché de página cualquier URL de `/productores/` con parámetros (`^/productores/.*\?`).
 3. **Grupos SCF.** `lapaz-setup` no importa los grupos nuevos. SCF los lee de `scf-json-lapaz/` (`apps/wp-fse/mu-plugins/lapaz-core.php`). Comprobar en *Historias PaisSana*, *Boletines* y *Productores* que aparecen sus campos. Si no aparecen, importarlos con el mismo bucle de `.github/workflows/wp-fse.yml` (líneas 55 a 61). TODO: confirmar en staging si hace falta.
 4. **Carga inicial por secciones.** Solo estas tres, en este orden. Cada una es idempotente (busca por título y actualiza):
    ```bash
@@ -151,20 +154,25 @@ Orden: primero staging (`st.lapazsipasa.com`, TODO: confirmar que está arriba),
    ```
    **No usar `lapaz-setup --seed` en producción.** Corre todas las secciones y actualiza por título las entradas de portada, videos y ferias, así que pisa lo que el editor haya cambiado.
    Resultado esperado: 316 productores, una edición (`Edición 02`) y una historia (`Asocafé`). El seed no toca la portada ni las ferias.
-5. **Caché.** `lapaz-setup` deja la caché activa, y WP Super Cache se vacía sola al guardar contenido (comentario en `lapaz-setup`). Si una página sigue vieja: TODO: confirmar en staging cómo vaciarla a mano (`wp super-cache flush`).
+5. **Caché.** `lapaz-setup` deja la caché activa. Al publicar, editar o borrar un productor, un boletín o una historia, `lapaz-core.php` la vacía una vez por petición (commit `239dcc9`). Si una página sigue vieja: TODO: confirmar en staging cómo vaciarla a mano (`wp super-cache flush`).
 6. **Usuario Editor.** Un usuario por persona externa, con rol Editor, no administrador. Usar un nombre de usuario y un correo propios; no van en esta wiki:
    ```bash
    su www-data -s /bin/bash -c 'wp --path=/var/www/html user create <usuario> <correo> --role=editor'
    ```
    La clave la genera WP-CLI y la muestra una vez: entregarla por otro canal, nunca en git ni en la wiki. TODO: confirmar en staging que la muestra así. Datos de la persona: pendientes del Fondo.
-7. **Comprobación posterior** (en producción, con navegador sin sesión):
-   - HTTP 200: `/`, `/proyectos-destacados/`, `/boletin/`, `/boletin/edicion-02/`, `/paissana/` y `/paissana/historias/asocafe/` (TODO: confirmar el slug de la historia).
-   - `/paissana/?buscar=cafe` devuelve resultados y no queda en caché (`cache_rejected_uri`, en `lapaz-setup`).
+7. **Comprobación posterior** (en producción, con navegador sin sesión y con la consola abierta):
+   - **API sin sesión:** `/wp-json/wp/v2/users` y los tipos nuevos responden 401. Salud del sitio no muestra el aviso de REST. TODO: confirmar en staging.
+   - **HTTP 200:** `/`, `/proyectos-destacados/`, `/productores/`, `/historias/`, `/historias/asocafe/` (local, 2026-11-19), `/boletin/` y `/boletin/edicion-02/`.
+   - **HTTP 404:** `/paissana/`. Si responde 200, quedó la página vieja: revisar `lapaz-setup` (si existen las dos páginas, no migra).
+   - **Cabeceras:** `X-Powered-By` no aparece; `Content-Security-Policy-Report-Only` sí; `Strict-Transport-Security` solo en HTTPS; `/wp-content/uploads/` sin listado; `readme.html` y `xmlrpc.php` en 403.
+   - **Consola:** sin violaciones de `Content-Security-Policy-Report-Only` en `/`, `/proyectos-destacados/` (con un video de YouTube y un audio) y `/productores/`. Si las hay, no pasar a `Content-Security-Policy` (TODO: confirmar en staging).
+   - **Caché:** `/productores/` se sirve desde caché; `/productores/?buscar=cafe` no se guarda. Al publicar un productor de prueba, la caché se vacía.
    - En `/` y `/proyectos-destacados/` aparecen las tarjetas de boletín, historia y banner del catálogo.
    - El menú Principal tiene «Boletín» y el enlace lleva a `/boletin/`.
    - `/guia-de-estilos/` da 404 en producción (la página solo se crea con `WP_ENVIRONMENT_TYPE=local`).
    - `/wp-sitemap.xml` incluye `boletin` e `historia`, y no `productor`. TODO: confirmar en staging.
    - Entrar con el usuario Editor: puede editar boletines, historias y productores, y no puede instalar plugins ni cambiar ajustes. TODO: confirmar en staging.
+   - Lista completa de lo que solo se prueba en staging: [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-probar-en-staging).
 
 ## Operación
 

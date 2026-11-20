@@ -24,7 +24,7 @@ Los JSON van en `apps/wp-fse/scf-json/` y no en `apps/wordpress/scf-json/`: son 
 |---|---|---|
 | `boletin` | `/boletin/` (archivo) y `/boletin/<slug>/` | `group_boletin.json` |
 | `productor` | sin URL | `group_productor.json` y 5 taxonomías |
-| `historia` | `/paissana/historias/<slug>/` | `group_historia.json` |
+| `historia` | `/historias/<slug>/` (archivo en `/historias/`) | `group_historia.json` |
 
 Taxonomías de `productor`, todas sin URL ni `query_var`: `departamento`, `categoria_productor`, `tiempo_operacion`, `etnia`, `poblacion`.
 
@@ -70,14 +70,14 @@ Todos los campos de imagen y archivo devuelven el ID del adjunto.
 |---|---|---|
 | `lapaz/boletin` | `single-boletin.html`, `archive-boletin.html` | una edición completa |
 | `lapaz/boletin-destacado` | `front-page.html` | tarjeta del último boletín (acceso) |
-| `lapaz/catalogo-portada` | `page-paissana.html` | hero con las tres cifras |
-| `lapaz/catalogo` | `page-paissana.html` | buscador, resultados y distribución |
-| `lapaz/catalogo-banner` | `front-page.html`, `page-proyectos-destacados.html` | banner de acceso al catálogo (no va en `/paissana/`) |
-| `lapaz/historia-destacada` | `page-paissana.html`, `front-page.html`, `page-proyectos-destacados.html` | tarjeta de la historia más reciente. Atributo `enlaceCatalogo` (booleano): muestra el enlace al catálogo; en Inicio y Proyectos destacados va sin él |
+| `lapaz/catalogo-portada` | `page-productores.html` | hero con las tres cifras |
+| `lapaz/catalogo` | `page-productores.html` | buscador, resultados y distribución |
+| `lapaz/catalogo-banner` | `front-page.html`, `page-proyectos-destacados.html` | banner de acceso al catálogo (no va en `/productores/`) |
+| `lapaz/historia-destacada` | `page-productores.html`, `front-page.html`, `page-proyectos-destacados.html` | tarjeta de la historia más reciente. Atributo `enlaceCatalogo` (booleano): muestra el enlace al catálogo; en Inicio y Proyectos destacados va sin él |
 | `lapaz/historia` | `single-historia.html` | una historia completa |
 | `lapaz/guia-estilos` | `page-guia-de-estilos.html` | guía de estilos viva; la página solo existe en local |
 
-Las páginas interiores nuevas (`/boletin/`, `/paissana/`, historias) usan `lapaz/hero` con la clase `is-style-compacto` (hero compacto). `/paissana/` lleva además la clase `paisana-page--catalogo` en la página.
+Las páginas interiores nuevas (`/boletin/`, `/productores/`, `/historias/`) usan `lapaz/hero` con la clase `is-style-compacto` (hero compacto). `/productores/` lleva además la clase `paisana-page--catalogo` en la página.
 
 ## Marcado
 
@@ -132,7 +132,7 @@ Rutas del tema relativas a `apps/wordpress/themes/lapaz/`.
 |---|---|
 | Modelo | `apps/wp-fse/scf-json/` |
 | Boletín | `blocks/boletin/` y `blocks/boletin-destacado/` (menos los `.css`), `inc/boletin.php`, `templates/single-boletin.html`, `templates/archive-boletin.html`, `inc/seo.php` |
-| Catálogo | `blocks/catalogo/` y `blocks/catalogo-portada/` (menos los `.css`), `inc/catalogo.php`, `templates/page-paissana.html`, `blocks/paisana-hero/render.php`, `apps/wp-fse/mu-plugins/lapaz-catalogo.php` |
+| Catálogo | `blocks/catalogo/` y `blocks/catalogo-portada/` (menos los `.css`), `inc/catalogo.php`, `templates/page-productores.html`, `blocks/paisana-hero/render.php`, `apps/wp-fse/mu-plugins/lapaz-catalogo.php` |
 | Historia | `blocks/historia/` y `blocks/historia-destacada/` (menos los `.css`), `inc/historia.php`, `templates/single-historia.html` |
 | Accesos | `blocks/catalogo-banner/`, `blocks/boletin-destacado/`, `inc/accesos.php`, `templates/front-page.html`, `templates/page-proyectos-destacados.html` |
 | Navegación | `inc/navegacion.php` (estado activo del menú), `wp_navigation` en `apps/wp-fse/docker/lapaz-setup` |

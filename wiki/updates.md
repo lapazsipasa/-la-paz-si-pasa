@@ -1,5 +1,27 @@
 # Updates
 
+## 2026-11-20 · boletín y catálogo: URL nuevas, endurecimiento y revisiones cerradas
+
+**Estado:** entrega en la rama `feat/boletin-catalogo-fcp` (28 commits sobre `lapazsipasa/main`). **Sin push, sin PR y sin desplegar.** Producción sigue en el sitio FSE de 2026-11-09. Qué cambió hoy: [changelog](changelog.md). Revisiones y sus pendientes: [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md).
+
+- Catálogo en `/productores/`, historias en `/historias/<slug>/` y `/paissana/` retirado (`1e799ea`).
+- Admin en lenguaje llano; la crónica ya no pide el «Título» (`a0c2b63`).
+- API REST cerrada sin sesión y endurecimiento de WordPress, Apache, PHP y CI (`3b2941d`, `ff6445d`).
+- Accesibilidad AA y caché de página al publicar (`239dcc9`).
+- Revisiones independientes 1 a 9 con su estado. La 10 está en curso.
+
+**Pendiente antes del PR:**
+- Pruebas: cerrar T1 a T6 de la [revisión 8](specs/boletin-catalogo-fcp/revisiones-independientes.md#8-pruebas-automáticas). Hay 12 archivos modificados y 2 nuevos en `apps/wp-fse/tests/e2e/` sin commit. `navegacion.mjs` y `rest.mjs` no corren en CI.
+- `apps/wp-fse/bin/check`, `seo.mjs` y el resto de suites: sin resultado registrado. TODO: confirmar.
+- Integrar y probar The SEO Framework (elegido por William) para título, descripción e imagen por página. Sin probar.
+- Regenerar las bases visuales (`baseline/`).
+- Manual del editor: borrador en `wiki/manual-editor.md` (sin commit; faltan capturas y confirmar en pantalla lo marcado). Después, Google Doc y usuario Editor. Sin clave en el repo.
+- Staging (`st.lapazsipasa.com`, TODO: confirmar que está arriba), PR y deploy.
+
+**Bloqueo:** aprobación de William para push, PR y deploy. Del Fondo: autorización de los datos de 12 personas en el seed, corrección del registro «Llaneridad Gourmet», video de Asocafé, datos de la persona externa, si el boletín deja de decir «interno», y las noticias reales. Del servidor: panel de administración con HTTPS y puerto cerrado, límite de intentos de login, respaldos y rotación de claves ([lista completa](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor)).
+
+**Siguiente paso:** cerrar las pruebas (T1 a T6) y correr `bin/check`. Después, integrar el plugin de SEO y preparar el staging.
+
 ## 2026-11-20 · boletín y catálogo PaisSana: construido en la rama
 
 **Estado:** construido y con commits en `feat/boletin-catalogo-fcp` (22 commits sobre `lapazsipasa/main`, el último `8347916`). **Sin push, sin PR y sin desplegar:** nada sale a producción hasta que William lo apruebe. Producción sigue en el sitio FSE de 2026-11-09. Bloques, menú y accesos en el [changelog](changelog.md).

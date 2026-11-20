@@ -1,6 +1,6 @@
 # Estructura del sitio y navegación
 
-**Estado:** propuesta · 2026-11-19 · tarea R3 de [boletin-catalogo-fcp](specs/boletin-catalogo-fcp.md) · solo lectura, no se implementó nada
+**Estado:** el mapa actual (sección 1) está al día con el código del 2026-11-20. Las propuestas son del 2026-11-19 (tarea R3 de [boletin-catalogo-fcp](specs/boletin-catalogo-fcp.md)) y se aplicaron en parte. Lo decidido está en «Decisiones de William» y en su ajuste del 2026-11-20.
 
 Pedido de William: «Revisar la estructura del sitio para ver cómo podemos mejorar la navegación, pues está muy extraña y difícil». El sitio pasó de 2 a 5 tipos de página y la navegación no se rediseñó.
 
@@ -16,54 +16,60 @@ Fuente: sitio local `http://localhost:8090` (rama `feat/boletin-catalogo-fcp`), 
 /                                   Inicio (página «home», front-page.html)
 ├─ #lo-que-hacemos                  ancla (bloque lapaz/lo-que-hacemos)
 ├─ #actualidad                      ancla (bloque lapaz/actualidad)
+├─ tarjetas del boletín y de la historia del mes, y banner del catálogo (accesos)
 /proyectos-destacados/              página «Proyectos destacados» (page-proyectos-destacados.html)
 │                                   H1: «Un país que sana desde la tierra». Contenido: PaisSana
 ├─ #escucha-el-corazon-del-campo    audios
 ├─ #productores-paissana            videos de productores
-└─ #paissana-en-ferias              ferias
-/paissana/                          página «PaisSana» (page-paissana.html)
-│                                   H1: «Quienes producen la paz». Catálogo de 316 productores
-│                                   + tarjeta «PaisSano destacado» + buscador (?buscar=…#explorar)
-└─ historias/asocafe/               CPT historia (single-historia.html). No existe /paissana/historias/ (404)
+├─ #paissana-en-ferias              ferias
+└─ accesos: banner del catálogo y tarjeta de la historia del mes
+/productores/                       catálogo (page-productores.html, página de slug «productores»)
+│                                   H1: «Quienes producen la paz». Cifras, tarjeta «PaisSano destacado»,
+│                                   buscador (?buscar=…#explorar), resultados y distribución
+/historias/                         archivo de historia (archive-historia.html): pinta la más reciente
+│                                   y, debajo, «Otras historias». Sin historias: aviso con H1
+└─ <slug>/                          cada historia (single-historia.html), p. ej. /historias/asocafe/
 /boletin/                           archivo del CPT boletin: pinta la edición más reciente
 └─ edicion-02/                      la misma edición (canonical de las dos URL)
 /guia-de-estilos/                   solo en local
 ```
 
-Las páginas son hermanas, todas de primer nivel (`post_parent` 0). `historia` no tiene archivo (`has_archive: false`), `productor` no tiene URL.
+Las páginas son de primer nivel (`post_parent` 0). `historia` tiene archivo en `/historias/` (`has_archive: true`, slug `historias`). `productor` no tiene URL. `/paissana/` ya no existe.
 
 ### Qué hay en cada navegación
 
 | Dónde | Elementos | Notas |
 |---|---|---|
-| Menú «Principal» (`wp_navigation` 6, `core/navigation`) | LO QUE HACEMOS → `/#lo-que-hacemos` · PROYECTOS DESTACADOS → `/proyectos-destacados` · ACTUALIDAD → `/#actualidad` · BOLETÍN → `/boletin/` | Los cuatro son enlaces `custom` con URL relativa. Dos son anclas de la portada y dos son páginas. `/proyectos-destacados` sin barra final provoca un 301 en cada clic. |
-| Escritorio (≥ 850 px) | Cuatro cajas iguales, **debajo** del hero (y = 420) | El único enlace a Inicio es el logo del hero. |
+| Menú «Principal» (`wp_navigation`, `core/navigation`) | LO QUE HACEMOS → `/#lo-que-hacemos` · ACTUALIDAD → `/#actualidad` · PROYECTOS DESTACADOS → página `/proyectos-destacados/` (enlace de página) · BOLETÍN → `/boletin/` | Las dos primeras son anclas de la portada. «Proyectos destacados» es de página, así que no hay 301. Queda activo también en `/productores/` y `/historias/`. `lapaz-setup` fija este orden solo si el menú sigue de fábrica; si el editor lo cambió, no lo toca. |
+| Escritorio (≥ 850 px) | Cuatro elementos **debajo** del hero | En páginas interiores (catálogo, historias, boletín) el hero es compacto (`0f25dc8`). El logo del hero lleva a Inicio. |
 | Móvil (< 850 px) | Barra con «LA PAZ SÍ PASA» (enlace a Inicio) y hamburguesa, encima del hero | El overlay muestra los mismos 4 elementos, sin «Inicio». |
-| Botonera de programas (`lapaz/paisana-hero`, solo en `/proyectos-destacados/`) | PAISSANA → `/paissana/` · PROGRAMA COLOMBIA SOSTENIBLE → `#` · PROGRAMA PILOTO DE INVERSIONES PRIORITARIAS → `#` | Botones `.btn-project` azul, verde y naranja. |
-| Barra de secciones PaisSana (`.hero-nav`, mismo bloque) | ESCUCHA EL CORAZÓN DEL CAMPO · PAISSANA EN FERIAS · PRODUCTORES PAISSANA | Está en y = 1811 (escritorio) y y = 2629 (móvil). El orden no coincide con la página, que va audios → productores → ferias. |
-| Boletín | Franja «BOLETÍN · JEFATURA…» · botón «Ver esta edición» → `#indice` · barra «Secciones del boletín» (Índice + 8 secciones) · índice en tarjetas «En esta edición» · 8 enlaces «↑ Volver al índice» · «Otras ediciones» (solo si hay más de una) | La barra no es fija (`position: static`). |
-| Historia | «← Volver al catálogo» → `/paissana/` | Es el único enlace propio. |
+| Botonera de programas (`lapaz/paisana-hero`, solo en `/proyectos-destacados/`) | PAISSANA → `/productores/` · PROGRAMA COLOMBIA SOSTENIBLE y PROGRAMA PILOTO DE INVERSIONES PRIORITARIAS → sin enlace, deshabilitados | Botones `.btn-project` azul, verde y naranja. Los dos deshabilitados están en gris (decisión de William). |
+| Barra de secciones PaisSana (`.hero-nav`, mismo bloque) | ESCUCHA EL CORAZÓN DEL CAMPO · PRODUCTORES PAISSANA · PAISSANA EN FERIAS | Anclas a las secciones, en el mismo orden que la página (audios, productores, ferias). |
+| Boletín | Franja «BOLETÍN · JEFATURA…» · botón «Ver esta edición» → `#indice` · barra «Secciones del boletín» (Índice + 8 secciones) · índice en tarjetas «En esta edición» · 8 enlaces «↑ Volver al índice» · «Otras ediciones» (solo si hay más de una) | La barra no es fija (`position: static`). Hero compacto con la marca y el enlace a Inicio. |
+| Historia | «← Volver al catálogo» → `/productores/` · «Otras historias» al pie | Sin migas. |
 | Pie (`lapaz/footer`) | fcp.gov.co, Instagram y X, y botón «Volver arriba» | Ningún enlace interno. |
 
 ### Cómo se llega a cada página
 
-Clics mínimos y por dónde. «Menú» es el menú principal.
+Clics mínimos y por dónde. «Menú» es el menú principal. «Tarjeta» es un acceso de la página (`lapaz/boletin-destacado`, `lapaz/historia-destacada`, `lapaz/catalogo-banner`).
 
-| Desde ↓ / a → | Inicio | Proyectos destacados | Catálogo `/paissana/` | Historia del mes | Boletín |
+| Desde ↓ / a → | Inicio | Proyectos destacados | Catálogo `/productores/` | Historia del mes | Boletín |
 |---|---|---|---|---|---|
-| **Inicio** | — | 1 (menú) | 2 (menú → botón PAISSANA) | 3 (… → «Ver la historia completa») | 1 (menú) |
-| **Proyectos destacados** | 1 (logo del hero) | — | 1 (botón PAISSANA) | 2 | 1 (menú) |
-| **Catálogo** | 1 (logo del hero) | 1 (menú) | — | 1 (tarjeta destacada) | 1 (menú) |
-| **Historia** | 1 (logo del hero) | 1 (menú) | 1 («Volver al catálogo») | — | 1 (menú) |
-| **Boletín** | En escritorio no hay logo ni marca: solo se vuelve por las anclas del menú, que caen a mitad de la portada. En móvil, 1 (marca de la barra). | 1 (menú) | 2 (por Proyectos destacados) | 3 | — |
+| **Inicio** | — | 1 (menú) | 1 (banner del catálogo) | 1 (tarjeta «Ver la historia completa») | 1 (tarjeta o menú) |
+| **Proyectos destacados** | 1 (logo del hero) | — | 1 (botón PAISSANA o banner) | 1 (tarjeta) | 1 (menú) |
+| **Catálogo** | 1 (logo del hero) | 1 (menú) | — | 1 (tarjeta «PaisSano destacado») | 1 (menú) |
+| **Historia** | 1 (logo del hero) | 1 (menú) | 1 («Volver al catálogo») | 1 («Otras historias» al pie) | 1 (menú) |
+| **Boletín** | 1 (logo del hero compacto) | 1 (menú) | 2 (por Proyectos destacados) | 2 (por Inicio) | — |
 
 ### Huérfanas, callejones y repetidos
 
-- **Huérfana a medias: el catálogo.** No está en el menú. Solo se llega por un botón de otra página, rotulado con el mismo nombre que el contenido de esa página.
-- **Huérfanas futuras: las historias anteriores.** La spec dice que «las anteriores siguen publicadas», pero no hay listado. En diciembre, Asocafé solo será alcanzable por el sitemap.
+Estado al 2026-11-20. Lo que ya no aplica se marca.
+
+- **Catálogo: ya no es huérfano.** Tiene banner en Inicio y en Proyectos destacados, y la tarjeta de la historia del mes. El menú no lo incluye: cuelga de Proyectos destacados.
+- **Historias anteriores: ya no son huérfanas.** Se listan en `/historias/` y en «Otras historias» al pie de cada historia (`1e799ea`).
 - **`/boletin/edicion-02/`** no la enlaza nadie (es la canónica de `/boletin/`). No es un problema mientras haya una sola edición. Con dos, entra en «Otras ediciones».
-- **Enlaces a `#`:** los botones PROGRAMA COLOMBIA SOSTENIBLE y PROGRAMA PILOTO DE INVERSIONES PRIORITARIAS. Al tocarlos, la página salta arriba.
-- **Callejón sin salida:** el boletín en escritorio, que no tiene marca ni enlace a Inicio.
+- **Enlaces a `#`:** resuelto. Los dos programas son elementos deshabilitados (`2d5d049`).
+- **Callejón sin salida en el boletín:** resuelto con el hero compacto (`0f25dc8`).
 - **Repetidos:**
   - En móvil, la marca aparece dos veces seguidas: el texto «LA PAZ SÍ PASA» de la barra y el logo grande del hero.
   - En el boletín, la barra de secciones y el índice en tarjetas quedan uno debajo del otro (y = 816 y y ≈ 920) con los mismos 8 destinos.
@@ -73,6 +79,8 @@ Clics mínimos y por dónde. «Menú» es el menú principal.
 ---
 
 ## 2. Diagnóstico
+
+> Foto del 2026-11-19. Varios puntos ya se resolvieron: ver el mapa actual (sección 1).
 
 1. **El hero de 420 px se repite en todas las páginas interiores y empuja el menú hacia abajo.** En escritorio, el menú empieza en y = 420 en Inicio, Proyectos destacados, el catálogo y la historia. El H1 cae en y = 692 a 914, cerca o fuera de la primera pantalla. En móvil, la barra (77 px) más el hero dejan el contenido en y = 497. Quien llega desde un buscador a `/paissana/historias/asocafe/` ve una foto genérica y el logo, sin ninguna pista de que está en PaisSana, hasta que baja.
 2. **El hero no está en el boletín.** Es la única página sin marca en escritorio: arranca con el menú en y = 0. El sitio cambia de cara según la página, y el boletín parece otro sitio.
@@ -96,6 +104,8 @@ Clics mínimos y por dónde. «Menú» es el menú principal.
 ---
 
 ## 3. Propuesta de estructura
+
+> Propuesta original; lo decidido está en «Decisiones de William». Se decidió no mover `/proyectos-destacados/` y dar al catálogo y a las historias sus propias URL (`/productores/`, `/historias/`).
 
 **Idea:** tres secciones de primer nivel y un solo nombre por cosa. PaisSana pasa a ser **una sección** con portada, catálogo e historias. El boletín sigue igual. La portada conserva sus anclas.
 
@@ -147,6 +157,8 @@ Funciona, pero las URL siguen contradiciendo los nombres (el catálogo en `/pais
 ---
 
 ## 4. Propuesta de navegación
+
+> Propuesta original; lo decidido está en «Decisiones de William». Lo construido: el menú dice «Proyectos destacados» (no «PAISSANA»), y la botonera conserva los tres botones, dos de ellos deshabilitados.
 
 ### Menú principal (`wp_navigation` «Principal», editable en *Editor del sitio → Navegación*)
 
@@ -242,6 +254,8 @@ La navegación de sección en móvil va en 3 columnas, con etiquetas de hasta 2 
 
 ## 5. Accesos desde las páginas existentes (insumo para R4)
 
+> Propuesta original; lo construido está en [accesos](specs/boletin-catalogo-fcp/accesos-paginas-existentes.md) y en el mapa actual (sección 1). Las rutas «`/paissana/`» de este texto son hoy `/productores/`.
+
 Como máximo 2 por página. Se agregan bloques en la plantilla y no se modifica ninguno de los existentes. Así se respeta «las páginas que ya existían no cambian» del [contrato](specs/boletin-catalogo-fcp/contrato.md), salvo la botonera, que necesita el visto bueno de William.
 
 ### `/` (Inicio)
@@ -270,6 +284,8 @@ El boletín no lleva acceso aquí: con 2 por página tiene menos relación con P
 ---
 
 ## 6. Plan por pasos
+
+> Plan original (2026-11-19); lo decidido está en «Decisiones de William» y en su ajuste. Lo construido se marca en el [changelog](changelog.md).
 
 Rutas del tema relativas a `apps/wordpress/themes/lapaz/`.
 
@@ -318,6 +334,8 @@ Orden sugerido: a1–a2 → b1 → (decisión) c1–c4 → b2–b5 → b6 (R4). 
 
 ### Ajuste del 2026-11-20: URL propias para productores e historias
 
+Supera la primera fila de la tabla anterior («No mover URL»).
+
 William decidió que el catálogo tenga dirección independiente. Como `/paissana/` aún no existe en producción, no hace falta ninguna redirección.
 
 | Antes (solo en la rama) | Ahora |
@@ -330,9 +348,13 @@ William decidió que el catálogo tenga dirección independiente. Como `/paissan
 - `/proyectos-destacados/` no se mueve.
 - El menú conserva sus cuatro elementos. «Proyectos destacados» se marca como activo también en `/productores/` y en `/historias/`.
 
-Se construye ahora: a1, a2, a4, b1, b2 y b6, más los botones deshabilitados. Quedan propuestos y sin construir: migas (b3), barra de secciones fija del boletín (b4), «Otras historias» (b5) y todo el bloque (c).
+Se construye ahora: a1, a2, a4, b1, b2 y b6, más los botones deshabilitados. Quedan propuestos y sin construir: migas (b3), barra de secciones fija del boletín (b4) y todo el bloque (c).
+
+Corrección (2026-11-20): «Otras historias» (b5) sí se construyó en `1e799ea` (`blocks/historia/partes/otras.php`). La lista anterior quedó desactualizada en ese punto.
 
 ## 7. Preguntas para William
+
+> Preguntas del 2026-11-19. Respondidas en «Decisiones de William» y en su ajuste.
 
 1. **¿Unificamos PaisSana bajo `/paissana/`, con portada, productores e historias, y redirigimos `/proyectos-destacados/`?** Recomendación: **sí, y antes de que esta rama llegue a producción**. Hoy cuesta una sola redirección; después cuesta dos y hay que preservar los filtros del buscador.
 2. **¿Se van a publicar páginas de Programa Colombia Sostenible y del Programa Piloto (PPIP)?** Si no hay fecha, recomiendo quitar esos dos botones y usar la botonera como navegación de PaisSana. Si sí habrá, «Proyectos destacados» se mantiene como página paraguas con los tres programas, y PaisSana queda dentro. Es la única pregunta que cambia el árbol.

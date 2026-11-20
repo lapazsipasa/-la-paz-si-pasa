@@ -2,10 +2,20 @@
 
 Qué cambió, con fecha y PR. Lo reciente arriba.
 
+- **2026-11-20** · entrega de la rama: URL nuevas, endurecimiento, accesibilidad, formularios del admin y revisiones independientes · **en la rama `feat/boletin-catalogo-fcp`, sin push, PR ni deploy** · [revisiones](specs/boletin-catalogo-fcp/revisiones-independientes.md)
+  - Catálogo en `/productores/` (plantilla `page-productores.html`) e historias en `/historias/<slug>/`, con archivo en `/historias/`. `/paissana/` deja de existir; `lapaz-setup` migra la página conservando su ID (`1e799ea`).
+  - Menú: «Proyectos destacados» queda activo también en `/productores/` y `/historias/` (`1e799ea`).
+  - Formularios del admin en lenguaje llano. La crónica de la historia deja de clonar el molde Artículo y el «Título» obligatorio (`a0c2b63`).
+  - API REST cerrada sin sesión: productores, taxonomías, boletines e historias fuera de REST. `categoria[]` admite 20 valores como máximo. El video de una historia exige adjunto de video o enlace https (`3b2941d`).
+  - Decisión ratificada: los datos del seed quedan como los entregó el Fondo (`3b2941d`; [decisiones](decisions/boletin-catalogo-fcp.md)).
+  - Endurecimiento: un solo mensaje de error al iniciar sesión; contraseñas de aplicación desactivadas; oEmbed sin autor; Apache sin listado y con archivos sensibles bloqueados; HSTS y CSP en modo informe; límites de PHP; contenedores sin escalada de privilegios; acciones de CI fijadas por SHA. La wiki deja de publicar direcciones de servidores y paneles (`ff6445d`).
+  - Accesibilidad AA: indicador de menú activo, contraste de barras, lightbox como `<dialog>`, foco en «Ver más», enlaces de 44 px (`239dcc9`).
+  - Rendimiento: galería de 25 a 4 consultas, miniaturas y logo a su tamaño, caché de página vaciada al publicar un productor, boletín o historia (`239dcc9`).
+  - Pruebas: arnés y suites e2e en cierre, con cambios sin commit. No están en verde.
 - **2026-11-19 a 2026-11-20** · feat: boletín y catálogo PaisSana · **en la rama `feat/boletin-catalogo-fcp`, sin push, PR ni deploy** · [spec](specs/boletin-catalogo-fcp.md)
   - Modelo: tipos `boletin`, `productor` (5 taxonomías) e `historia`, en `apps/wp-fse/scf-json/` (`87fa755`).
   - Boletín: bloque `lapaz/boletin`, edición nueva con 8 secciones precargadas, `/boletin/` y `editorial.css` (`40af34e`, `1fc1301`).
-  - Catálogo: `lapaz/catalogo` con buscador y filtros en el servidor, página `/paissana/`, mu-plugin `lapaz-catalogo.php` (`854b66a`).
+  - Catálogo: `lapaz/catalogo` con buscador y filtros en el servidor, página de productores en `/paissana/` (hoy `/productores/`), mu-plugin `lapaz-catalogo.php` (`854b66a`).
   - Historia del mes: `lapaz/historia` y tarjeta `lapaz/historia-destacada` (`d423dc1`).
   - Seed: 316 productores, edición 02 e historia de Asocafé (`69ae2a0`).
   - Estilo: tokens en `theme.json`, Komet Heavy en titulares (`1fc1301`, `00c7eaf`); guía de estilos viva solo en local, `lapaz/guia-estilos` (`f0de368`).

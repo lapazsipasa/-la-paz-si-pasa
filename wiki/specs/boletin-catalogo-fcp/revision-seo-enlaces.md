@@ -2,6 +2,18 @@
 
 Auditoría de solo lectura sobre `http://localhost:8090` (WordPress 7.1, tema `lapaz`, rama `feat/boletin-catalogo-fcp`), 2026-11-20. No se modificó código. Todo lo que dice «local» se midió en vivo; lo que dice «producción» se deduce del código (ver sección 6).
 
+> **Estado al 2026-11-20 (nota añadida; el cuerpo es la auditoría del día y no se reescribió).**
+>
+> - **Rutas:** `/paissana/` es hoy `/productores/`, y `/paissana/historias/…` es `/historias/…` ([ajuste de navegación](../../navegacion.md#ajuste-del-2026-11-20-url-propias-para-productores-e-historias)).
+> - **Resuelto:**
+>   - Hallazgo 5, botones con `href="#"`: no queda ninguno. Los programas son elementos deshabilitados (`2d5d049`).
+>   - Hallazgo 7, catálogo huérfano: mitigado. Hay accesos desde Inicio y Proyectos destacados (`872a85a`, `8347916`). El menú sigue con cuatro elementos.
+>   - Hallazgo 8, redirección del menú: «Proyectos destacados» es un enlace de página, así que no hay 301 (`2d5d049`). `lapaz-setup` migra el menú de fábrica.
+>   - La API REST: productores, taxonomías, boletines e historias fuera de REST (`3b2941d`).
+> - **Abierto, verificado en código:** hallazgo 3, no hay datos estructurados (JSON-LD) en el tema.
+> - **Abierto o sin verificar (TODO: confirmar en staging):** hallazgos 1, 2 y 10 (descripciones y títulos de `/productores/` y de las historias; `seo.php` cambió en `1e799ea`), 13 (salto de h1 a h3 en Proyectos destacados), 14 (espacio en el texto plano del h1 de la portada), 15 (texto del enlace del banner de noticias) y 16 (rendimiento).
+> - **Decisiones D1 a D7:** siguen sin respuesta de William. Se listan en [pendiente de decisión](revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor).
+
 ## 1. Resumen
 
 1. La base es sólida: títulos únicos y de buena longitud en las páginas con contenido propio, un solo `<h1>` por página, `lang="es-CO"`, OG/Twitter completos con dimensiones, canónicas absolutas, sitemap limpio (solo `page`, `boletin`, `historia`; sin usuarios, taxonomías, adjuntos ni guía) y todo lo que no debe existir (`/productor/…`, `/historia/`, `/paissana/historias/`, autores, feeds) da 404 o 301.

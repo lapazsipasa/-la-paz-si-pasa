@@ -1,5 +1,7 @@
 # Revisión responsive: boletín, catálogo PaisSana e historia
 
+> **Nota (2026-11-20):** las rutas de este informe son las de entonces. `/paissana/` es hoy `/productores/`, y `/paissana/historias/asocafe/` es `/historias/asocafe/` ([ajuste de navegación](../../navegacion.md#ajuste-del-2026-11-20-url-propias-para-productores-e-historias)). El cuerpo no se reescribió. Los arreglos de CSS están en el commit `afa96b4`.
+
 Rama `feat/boletin-catalogo-fcp`. Solo CSS de bloque (`blocks/{boletin,catalogo,catalogo-portada,historia,historia-destacada}/`).
 
 ## Qué se revisó

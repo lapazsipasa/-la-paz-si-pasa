@@ -1,6 +1,6 @@
 # Boletín y catálogo PaisSana
 
-**Estado:** construido en la rama `feat/boletin-catalogo-fcp` (22 commits, del 2026-11-19 al 2026-11-20). **Sin push, PR ni deploy:** pendiente de aprobación de William.
+**Estado:** construido en la rama `feat/boletin-catalogo-fcp` (28 commits, del 2026-11-19 al 2026-11-20). **Sin push, PR ni deploy:** pendiente de aprobación de William.
 **Repo:** `apps/wordpress/themes/lapaz/`, `apps/wp-fse/scf-json/`, `apps/wp-fse/`, `apps/wordpress/seed/` · rama `feat/boletin-catalogo-fcp` · inicio 2026-11-19
 
 ## Objetivo
@@ -46,10 +46,10 @@ El diseño de cada parte está en su documento:
 
 ### 2. PaisSana
 
-- Página nueva `/paissana`. El botón PAISSANA de `lapaz/paisana-hero` apunta a ella.
+- Página nueva `/productores/` (catálogo). El botón PAISSANA de `lapaz/paisana-hero` apunta a ella. (Antes se planeó `/paissana/`; ver la [decisión del 2026-11-20](../navegacion.md#ajuste-del-2026-11-20-url-propias-para-productores-e-historias).)
 - Tipo `productor` con taxonomías nativas (departamento, categoría, tiempo de operación, etnia, población) y campos SCF (municipio, productos, enlace).
 - Bloque `lapaz/catalogo`: búsqueda y filtros en el servidor con `WP_Query`, cada filtro con su URL, y navegación sin recargar con la Interactivity API de WordPress.
-- Tipo `historia` para el «PaisSano destacado»: una entrada por mes con ficha, video, crónica y galería. `/paissana` muestra la más reciente.
+- Tipo `historia` para el «PaisSano destacado»: una entrada por mes con ficha, video, crónica y galería. Cada una tiene URL propia, `/historias/<slug>/`. `/productores/` y el archivo `/historias/` muestran la más reciente.
 
 ### 3. Contenido inicial
 
@@ -75,7 +75,7 @@ Los de cada parte están en su documento. Los de toda la feature:
 - [ ] `/boletin/` muestra la edición 02 completa con Komet, Monique Round y la paleta de `theme.json`, sin Google Fonts, a 360, 850 y 1440 px.
 - [x] El menú principal tiene «Boletín» y lleva a `/boletin/`. Construido en `2d5d049`; comprobar en staging.
 - [ ] Un usuario Editor publica una edición nueva y una historia nueva sin ayuda, siguiendo el manual.
-- [ ] `/paissana` muestra el catálogo con los 316 productores. La búsqueda y los filtros funcionan con y sin JavaScript, y el botón PAISSANA de Proyectos destacados lleva ahí.
+- [ ] `/productores/` muestra el catálogo con los 316 productores. La búsqueda y los filtros funcionan con y sin JavaScript, y el botón PAISSANA de Proyectos destacados lleva ahí. Probar en staging.
 - [ ] Un Editor agrega, edita o despublica un productor y el catálogo se actualiza.
 - [ ] El seed es idempotente: correrlo dos veces deja 316 productores, una edición y una historia.
 - [ ] `apps/wp-fse/bin/check` en verde, con e2e de los bloques nuevos.
@@ -95,7 +95,7 @@ Rutas: los JSON del sitio FSE están en `apps/wp-fse/scf-json/` (no en `apps/wor
 | 1 | Modelo: tipos `boletin`, `productor` e `historia`, taxonomías, grupos de campos (incluido el molde Artículo compartido) y [contrato](boletin-catalogo-fcp/contrato.md) | Claude | `apps/wp-fse/scf-json/` | 0 |
 | 2a | Boletín: bloque `lapaz/boletin`, plantillas, valor inicial de una edición nueva | subagente Sonnet | `blocks/boletin/{block.json,render.php}`, `inc/boletin.php`, `templates/*boletin*` | 1 |
 | 2b | CSS de los cinco bloques, con el estilo del sitio actual | subagentes Sonnet | `blocks/*/*.css` | contrato de 1 |
-| 3a | Catálogo: prueba del módulo ES sin build, bloque `lapaz/catalogo`, texto de búsqueda, página `/paissana`, enlace del botón PAISSANA | subagente Opus | `blocks/catalogo/{block.json,render.php,view.js}`, `inc/catalogo.php`, `templates/page-paissana.html`, `blocks/paisana-hero/render.php` | 1 |
+| 3a | Catálogo: prueba del módulo ES sin build, bloque `lapaz/catalogo`, texto de búsqueda, página `/productores/`, enlace del botón PAISSANA | subagente Opus | `blocks/catalogo/{block.json,render.php,view.js}`, `inc/catalogo.php`, `templates/page-productores.html`, `blocks/paisana-hero/render.php` | 1 |
 | 4 | Historia del mes: bloque `lapaz/historia` y tarjeta del destacado | subagente Sonnet | `blocks/historia/{block.json,render.php,view.js}`, `inc/historia.php` | 1 |
 | 5 | Seed: productores a texto legible, transcripción de la edición 02 y de la historia de Asocafé, y `seed.php` con taxonomías y campos flexibles | subagente Sonnet | `seed/` | 1 |
 | 6 | Pruebas: e2e `boletin.mjs`, `catalogo.mjs` e `historia.mjs`, idempotencia del seed, `bin/check` | subagente Sonnet | `tests/e2e/` | escribe contra los criterios desde 1 y corre al cerrar 2 a 5 |
@@ -116,14 +116,14 @@ Evidencia: commits de la rama (`git log lapazsipasa/main..HEAD`). Lo que no tien
 |---|---|---|---|---|
 | 0 | Base: `raw/` en `.gitignore` | hecha | `4ebb073` | — |
 | 1 | Modelo: tipos, taxonomías y grupos | hecha | `87fa755` | — |
-| 2a | Boletín: bloque `lapaz/boletin`, plantillas, 8 secciones iniciales | hecha | `40af34e`, `667cf01`, `e6eb811`, `e152e69` | Ajustes del admin (formularios) |
-| 2b | CSS de los bloques, tokens y hoja `editorial.css` | hecha | `1fc1301`, `00c7eaf`, `afa96b4` | Bases visuales por regenerar |
-| 3a | Catálogo: `lapaz/catalogo`, `/paissana/`, búsqueda, botón PAISSANA | hecha | `854b66a` | TODO: confirmar Lighthouse |
-| 4 | Historia del mes: `lapaz/historia` y `lapaz/historia-destacada` | hecha | `d423dc1` | Ajustes del admin (campos de «Crónica») |
-| 5 | Seed: 316 productores, edición 02, historia de Asocafé | hecha | `69ae2a0` | — |
-| 6 | Pruebas: suites e2e `boletin`, `catalogo`, `historia`, `navegacion`; CI | escritas | `c710ccf`, `cd68174`, `afa96b4` | Correr `bin/check` y `seo.mjs`. TODO: confirmar resultado |
-| 7 | Revisión independiente (AGY) | tres rondas hechas | `667cf01`, `e6eb811`, `e152e69` | Revisión 4: Parte B aplicada en la documentación; Parte A (formularios del admin) pendiente |
-| 8 | Manual para la persona externa | pendiente | — | Borrador y Google Doc |
+| 2a | Boletín: bloque `lapaz/boletin`, plantillas, 8 secciones iniciales | hecha | `40af34e`, `667cf01`, `e6eb811`, `e152e69`, `a0c2b63` | — |
+| 2b | CSS de los bloques, tokens y hoja `editorial.css` | hecha | `1fc1301`, `00c7eaf`, `afa96b4`, `239dcc9` | Bases visuales por regenerar |
+| 3a | Catálogo: `lapaz/catalogo`, `/productores/`, búsqueda, botón PAISSANA | hecha | `854b66a`, `1e799ea` | Probar en staging. TODO: confirmar Lighthouse |
+| 4 | Historia del mes: `lapaz/historia`, `lapaz/historia-destacada`, `/historias/` | hecha | `d423dc1`, `1e799ea`, `a0c2b63` | Probar en staging |
+| 5 | Seed: 316 productores, edición 02, historia de Asocafé | hecha | `69ae2a0` | Carga por secciones en staging (ver [despliegue](../despliegue-fse.md#despliegue-de-boletín-y-catálogo-paissana)) |
+| 6 | Pruebas: suites e2e `boletin`, `catalogo`, `historia`, `navegacion`, `rest`; CI | en cierre, no está en verde | `c710ccf`, `cd68174`, `afa96b4`, `239dcc9` | Cerrar T1 a T6 de la [revisión 8](boletin-catalogo-fcp/revisiones-independientes.md#8-pruebas-automáticas). Cambios sin commit en `tests/e2e/`. `navegacion.mjs` y `rest.mjs` fuera de CI. `bin/check` y `seo.mjs` sin resultado registrado. TODO: confirmar |
+| 7 | Revisión independiente (AGY) | nueve informes hechos; la 10 en curso | `667cf01`, `e6eb811`, `e152e69`, `a0c2b63`, `3b2941d`, `ff6445d`, `239dcc9` | Ver [revisiones independientes](boletin-catalogo-fcp/revisiones-independientes.md) |
+| 8 | Manual para la persona externa | borrador sin commit | — | Borrador en [`manual-editor.md`](../manual-editor.md): faltan capturas y confirmar en pantalla lo marcado. Después, Google Doc |
 | 9 | PR, staging, merge, deploy, seed en producción y usuario Editor | pendiente | — | Aprobación de William |
 
 Extras de la rama, fuera de la lista original:
@@ -131,12 +131,20 @@ Extras de la rama, fuera de la lista original:
 | Tarea | Estado | Commits |
 |---|---|---|
 | R1 responsive | hecha | `afa96b4` |
-| R2 SEO y enlaces (propuesta) | documentada; plugin de SEO pendiente | `dcd0a81` |
-| R3 navegación (propuesta) | documentada; aplicada en parte (menú, hero compacto) | `dcd0a81`, `2d5d049`, `0f25dc8` |
+| R2 SEO y enlaces (propuesta) | documentada; plugin de SEO pendiente; parte resuelta (ver su [nota](boletin-catalogo-fcp/revision-seo-enlaces.md)) | `dcd0a81` |
+| R3 navegación (propuesta) | aplicada en parte: menú, hero compacto, accesos y URL nuevas | `dcd0a81`, `2d5d049`, `0f25dc8`, `1e799ea` |
 | R4 accesos en Inicio y Proyectos destacados | hecha | `872a85a`, `8347916` |
 | Guía de estilos viva (solo local) | hecha | `f0de368` |
+| Endurecimiento (API REST, Apache, PHP, CI, wiki sin datos de servidor) | hecho en el repo; pendiente en el servidor | `3b2941d`, `ff6445d` |
+| Accesibilidad AA y rendimiento | hecha | `239dcc9` |
 
-Pendiente, en lo que no tiene commit: integrar The SEO Framework para que el editor cambie título, descripción e imagen por página (sin probar); ajustes de formularios del admin; regenerar bases visuales; manual y usuario Editor.
+## Pendientes para cerrar
+
+Lo que falta para pedir el PR. Nada de esto sale a producción sin aprobación de William.
+
+- **Del repo y del trabajo:** cerrar las pruebas (T1 a T6), correr `bin/check` y `seo.mjs`, integrar The SEO Framework (elegido por William; sin probar), regenerar las bases visuales, manual del editor y su usuario Editor.
+- **De decisión, del Fondo o del servidor:** [lista completa](boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor).
+- **Para probar en staging:** [lista completa](boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-probar-en-staging).
 
 ## Revisiones y navegación (pedidas por William el 2026-11-19)
 
@@ -155,7 +163,7 @@ Nada de esto ni de lo anterior sale a producción hasta que William lo apruebe: 
 
 ## Flujo de ramas y GitHub
 
-1. Rama `feat/boletin-catalogo-fcp`, creada desde `feat/wordpress-fse`. Lleva 22 commits sobre `lapazsipasa/main` (a 2026-11-20).
+1. Rama `feat/boletin-catalogo-fcp`, creada desde `feat/wordpress-fse`. Lleva 28 commits sobre `lapazsipasa/main` (a 2026-11-20).
 2. Un commit por etapa. Push a `lapazsipasa` (`lapazsipasa/-la-paz-si-pasa`, cuenta del cliente, de la que sale producción; `kashipu` es colaborador con escritura, sin admin). `origin` (`kashipu/la-paz-si-pasa`) es la copia personal de William.
 3. PR contra `main` con enlace a esta spec. Revisión del Fondo en staging (`st.lapazsipasa.com`, TODO: confirmar que está arriba).
 4. Squash merge con `bin/check` en verde y aprobación de William. Dokploy despliega `main`.
@@ -166,6 +174,7 @@ Nada de esto ni de lo anterior sale a producción hasta que William lo apruebe: 
 - Video `asocafe.mp4`, o enlace de YouTube o Vimeo. Mientras no llegue, se usa el enlace de Drive del paquete.
 - Nombre y correo de la persona externa para crear su usuario.
 - Si el boletín deja de llamarse «interno» al publicarse en el sitio abierto.
+- Autorización de las 12 personas con nombre en el seed, y corrección del registro «Llaneridad Gourmet» (municipio numérico). Ver [decisión 4](../decisions/boletin-catalogo-fcp.md#4-el-contenido-inicial-entra-al-seed-y-al-repo-público).
 
 ## Decisiones que abre
 

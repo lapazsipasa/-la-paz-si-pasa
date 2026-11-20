@@ -50,8 +50,8 @@ Lo que el editor puede cambiar, sin desarrollo, en el sitio de bloques (`apps/wp
 Construido y con commits, sin push ni PR. Detalle en la [spec](specs/boletin-catalogo-fcp.md) y el [changelog](changelog.md).
 
 - **Boletín mensual:** tipo `boletin`. Una edición nueva trae 8 secciones vacías (artículo, cifras, tarjetas o agenda). Se publica en `/boletin/`; las ediciones anteriores quedan en «Otras ediciones».
-- **Historia del mes:** tipo `historia`, una por mes con ficha, video, crónica y galería. `/paissana/` y la tarjeta de Inicio y Proyectos destacados muestran la más reciente.
-- **Catálogo de productores:** tipo `productor` con departamento, categoría, tiempo de operación, etnia y población. `/paissana/` busca y filtra (con y sin JavaScript), con 316 productores de carga inicial.
+- **Historia del mes:** tipo `historia`, una por mes con ficha, video, crónica y galería. Cada una tiene su URL, `/historias/<slug>/`. `/productores/`, la tarjeta de Inicio y la de Proyectos destacados muestran la más reciente. `/historias/` (archivo) muestra la más reciente y, debajo, «Otras historias».
+- **Catálogo de productores:** tipo `productor` con departamento, categoría, tiempo de operación, etnia y población. `/productores/` busca y filtra (con y sin JavaScript), con 316 productores de carga inicial.
 - **Menú:** «Boletín» en el menú principal, orden nuevo y estado activo por sección. Los dos botones de programa quedan en gris.
 - **Accesos:** tarjetas de último boletín e historia, y banner del catálogo, en Inicio y Proyectos destacados.
-- **Guía de estilos:** `/guia-de-estilos/` solo existe en local. TODO: confirmar que no llega a producción.
+- **Guía de estilos:** `/guia-de-estilos/` solo existe en local. `lapaz-setup` la crea únicamente con `WP_ENVIRONMENT_TYPE=local`, y el bloque no pinta nada en producción. Comprobar en staging que da 404.

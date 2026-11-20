@@ -33,7 +33,7 @@ Cada decisión dice qué se decidió, por qué y qué la haría cambiar.
 - **Qué:** `lapaz/catalogo` usa el router de la Interactivity API para cambiar la región de resultados sin recargar. El resto del tema sigue con `viewScript` y JS simple.
 - **Por qué:** es la herramienta nativa de WordPress para esto y la que usa el Query Loop del núcleo. Modifica el «fuera de alcance» de la [spec FSE](../specs/wordpress-fse.md), que la excluía porque el JS existente no la necesitaba.
 - **Condición:** debe funcionar sin build, con un módulo ES plano. Se prueba al empezar la etapa. Si no, se usa JS propio (`fetch` y reemplazo de la región) sobre el mismo servidor.
-- **Cambiaría si** el runtime pesa más de lo que aporta en la medición de Lighthouse de `/paissana`.
+- **Cambiaría si** el runtime pesa más de lo que aporta en la medición de Lighthouse de `/productores/`.
 
 ## 4. El contenido inicial entra al seed y al repo público
 
