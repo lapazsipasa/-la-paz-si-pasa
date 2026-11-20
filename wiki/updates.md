@@ -28,9 +28,9 @@
 
 ## 2026-11-09 · producción en FSE
 
-**Estado:** `lapazsipasa.com` ya sirve el sitio WordPress FSE desde el servidor nuevo (`<IP_SERVIDOR>`), con Let's Encrypt, contenido del seed y WP Super Cache. Se usó el mismo compose `MonoRepo` del headless, con la ruta `./apps/wp-fse/compose.yaml` y rama `main` (`v2.0.0`). El headless + Astro sigue en el servidor viejo, sin DNS, como respaldo. Detalle en [despliegue-fse.md](despliegue-fse.md#producción-desde-2026-11-09).
+**Estado:** `lapazsipasa.com` ya sirve el sitio WordPress FSE desde el servidor nuevo (`<IP_PRODUCCION>`), con Let's Encrypt, contenido del seed y WP Super Cache. Se usó el mismo compose `MonoRepo` del headless, con la ruta `./apps/wp-fse/compose.yaml` y rama `main` (`v2.0.0`). El headless + Astro sigue en el servidor viejo, sin DNS, como respaldo. Detalle en [despliegue-fse.md](despliegue-fse.md#producción-desde-2026-11-09).
 
-**Pendiente:** Redeploy para `www`, correo real de ACME, borrar `cms.lapazsipasa.com` del DNS, limpiar variables duplicadas, respaldos programados, HTTPS del panel y rotar la key, noticias reales.
+**Pendiente:** Redeploy para `www`, correo real de ACME, borrar `cms.lapazsipasa.com` del DNS, limpiar variables duplicadas, respaldos programados, endurecimiento del panel (ver el registro privado de operación), noticias reales.
 
 **Siguiente paso:** staging en `st.lapazsipasa.com`.
 
@@ -41,8 +41,7 @@
 **Bloqueos y pendientes:**
 - Noticias reales: las entrega el cliente. Sin ellas, el seed no trae noticias. TODO: confirmar si las 4 noticias del headless local son de prueba.
 - `ProyectosNav`: tres botones con `href="#"`, en el headless (`components/ProyectosNav.astro`) y en el bloque `lapaz/paisana-hero` del FSE.
-- Respaldo diario de la base de producción **desactivado** en el servidor actual (`<PANEL_DOKPLOY_VIEJO>`). Activarlo antes de cualquier cambio.
-- Panel del servidor nuevo (`http://<IP_SERVIDOR>:3000`) por HTTP. Pendiente: dominio con HTTPS, cerrar el puerto 3000 y rotar la key.
+- Pendientes de operación del servidor (respaldos y panel): en el registro privado de operación, no en el repo.
 
 **Siguiente paso:** con el verde de Codex y la aprobación de William, commit y push a `lapazsipasa/-la-paz-si-pasa` (remoto `lapazsipasa`), y staging en el servidor nuevo (etapa 8, requiere aprobación). El headless sigue en producción hasta el final.
 

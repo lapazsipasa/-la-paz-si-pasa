@@ -1,22 +1,24 @@
 # Despliegue del sitio FSE en Dokploy
 
-Guía para levantar el sitio de bloques (`apps/wp-fse/`) en el **servidor nuevo** (`<IP_SERVIDOR>`, proyecto «La Paz Si Pasa») como staging, y después pasarlo a producción. El headless sigue funcionando hasta el final ([decisión 7](decisions/wordpress-fse-arquitectura.md#7-el-headless-sigue-en-pie-hasta-el-final)).
+Guía para levantar el sitio de bloques (`apps/wp-fse/`) en el **servidor nuevo** (`<IP_PRODUCCION>`, proyecto «La Paz Si Pasa») como staging, y después pasarlo a producción. El headless sigue funcionando hasta el final ([decisión 7](decisions/wordpress-fse-arquitectura.md#7-el-headless-sigue-en-pie-hasta-el-final)).
 
 ## Servidores (2026-11-09)
 
+Los datos reales (IP, paneles, nombres de aplicaciones) están en el registro privado de operación, no en este repo. Marcadores: `<IP_PRODUCCION>`, `<IP_RESPALDO>`, `<PANEL_DOKPLOY>`, `<PANEL_DOKPLOY_RESPALDO>`, `<APP_PRODUCCION>`, `<APP_STAGING>`, `<URL_STAGING_SSLIP>`.
+
 | Servidor | Dokploy | Qué corre | DNS |
 |---|---|---|---|
-| Nuevo | `http://<IP_SERVIDOR>:3000` (v0.31.0) | **Producción en vivo: sitio FSE** (desde 2026-11-09) y staging | `lapazsipasa.com`, `www` y `st` apuntan aquí |
-| Actual (viejo) | `<PANEL_DOKPLOY_VIEJO>` (<IP_SERVIDOR>) | headless + Astro desde `kashipu/la-paz-si-pasa` `main`, ya sin tráfico. Respaldo hasta la limpieza final | ninguno |
+| Nuevo | `<PANEL_DOKPLOY>` | **Producción en vivo: sitio FSE** (desde 2026-11-09) y staging | `lapazsipasa.com`, `www` y `st` apuntan aquí |
+| Actual (viejo) | `<PANEL_DOKPLOY_RESPALDO>` (`<IP_RESPALDO>`) | headless + Astro desde `kashipu/la-paz-si-pasa` `main`, ya sin tráfico. Respaldo hasta la limpieza final | ninguno |
 
-- **MCP:** `dokploy-lapaz` (solo para este proyecto). La key se lee del Llavero de macOS (`security … -s dokploy-lapaz`) y no está en ningún archivo.
-- **Pendiente de seguridad:** el panel nuevo va por HTTP en el puerto 3000. Hay que ponerle un dominio con HTTPS, cerrar el 3000 y rotar la key.
+- **MCP:** uno propio para este proyecto. La key vive en el llavero del equipo y no está en ningún archivo.
+- **Seguridad del panel:** el estado y los pendientes del panel (TLS, puertos, rotación de claves) se llevan en el registro privado de operación.
 
 ## Producción (desde 2026-11-09)
 
 | Dato | Valor |
 |---|---|
-| Servicio | compose `MonoRepo` del entorno `production` (`appName` `<APP_DOKPLOY>`). Es el mismo servicio que corría el headless: se le cambió la ruta, no se creó otro |
+| Servicio | compose `MonoRepo` del entorno `production` (`appName` `<APP_PRODUCCION>`). Es el mismo servicio que corría el headless: se le cambió la ruta, no se creó otro |
 | Origen | `lapazsipasa/-la-paz-si-pasa`, rama `main` (tag `v2.0.0`), ruta `./apps/wp-fse/compose.yaml` |
 | Dominios | `lapazsipasa.com` y `www.lapazsipasa.com` → servicio `cms`, puerto 80, Let's Encrypt. WordPress redirige `www` al dominio principal |
 | Contenido | seed (`lapaz-setup --seed`): 15 retratos, 9 videos, 15 ferias, 23 subcuentas, 0 noticias |
@@ -27,7 +29,7 @@ Guía para levantar el sitio de bloques (`apps/wp-fse/`) en el **servidor nuevo*
 1. En el `MonoRepo` se cambió la ruta del compose de `./compose.prod.yaml` a `./apps/wp-fse/compose.yaml`. Dokploy usa `-p <appName>`, así que los volúmenes (`db_data`, `wordpress_data`) son los mismos del headless. El `--remove-orphans` borró el `frontend` de Astro.
 2. El dominio `lapazsipasa.com` se cambió de `frontend` a `cms` antes del deploy. Si no, Dokploy falla con *Domain is attached to service "frontend" which does not exist in the compose*.
 3. La base del headless en este servidor estaba vacía: WordPress mostró el instalador. Se instaló desde la web y se corrió `lapaz-setup --seed` en el `cms`.
-4. DNS de `lapazsipasa.com`, `www` y `st` → `<IP_SERVIDOR>`.
+4. DNS de `lapazsipasa.com`, `www` y `st` → `<IP_PRODUCCION>`.
 5. Certificado: Traefik había pedido el de Let's Encrypt cuando el DNS aún apuntaba al servidor viejo y se quedó con el *TRAEFIK DEFAULT CERT*. Se arregló con *Web Server → Traefik → Reload*. Un dominio nuevo en un compose (como `www`) solo se activa después de un **Redeploy**.
 
 **Verificado (2026-11-09):** portada con los 5 bloques `lapaz`, `/proyectos-destacados/` 200, 404 propio, es-CO, canonical y Open Graph, sin `noindex`, `robots.txt` y sitemap 200, uploads 200, `xmlrpc.php` 403, `/wp-json/wp/v2/users` 404, página servida desde WP Super Cache.
@@ -38,8 +40,8 @@ Guía para levantar el sitio de bloques (`apps/wp-fse/`) en el **servidor nuevo*
 
 **Pendiente:**
 - `www.lapazsipasa.com`: Redeploy para que Traefik lo cargue y emita su certificado.
-- Correo de ACME en Dokploy es `<CORREO_ACME>`: poner uno real.
-- `cms.lapazsipasa.com` sigue en el DNS (<IP_SERVIDOR>, <IP_SERVIDOR>): borrarlo.
+- Correo de ACME en Dokploy: poner uno real.
+- `cms.lapazsipasa.com` sigue en el DNS: borrarlo.
 - Limpiar las variables duplicadas, respaldo programado de la base (*Backups*) y de `wordpress_data`.
 - Staging a `st.lapazsipasa.com` (ver abajo).
 
@@ -47,9 +49,9 @@ Guía para levantar el sitio de bloques (`apps/wp-fse/`) en el **servidor nuevo*
 
 | Dato | Valor |
 |---|---|
-| Servidor | nuevo (`<IP_SERVIDOR>`), proyecto La Paz Si Pasa, **entorno `staging`** (separado del `production`, donde sigue el headless) |
-| Servicio | compose `FSE` (`appName` `<APP_DOKPLOY>`), rama `feat/wordpress-fse`, `apps/wp-fse/compose.yaml`, despliegue automático apagado |
-| URL | <URL_STAGING> (Let's Encrypt; HTTP redirige a HTTPS) |
+| Servidor | nuevo (`<IP_PRODUCCION>`), proyecto La Paz Si Pasa, **entorno `staging`** (separado del `production`, donde sigue el headless) |
+| Servicio | compose `FSE` (`appName` `<APP_STAGING>`), rama `feat/wordpress-fse`, `apps/wp-fse/compose.yaml`, despliegue automático apagado |
+| URL | `<URL_STAGING_SSLIP>` (Let's Encrypt; HTTP redirige a HTTPS) |
 | Variables | contraseñas de la base generadas y guardadas en Dokploy (nunca se mostraron), `WP_ENVIRONMENT_TYPE=staging` (noindex), SMTP de Resend **sin `SMTP_PASS`** (lo pone William) |
 | Dominio final | `st.lapazsipasa.com` (DNS ya apunta aquí). **Pendiente:** agregar el dominio al servicio `cms`, `WORDPRESS_URL=https://st.lapazsipasa.com`, deploy, `wp search-replace <url sslip> https://st.lapazsipasa.com --all-tables-with-prefix --skip-columns=guid` y borrar el dominio sslip |
 
@@ -57,7 +59,7 @@ Guía para levantar el sitio de bloques (`apps/wp-fse/`) en el **servidor nuevo*
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/lapazsipasa/-la-paz-si-pasa/feat/wordpress-fse/apps/wp-fse/bin/migrar-desde-headless.sh -o migrar.sh
-bash migrar.sh <APP_DOKPLOY> <APP_DOKPLOY>
+bash migrar.sh <APP_PRODUCCION> <APP_STAGING>
 ```
 
 Al importar la base, los usuarios del headless pasan tal cual: se entra a `/wp-admin` con las mismas credenciales del CMS actual. `lapaz-setup` corre al final de la importación, así que no hace falta correrlo antes.
@@ -118,7 +120,7 @@ El headless de producción y el sitio FSE tienen **el mismo modelo de contenido*
 
 ## 4. Cambio a producción (plan original; lo que se hizo está en «Producción»)
 
-1. Respaldo de la base del headless (en el servidor actual, el respaldo diario a R2 **está desactivado**: hay que activarlo antes).
+1. Respaldo de la base del headless (en el servidor actual: confirmar que el respaldo diario está activo antes de seguir).
 2. Importar el contenido más reciente (paso 3) con `WORDPRESS_URL=https://lapazsipasa.com` y `WP_ENVIRONMENT_TYPE=production`.
 3. Mover el DNS de `lapazsipasa.com` y `www` al servidor nuevo, con el dominio en el servicio `cms`.
 4. `cms.lapazsipasa.com`: 301 al dominio principal, o se da de baja.

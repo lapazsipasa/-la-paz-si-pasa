@@ -128,7 +128,7 @@ npx skills add WordPress/agent-skills --skill wp-block-development wp-block-them
 
 ## Despliegue
 
-[despliegue-fse.md](despliegue-fse.md): servidores, servicio en Dokploy, primer arranque, migración del contenido real y cambio a producción. MCP `dokploy-lapaz` (servidor nuevo, key en el Llavero).
+[despliegue-fse.md](despliegue-fse.md): servidores, servicio en Dokploy, primer arranque, migración del contenido real y cambio a producción. MCP propio del proyecto (key en el llavero del equipo).
 
 ## Documentación
 
