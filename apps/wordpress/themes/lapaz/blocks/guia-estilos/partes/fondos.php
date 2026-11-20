@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 				<span class="guia__etiqueta"><?php esc_html_e( 'Historia del mes', 'lapaz' ); ?></span>
 				<p class="guia__ej-titulo"><?php esc_html_e( 'Del campo a la feria', 'lapaz' ); ?></p>
 				<p><?php esc_html_e( 'Como la portada del boletín: panel azul, texto blanco y el celeste solo en la etiqueta y el botón.', 'lapaz' ); ?></p>
-				<span class="guia__etiqueta guia__etiqueta--boton"><?php esc_html_e( 'Leer el boletín', 'lapaz' ); ?></span>
+				<div class="wp-block-lapaz-boletin"><div class="portada"><span class="btn"><?php esc_html_e( 'Leer el boletín', 'lapaz' ); ?></span></div></div>
 			</div>
 		</div>
 		<div class="guia__regla guia__regla--mal">

@@ -357,11 +357,6 @@
 	color: var(--color-nav-text);
 }
 
-.wp-block-lapaz-guia-estilos .guia__panel--azul .guia__etiqueta--boton {
-	padding: var(--space-3) var(--space-6);
-	border-radius: 0;
-}
-
 .wp-block-lapaz-guia-estilos .guia__panel--celeste {
 	background: var(--color-nav-bg-active);
 }

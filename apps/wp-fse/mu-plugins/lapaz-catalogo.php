@@ -15,8 +15,9 @@ declare( strict_types = 1 );
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Guarda en post_content el texto de búsqueda del productor. El seed la llama tras crear cada
- * productor; desde el admin se llama al terminar el guardado (campos SCF y términos ya escritos).
+ * Guarda en post_content el texto de búsqueda del productor y lo saca de la cola de pendientes.
+ * El seed la llama tras crear cada productor (campos y términos ya escritos); los guardados
+ * normales solo lo encolan y se indexa una vez en shutdown.
  *
  * @param int $post_id Productor.
  */
@@ -41,31 +42,31 @@ function lapaz_catalogo_indexar( int $post_id ): void {
 	}
 
 	$texto = trim( implode( "\n", array_filter( array_map( 'trim', $partes ) ) ) );
-	if ( $texto === $post->post_content ) {
-		return;
+	if ( $texto !== $post->post_content ) {
+		// El guardado vuelve a disparar wp_after_insert_post y lo encola: la bandera evita el
+		// bucle y la baja de la cola, de abajo, descarta ese re-encolado.
+		$guardando = true;
+		wp_update_post(
+			array(
+				'ID'           => $post_id,
+				'post_content' => $texto,
+			)
+		);
+		$guardando = false;
 	}
-
-	// El guardado vuelve a disparar wp_after_insert_post: la bandera evita el bucle.
-	$guardando = true;
-	wp_update_post(
-		array(
-			'ID'           => $post_id,
-			'post_content' => $texto,
-		)
-	);
-	$guardando = false;
+	lapaz_catalogo_cola( $post_id, true );
 }
 
 /**
- * Reindexa al terminar cualquier guardado de un productor (admin, editor de bloques, REST).
- * wp_after_insert_post llega después de save_post, donde SCF escribe sus campos.
+ * Encola el productor al terminar cualquier guardado (admin, editor de bloques, REST); se
+ * indexa en shutdown, cuando campos y términos ya están escritos, y no en cada guardado.
  *
  * @param int     $post_id Entrada.
  * @param WP_Post $post    Entrada.
  */
 function lapaz_catalogo_al_guardar( int $post_id, WP_Post $post ): void {
 	if ( 'productor' === $post->post_type && ! wp_is_post_revision( $post_id ) && ! wp_is_post_autosave( $post_id ) ) {
-		lapaz_catalogo_indexar( $post_id );
+		lapaz_catalogo_cola( $post_id );
 	}
 }
 add_action( 'wp_after_insert_post', 'lapaz_catalogo_al_guardar', 10, 2 );
@@ -76,10 +77,11 @@ add_action( 'wp_after_insert_post', 'lapaz_catalogo_al_guardar', 10, 2 );
  * antes de que SCF escriba sus campos: en shutdown todo está escrito y, si el texto no
  * cambió, indexar no escribe nada.
  *
- * @param int $post_id Productor a anotar (0 solo lee la cola).
+ * @param int  $post_id Productor a anotar (0 solo lee la cola).
+ * @param bool $quitar  Sacar el productor de la cola (ya está indexado).
  * @return list<int> Productores en cola.
  */
-function lapaz_catalogo_cola( int $post_id = 0 ): array {
+function lapaz_catalogo_cola( int $post_id = 0, bool $quitar = false ): array {
 	/**
 	 * Productores en cola.
 	 *
@@ -87,7 +89,9 @@ function lapaz_catalogo_cola( int $post_id = 0 ): array {
 	 */
 	static $cola = array();
 
-	if ( $post_id > 0 ) {
+	if ( $quitar ) {
+		unset( $cola[ $post_id ] );
+	} elseif ( $post_id > 0 ) {
 		if ( array() === $cola ) {
 			add_action( 'shutdown', 'lapaz_catalogo_vaciar_cola' );
 		}

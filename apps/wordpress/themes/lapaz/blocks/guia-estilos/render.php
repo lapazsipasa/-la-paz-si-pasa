@@ -10,6 +10,10 @@ declare( strict_types = 1 );
 
 defined( 'ABSPATH' ) || exit;
 
+if ( 'production' === wp_get_environment_type() ) {
+	return; // La guía es solo local/staging: nada en producción.
+}
+
 $lapaz_colores   = lapaz_guia_colores();
 $lapaz_pares     = lapaz_guia_pares( $lapaz_colores );
 $lapaz_familias  = lapaz_guia_familias();

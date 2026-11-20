@@ -16,7 +16,7 @@ $lapaz_wrapper = get_block_wrapper_attributes();
 if ( 0 === $lapaz_id || ! function_exists( 'get_field' ) ) {
 	?>
 <div <?php echo $lapaz_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() ya escapa. ?>>
-	<h1><?php esc_html_e( 'Caminos de Transformación', 'lapaz' ); ?></h1>
+	<h1 class="titular"><?php esc_html_e( 'Caminos de Transformación', 'lapaz' ); ?></h1>
 	<p class="sin-edicion"><?php esc_html_e( 'Todavía no hay ninguna edición publicada.', 'lapaz' ); ?></p>
 </div>
 	<?php

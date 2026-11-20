@@ -17,9 +17,10 @@ defined( 'ABSPATH' ) || exit;
 	<div class="guia__comps">
 		<div class="guia__comp wp-block-lapaz-boletin">
 			<p class="guia__veredicto"><?php esc_html_e( 'Cabecera de sección', 'lapaz' ); ?></p>
+			<?php // Marcado real del boletín (h2 en el sitio); aquí h3 para no romper la jerarquía de la guía, el CSS va por clase. ?>
 			<div class="sec-head">
 				<span class="sec-num">01</span>
-				<h2 class="sec-title"><?php esc_html_e( 'Voces del campo', 'lapaz' ); ?></h2>
+				<h3 class="sec-title"><?php esc_html_e( 'Voces del campo', 'lapaz' ); ?></h3>
 				<p class="sec-kicker"><?php esc_html_e( 'Historias de quienes cultivan', 'lapaz' ); ?></p>
 			</div>
 		</div>
