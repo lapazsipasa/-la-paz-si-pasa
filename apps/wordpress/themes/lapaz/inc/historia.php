@@ -19,6 +19,7 @@ function lapaz_historia_reciente(): int {
 			'post_status'    => 'publish',
 			'posts_per_page' => 1,
 			'fields'         => 'ids',
+			'no_found_rows'  => true,
 		)
 	);
 
@@ -188,4 +189,17 @@ function lapaz_historia_foto_cronica( array $foto ): string {
 	$credito = '' !== $foto['credito'] ? '<figcaption class="credito">' . esc_html( $foto['credito'] ) . '</figcaption>' : '';
 
 	return '<figure>' . $imagen . $credito . '</figure>';
+}
+
+/**
+ * Pares [rótulo, valor] de un repetidor SCF de la historia, sin las filas vacías.
+ *
+ * @param string $campo  Nombre del repetidor.
+ * @param int    $post_id Historia.
+ * @param string $rotulo Subcampo del rótulo.
+ * @param string $valor  Subcampo del valor.
+ * @return list<array{0: string, 1: string}>
+ */
+function lapaz_historia_campo_pares( string $campo, int $post_id, string $rotulo, string $valor ): array {
+	return lapaz_historia_pares( function_exists( 'get_field' ) ? get_field( $campo, $post_id ) : null, $rotulo, $valor );
 }

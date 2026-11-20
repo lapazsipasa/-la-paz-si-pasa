@@ -19,7 +19,7 @@ $lapaz_antetitulo = lapaz_field_text( 'antetitulo', $lapaz_id );
 $lapaz_lugar      = lapaz_field_text( 'lugar', $lapaz_id );
 $lapaz_resumen    = lapaz_field_text( 'resumen', $lapaz_id );
 $lapaz_foto       = lapaz_field_image_id( 'foto', $lapaz_id );
-$lapaz_cifras     = lapaz_historia_pares( function_exists( 'get_field' ) ? get_field( 'cifras', $lapaz_id ) : null, 'texto', 'numero' );
+$lapaz_cifras     = lapaz_historia_campo_pares( 'cifras', $lapaz_id, 'texto', 'numero' );
 $lapaz_wrapper    = get_block_wrapper_attributes();
 ?>
 <div <?php echo $lapaz_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() ya escapa. ?>>

@@ -24,7 +24,7 @@ if ( 'historia' !== get_post_type( $lapaz_id ) ) {
 $lapaz_lugar   = lapaz_field_text( 'lugar', $lapaz_id );
 $lapaz_titulo  = lapaz_field_text( 'portada_titulo', $lapaz_id );
 $lapaz_titulo  = '' !== $lapaz_titulo ? $lapaz_titulo : get_the_title( $lapaz_id );
-$lapaz_ficha   = lapaz_historia_pares( function_exists( 'get_field' ) ? get_field( 'ficha', $lapaz_id ) : null, 'dato', 'valor' );
+$lapaz_ficha   = lapaz_historia_campo_pares( 'ficha', $lapaz_id, 'dato', 'valor' );
 $lapaz_video   = lapaz_historia_video( $lapaz_id );
 $lapaz_cronica = lapaz_historia_cronica( $lapaz_id );
 $lapaz_galeria = lapaz_historia_galeria( $lapaz_id );

@@ -59,6 +59,8 @@ $lapaz_play_texto   = $lapaz_es_enlace ? __( 'Ver el video', 'lapaz' ) : __( 'Re
 				printf( '<a class="play" href="%s" target="_blank" rel="noopener">%s</a>', esc_url( $lapaz_video['url'] ), $lapaz_play_html ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $lapaz_play_html ya escapado.
 			} else {
 				printf( '<button class="play" type="button">%s</button>', $lapaz_play_html ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $lapaz_play_html ya escapado.
+				// Sin JavaScript el botón no hace nada: el enlace abre el video en otra pestaña.
+				printf( '<noscript><a class="play" href="%s" target="_blank" rel="noopener">%s</a></noscript>', esc_url( $lapaz_video['url'] ), $lapaz_play_html ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $lapaz_play_html ya escapado.
 			}
 			?>
 		</div>

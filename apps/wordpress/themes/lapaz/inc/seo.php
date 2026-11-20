@@ -70,7 +70,7 @@ function lapaz_meta_description(): string {
 	if ( is_singular() && has_excerpt() ) {
 		return wp_strip_all_tags( get_the_excerpt() );
 	}
-	if ( lapaz_es_boletin() ) {
+	if ( lapaz_es_boletin() && lapaz_boletin_mostrado() > 0 ) {
 		$sumario = lapaz_field_text( 'portada_sumario', lapaz_boletin_mostrado() );
 		if ( '' !== $sumario ) {
 			return wp_strip_all_tags( $sumario );
@@ -103,10 +103,10 @@ function lapaz_print_meta(): void {
 	$ancho       = 1200;
 	$alto        = 630;
 	$alt         = __( 'La Paz Sí Pasa, pasa en los territorios', 'lapaz' );
-	if ( lapaz_es_boletin() ) {
-		$edicion = lapaz_boletin_mostrado();
-		$url     = (string) get_permalink( $edicion );
-		$foto    = wp_get_attachment_image_src( lapaz_boletin_id_imagen( function_exists( 'get_field' ) ? get_field( 'portada_foto', $edicion ) : 0 ), 'large' );
+	$edicion     = lapaz_es_boletin() ? lapaz_boletin_mostrado() : 0;
+	if ( $edicion > 0 ) {
+		$url  = (string) get_permalink( $edicion );
+		$foto = wp_get_attachment_image_src( lapaz_field_image_id( 'portada_foto', $edicion ), 'large' );
 		if ( is_array( $foto ) ) {
 			list( $imagen, $ancho, $alto ) = $foto;
 			$alt                           = lapaz_field_text( 'portada_titular', $edicion );
@@ -154,8 +154,9 @@ add_action( 'wp_head', 'lapaz_print_meta', 2 );
  * /boletin/ declara como canónica la URL de la edición que muestra (el core ya lo hace en cada edición).
  */
 function lapaz_boletin_canonical(): void {
-	if ( is_post_type_archive( 'boletin' ) && lapaz_boletin_mostrado() > 0 ) {
-		printf( '<link rel="canonical" href="%s" />' . "\n", esc_url( (string) get_permalink( lapaz_boletin_mostrado() ) ) );
+	$edicion = is_post_type_archive( 'boletin' ) ? lapaz_boletin_mostrado() : 0;
+	if ( $edicion > 0 ) {
+		printf( '<link rel="canonical" href="%s" />' . "\n", esc_url( (string) get_permalink( $edicion ) ) );
 	}
 }
 add_action( 'wp_head', 'lapaz_boletin_canonical', 3 );

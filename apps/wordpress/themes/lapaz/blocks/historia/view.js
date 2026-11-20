@@ -31,6 +31,7 @@ const reproducirHistoria = ( envoltorio ) => {
 		video.playsInline = true;
 		reproductor = video;
 	}
+	reproductor.tabIndex = -1;
 	envoltorio.replaceChildren( reproductor );
 	reproductor.focus();
 };

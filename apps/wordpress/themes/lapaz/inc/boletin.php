@@ -54,6 +54,11 @@ add_action( 'wp_insert_post', 'lapaz_boletin_secciones_por_defecto', 10, 3 );
  * ID de la edición publicada más reciente por fecha (0 si no hay).
  */
 function lapaz_boletin_actual(): int {
+	/** @var int $actual */
+	static $actual = -1; // Una consulta por petición (-1: aún sin consultar).
+	if ( $actual >= 0 ) {
+		return $actual;
+	}
 	$ids = get_posts(
 		array(
 			'post_type'        => 'boletin',
@@ -67,7 +72,9 @@ function lapaz_boletin_actual(): int {
 		)
 	);
 
-	return isset( $ids[0] ) ? (int) $ids[0] : 0;
+	$actual = isset( $ids[0] ) ? (int) $ids[0] : 0;
+
+	return $actual;
 }
 
 /**
@@ -189,7 +196,10 @@ function lapaz_boletin_imagen( mixed $valor, string $clase = '', bool $lazy = tr
 	if ( 0 === $id ) {
 		return '';
 	}
-	$atributos = array( 'loading' => $lazy ? 'lazy' : 'eager' );
+	$atributos = $lazy ? array( 'loading' => 'lazy' ) : array(
+		'loading'       => 'eager',
+		'fetchpriority' => 'high',
+	);
 	if ( '' !== $clase ) {
 		$atributos['class'] = $clase;
 	}
@@ -253,8 +263,21 @@ function lapaz_boletin_imagen_indice( array $seccion ): int {
  * @param int $id Edición.
  */
 function lapaz_boletin_titulo( int $id ): string {
-	$numero = lapaz_boletin_str( array( 'n' => function_exists( 'get_field' ) ? get_field( 'numero', $id ) : '' ), 'n' );
+	$numero = lapaz_boletin_numero( $id );
 	$base   = __( 'Caminos de Transformación', 'lapaz' );
 
 	return '' !== $numero ? sprintf( '%s, %s %02d', $base, __( 'Edición', 'lapaz' ), (int) $numero ) : $base;
+}
+
+/**
+ * Número de la edición como texto ('' si no hay edición o el campo está vacío).
+ *
+ * @param int $id Edición.
+ */
+function lapaz_boletin_numero( int $id ): string {
+	if ( $id <= 0 || ! function_exists( 'get_field' ) ) {
+		return '';
+	}
+
+	return lapaz_boletin_str( array( 'n' => get_field( 'numero', $id ) ), 'n' );
 }

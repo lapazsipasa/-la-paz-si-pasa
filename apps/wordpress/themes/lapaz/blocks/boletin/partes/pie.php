@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 <?php if ( array() !== $lapaz_anteriores ) : ?>
 <section class="anteriores">
 	<div class="wrap">
-		<h2><?php esc_html_e( 'Ediciones anteriores', 'lapaz' ); ?></h2>
+		<h2><?php esc_html_e( 'Otras ediciones', 'lapaz' ); ?></h2>
 		<ul>
 			<?php foreach ( $lapaz_anteriores as $lapaz_anterior ) : ?>
 				<li>

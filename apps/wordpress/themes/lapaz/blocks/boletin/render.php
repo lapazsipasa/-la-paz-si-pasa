@@ -16,6 +16,7 @@ $lapaz_wrapper = get_block_wrapper_attributes();
 if ( 0 === $lapaz_id || ! function_exists( 'get_field' ) ) {
 	?>
 <div <?php echo $lapaz_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() ya escapa. ?>>
+	<h1><?php esc_html_e( 'Caminos de Transformación', 'lapaz' ); ?></h1>
 	<p class="sin-edicion"><?php esc_html_e( 'Todavía no hay ninguna edición publicada.', 'lapaz' ); ?></p>
 </div>
 	<?php
@@ -23,7 +24,7 @@ if ( 0 === $lapaz_id || ! function_exists( 'get_field' ) ) {
 }
 
 $lapaz_secciones  = lapaz_boletin_secciones( $lapaz_id );
-$lapaz_numero     = lapaz_boletin_str( array( 'n' => get_field( 'numero', $lapaz_id ) ), 'n' );
+$lapaz_numero     = lapaz_boletin_numero( $lapaz_id );
 $lapaz_periodo    = lapaz_field_text( 'periodo', $lapaz_id );
 $lapaz_edicion    = trim( ( '' !== $lapaz_numero ? sprintf( '%s %02d', __( 'Edición', 'lapaz' ), (int) $lapaz_numero ) : '' ) . ( '' !== $lapaz_numero && '' !== $lapaz_periodo ? ' · ' : '' ) . $lapaz_periodo );
 $lapaz_rotulo     = lapaz_field_text( 'rotulo', $lapaz_id );

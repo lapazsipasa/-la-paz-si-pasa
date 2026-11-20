@@ -19,7 +19,7 @@ $lapaz_titular = lapaz_field_text( 'portada_titular', $lapaz_id );
 $lapaz_sumario = lapaz_field_text( 'portada_sumario', $lapaz_id );
 $lapaz_firma_n = lapaz_field_text( 'portada_firma_nombre', $lapaz_id );
 $lapaz_firma_c = lapaz_field_text( 'portada_firma_cargo', $lapaz_id );
-$lapaz_foto    = lapaz_boletin_imagen( get_field( 'portada_foto', $lapaz_id ), '', false );
+$lapaz_foto    = lapaz_boletin_imagen( lapaz_field_image_id( 'portada_foto', $lapaz_id ), '', false );
 $lapaz_credito = lapaz_field_text( 'portada_credito', $lapaz_id );
 ?>
 <div class="portada" id="portada">

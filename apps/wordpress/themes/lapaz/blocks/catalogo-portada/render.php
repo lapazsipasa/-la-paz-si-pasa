@@ -37,7 +37,7 @@ $lapaz_wrapper = get_block_wrapper_attributes();
 					srcset="<?php echo esc_attr( $lapaz_img . 'cafetal-contraluz-800.webp 800w, ' . $lapaz_img . 'cafetal-contraluz.webp 1500w' ); ?>"
 					sizes="(min-width: 850px) 45vw, 100vw" width="1500" height="844"
 					alt="<?php esc_attr_e( 'Cafetal en la serranía de San Lucas, sur de Bolívar', 'lapaz' ); ?>"
-					fetchpriority="high" decoding="async"
+					loading="lazy" decoding="async"
 				>
 			</figure>
 		</div>

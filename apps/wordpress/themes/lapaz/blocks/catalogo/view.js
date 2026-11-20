@@ -75,17 +75,20 @@ const { state, actions } = store( 'lapaz/catalogo', {
 		*ir( href ) {
 			const mio = ++turno;
 			state.cargando = true;
-			const router =
-				/** @type {typeof import('@wordpress/interactivity-router')} */ (
-					yield import( '@wordpress/interactivity-router' )
-				);
-			// El conteo ya es una región aria-live: sin el aviso genérico del router.
-			yield router.actions.navigate( href, {
-				screenReaderAnnouncement: false,
-			} );
-			if ( mio === turno ) {
-				state.cargando = false;
-				sincronizar();
+			try {
+				const router =
+					/** @type {typeof import('@wordpress/interactivity-router')} */ (
+						yield import( '@wordpress/interactivity-router' )
+					);
+				// El conteo ya es una región aria-live: sin el aviso genérico del router.
+				yield router.actions.navigate( href, {
+					screenReaderAnnouncement: false,
+				} );
+			} finally {
+				if ( mio === turno ) {
+					state.cargando = false;
+					sincronizar();
+				}
 			}
 		},
 		/** @param {SubmitEvent} event Envío del formulario. */

@@ -34,7 +34,7 @@ if ( array() === $lapaz_galeria ) {
 				$lapaz_pie     = implode( ' — ', array_filter( array( $lapaz_foto['pie'], $lapaz_credito ) ) );
 				?>
 				<figure>
-					<button type="button" data-grande="<?php echo esc_url( $lapaz_foto['grande'] ); ?>" data-pie="<?php echo esc_attr( $lapaz_pie ); ?>">
+					<button type="button"<?php echo '' === $lapaz_foto['alt'] ? ' aria-label="' . esc_attr__( 'Ampliar fotografía', 'lapaz' ) . '"' : ''; ?> data-grande="<?php echo esc_url( $lapaz_foto['grande'] ); ?>" data-pie="<?php echo esc_attr( $lapaz_pie ); ?>">
 						<?php
 						echo wp_get_attachment_image( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- core escapa el <img>.
 							$lapaz_foto['id'],

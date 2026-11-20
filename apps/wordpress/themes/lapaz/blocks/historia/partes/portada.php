@@ -32,9 +32,8 @@ $lapaz_sub     = lapaz_field_text( 'portada_subtitulo', $lapaz_id );
 		'full',
 		false,
 		array(
-			'loading'       => 'eager',
-			'fetchpriority' => 'high',
-			'sizes'         => '100vw',
+			'loading' => 'lazy',
+			'sizes'   => '100vw',
 		)
 	) : '';
 	?>
