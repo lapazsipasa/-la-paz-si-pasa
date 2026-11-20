@@ -64,11 +64,11 @@
     },
     {
       "key": "field_boletin_rotulo",
-      "label": "Rótulo",
+      "label": "Texto de la franja superior",
       "name": "rotulo",
       "aria-label": "",
       "type": "text",
-      "instructions": "Franja superior de la edición.",
+      "instructions": "Aparece arriba del boletín. Puedes dejar el texto por defecto.",
       "required": 0,
       "conditional_logic": false,
       "wrapper": {
@@ -108,7 +108,7 @@
       "name": "creditos_foto",
       "aria-label": "",
       "type": "textarea",
-      "instructions": "Un nombre por línea. Se muestran en el pie.",
+      "instructions": "Un nombre por línea, sin escribir «Fotografía:». Se muestran en el pie.",
       "required": 0,
       "conditional_logic": false,
       "wrapper": {
@@ -182,11 +182,11 @@
     },
     {
       "key": "field_boletin_portada_firma_nombre",
-      "label": "Firma: nombre",
+      "label": "Protagonista o autor",
       "name": "portada_firma_nombre",
       "aria-label": "",
       "type": "text",
-      "instructions": "Ej.: «Entrevista a Emilio Archila».",
+      "instructions": "Aparece debajo del sumario, en la portada. Ej.: «Emilio Archila».",
       "required": 0,
       "conditional_logic": false,
       "wrapper": {
@@ -202,11 +202,11 @@
     },
     {
       "key": "field_boletin_portada_firma_cargo",
-      "label": "Firma: cargo",
+      "label": "Cargo o descripción",
       "name": "portada_firma_cargo",
       "aria-label": "",
       "type": "text",
-      "instructions": "",
+      "instructions": "Aparece debajo del nombre. Ej.: «Consejero presidencial».",
       "required": 0,
       "conditional_logic": false,
       "wrapper": {
@@ -326,11 +326,11 @@
             },
             {
               "key": "field_boletin_articulo_antetitulo",
-              "label": "Antetítulo",
+              "label": "Subtítulo de la sección",
               "name": "antetitulo",
               "aria-label": "",
               "type": "text",
-              "instructions": "Línea pequeña bajo el nombre de la sección.",
+              "instructions": "Línea corta debajo del nombre de la sección.",
               "required": 0,
               "conditional_logic": false,
               "wrapper": {
@@ -350,7 +350,7 @@
               "name": "indice_titulo",
               "aria-label": "",
               "type": "text",
-              "instructions": "Título de la tarjeta en «En esta edición». En un artículo, si queda vacío se usa su título.",
+              "instructions": "Opcional. Título corto de la tarjeta en «En esta edición». Si lo dejas vacío, se usa el título del artículo.",
               "required": 0,
               "conditional_logic": false,
               "wrapper": {
@@ -370,7 +370,7 @@
               "name": "indice_imagen",
               "aria-label": "",
               "type": "image",
-              "instructions": "Si queda vacía se usa la primera foto de la sección.",
+              "instructions": "Opcional. Foto horizontal para la tarjeta del índice (recomendada 16:10). Si la dejas vacía, se usa la primera foto del artículo.",
               "required": 0,
               "conditional_logic": false,
               "wrapper": {
@@ -447,7 +447,7 @@
               "name": "nombre",
               "aria-label": "",
               "type": "text",
-              "instructions": "Ej.: «Historias que transforman».",
+              "instructions": "Ej.: «El Fondo en cifras».",
               "required": 1,
               "conditional_logic": false,
               "wrapper": {
@@ -463,11 +463,11 @@
             },
             {
               "key": "field_boletin_cifras_antetitulo",
-              "label": "Antetítulo",
+              "label": "Subtítulo de la sección",
               "name": "antetitulo",
               "aria-label": "",
               "type": "text",
-              "instructions": "Línea pequeña bajo el nombre de la sección.",
+              "instructions": "Línea corta debajo del nombre de la sección.",
               "required": 0,
               "conditional_logic": false,
               "wrapper": {
@@ -487,8 +487,8 @@
               "name": "indice_titulo",
               "aria-label": "",
               "type": "text",
-              "instructions": "Título de la tarjeta en «En esta edición». En un artículo, si queda vacío se usa su título.",
-              "required": 0,
+              "instructions": "Título corto de la tarjeta en «En esta edición».",
+              "required": 1,
               "conditional_logic": false,
               "wrapper": {
                 "width": "50",
@@ -507,7 +507,7 @@
               "name": "indice_imagen",
               "aria-label": "",
               "type": "image",
-              "instructions": "Si queda vacía se usa la primera foto de la sección.",
+              "instructions": "Opcional. Foto horizontal para la tarjeta del índice (recomendada 16:10).",
               "required": 0,
               "conditional_logic": false,
               "wrapper": {
@@ -552,7 +552,7 @@
               "name": "cifras",
               "aria-label": "",
               "type": "repeater",
-              "instructions": "La primera se muestra destacada.",
+              "instructions": "La primera cifra se muestra destacada.",
               "required": 0,
               "conditional_logic": false,
               "wrapper": {
@@ -594,7 +594,7 @@
                   "name": "texto",
                   "aria-label": "",
                   "type": "text",
-                  "instructions": "",
+                  "instructions": "Qué mide la cifra. Ej.: «invertidos en obras».",
                   "required": 1,
                   "conditional_logic": false,
                   "wrapper": {
@@ -646,7 +646,7 @@
               "name": "nombre",
               "aria-label": "",
               "type": "text",
-              "instructions": "Ej.: «Historias que transforman».",
+              "instructions": "Ej.: «Alianzas».",
               "required": 1,
               "conditional_logic": false,
               "wrapper": {
@@ -662,11 +662,11 @@
             },
             {
               "key": "field_boletin_tarjetas_antetitulo",
-              "label": "Antetítulo",
+              "label": "Subtítulo de la sección",
               "name": "antetitulo",
               "aria-label": "",
               "type": "text",
-              "instructions": "Línea pequeña bajo el nombre de la sección.",
+              "instructions": "Línea corta debajo del nombre de la sección.",
               "required": 0,
               "conditional_logic": false,
               "wrapper": {
@@ -686,8 +686,8 @@
               "name": "indice_titulo",
               "aria-label": "",
               "type": "text",
-              "instructions": "Título de la tarjeta en «En esta edición». En un artículo, si queda vacío se usa su título.",
-              "required": 0,
+              "instructions": "Título corto de la tarjeta en «En esta edición».",
+              "required": 1,
               "conditional_logic": false,
               "wrapper": {
                 "width": "50",
@@ -706,7 +706,7 @@
               "name": "indice_imagen",
               "aria-label": "",
               "type": "image",
-              "instructions": "Si queda vacía se usa la primera foto de la sección.",
+              "instructions": "Opcional. Foto horizontal para la tarjeta del índice (recomendada 16:10).",
               "required": 0,
               "conditional_logic": false,
               "wrapper": {
@@ -751,7 +751,7 @@
               "name": "tarjetas",
               "aria-label": "",
               "type": "repeater",
-              "instructions": "",
+              "instructions": "Cada fila es una tarjeta.",
               "required": 0,
               "conditional_logic": false,
               "wrapper": {
@@ -793,7 +793,7 @@
                   "name": "color",
                   "aria-label": "",
                   "type": "select",
-                  "instructions": "",
+                  "instructions": "Color del filete de arriba de la tarjeta.",
                   "required": 0,
                   "conditional_logic": false,
                   "wrapper": {
@@ -914,7 +914,7 @@
               "name": "nombre",
               "aria-label": "",
               "type": "text",
-              "instructions": "Ej.: «Historias que transforman».",
+              "instructions": "Ej.: «La agenda».",
               "required": 1,
               "conditional_logic": false,
               "wrapper": {
@@ -930,11 +930,11 @@
             },
             {
               "key": "field_boletin_agenda_antetitulo",
-              "label": "Antetítulo",
+              "label": "Subtítulo de la sección",
               "name": "antetitulo",
               "aria-label": "",
               "type": "text",
-              "instructions": "Línea pequeña bajo el nombre de la sección.",
+              "instructions": "Línea corta debajo del nombre de la sección.",
               "required": 0,
               "conditional_logic": false,
               "wrapper": {
@@ -954,8 +954,8 @@
               "name": "indice_titulo",
               "aria-label": "",
               "type": "text",
-              "instructions": "Título de la tarjeta en «En esta edición». En un artículo, si queda vacío se usa su título.",
-              "required": 0,
+              "instructions": "Título corto de la tarjeta en «En esta edición».",
+              "required": 1,
               "conditional_logic": false,
               "wrapper": {
                 "width": "50",
@@ -974,7 +974,7 @@
               "name": "indice_imagen",
               "aria-label": "",
               "type": "image",
-              "instructions": "Si queda vacía se usa la primera foto de la sección.",
+              "instructions": "Opcional. Foto horizontal para la tarjeta del índice (recomendada 16:10).",
               "required": 0,
               "conditional_logic": false,
               "wrapper": {
@@ -1081,7 +1081,7 @@
                   "name": "texto",
                   "aria-label": "",
                   "type": "textarea",
-                  "instructions": "",
+                  "instructions": "Opcional. Una o dos frases.",
                   "required": 0,
                   "conditional_logic": false,
                   "wrapper": {

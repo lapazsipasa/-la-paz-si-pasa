@@ -42,7 +42,7 @@ $lapaz_c_kicker = lapaz_field_text( 'cronica_antetitulo', $lapaz_id );
 				<?php endif; ?>
 				<?php echo wp_kses_post( $lapaz_c['cuerpo'] ); ?>
 				<?php if ( '' !== $lapaz_c['fuente'] ) : ?>
-					<div class="fuente"><?php echo wp_kses_post( nl2br( $lapaz_c['fuente'] ) ); ?></div>
+					<div class="fuente"><?php echo wp_kses_post( $lapaz_c['fuente'] ); ?></div>
 				<?php endif; ?>
 			</div>
 			<?php if ( array() !== $lapaz_c['fotos'] || array() !== $lapaz_c['ficha'] ) : ?>

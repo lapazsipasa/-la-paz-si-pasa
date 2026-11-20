@@ -28,7 +28,7 @@
       "name": "productos",
       "aria-label": "",
       "type": "textarea",
-      "instructions": "Uno por línea.",
+      "instructions": "Un producto por línea, sin guiones ni viñetas al inicio.",
       "required": 0,
       "conditional_logic": false,
       "wrapper": {

@@ -25,7 +25,7 @@
     "no_terms": "Sin poblaciones",
     "back_to_items": "← Volver a poblaciones"
   },
-  "description": "",
+  "description": "Solo registro interno: no se muestra en el catálogo.",
   "capabilities": {
     "manage_terms": "manage_categories",
     "edit_terms": "manage_categories",

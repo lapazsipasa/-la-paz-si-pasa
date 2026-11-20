@@ -25,7 +25,7 @@
     "no_terms": "Sin categorías",
     "back_to_items": "← Volver a categorías"
   },
-  "description": "",
+  "description": "Marca una o más. Con ellas se filtra el catálogo y se ven en la tarjeta.",
   "capabilities": {
     "manage_terms": "manage_categories",
     "edit_terms": "manage_categories",

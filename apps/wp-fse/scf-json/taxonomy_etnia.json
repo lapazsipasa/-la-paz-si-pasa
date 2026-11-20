@@ -25,7 +25,7 @@
     "no_terms": "Sin etnias",
     "back_to_items": "← Volver a etnias"
   },
-  "description": "",
+  "description": "Marca una, o ninguna. Se ve en la tarjeta del productor.",
   "capabilities": {
     "manage_terms": "manage_categories",
     "edit_terms": "manage_categories",

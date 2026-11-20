@@ -25,7 +25,7 @@
     "no_terms": "Sin tiempos de operación",
     "back_to_items": "← Volver a tiempos de operación"
   },
-  "description": "",
+  "description": "Marca uno. Sirve para filtrar el catálogo por años de operación.",
   "capabilities": {
     "manage_terms": "manage_categories",
     "edit_terms": "manage_categories",

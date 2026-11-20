@@ -25,7 +25,7 @@
     "no_terms": "Sin departamentos",
     "back_to_items": "← Volver a departamentos"
   },
-  "description": "",
+  "description": "Marca uno. Es el que se ve en la tarjeta y sirve para filtrar el catálogo.",
   "capabilities": {
     "manage_terms": "manage_categories",
     "edit_terms": "manage_categories",

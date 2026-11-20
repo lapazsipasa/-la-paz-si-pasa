@@ -4,11 +4,11 @@
   "fields": [
     {
       "key": "field_articulo_rotulo",
-      "label": "Rótulo",
+      "label": "Etiqueta superior",
       "name": "rotulo",
       "aria-label": "",
       "type": "text",
-      "instructions": "Etiqueta corta sobre el título: «Entrevista», «Perfil», «Caquetá · Cooperación alemana».",
+      "instructions": "Palabra corta sobre el título. Ej.: «Entrevista», «Perfil», «Caquetá · Cooperación alemana».",
       "required": 0,
       "conditional_logic": false,
       "wrapper": {
@@ -24,7 +24,7 @@
     },
     {
       "key": "field_articulo_rotulo_color",
-      "label": "Color del rótulo",
+      "label": "Color de la etiqueta",
       "name": "rotulo_color",
       "aria-label": "",
       "type": "select",
@@ -37,11 +37,10 @@
         "id": ""
       },
       "choices": {
-        "naranja": "Naranja",
-        "verde": "Verde",
-        "azul": "Azul"
+        "azul": "Azul",
+        "verde": "Verde"
       },
-      "default_value": "naranja",
+      "default_value": "azul",
       "allow_null": 0,
       "multiple": 0,
       "ui": 0,
@@ -57,7 +56,7 @@
       "name": "titulo",
       "aria-label": "",
       "type": "text",
-      "instructions": "",
+      "instructions": "Titular del artículo.",
       "required": 1,
       "conditional_logic": false,
       "wrapper": {
@@ -73,11 +72,11 @@
     },
     {
       "key": "field_articulo_bajada",
-      "label": "Bajada",
+      "label": "Resumen bajo el título",
       "name": "bajada",
       "aria-label": "",
       "type": "textarea",
-      "instructions": "Resumen de dos o tres líneas debajo del título.",
+      "instructions": "Dos o tres líneas en negrita, justo debajo del título.",
       "required": 0,
       "conditional_logic": false,
       "wrapper": {
@@ -93,11 +92,11 @@
     },
     {
       "key": "field_articulo_entradilla",
-      "label": "Entradilla",
+      "label": "Primer párrafo destacado",
       "name": "entradilla",
       "aria-label": "",
       "type": "textarea",
-      "instructions": "Opcional. Primer párrafo, destacado.",
+      "instructions": "Opcional. Abre el texto con letra más grande.",
       "required": 0,
       "conditional_logic": false,
       "wrapper": {
@@ -113,11 +112,11 @@
     },
     {
       "key": "field_articulo_cuerpo",
-      "label": "Cuerpo",
+      "label": "Texto del artículo",
       "name": "cuerpo",
       "aria-label": "",
       "type": "wysiwyg",
-      "instructions": "Párrafos del artículo. Para un subtítulo usa «Título 3». Para una cita usa el botón de cita: primera línea la frase, segunda línea quién la dice.",
+      "instructions": "Escribe los párrafos. Para un subtítulo usa «Título 3». Para una cita usa el botón de cita: en la primera línea la frase y en la segunda, quién la dice. Pega siempre sin formato (Ctrl+Shift+V).",
       "required": 0,
       "conditional_logic": false,
       "wrapper": {
@@ -137,7 +136,7 @@
       "name": "apertura",
       "aria-label": "",
       "type": "image",
-      "instructions": "Opcional. Foto panorámica a todo el ancho, encima del artículo.",
+      "instructions": "Opcional. Foto horizontal, a todo el ancho, encima del artículo.",
       "required": 0,
       "conditional_logic": false,
       "wrapper": {
@@ -162,7 +161,7 @@
       "name": "apertura_credito",
       "aria-label": "",
       "type": "text",
-      "instructions": "Ej.: Fotografía: Fernando López Ríos",
+      "instructions": "Ej.: «Fotografía: Fernando López Ríos».",
       "required": 0,
       "conditional_logic": false,
       "wrapper": {
@@ -257,7 +256,7 @@
           "name": "credito",
           "aria-label": "",
           "type": "text",
-          "instructions": "Ej.: Fotografía: Camila Galindo Muñoz",
+          "instructions": "Ej.: «Fotografía: Camila Galindo Muñoz».",
           "required": 0,
           "conditional_logic": false,
           "wrapper": {
@@ -279,7 +278,7 @@
       "name": "ficha_titulo",
       "aria-label": "",
       "type": "text",
-      "instructions": "Opcional. Recuadro de datos al lado del texto. Si queda vacío, no se muestra.",
+      "instructions": "Opcional. Título del recuadro de datos que va al lado del texto. Si lo dejas vacío, el recuadro no se muestra.",
       "required": 0,
       "conditional_logic": false,
       "wrapper": {
@@ -299,7 +298,7 @@
       "name": "ficha_texto",
       "aria-label": "",
       "type": "textarea",
-      "instructions": "",
+      "instructions": "Frase corta que acompaña al título del recuadro.",
       "required": 0,
       "conditional_logic": false,
       "wrapper": {
@@ -319,7 +318,7 @@
       "name": "ficha_datos",
       "aria-label": "",
       "type": "repeater",
-      "instructions": "",
+      "instructions": "Cada fila es un dato del recuadro: arriba va la cifra en negrita y abajo su explicación.",
       "required": 0,
       "conditional_logic": false,
       "wrapper": {
@@ -341,7 +340,7 @@
           "name": "cifra",
           "aria-label": "",
           "type": "text",
-          "instructions": "Va en negrita: «179 obras».",
+          "instructions": "Va en negrita. Ej.: «179 obras».",
           "required": 0,
           "conditional_logic": false,
           "wrapper": {
@@ -383,7 +382,7 @@
       "name": "ficha_clara",
       "aria-label": "",
       "type": "true_false",
-      "instructions": "",
+      "instructions": "Actívalo para fondo blanco con borde. Apagado, el recuadro lleva fondo celeste.",
       "required": 0,
       "conditional_logic": false,
       "wrapper": {
