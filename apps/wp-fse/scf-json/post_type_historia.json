@@ -46,11 +46,11 @@
     "custom-fields"
   ],
   "taxonomies": [],
-  "has_archive": false,
-  "has_archive_slug": "",
+  "has_archive": true,
+  "has_archive_slug": "historias",
   "rewrite": {
     "permalink_rewrite": "custom_permalink",
-    "slug": "paissana/historias",
+    "slug": "historias",
     "with_front": false,
     "feeds": false,
     "pages": true

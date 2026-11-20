@@ -172,8 +172,7 @@ function lapaz_catalogo_url( array $filtros, array $cambios = array() ): string 
 		$query['ver'] = $params['ver'];
 	}
 
-	$base = get_permalink();
-	$base = is_string( $base ) && is_page() ? $base : home_url( '/paissana/' );
+	$base = lapaz_url_catalogo_base();
 
 	// categoria[]=a&categoria[]=b, como lo envía el formulario (http_build_query numera: categoria[0]).
 	$query = (string) preg_replace( '/%5B\d+%5D=/', '%5B%5D=', http_build_query( $query, '', '&' ) );

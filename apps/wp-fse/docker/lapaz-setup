@@ -70,11 +70,15 @@ if [ -z "$page_id" ]; then
         --post_title="Proyectos destacados" --post_status=publish --porcelain)"
 fi
 
-# Catálogo PaisSana: la plantilla page-paissana.html pinta la página con slug «paissana».
+# Catálogo PaisSana: la plantilla page-productores.html pinta la página con slug «productores».
+# Migración: la página se llamó «paissana»; se renombra conservando su ID, sin duplicarla.
+productores_id="$("${wp[@]}" post list --post_type=page --name=productores --post_status=any --format=ids)"
 paissana_id="$("${wp[@]}" post list --post_type=page --name=paissana --post_status=any --format=ids)"
-if [ -z "$paissana_id" ]; then
-    "${wp[@]}" post create --post_type=page --post_name=paissana \
-        --post_title="PaisSana" --post_status=publish
+if [ -z "$productores_id" ] && [ -n "$paissana_id" ]; then
+    "${wp[@]}" post update "$paissana_id" --post_name=productores --post_title="Productores PaisSana"
+elif [ -z "$productores_id" ]; then
+    "${wp[@]}" post create --post_type=page --post_name=productores \
+        --post_title="Productores PaisSana" --post_status=publish
 fi
 
 # Menú principal. Proyectos destacados es un enlace de página (id): sin 301 y con estado activo.
@@ -132,11 +136,11 @@ if [ "${WP_CACHE:-}" = true ]; then
         // Los enlaces terminan en «/» (/%postname%/). Sin esto solo se servía la portada desde
         // caché: el plugin lo ajusta al guardar su panel, que aquí no se usa.
         wp_cache_setting( "wp_cache_slash_check", 1 );
-        // /paissana/ con cualquier parámetro (?buscar=, ?ver=, ?x=…) no se guarda en caché: cualquiera
-        // podría llenar el disco con URLs inventadas. /paissana/ limpia sí. El plugin evalúa cada
+        // /productores/ con cualquier parámetro (?buscar=, ?ver=, ?x=…) no se guarda en caché: cualquiera
+        // podría llenar el disco con URLs inventadas. /productores/ limpia sí. El plugin evalúa cada
         // expresión con preg_match("~expr~") contra la URI pedida, con la query incluida. Los dos
         // primeros son los de fábrica.
-        wp_cache_setting( "cache_rejected_uri", array( "wp-.*\\.php", "index\\.php", "^/paissana/.*\\?" ) );
+        wp_cache_setting( "cache_rejected_uri", array( "wp-.*\\.php", "index\\.php", "^/productores/.*\\?" ) );
         echo "Caché de página: activa\n";
     '
 elif "${wp[@]}" plugin is-active wp-super-cache 2>/dev/null; then

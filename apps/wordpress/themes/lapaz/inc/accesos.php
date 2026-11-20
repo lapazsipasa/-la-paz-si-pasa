@@ -10,10 +10,20 @@ declare( strict_types = 1 );
 defined( 'ABSPATH' ) || exit;
 
 /**
- * URL del catálogo de productores (punto único: si el catálogo cambia de ruta, se cambia aquí).
+ * URL de la página del catálogo de productores (punto único: sale del slug de la página).
+ */
+function lapaz_url_catalogo_base(): string {
+	$pagina = get_page_by_path( 'productores' );
+	$url    = $pagina instanceof WP_Post ? get_permalink( $pagina ) : false;
+
+	return is_string( $url ) ? $url : home_url( '/productores/' );
+}
+
+/**
+ * URL del catálogo de productores, en la zona del buscador.
  */
 function lapaz_url_catalogo(): string {
-	return home_url( '/paissana/#explorar' );
+	return lapaz_url_catalogo_base() . '#explorar';
 }
 
 /**

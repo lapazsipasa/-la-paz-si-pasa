@@ -14,6 +14,15 @@ defined( 'ABSPATH' ) || exit;
  * ID de la historia publicada más reciente (0 si no hay ninguna).
  */
 function lapaz_historia_reciente(): int {
+	/**
+	 * Una consulta por petición (-1: aún sin consultar).
+	 *
+	 * @var int $reciente
+	 */
+	static $reciente = -1;
+	if ( $reciente >= 0 ) {
+		return $reciente;
+	}
 	$ids = get_posts(
 		array(
 			'post_type'      => 'historia',
@@ -24,7 +33,53 @@ function lapaz_historia_reciente(): int {
 		)
 	);
 
-	return (int) ( $ids[0] ?? 0 );
+	$reciente = (int) ( $ids[0] ?? 0 );
+
+	return $reciente;
+}
+
+/**
+ * Historia que pinta la página: la consultada en /historias/<slug>/ y, en el archivo, la más reciente.
+ */
+function lapaz_historia_mostrada(): int {
+	return is_singular( 'historia' ) ? get_queried_object_id() : lapaz_historia_reciente();
+}
+
+/**
+ * URL del archivo /historias/ (sale del tipo de contenido).
+ */
+function lapaz_url_historias(): string {
+	$url = get_post_type_archive_link( 'historia' );
+
+	return is_string( $url ) ? $url : home_url( '/historias/' );
+}
+
+/**
+ * Las demás historias publicadas, de la más nueva a la más antigua.
+ *
+ * @param int $excluir Historia que se está mostrando.
+ * @return list<array{titulo: string, lugar: string, url: string}>
+ */
+function lapaz_historia_otras( int $excluir ): array {
+	$posts  = get_posts(
+		array(
+			'post_type'      => 'historia',
+			'post_status'    => 'publish',
+			'posts_per_page' => 50,
+			'post__not_in'   => array( $excluir ),
+			'no_found_rows'  => true,
+		)
+	);
+	$salida = array();
+	foreach ( $posts as $post ) {
+		$salida[] = array(
+			'titulo' => get_the_title( $post ),
+			'lugar'  => lapaz_field_text( 'lugar', $post->ID ),
+			'url'    => (string) get_permalink( $post ),
+		);
+	}
+
+	return $salida;
 }
 
 /**

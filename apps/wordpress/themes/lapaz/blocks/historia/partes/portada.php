@@ -22,7 +22,7 @@ $lapaz_portada = lapaz_field_image_id( 'portada_foto', $lapaz_id );
 $lapaz_sub     = lapaz_field_text( 'portada_subtitulo', $lapaz_id );
 ?>
 <div class="volver-top">
-	<div class="wrap"><a href="<?php echo esc_url( home_url( '/paissana/' ) ); ?>"><?php esc_html_e( '← Volver al catálogo', 'lapaz' ); ?></a></div>
+	<div class="wrap"><a href="<?php echo esc_url( lapaz_url_catalogo_base() ); ?>"><?php esc_html_e( '← Volver al catálogo', 'lapaz' ); ?></a></div>
 </div>
 
 <div class="port-prod">

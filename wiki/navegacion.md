@@ -316,6 +316,20 @@ Orden sugerido: a1–a2 → b1 → (decisión) c1–c4 → b2–b5 → b6 (R4). 
 | ¿Hero compacto en las páginas interiores? | **Sí, en catálogo, historias y boletín.** | Paso b2. La portada y Proyectos destacados conservan el hero completo. |
 | ¿Accesos desde las páginas existentes? | **Sí, los cuatro del punto 5.** | Paso b6 (tarea R4). El acceso por la botonera en Proyectos destacados se reduce al botón PAISSANA, que ya lleva al catálogo. |
 
+### Ajuste del 2026-11-20: URL propias para productores e historias
+
+William decidió que el catálogo tenga dirección independiente. Como `/paissana/` aún no existe en producción, no hace falta ninguna redirección.
+
+| Antes (solo en la rama) | Ahora |
+|---|---|
+| `/paissana/` (hero, historia del mes y catálogo) | `/productores/`: el catálogo, con su hero de cifras, la tarjeta de la historia del mes y el buscador |
+| `/paissana/historias/<slug>/` | `/historias/<slug>/` |
+| `/paissana/historias/` (404) | `/historias/`: la historia más reciente y la lista de las anteriores, como `/boletin/` |
+| `/paissana/` | deja de existir |
+
+- `/proyectos-destacados/` no se mueve.
+- El menú conserva sus cuatro elementos. «Proyectos destacados» se marca como activo también en `/productores/` y en `/historias/`.
+
 Se construye ahora: a1, a2, a4, b1, b2 y b6, más los botones deshabilitados. Quedan propuestos y sin construir: migas (b3), barra de secciones fija del boletín (b4), «Otras historias» (b5) y todo el bloque (c).
 
 ## 7. Preguntas para William

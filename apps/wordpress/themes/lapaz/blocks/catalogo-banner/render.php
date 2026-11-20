@@ -1,7 +1,7 @@
 <?php
 /**
  * Bloque lapaz/catalogo-banner: banner que lleva al catálogo de productores, con las tres
- * cifras en vivo y un buscador que envía a /paissana/?buscar=… (sin JavaScript).
+ * cifras en vivo y un buscador que envía a /productores/?buscar=… (sin JavaScript).
  * Sin productores publicados no pinta nada.
  *
  * @package lapaz

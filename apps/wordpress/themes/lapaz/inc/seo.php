@@ -29,6 +29,13 @@ function lapaz_es_boletin(): bool {
 }
 
 /**
+ * Si la página es una historia o el archivo /historias/ (que pinta la más reciente).
+ */
+function lapaz_es_historia(): bool {
+	return is_singular( 'historia' ) || is_post_type_archive( 'historia' );
+}
+
+/**
  * Título del documento: «Página | La Paz Sí Pasa»; en la portada,
  * «La Paz Sí Pasa | Fondo Colombia en Paz» (como en Astro).
  *
@@ -48,6 +55,8 @@ function lapaz_document_title_parts( array $partes ): array {
 		$partes['title'] = __( 'PaisSana, proyectos destacados', 'lapaz' );
 	} elseif ( lapaz_es_boletin() ) {
 		$partes['title'] = lapaz_boletin_titulo( lapaz_boletin_mostrado() );
+	} elseif ( is_post_type_archive( 'historia' ) && lapaz_historia_mostrada() > 0 ) {
+		$partes['title'] = get_the_title( lapaz_historia_mostrada() );
 	}
 	unset( $partes['tagline'] );
 
@@ -76,8 +85,8 @@ function lapaz_meta_description(): string {
 			return wp_strip_all_tags( $sumario );
 		}
 	}
-	if ( is_singular( 'historia' ) ) {
-		$resumen = lapaz_field_text( 'resumen', get_queried_object_id() );
+	if ( lapaz_es_historia() ) {
+		$resumen = lapaz_field_text( 'resumen', lapaz_historia_mostrada() );
 		if ( '' !== $resumen ) {
 			return wp_strip_all_tags( $resumen );
 		}
@@ -112,12 +121,13 @@ function lapaz_print_meta(): void {
 			$alt                           = lapaz_field_text( 'portada_titular', $edicion );
 		}
 	}
-	$tipo = 'website';
-	if ( is_singular( 'historia' ) ) {
-		$tipo     = 'article';
-		$historia = get_queried_object_id();
-		$portada  = lapaz_field_image_id( 'portada_foto', $historia );
-		$foto     = wp_get_attachment_image_src( $portada > 0 ? $portada : lapaz_field_image_id( 'foto', $historia ), 'large' );
+	$tipo     = 'website';
+	$historia = lapaz_es_historia() ? lapaz_historia_mostrada() : 0;
+	if ( $historia > 0 ) {
+		$tipo    = 'article';
+		$url     = (string) get_permalink( $historia );
+		$portada = lapaz_field_image_id( 'portada_foto', $historia );
+		$foto    = wp_get_attachment_image_src( $portada > 0 ? $portada : lapaz_field_image_id( 'foto', $historia ), 'large' );
 		if ( is_array( $foto ) ) {
 			list( $imagen, $ancho, $alto ) = $foto;
 			$alt                           = get_the_title( $historia );
@@ -151,15 +161,17 @@ function lapaz_print_meta(): void {
 add_action( 'wp_head', 'lapaz_print_meta', 2 );
 
 /**
- * /boletin/ declara como canónica la URL de la edición que muestra (el core ya lo hace en cada edición).
+ * /boletin/ y /historias/ declaran como canónica la URL de la edición o la historia que muestran
+ * (el core ya lo hace en cada una).
  */
-function lapaz_boletin_canonical(): void {
+function lapaz_archivo_canonical(): void {
 	$edicion = is_post_type_archive( 'boletin' ) ? lapaz_boletin_mostrado() : 0;
+	$edicion = is_post_type_archive( 'historia' ) ? lapaz_historia_mostrada() : $edicion;
 	if ( $edicion > 0 ) {
 		printf( '<link rel="canonical" href="%s" />' . "\n", esc_url( (string) get_permalink( $edicion ) ) );
 	}
 }
-add_action( 'wp_head', 'lapaz_boletin_canonical', 3 );
+add_action( 'wp_head', 'lapaz_archivo_canonical', 3 );
 
 /**
  * Sitemap con páginas, ediciones del boletín e historias: el resto de los CPT no tiene URL propia.

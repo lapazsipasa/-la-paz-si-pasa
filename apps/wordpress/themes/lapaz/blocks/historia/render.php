@@ -1,7 +1,8 @@
 <?php
 /**
- * Bloque lapaz/historia: página de una historia PaisSana (portada, ficha, video, crónica
- * y galería con lightbox). Las secciones sin datos no se pintan.
+ * Bloque lapaz/historia: página de una historia PaisSana (portada, ficha, video, crónica,
+ * galería con lightbox y otras historias). En /historias/<slug>/ pinta esa historia; en
+ * /historias/, la publicada más reciente. Las secciones sin datos no se pintan.
  *
  * @package lapaz
  */
@@ -17,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  */
 
 $lapaz_id = isset( $block->context['postId'] ) && is_numeric( $block->context['postId'] ) ? (int) $block->context['postId'] : get_queried_object_id();
+$lapaz_id = is_post_type_archive( 'historia' ) ? lapaz_historia_mostrada() : $lapaz_id; // /historias/ pinta la más reciente.
 if ( 'historia' !== get_post_type( $lapaz_id ) ) {
 	return;
 }
@@ -28,6 +30,7 @@ $lapaz_ficha   = lapaz_historia_campo_pares( 'ficha', $lapaz_id, 'dato', 'valor'
 $lapaz_video   = lapaz_historia_video( $lapaz_id );
 $lapaz_cronica = lapaz_historia_cronica( $lapaz_id );
 $lapaz_galeria = lapaz_historia_galeria( $lapaz_id );
+$lapaz_otras   = lapaz_historia_otras( $lapaz_id );
 $lapaz_wrapper = get_block_wrapper_attributes();
 $lapaz_ytimg   = 'youtube' === $lapaz_video['fuente'] && 0 === $lapaz_video['poster_id'];
 lapaz_usa_ytimg( $lapaz_ytimg );
@@ -50,4 +53,5 @@ lapaz_usa_ytimg( $lapaz_ytimg );
 	<?php require __DIR__ . '/partes/video.php'; ?>
 	<?php require __DIR__ . '/partes/cronica.php'; ?>
 	<?php require __DIR__ . '/partes/galeria.php'; ?>
+	<?php require __DIR__ . '/partes/otras.php'; ?>
 </div>

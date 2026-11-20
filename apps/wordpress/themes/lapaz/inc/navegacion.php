@@ -1,6 +1,6 @@
 <?php
 /**
- * Estado activo del menú por sección: «Proyectos destacados» también en /paissana/…
+ * Estado activo del menú por sección: «Proyectos destacados» también en /productores/… e /historias/…
  * y «Boletín» en todo /boletin/…. Las anclas de la portada nunca se marcan.
  *
  * @package lapaz
@@ -60,7 +60,8 @@ function lapaz_nav_item_activo( string $block_content, array $block ): string {
 	$actual   = lapaz_nav_path( $wp instanceof WP ? $wp->request : '' );
 	$prefijos = array( $link_path );
 	if ( '/proyectos-destacados/' === $link_path ) {
-		$prefijos[] = '/paissana/'; // El catálogo y las historias cuelgan de este programa.
+		// El catálogo y las historias cuelgan de este programa.
+		array_push( $prefijos, lapaz_nav_path( lapaz_url_catalogo_base() ), lapaz_nav_path( lapaz_url_historias() ) );
 	}
 
 	foreach ( $prefijos as $prefijo ) {
