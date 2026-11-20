@@ -10,7 +10,7 @@
  */
 
 /* Sin negrita ni cursiva simuladas: Monique Round solo tiene peso 400 y Komet no tiene itálica. */
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-catalogo-portada, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-catalogo-portada, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado, .wp-block-lapaz-catalogo-banner) {
 	font-synthesis: none;
 }
 
@@ -22,13 +22,13 @@
 	margin-inline: auto;
 }
 
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) :is(a, button):focus-visible {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado, .wp-block-lapaz-catalogo-banner) :is(a, button):focus-visible {
 	outline: 2px solid currentcolor;
 	outline-offset: 3px;
 }
 
 /* Rótulo: Monique en mayúsculas, como .btn-project. :where() deja que cada bloque lo ajuste. */
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) :where(.btn, .btn-entrar, .eyebrow, .badge, .et, .volver, .volver-top a, .ir, .play, .rotulo-seccion, .cabecera-boletin, .nombre, .etiqueta, .cuando, .lugar, .ficha-tec dt) {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado, .wp-block-lapaz-catalogo-banner) :where(.btn, .btn-entrar, .eyebrow, .badge, .et, .volver, .volver-top a, .ir, .play, .rotulo-seccion, .cabecera-boletin, .nombre, .etiqueta, .cuando, .lugar, .ficha-tec dt) {
 	font-family: var(--font-monique-regular);
 	font-weight: var(--font-weight-komet-regular);
 	font-size: var(--font-size-rotulo);
@@ -37,7 +37,7 @@
 }
 
 /* Titulares en Komet con peso: compactos, sin mayúsculas */
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo-portada, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) :is(.titular, .titulo-art, .sobre h1, .hero h1, .dest-cont h3) {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo-portada, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado, .wp-block-lapaz-catalogo-banner) :is(.titular, .titulo-art, .sobre h1, .hero h1, .dest-cont h3) {
 	margin: 0;
 	font-family: var(--font-komet);
 	font-weight: var(--font-weight-komet-heavy);
@@ -106,7 +106,7 @@
 }
 
 /* Botón: .btn-project del sitio (cuadrado). Azul sobre claro; celeste sobre panel azul. */
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) :is(.btn, .btn-entrar) {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado, .wp-block-lapaz-catalogo-banner) :is(.btn, .btn-entrar) {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -122,12 +122,12 @@
 	transition: opacity 0.2s;
 }
 
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) :is(.portada, .dest-card) :is(.btn, .btn-entrar) {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado, .wp-block-lapaz-catalogo-banner) :is(.portada, .dest-card, .cat-banner) :is(.btn, .btn-entrar) {
 	background: var(--color-nav-bg-active);
 	color: var(--color-nav-text);
 }
 
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) :is(.btn, .btn-entrar):hover {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado, .wp-block-lapaz-catalogo-banner) :is(.btn, .btn-entrar):hover {
 	opacity: 0.9;
 }
 
@@ -337,7 +337,7 @@
 
 @media (prefers-reduced-motion: reduce) {
 
-	:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) :is(.btn, .btn-entrar) {
+	:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado, .wp-block-lapaz-catalogo-banner) :is(.btn, .btn-entrar) {
 		transition: none;
 	}
 }

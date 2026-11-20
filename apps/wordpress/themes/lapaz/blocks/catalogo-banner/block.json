@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lapaz/catalogo-banner",
+	"title": "PaisSana · Banner del catálogo",
+	"category": "theme",
+	"icon": "megaphone",
+	"description": "Banner que lleva al catálogo de productores: cifras en vivo, buscador y botón. Sin productores publicados no pinta nada.",
+	"textdomain": "lapaz",
+	"supports": {
+		"autoRegister": true,
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"style": [ "lapaz-editorial", "file:./style.css" ],
+	"render": "file:./render.php"
+}

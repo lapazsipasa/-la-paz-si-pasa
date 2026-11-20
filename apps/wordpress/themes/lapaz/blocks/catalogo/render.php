@@ -61,7 +61,7 @@ $lapaz_wrapper = get_block_wrapper_attributes(
 			<form class="filtros" id="catalogo-filtros" method="get" action="<?php echo esc_url( $lapaz_accion ); ?>" role="search">
 				<label class="busca">
 					<span aria-hidden="true">⌕</span>
-					<input type="search" name="buscar" value="<?php echo esc_attr( $lapaz_filtros['buscar'] ); ?>" maxlength="100" placeholder="<?php esc_attr_e( 'Buscar productor, producto o municipio', 'lapaz' ); ?>" aria-label="<?php esc_attr_e( 'Buscar productor, producto o municipio', 'lapaz' ); ?>" autocomplete="off">
+					<input type="search" name="buscar" value="<?php echo esc_attr( $lapaz_filtros['buscar'] ); ?>" maxlength="100" placeholder="<?php esc_attr_e( 'Productor, producto o municipio', 'lapaz' ); ?>" aria-label="<?php esc_attr_e( 'Buscar productor, producto o municipio', 'lapaz' ); ?>" autocomplete="off">
 				</label>
 				<select name="departamento" aria-label="<?php esc_attr_e( 'Filtrar por departamento', 'lapaz' ); ?>">
 					<option value=""><?php esc_html_e( 'Todos los departamentos', 'lapaz' ); ?></option>

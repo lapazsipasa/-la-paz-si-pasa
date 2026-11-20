@@ -24,4 +24,11 @@ El patrón de tarjeta (`.dest-card`, `.dest-cont`, `.lugar`, `.mini`…) pasó d
 
 - Textos: rótulo de sección «Último boletín» y destino del botón (archivo `/boletin/`, no la edición concreta).
 - Enlace secundario apilado bajo el botón principal, en contorno.
-- `inc/historia.php` carga `inc/accesos.php` de forma provisional: conviene moverlo a `functions.php`.
+
+## Banner del catálogo
+
+Bloque `lapaz/catalogo-banner` (`blocks/catalogo-banner/`): panel azul a todo el ancho del contenedor con el logo PaisSana en blanco, rótulo «CATÁLOGO PAISSANA», titular «Encuentra a quienes producen la paz», una línea de apoyo, las tres cifras en vivo (`lapaz_catalogo_cifras()` en `inc/accesos.php`, mismos conteos que la portada del catálogo), un buscador (`<form method="get">`, `name="buscar"`, sin JavaScript, envía a `/paissana/?buscar=…#explorar`) y el botón «EXPLORAR EL CATÁLOGO →». Sin productores publicados no pinta nada.
+
+- Dónde: `page-proyectos-destacados.html`, justo después de `lapaz/paisana-productores`; `front-page.html`, al final de `main`, tras la historia del mes. No va en `/paissana/`.
+- Cambio en la tarjeta de la historia: en esas dos plantillas ya no lleva `{"enlaceCatalogo":true}` (el banner lo sustituye). El atributo del bloque se conserva.
+- CSS: `.wp-block-lapaz-catalogo-banner` entra en las listas de `assets/css/editorial.css` (rótulos, titular, botón); disposición, cifras y buscador en `blocks/catalogo-banner/style.css`.
