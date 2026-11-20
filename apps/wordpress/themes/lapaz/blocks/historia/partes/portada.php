@@ -32,8 +32,10 @@ $lapaz_sub     = lapaz_field_text( 'portada_subtitulo', $lapaz_id );
 		'full',
 		false,
 		array(
-			'loading' => 'lazy',
-			'sizes'   => '100vw',
+			// Es la imagen más grande de la vista (LCP): el hero de esta página va compacto.
+			'loading'       => 'eager',
+			'fetchpriority' => 'high',
+			'sizes'         => '100vw',
 		)
 	) : '';
 	?>

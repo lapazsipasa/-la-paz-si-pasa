@@ -13,6 +13,10 @@
 		"multiple": false,
 		"reusable": false
 	},
+	"styles": [
+		{ "name": "default", "label": "Completo", "isDefault": true },
+		{ "name": "compacto", "label": "Compacto" }
+	],
 	"render": "file:./render.php",
 	"style": "file:./style.css"
 }

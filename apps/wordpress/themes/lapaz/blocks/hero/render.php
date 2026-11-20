@@ -6,6 +6,8 @@
  * los JPEG del tema (sin WebP a propósito: el grano de la foto comprime peor).
  * Es el elemento LCP: eager + fetchpriority=high, y se precarga en el <head>
  * (lapaz_hero_preload), que en temas de bloques se imprime después de pintar la plantilla.
+ * Con el estilo «Compacto» (páginas interiores) no es el LCP: la foto de la propia página
+ * manda, así que se queda eager pero sin prioridad alta ni precarga.
  *
  * @package lapaz
  */
@@ -14,8 +16,17 @@ declare( strict_types = 1 );
 
 defined( 'ABSPATH' ) || exit;
 
-$lapaz_hero = lapaz_hero_imagen();
-lapaz_hero_preload( $lapaz_hero );
+/**
+ * Atributos del bloque (los pasa core al incluir este archivo).
+ *
+ * @var array<string, mixed> $attributes
+ */
+$lapaz_hero      = lapaz_hero_imagen();
+$lapaz_compacto  = isset( $attributes['className'] ) && is_string( $attributes['className'] ) && str_contains( $attributes['className'], 'is-style-compacto' );
+$lapaz_prioridad = $lapaz_compacto ? 'auto' : 'high';
+if ( ! $lapaz_compacto ) {
+	lapaz_hero_preload( $lapaz_hero );
+}
 ?>
 <section <?php echo get_block_wrapper_attributes( array( 'class' => 'hero' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- core escapa los atributos. ?>>
 	<?php if ( $lapaz_hero['id'] > 0 ) : ?>
@@ -28,7 +39,7 @@ lapaz_hero_preload( $lapaz_hero );
 				'class'         => 'hero__bg',
 				'sizes'         => '100vw',
 				'loading'       => 'eager',
-				'fetchpriority' => 'high',
+				'fetchpriority' => $lapaz_prioridad,
 			)
 		);
 		?>
@@ -42,7 +53,7 @@ lapaz_hero_preload( $lapaz_hero );
 			alt=""
 			class="hero__bg"
 			loading="eager"
-			fetchpriority="high"
+			fetchpriority="<?php echo esc_attr( $lapaz_prioridad ); ?>"
 			decoding="async"
 		/>
 	<?php endif; ?>
