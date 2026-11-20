@@ -163,6 +163,14 @@ body {
 	color: var(--color-nav-text);
 }
 
+@media (max-width: 849px) {
+
+	.paisana-page--catalogo {
+		gap: var(--space-16);
+		padding-block-end: var(--space-16);
+	}
+}
+
 .paisana-page h1,
 .paisana-page h2,
 .paisana-page h3 {

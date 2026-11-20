@@ -9,11 +9,3 @@
 	box-shadow: inset 0 0 0 2px var(--color-nav-bg-active);
 	color: var(--color-surface);
 }
-
-@media (max-width: 849px) {
-
-	/* Solo en /paissana/ (va tras la portada del catálogo): recorta el hueco de 10rem de .paisana-page (base.css) a 4rem; la clase doble gana a margin-block-end:0 del layout de WP. En Inicio y Proyectos destacados se conserva su ritmo. */
-	.wp-block-lapaz-catalogo-portada + .wp-block-lapaz-historia-destacada.wp-block-lapaz-historia-destacada {
-		margin-bottom: calc(var(--space-12) * -2);
-	}
-}

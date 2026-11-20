@@ -16,6 +16,11 @@ defined( 'ABSPATH' ) || exit;
  * @param string $url URL absoluta o relativa.
  */
 function lapaz_nav_path( string $url ): string {
+	$host = wp_parse_url( $url, PHP_URL_HOST );
+	if ( is_string( $host ) && wp_parse_url( home_url(), PHP_URL_HOST ) !== $host ) {
+		return ''; // Enlace a otro sitio.
+	}
+
 	$path = wp_parse_url( $url, PHP_URL_PATH );
 	$home = wp_parse_url( home_url(), PHP_URL_PATH );
 	$path = is_string( $path ) ? $path : '';
@@ -47,7 +52,7 @@ function lapaz_nav_item_activo( string $block_content, array $block ): string {
 	}
 
 	$link_path = lapaz_nav_path( $link );
-	if ( '/' === $link_path ) {
+	if ( '' === $link_path || '/' === $link_path ) { // Enlace externo o portada.
 		return $block_content;
 	}
 

@@ -91,14 +91,6 @@
 	}
 }
 
-@media (max-width: 849px) {
-
-	/* base.css deja 10rem entre secciones de .paisana-page: en móvil se recorta a 4rem; la clase doble gana a margin-block-end:0 del layout de WP. */
-	.wp-block-lapaz-catalogo-portada.wp-block-lapaz-catalogo-portada {
-		margin-bottom: calc(var(--space-12) * -2);
-	}
-}
-
 @media (max-width: 480px) {
 
 	.wp-block-lapaz-catalogo-portada .tiles {

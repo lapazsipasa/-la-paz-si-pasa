@@ -65,7 +65,7 @@ $lapaz_wrapper    = get_block_wrapper_attributes();
 							<?php endforeach; ?>
 						</div>
 					<?php endif; ?>
-					<a class="btn verde" href="<?php echo esc_url( (string) get_permalink( $lapaz_id ) ); ?>"><?php esc_html_e( 'Ver la historia completa', 'lapaz' ); ?> <span aria-hidden="true">→</span></a>
+					<a class="btn" href="<?php echo esc_url( (string) get_permalink( $lapaz_id ) ); ?>"><?php esc_html_e( 'Ver la historia completa', 'lapaz' ); ?> <span aria-hidden="true">→</span></a>
 					<?php if ( '' !== $lapaz_catalogo ) : ?>
 						<a class="btn btn-sec" href="<?php echo esc_url( lapaz_url_catalogo() ); ?>"><?php echo esc_html( $lapaz_catalogo ); ?> <span aria-hidden="true">→</span></a>
 					<?php endif; ?>

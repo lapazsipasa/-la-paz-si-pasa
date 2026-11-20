@@ -310,11 +310,6 @@
 
 @media (max-width: 849px) {
 
-	/* Recorta el hueco de 10rem de .paisana-page (base.css) a 4rem; la clase triple gana a margin-block-end:0 de :last-child del layout de WP. */
-	.wp-block-lapaz-catalogo.wp-block-lapaz-catalogo.wp-block-lapaz-catalogo {
-		margin-bottom: calc(var(--space-12) * -2);
-	}
-
 	.wp-block-lapaz-catalogo .barra {
 		min-height: 44px;
 	}

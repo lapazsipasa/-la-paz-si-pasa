@@ -7,7 +7,7 @@
  * Es el elemento LCP: eager + fetchpriority=high, y se precarga en el <head>
  * (lapaz_hero_preload), que en temas de bloques se imprime después de pintar la plantilla.
  * Con el estilo «Compacto» (páginas interiores) no es el LCP: la foto de la propia página
- * manda, así que se queda eager pero sin prioridad alta ni precarga.
+ * manda: va lazy (así en móvil, donde se oculta, no se descarga), sin prioridad alta ni precarga.
  *
  * @package lapaz
  */
@@ -38,7 +38,7 @@ if ( ! $lapaz_compacto ) {
 			array(
 				'class'         => 'hero__bg',
 				'sizes'         => '100vw',
-				'loading'       => 'eager',
+				'loading'       => $lapaz_compacto ? 'lazy' : 'eager',
 				'fetchpriority' => $lapaz_prioridad,
 			)
 		);
@@ -52,7 +52,7 @@ if ( ! $lapaz_compacto ) {
 			height="800"
 			alt=""
 			class="hero__bg"
-			loading="eager"
+			loading="<?php echo $lapaz_compacto ? 'lazy' : 'eager'; ?>"
 			fetchpriority="<?php echo esc_attr( $lapaz_prioridad ); ?>"
 			decoding="async"
 		/>
