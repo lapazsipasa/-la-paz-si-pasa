@@ -137,7 +137,7 @@ export function createBrowserTests() {
 				`document.querySelector('astro-dev-toolbar')?.remove(); [...document.querySelectorAll('body > *')].filter(e => e.textContent.trim().startsWith('Fuentes de contenido')).forEach(e => e.remove()); 1`
 			);
 		}
-		return { evaluate, key, shot, requests, close: () => ws.close() };
+		return { evaluate, key, shot, send, requests, close: () => ws.close() };
 	}
 
 	function compare( name, png ) {

@@ -1,0 +1,144 @@
+// node tests/e2e/boletin.mjs — requiere el stack local en :8090 con el seed del boletín.
+import { createBrowserTests } from './lib.mjs';
+import {
+	conLimpieza,
+	contar,
+	sembrar,
+	sinDesborde,
+	tipografiaGeneral,
+	wpJson,
+} from './fcp-lib.mjs';
+
+const tests = createBrowserTests();
+const site = tests.site;
+const pad = ( n ) => String( n ).padStart( 2, '0' );
+
+// Lee la estructura de la edición que muestra la página abierta.
+const leer = ( page ) =>
+	page.evaluate( `(() => {
+	const q = ( s, r = document ) => [ ...r.querySelectorAll( s ) ];
+	const secs = q( 'section.seccion' );
+	const indice = document.querySelector( 'section.indice' );
+	const idIndice = indice?.id ?? '';
+	const resuelve = ( href ) => {
+		const el = href?.startsWith( '#' ) ? document.getElementById( href.slice( 1 ) ) : null;
+		return Boolean( el && el.matches( 'section.seccion' ) );
+	};
+	const tarjetas = q( 'section.indice a.tema' ).map( ( a ) => a.getAttribute( 'href' ) );
+	const barra = q( 'nav.nav a[href^="#seccion"]' ).map( ( a ) => a.getAttribute( 'href' ) );
+	const cifras = q( 'section.seccion.cifras .cifras-grid > *' );
+	return {
+		titulo: document.title,
+		canonical: document.querySelector( 'link[rel=canonical]' )?.href ?? null,
+		franja: document.querySelector( '.franja' )?.textContent.replace( /\\s+/g, ' ' ).trim() ?? null,
+		ids: secs.map( ( s ) => s.id ),
+		numeros: secs.map( ( s, i ) => new RegExp( '(^|\\\\D)' + String( i + 1 ).padStart( 2, '0' ) + '(\\\\D|$)' ).test( s.textContent.slice( 0, 200 ) ) ),
+		idIndice,
+		tarjetas,
+		tarjetasResuelven: tarjetas.every( resuelve ),
+		barra,
+		barraResuelve: q( 'nav.nav a[href^="#"]' ).every( ( a ) => document.getElementById( a.getAttribute( 'href' ).slice( 1 ) ) ),
+		volver: secs.map( ( s ) => q( 'a', s ).some( ( a ) => idIndice && a.getAttribute( 'href' ) === '#' + idIndice && /volver al índice/i.test( a.textContent ) ) ),
+		articulos: q( 'section.seccion div.articulo' ).length,
+		cifrasSecciones: q( 'section.seccion.cifras' ).length,
+		cifrasPrimeraDestacada: cifras.length > 1 && ( cifras[ 0 ].className !== cifras[ 1 ].className || getComputedStyle( cifras[ 0 ] ).fontSize !== getComputedStyle( cifras[ 1 ] ).fontSize || getComputedStyle( cifras[ 0 ] ).backgroundColor !== getComputedStyle( cifras[ 1 ] ).backgroundColor ),
+		tarjetasMolde: q( 'section.seccion .tarjeta' ).length,
+		hitos: q( 'section.seccion.agenda .hito' ).length,
+		tipos: Object.fromEntries( [ [ 'mon', '.sec-title,.sec-num,.eyebrow,.rotulo-seccion,.cuando,.tema .nombre' ], [ 'kom', '.titular,.titulo-art,.tema h3,.hito h3,.tarjeta h3,.ficha h3' ] ].map( ( [ k, sel ] ) => [ k, q( sel ).map( ( e ) => { const cs = getComputedStyle( e ); return { sel: e.tagName.toLowerCase() + '.' + e.className, fam: cs.fontFamily.split( ',' )[ 0 ].replace( /[\"']/g, '' ).trim(), peso: Number( cs.fontWeight ), may: cs.textTransform }; } ) ] ) ),
+		saltos: secs.flatMap( ( s ) => { const n = q( 'h1,h2,h3,h4,h5,h6', s ).map( ( h ) => +h.tagName[ 1 ] ); return n.flatMap( ( v, i ) => ( i === 0 ? [] : v > n[ i - 1 ] + 1 ? [ s.id + ': h' + n[ i - 1 ] + '→h' + v ] : [] ) ).concat( n[ 0 ] > 3 ? [ s.id + ': empieza en h' + n[ 0 ] ] : [] ); } ),
+		fuenteCuerpo: getComputedStyle( document.querySelector( '.articulo .cuerpo p' ) ?? document.body ).fontFamily,
+	};
+})()` );
+
+// Secciones, índice y barra coherentes entre sí, para n secciones.
+function estructura( etiqueta, d, n ) {
+	const esperadas = Array.from( { length: n }, ( _, i ) => `seccion-${ i + 1 }` );
+	const hrefs = esperadas.map( ( id ) => `#${ id }` );
+	tests.check( `${ etiqueta }: ${ n } secciones con anclas seccion-1..${ n }`, JSON.stringify( d.ids ) === JSON.stringify( esperadas ), JSON.stringify( d.ids ) );
+	tests.check( `${ etiqueta }: numeración 01–${ pad( n ) }`, d.numeros.length === n && d.numeros.every( Boolean ), JSON.stringify( d.numeros ) );
+	tests.check( `${ etiqueta }: el índice tiene ${ n } tarjetas, en orden, hacia anclas que existen`, JSON.stringify( d.tarjetas ) === JSON.stringify( hrefs ) && d.tarjetasResuelven, JSON.stringify( d.tarjetas ) );
+	tests.check( `${ etiqueta }: la barra de secciones tiene ${ n } enlaces, en orden, a anclas que existen`, JSON.stringify( d.barra ) === JSON.stringify( hrefs ) && d.barraResuelve, JSON.stringify( d.barra ) );
+	tests.check( `${ etiqueta }: «Volver al índice» en cada sección`, d.volver.length === n && d.volver.every( Boolean ), `${ JSON.stringify( d.volver ) } (id del índice: «${ d.idIndice }»)` );
+}
+
+async function seed() {
+	sembrar( 'boletines' );
+	sembrar( 'boletines' );
+	tests.check( 'Seed boletines idempotente: una sola edición tras dos corridas', contar( 'boletin' ) === 1, String( contar( 'boletin' ) ) );
+}
+
+async function edicion() {
+	const ultima = wpJson(
+		'$p=get_posts(["post_type"=>"boletin","post_status"=>"publish","numberposts"=>1,"orderby"=>"date","order"=>"DESC"]); echo wp_json_encode($p?["url"=>get_permalink($p[0]),"numero"=>(string)get_field("numero",$p[0]->ID)]:null);'
+	);
+	tests.check( 'Hay una edición publicada', Boolean( ultima ) );
+	if ( ! ultima ) return;
+	tests.check( 'La edición más reciente es la 02 y vive en /boletin/edicion-02/', Number( ultima.numero ) === 2 && new URL( ultima.url ).pathname === '/boletin/edicion-02/', JSON.stringify( ultima ) );
+	const ruta = new URL( ultima.url ).pathname;
+	for ( const url of [ '/boletin/', ruta ] ) {
+		const r = await fetch( new URL( url, site ), { redirect: 'manual' } );
+		tests.check( `${ url } responde 200`, r.status === 200, `HTTP ${ r.status }` );
+		await r.body?.cancel();
+	}
+	const datos = {};
+	for ( const url of [ '/boletin/', ruta ] ) {
+		const page = await tests.openPage( new URL( url, site ).href, 1440 );
+		try {
+			const d = await leer( page );
+			datos[ url ] = d;
+			tests.check( `${ url }: la franja muestra la edición ${ pad( Number( ultima.numero ) ) }`, ( d.franja ?? '' ).includes( pad( Number( ultima.numero ) ) ), d.franja );
+			estructura( url, d, 8 );
+			tests.check( `${ url }: canónica = URL de la edición`, d.canonical === new URL( ruta, site ).href, d.canonical );
+			if ( url === ruta ) {
+				tests.check( `${ url }: 5 artículos`, d.articulos === 5, String( d.articulos ) );
+				tests.check( `${ url }: 1 sección de cifras con la primera destacada`, d.cifrasSecciones === 1 && d.cifrasPrimeraDestacada, `${ d.cifrasSecciones } / ${ d.cifrasPrimeraDestacada }` );
+				tests.check( `${ url }: 1 sección de tarjetas con 4 tarjetas`, d.tarjetasMolde === 4, String( d.tarjetasMolde ) );
+				tests.check( `${ url }: 1 agenda con 4 hitos`, d.hitos === 4, String( d.hitos ) );
+				const malos = ( l, f ) => l.filter( ( x ) => ! f( x ) ).map( ( x ) => `${ x.sel } ${ x.fam } ${ x.peso } ${ x.may }` );
+				const m1 = malos( d.tipos.mon, ( x ) => x.fam === 'Monique Round' && x.peso === 400 && x.may === 'uppercase' );
+				const m2 = malos( d.tipos.kom, ( x ) => x.fam === 'Komet' && x.peso >= 700 );
+				tests.check( `${ url }: rótulos (.sec-title, .eyebrow, .cuando…) en Monique Round 400 MAYÚSCULAS`, d.tipos.mon.length > 0 && m1.length === 0, m1.slice( 0, 4 ).join( '; ' ) );
+				tests.check( `${ url }: títulos (.titular, .titulo-art, h3…) en Komet con peso >= 700`, d.tipos.kom.length > 0 && m2.length === 0, m2.slice( 0, 4 ).join( '; ' ) );
+				tests.check( `${ url }: el cuerpo empieza por Komet`, d.fuenteCuerpo.split( ',' )[ 0 ].replace( /["']/g, '' ).trim() === 'Komet', d.fuenteCuerpo );
+				await tipografiaGeneral( tests, page, url );
+				tests.check( `${ url }: encabezados sin saltos de nivel dentro de cada sección`, d.saltos.length === 0, d.saltos.join( '; ' ) );
+				const externas = page.requests.filter( ( u ) => /fonts\.(googleapis|gstatic)\.com/.test( u ) );
+				tests.check( `${ url }: sin peticiones a Google Fonts`, externas.length === 0, externas.join( ', ' ) );
+			}
+		} finally {
+			page.close();
+		}
+	}
+	tests.check( '/boletin/ y la edición muestran la misma estructura', JSON.stringify( [ datos[ '/boletin/' ]?.ids, datos[ '/boletin/' ]?.tarjetas ] ) === JSON.stringify( [ datos[ ruta ]?.ids, datos[ ruta ]?.tarjetas ] ) );
+	await sinDesborde( tests, new URL( ruta, site ).href, 'Boletín' );
+}
+
+async function edicionNueva() {
+	const r = wpJson(
+		'$id=wp_insert_post(["post_type"=>"boletin","post_status"=>"auto-draft","post_title"=>"__prueba auto-draft"]); $f=get_field("secciones",$id); echo wp_json_encode(["layouts"=>array_column(is_array($f)?$f:[],"acf_fc_layout"),"nombres"=>array_column(is_array($f)?$f:[],"nombre")]);'
+	);
+	tests.check( 'Edición nueva: trae las 8 secciones estándar (articulo, cifras, 3 articulo, tarjetas, articulo, agenda)', JSON.stringify( r.layouts ) === JSON.stringify( [ 'articulo', 'cifras', 'articulo', 'articulo', 'articulo', 'tarjetas', 'articulo', 'agenda' ] ), JSON.stringify( r ) );
+	tests.check( 'Edición nueva: cada sección trae nombre', r.nombres.length === 8 && r.nombres.every( Boolean ), JSON.stringify( r.nombres ) );
+}
+
+// Edición de prueba antigua (no desplaza a /boletin/) con una sección menos.
+async function quitarSeccion() {
+	const r = wpJson(
+		'$s=get_posts(["post_type"=>"boletin","post_status"=>"publish","numberposts"=>1,"orderby"=>"date","order"=>"DESC"]); if(!$s) WP_CLI::error("Sin edición base"); $f=get_fields($s[0]->ID,false); $rows=$f["secciones"]; array_splice($rows,2,1); $f["secciones"]=$rows; $f["numero"]="99"; $f["periodo"]="__prueba"; $id=wp_insert_post(["post_type"=>"boletin","post_status"=>"publish","post_title"=>"__prueba boletin 7 secciones","post_name"=>"prueba-boletin","post_date"=>"2000-01-01 00:00:00"],true); foreach($f as $k=>$v) update_field($k,$v,$id); echo wp_json_encode(["url"=>get_permalink($id)]);'
+	);
+	const page = await tests.openPage( r.url, 1440 );
+	try {
+		const d = await leer( page );
+		estructura( 'Sin una sección', d, 7 );
+		tests.check( 'Sin una sección: quedan 4 artículos', d.articulos === 4, String( d.articulos ) );
+	} finally {
+		page.close();
+	}
+}
+
+await conLimpieza( tests, async () => {
+	await seed();
+	await edicion();
+	await edicionNueva();
+	await quitarSeccion();
+} );
