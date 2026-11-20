@@ -1,0 +1,628 @@
+{
+  "key": "group_historia_lapazsipasa",
+  "title": "Historia PaisSana",
+  "fields": [
+    {
+      "key": "field_historia_tab_presentacion",
+      "label": "Presentación",
+      "name": "",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top",
+      "endpoint": 0,
+      "selected": 0
+    },
+    {
+      "key": "field_historia_lugar",
+      "label": "Lugar",
+      "name": "lugar",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Ej.: «Santa Rosa del Sur · Bolívar».",
+      "required": 1,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "50",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_historia_antetitulo",
+      "label": "Antetítulo",
+      "name": "antetitulo",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Ej.: «Serranía de San Lucas · Sur de Bolívar».",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "50",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_historia_resumen",
+      "label": "Resumen",
+      "name": "resumen",
+      "aria-label": "",
+      "type": "textarea",
+      "instructions": "Texto de la tarjeta «PaisSano destacado» en /paissana.",
+      "required": 1,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "rows": 3,
+      "placeholder": "",
+      "new_lines": ""
+    },
+    {
+      "key": "field_historia_foto",
+      "label": "Foto de la tarjeta",
+      "name": "foto",
+      "aria-label": "",
+      "type": "image",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "return_format": "id",
+      "library": "all",
+      "preview_size": "medium",
+      "min_width": "",
+      "min_height": "",
+      "min_size": "",
+      "max_width": "",
+      "max_height": "",
+      "max_size": "",
+      "mime_types": "jpg, jpeg, png, webp"
+    },
+    {
+      "key": "field_historia_cifras",
+      "label": "Cifras",
+      "name": "cifras",
+      "aria-label": "",
+      "type": "repeater",
+      "instructions": "Hasta tres, en la tarjeta.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "layout": "table",
+      "pagination": 0,
+      "min": 0,
+      "max": 3,
+      "collapsed": "",
+      "button_label": "Añadir cifra",
+      "rows_per_page": 20,
+      "sub_fields": [
+        {
+          "key": "field_historia_cifra_numero",
+          "label": "Número",
+          "name": "numero",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "",
+          "required": 1,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "30",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "maxlength": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": ""
+        },
+        {
+          "key": "field_historia_cifra_texto",
+          "label": "Texto",
+          "name": "texto",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "",
+          "required": 1,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "70",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "maxlength": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": ""
+        }
+      ]
+    },
+    {
+      "key": "field_historia_tab_portada",
+      "label": "Portada",
+      "name": "",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top",
+      "endpoint": 0,
+      "selected": 0
+    },
+    {
+      "key": "field_historia_portada_foto",
+      "label": "Foto de portada",
+      "name": "portada_foto",
+      "aria-label": "",
+      "type": "image",
+      "instructions": "Panorámica, a todo el ancho.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "return_format": "id",
+      "library": "all",
+      "preview_size": "medium",
+      "min_width": "",
+      "min_height": "",
+      "min_size": "",
+      "max_width": "",
+      "max_height": "",
+      "max_size": "",
+      "mime_types": "jpg, jpeg, png, webp"
+    },
+    {
+      "key": "field_historia_portada_titulo",
+      "label": "Título de la historia",
+      "name": "portada_titulo",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Ej.: «Un café que cambió la historia de la serranía».",
+      "required": 1,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_historia_portada_subtitulo",
+      "label": "Subtítulo",
+      "name": "portada_subtitulo",
+      "aria-label": "",
+      "type": "textarea",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "rows": 2,
+      "placeholder": "",
+      "new_lines": ""
+    },
+    {
+      "key": "field_historia_ficha",
+      "label": "Ficha",
+      "name": "ficha",
+      "aria-label": "",
+      "type": "repeater",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "layout": "table",
+      "pagination": 0,
+      "min": 0,
+      "max": 0,
+      "collapsed": "",
+      "button_label": "Añadir dato",
+      "rows_per_page": 20,
+      "sub_fields": [
+        {
+          "key": "field_historia_ficha_dato",
+          "label": "Dato",
+          "name": "dato",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "Ej.: «Territorio».",
+          "required": 1,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "35",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "maxlength": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": ""
+        },
+        {
+          "key": "field_historia_ficha_valor",
+          "label": "Valor",
+          "name": "valor",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "",
+          "required": 1,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "65",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "maxlength": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": ""
+        }
+      ]
+    },
+    {
+      "key": "field_historia_tab_video",
+      "label": "Video",
+      "name": "",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top",
+      "endpoint": 0,
+      "selected": 0
+    },
+    {
+      "key": "field_historia_video_fuente",
+      "label": "Origen del video",
+      "name": "video_fuente",
+      "aria-label": "",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "ninguno": "Sin video",
+        "youtube": "YouTube",
+        "archivo": "Archivo MP4 subido a WordPress",
+        "enlace": "Enlace externo (se abre en otra pestaña)"
+      },
+      "default_value": "ninguno",
+      "allow_null": 0,
+      "multiple": 0,
+      "ui": 0,
+      "return_format": "value",
+      "ajax": 0,
+      "placeholder": "",
+      "create_options": 0,
+      "save_options": 0
+    },
+    {
+      "key": "field_historia_video_youtube",
+      "label": "URL de YouTube",
+      "name": "video_youtube",
+      "aria-label": "",
+      "type": "url",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_historia_video_fuente",
+            "operator": "==",
+            "value": "youtube"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "https://"
+    },
+    {
+      "key": "field_historia_video_archivo",
+      "label": "Archivo de video (MP4)",
+      "name": "video_archivo",
+      "aria-label": "",
+      "type": "file",
+      "instructions": "Ya comprimido para web.",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_historia_video_fuente",
+            "operator": "==",
+            "value": "archivo"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "return_format": "id",
+      "library": "all",
+      "min_size": "",
+      "max_size": "",
+      "mime_types": "mp4"
+    },
+    {
+      "key": "field_historia_video_enlace",
+      "label": "Enlace externo",
+      "name": "video_enlace",
+      "aria-label": "",
+      "type": "url",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": [
+        [
+          {
+            "field": "field_historia_video_fuente",
+            "operator": "==",
+            "value": "enlace"
+          }
+        ]
+      ],
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "placeholder": "https://"
+    },
+    {
+      "key": "field_historia_video_poster",
+      "label": "Imagen de portada del video",
+      "name": "video_poster",
+      "aria-label": "",
+      "type": "image",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "50",
+        "class": "",
+        "id": ""
+      },
+      "return_format": "id",
+      "library": "all",
+      "preview_size": "medium",
+      "min_width": "",
+      "min_height": "",
+      "min_size": "",
+      "max_width": "",
+      "max_height": "",
+      "max_size": "",
+      "mime_types": "jpg, jpeg, png, webp"
+    },
+    {
+      "key": "field_historia_video_antetitulo",
+      "label": "Antetítulo del video",
+      "name": "video_antetitulo",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "50",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_historia_tab_cronica",
+      "label": "Crónica",
+      "name": "",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top",
+      "endpoint": 0,
+      "selected": 0
+    },
+    {
+      "key": "field_historia_cronica_antetitulo",
+      "label": "Antetítulo de la crónica",
+      "name": "cronica_antetitulo",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Ej.: «Un café que salva vidas».",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_historia_cronica",
+      "label": "Crónica",
+      "name": "cronica",
+      "aria-label": "",
+      "type": "clone",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "clone": [
+        "group_articulo_lapazsipasa"
+      ],
+      "display": "group",
+      "layout": "block",
+      "prefix_label": 0,
+      "prefix_name": 1
+    },
+    {
+      "key": "field_historia_cronica_fuente",
+      "label": "Nota de fuente",
+      "name": "cronica_fuente",
+      "aria-label": "",
+      "type": "textarea",
+      "instructions": "Opcional. Crédito del reportaje original.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "rows": 2,
+      "placeholder": "",
+      "new_lines": ""
+    },
+    {
+      "key": "field_historia_tab_galeria",
+      "label": "Galería",
+      "name": "",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top",
+      "endpoint": 0,
+      "selected": 0
+    },
+    {
+      "key": "field_historia_galeria",
+      "label": "Galería",
+      "name": "galeria",
+      "aria-label": "",
+      "type": "gallery",
+      "instructions": "El pie de cada foto es su «Leyenda» y el crédito su «Descripción» en la biblioteca de medios.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "return_format": "id",
+      "library": "all",
+      "min": 0,
+      "max": 24,
+      "insert": "append",
+      "preview_size": "medium"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "historia"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": [],
+  "active": true,
+  "description": "Historia del mes (PaisSano destacado). La pinta el bloque lapaz/historia.",
+  "show_in_rest": 1
+}

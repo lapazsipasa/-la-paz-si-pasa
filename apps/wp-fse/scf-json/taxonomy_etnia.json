@@ -1,0 +1,68 @@
+{
+  "key": "taxonomy_etnia_lapazsipasa",
+  "title": "Etnias",
+  "menu_order": 0,
+  "active": true,
+  "taxonomy": "etnia",
+  "object_type": [
+    "productor"
+  ],
+  "advanced_configuration": 1,
+  "import_source": "",
+  "import_date": "",
+  "labels": {
+    "singular_name": "Etnia",
+    "name": "Etnias",
+    "menu_name": "Etnias",
+    "all_items": "Etnias",
+    "edit_item": "Editar etnia",
+    "view_item": "Ver etnia",
+    "update_item": "Actualizar etnia",
+    "add_new_item": "Añadir etnia",
+    "new_item_name": "Nombre de etnia",
+    "search_items": "Buscar etnias",
+    "not_found": "No se encontraron etnias",
+    "no_terms": "Sin etnias",
+    "back_to_items": "← Volver a etnias"
+  },
+  "description": "",
+  "capabilities": {
+    "manage_terms": "manage_categories",
+    "edit_terms": "manage_categories",
+    "delete_terms": "manage_categories",
+    "assign_terms": "edit_posts"
+  },
+  "public": false,
+  "publicly_queryable": false,
+  "hierarchical": true,
+  "show_ui": true,
+  "show_in_menu": true,
+  "show_in_nav_menus": false,
+  "show_in_rest": true,
+  "rest_base": "",
+  "rest_namespace": "wp/v2",
+  "rest_controller_class": "WP_REST_Terms_Controller",
+  "show_tagcloud": false,
+  "show_in_quick_edit": true,
+  "show_admin_column": false,
+  "rewrite": {
+    "permalink_rewrite": "no_permalink",
+    "slug": "",
+    "with_front": false,
+    "rewrite_hierarchical": false
+  },
+  "query_var": "none",
+  "query_var_name": "",
+  "default_term": {
+    "default_term_enabled": false,
+    "default_term_name": "",
+    "default_term_slug": "",
+    "default_term_description": ""
+  },
+  "sort": null,
+  "meta_box": "default",
+  "meta_box_cb": "",
+  "meta_box_sanitize_cb": "",
+  "allow_ai_access": false,
+  "ai_description": ""
+}

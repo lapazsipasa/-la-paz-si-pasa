@@ -13,3 +13,5 @@ services:
       - ./mu-plugins:/var/www/html/wp-content/mu-plugins
       - ../wordpress/scf-json:/var/www/html/wp-content/scf-json:ro
       - ./scf-json:/var/www/html/wp-content/scf-json-lapaz:ro
+      # El seed va horneado en la imagen; en local se monta para probar cambios sin reconstruir.
+      - ../wordpress/seed:/opt/seed:ro

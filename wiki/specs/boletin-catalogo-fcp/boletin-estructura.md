@@ -92,7 +92,7 @@ Se hace con un valor inicial del campo flexible para entradas nuevas (filtro `ac
 
 ### Carga de la edición 02
 
-Va al seed, como el resto del contenido: `apps/wordpress/seed/boletin-02.json` y las 11 fotos en `seed/media/`. `seed.php` aprende a escribir un campo flexible (filas con `acf_fl_layout`).
+Va al seed, como el resto del contenido: `apps/wordpress/seed/boletin-02.json` y las 11 fotos en `seed/media/`. `seed.php` aprende a escribir un campo flexible (filas con `acf_fc_layout`).
 
 ## Criterios de hecho
 

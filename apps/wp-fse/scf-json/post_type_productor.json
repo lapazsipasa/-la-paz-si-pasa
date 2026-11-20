@@ -1,0 +1,69 @@
+{
+  "key": "post_type_productor_lapazsipasa",
+  "title": "Productores",
+  "menu_order": 0,
+  "active": true,
+  "post_type": "productor",
+  "advanced_configuration": true,
+  "labels": {
+    "name": "Productores",
+    "singular_name": "Productor",
+    "menu_name": "Productores",
+    "all_items": "Todos los productores",
+    "add_new": "Añadir nuevo",
+    "add_new_item": "Añadir productor",
+    "edit_item": "Editar productor",
+    "new_item": "Nuevo productor",
+    "view_item": "Ver productor",
+    "search_items": "Buscar productores",
+    "not_found": "No se encontraron productores",
+    "not_found_in_trash": "No hay productores en la papelera"
+  },
+  "description": "Productores del catálogo PaisSana. No tienen página propia: se muestran en el catálogo.",
+  "public": false,
+  "hierarchical": false,
+  "exclude_from_search": true,
+  "publicly_queryable": false,
+  "show_ui": true,
+  "show_in_menu": true,
+  "show_in_admin_bar": true,
+  "show_in_nav_menus": false,
+  "show_in_rest": true,
+  "rest_base": "productor",
+  "rest_namespace": "wp/v2",
+  "rest_controller_class": "WP_REST_Posts_Controller",
+  "menu_position": 26,
+  "menu_icon": {
+    "type": "dashicons",
+    "value": "dashicons-carrot"
+  },
+  "rename_capabilities": false,
+  "singular_capability_name": "post",
+  "plural_capability_name": "posts",
+  "supports": [
+    "title",
+    "custom-fields"
+  ],
+  "taxonomies": [
+    "departamento",
+    "categoria_productor",
+    "tiempo_operacion",
+    "etnia",
+    "poblacion"
+  ],
+  "has_archive": false,
+  "has_archive_slug": "",
+  "rewrite": {
+    "permalink_rewrite": "no_permalink",
+    "slug": "",
+    "with_front": false,
+    "feeds": false,
+    "pages": true
+  },
+  "query_var": "none",
+  "query_var_name": "",
+  "can_export": true,
+  "delete_with_user": false,
+  "register_meta_box_cb": "",
+  "enter_title_here": "Nombre del productor u organización"
+}
