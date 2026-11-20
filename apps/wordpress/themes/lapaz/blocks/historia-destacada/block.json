@@ -7,6 +7,12 @@
 	"icon": "format-quote",
 	"description": "Tarjeta «PaisSano destacado» con la historia publicada más reciente. Las historias se editan en el menú Historias PaisSana.",
 	"textdomain": "lapaz",
+	"attributes": {
+		"enlaceCatalogo": {
+			"type": "boolean",
+			"default": false
+		}
+	},
 	"supports": {
 		"autoRegister": true,
 		"html": false,

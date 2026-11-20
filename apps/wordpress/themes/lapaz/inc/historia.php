@@ -9,6 +9,7 @@ declare( strict_types = 1 );
 
 defined( 'ABSPATH' ) || exit;
 
+
 /**
  * ID de la historia publicada más reciente (0 si no hay ninguna).
  */

@@ -1,7 +1,7 @@
 /*
  * Piezas compartidas por los bloques editoriales: boletín, catálogo, portada del catálogo,
- * historia y su tarjeta destacada. Handle lapaz-editorial (inc/blocks.php): solo se carga
- * en páginas con alguno de esos bloques. Cada selector va acotado a los cinco bloques para
+ * historia y las tarjetas destacadas (historia y boletín). Handle lapaz-editorial (inc/blocks.php): solo se carga
+ * en páginas con alguno de esos bloques. Cada selector va acotado a los bloques editoriales para
  * no tocar el resto del sitio; el estilo propio de cada bloque, en su style.css, va después.
  *
  * Criterio: Monique Round solo en rótulos cortos en mayúsculas (secciones, etiquetas,
@@ -10,25 +10,25 @@
  */
 
 /* Sin negrita ni cursiva simuladas: Monique Round solo tiene peso 400 y Komet no tiene itálica. */
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-catalogo-portada, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada) {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-catalogo-portada, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) {
 	font-synthesis: none;
 }
 
 /* Contenedor */
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-catalogo-portada, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada) .wrap {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-catalogo-portada, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .wrap {
 	width: 100%;
 	min-width: 0;
 	max-width: var(--wide-width);
 	margin-inline: auto;
 }
 
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada) :is(a, button):focus-visible {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) :is(a, button):focus-visible {
 	outline: 2px solid currentcolor;
 	outline-offset: 3px;
 }
 
 /* Rótulo: Monique en mayúsculas, como .btn-project. :where() deja que cada bloque lo ajuste. */
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada) :where(.btn, .btn-entrar, .eyebrow, .badge, .et, .volver, .volver-top a, .ir, .play, .rotulo-seccion, .cabecera-boletin, .nombre, .etiqueta, .cuando, .lugar, .ficha-tec dt) {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) :where(.btn, .btn-entrar, .eyebrow, .badge, .et, .volver, .volver-top a, .ir, .play, .rotulo-seccion, .cabecera-boletin, .nombre, .etiqueta, .cuando, .lugar, .ficha-tec dt) {
 	font-family: var(--font-monique-regular);
 	font-weight: var(--font-weight-komet-regular);
 	font-size: var(--font-size-rotulo);
@@ -37,7 +37,7 @@
 }
 
 /* Titulares en Komet con peso: compactos, sin mayúsculas */
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo-portada, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada) :is(.titular, .titulo-art, .sobre h1, .hero h1, .dest-cont h3) {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo-portada, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) :is(.titular, .titulo-art, .sobre h1, .hero h1, .dest-cont h3) {
 	margin: 0;
 	font-family: var(--font-komet);
 	font-weight: var(--font-weight-komet-heavy);
@@ -57,7 +57,7 @@
 }
 
 /* Etiqueta: celeste con texto azul (Historia del mes, número de edición) */
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada) :is(.eyebrow, .badge, .et) {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) :is(.eyebrow, .badge, .et) {
 	justify-self: start;
 	padding: var(--space-1) var(--space-3);
 	background: var(--color-nav-bg-active);
@@ -66,7 +66,7 @@
 }
 
 /* Cabecera de sección */
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada) .sec-head {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .sec-head {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: baseline;
@@ -76,7 +76,7 @@
 	border-bottom: 2px solid var(--color-nav-text);
 }
 
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada) :is(.sec-num, .sec-title) {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) :is(.sec-num, .sec-title) {
 	margin: 0;
 	font-family: var(--font-monique-regular);
 	font-weight: var(--font-weight-komet-regular);
@@ -86,15 +86,15 @@
 	color: var(--color-nav-text);
 }
 
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada) .sec-num {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .sec-num {
 	font-size: 1rem;
 }
 
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada) .sec-title {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .sec-title {
 	font-size: var(--font-size-seccion);
 }
 
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada) .sec-kicker {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .sec-kicker {
 	flex: 1 1 16rem;
 	margin: 0;
 	font-family: var(--font-komet);
@@ -106,7 +106,7 @@
 }
 
 /* Botón: .btn-project del sitio (cuadrado). Azul sobre claro; celeste sobre panel azul. */
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia-destacada) :is(.btn, .btn-entrar) {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) :is(.btn, .btn-entrar) {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -122,13 +122,108 @@
 	transition: opacity 0.2s;
 }
 
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-historia-destacada) :is(.portada, .dest-card) :is(.btn, .btn-entrar) {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) :is(.portada, .dest-card) :is(.btn, .btn-entrar) {
 	background: var(--color-nav-bg-active);
 	color: var(--color-nav-text);
 }
 
-:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia-destacada) :is(.btn, .btn-entrar):hover {
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) :is(.btn, .btn-entrar):hover {
 	opacity: 0.9;
+}
+
+/* Tarjeta destacada (historia del mes y boletín): panel azul, foto y texto. */
+:is(.wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) {
+	font-family: var(--font-komet);
+	color: var(--color-nav-text);
+}
+
+:is(.wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .dest-card {
+	display: grid;
+	grid-template-columns: 1fr;
+	overflow: hidden;
+	background: var(--color-nav-text);
+	border-radius: var(--radius-card);
+	color: var(--color-surface);
+}
+
+:is(.wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .dest-card img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	min-height: 15rem;
+	max-height: 26rem;
+	object-fit: cover;
+}
+
+:is(.wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .dest-cont {
+	display: grid;
+	align-content: center;
+	justify-items: start;
+	gap: var(--space-4);
+	min-width: 0;
+	padding: var(--space-6) var(--space-4);
+}
+
+:is(.wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .dest-cont h3 {
+	font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+	color: var(--color-surface);
+}
+
+/* Celeste sobre el azul: 5,97:1. */
+:is(.wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .lugar {
+	font-size: 1rem;
+	color: var(--color-nav-bg-active);
+}
+
+:is(.wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .dest-cont p {
+	margin: 0;
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-light);
+	font-size: var(--font-size-cuerpo);
+	line-height: 1.6;
+	letter-spacing: -0.02em;
+	color: var(--color-surface);
+}
+
+:is(.wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .mini {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+	gap: var(--space-4);
+	width: 100%;
+}
+
+:is(.wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .mini div {
+	display: grid;
+	align-content: start;
+	gap: var(--space-1);
+}
+
+:is(.wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .mini span {
+	font-family: var(--font-monique-regular);
+	font-size: clamp(1.75rem, 3vw, 2.25rem);
+	line-height: 1;
+	color: var(--color-nav-bg-active);
+}
+
+:is(.wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .mini small {
+	font-weight: var(--font-weight-komet-regular);
+	font-size: var(--font-size-rotulo);
+	line-height: 1.3;
+}
+
+@media (min-width: 850px) {
+
+	:is(.wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .dest-card {
+		grid-template-columns: 2fr 3fr;
+	}
+
+	:is(.wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .dest-card img {
+		max-height: none;
+	}
+
+	:is(.wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) .dest-cont {
+		padding: var(--space-10) var(--space-8);
+	}
 }
 
 /* Crédito de foto */
@@ -242,7 +337,7 @@
 
 @media (prefers-reduced-motion: reduce) {
 
-	:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia-destacada) :is(.btn, .btn-entrar) {
+	:is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia-destacada, .wp-block-lapaz-boletin-destacado) :is(.btn, .btn-entrar) {
 		transition: none;
 	}
 }

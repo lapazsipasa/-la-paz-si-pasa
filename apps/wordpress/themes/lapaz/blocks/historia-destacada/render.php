@@ -10,6 +10,11 @@ declare( strict_types = 1 );
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Atributos del bloque (los pasa core al incluir este archivo).
+ *
+ * @var array<string, mixed> $attributes
+ */
 $lapaz_id = lapaz_historia_reciente();
 if ( 0 === $lapaz_id ) {
 	return;
@@ -20,6 +25,7 @@ $lapaz_lugar      = lapaz_field_text( 'lugar', $lapaz_id );
 $lapaz_resumen    = lapaz_field_text( 'resumen', $lapaz_id );
 $lapaz_foto       = lapaz_field_image_id( 'foto', $lapaz_id );
 $lapaz_cifras     = lapaz_historia_campo_pares( 'cifras', $lapaz_id, 'texto', 'numero' );
+$lapaz_catalogo   = isset( $attributes['enlaceCatalogo'] ) && true === $attributes['enlaceCatalogo'] ? lapaz_texto_enlace_catalogo() : '';
 $lapaz_wrapper    = get_block_wrapper_attributes();
 ?>
 <div <?php echo $lapaz_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() ya escapa. ?>>
@@ -60,6 +66,9 @@ $lapaz_wrapper    = get_block_wrapper_attributes();
 						</div>
 					<?php endif; ?>
 					<a class="btn verde" href="<?php echo esc_url( (string) get_permalink( $lapaz_id ) ); ?>"><?php esc_html_e( 'Ver la historia completa', 'lapaz' ); ?> <span aria-hidden="true">→</span></a>
+					<?php if ( '' !== $lapaz_catalogo ) : ?>
+						<a class="btn btn-sec" href="<?php echo esc_url( lapaz_url_catalogo() ); ?>"><?php echo esc_html( $lapaz_catalogo ); ?> <span aria-hidden="true">→</span></a>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>
