@@ -21,7 +21,7 @@ $lapaz_wrapper = get_block_wrapper_attributes();
 <div <?php echo $lapaz_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() ya escapa. ?>>
 	<section class="cat-banner" aria-labelledby="catalogo-banner-titulo">
 		<div class="cat-texto">
-			<img class="cat-logo" src="<?php echo esc_url( get_theme_file_uri( 'assets/img/catalogo/logo-paissana-blanco.png' ) ); ?>" alt="<?php esc_attr_e( 'PaisSana', 'lapaz' ); ?>" width="1300" height="480" loading="lazy" decoding="async">
+			<img class="cat-logo" src="<?php echo esc_url( get_theme_file_uri( 'assets/img/catalogo/logo-paissana-blanco.png' ) ); ?>" alt="<?php esc_attr_e( 'PaisSana', 'lapaz' ); ?>" width="520" height="192" loading="lazy" decoding="async">
 			<span class="eyebrow"><?php esc_html_e( 'Catálogo PaisSana', 'lapaz' ); ?></span>
 			<h2 class="titular" id="catalogo-banner-titulo"><?php esc_html_e( 'Encuentra a quienes producen la paz', 'lapaz' ); ?></h2>
 			<p class="apoyo"><?php esc_html_e( 'Productores de municipios PDET y ZOMAC, con su territorio, su categoría y lo que cultivan, transforman o fabrican.', 'lapaz' ); ?></p>

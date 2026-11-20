@@ -69,10 +69,11 @@ const { state, actions } = store( 'lapaz/catalogo', {
 		/**
 		 * Navega a `href` cambiando solo las regiones del catálogo.
 		 *
-		 * @param {string} href URL nueva.
+		 * @param {string}       href  URL nueva.
+		 * @param {Element|null} [mas] Enlace «Ver más» pulsado: si el router lo quita, el foco pasa a otro punto.
 		 * @return {Iterator<Promise<unknown>, void, unknown>} Acción asíncrona del store.
 		 */
-		*ir( href ) {
+		*ir( href, mas = null ) {
 			const mio = ++turno;
 			state.cargando = true;
 			try {
@@ -88,6 +89,16 @@ const { state, actions } = store( 'lapaz/catalogo', {
 				if ( mio === turno ) {
 					state.cargando = false;
 					sincronizar();
+					// «Ver más» desaparece tras la última tanda y el foco caería en <body>.
+					if ( mas && ! mas.isConnected ) {
+						const ambito = '.wp-block-lapaz-catalogo ';
+						const destino =
+							document.querySelector( ambito + 'a.mas' ) ??
+							document.querySelector( ambito + '.conteo' );
+						if ( destino instanceof HTMLElement ) {
+							destino.focus( { preventScroll: true } );
+						}
+					}
 				}
 			}
 		},
@@ -150,7 +161,10 @@ const { state, actions } = store( 'lapaz/catalogo', {
 			if ( enlace.classList.contains( 'mas' ) ) {
 				url.hash = '';
 			}
-			actions.ir( url.href );
+			actions.ir(
+				url.href,
+				enlace.classList.contains( 'mas' ) ? enlace : null
+			);
 		},
 	},
 	callbacks: {

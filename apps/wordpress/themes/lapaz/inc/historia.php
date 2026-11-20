@@ -174,10 +174,12 @@ function lapaz_historia_video( int $post_id ): array {
  * @return list<array{id: int, alt: string, pie: string, credito: string, grande: string}>
  */
 function lapaz_historia_galeria( int $post_id ): array {
-	$ids   = function_exists( 'get_field' ) ? get_field( 'galeria', $post_id ) : array();
+	$valores  = function_exists( 'get_field' ) ? get_field( 'galeria', $post_id ) : array();
+	$adjuntos = array_map( 'lapaz_historia_adjunto', is_array( $valores ) ? array_values( $valores ) : array() );
+	// Una consulta para todos los adjuntos y sus metadatos, en vez de una por foto.
+	_prime_post_caches( array_filter( $adjuntos ), false, true );
 	$fotos = array();
-	foreach ( is_array( $ids ) ? $ids : array() as $valor ) {
-		$id     = lapaz_historia_adjunto( $valor );
+	foreach ( $adjuntos as $id ) {
 		$grande = $id > 0 ? wp_get_attachment_image_url( $id, '1536x1536' ) : false;
 		if ( false === $grande ) {
 			continue;

@@ -1,6 +1,6 @@
 /**
  * Historia: reproduce el video al pulsar (iframe de YouTube sin cookies o <video>) y el
- * lightbox de la galería (clic fuera, botón o Escape lo cierran; el foco vuelve a la foto).
+ * lightbox de la galería (<dialog> modal: clic fuera, botón o Escape lo cierran; el foco vuelve a la foto).
  */
 
 /**
@@ -45,11 +45,11 @@ document.querySelectorAll( '.wp-block-lapaz-historia' ).forEach( ( bloque ) => {
 	let origen = null;
 
 	const cerrarLightbox = () => {
-		if ( ! ( lightbox instanceof HTMLElement ) ) {
+		if ( ! ( lightbox instanceof HTMLDialogElement ) ) {
 			return;
 		}
 		lightbox.classList.remove( 'on' );
-		lightbox.hidden = true;
+		lightbox.close();
 		ampliada?.removeAttribute( 'src' );
 		origen?.focus();
 		origen = null;
@@ -68,7 +68,7 @@ document.querySelectorAll( '.wp-block-lapaz-historia' ).forEach( ( bloque ) => {
 		const foto = event.target.closest( '.galeria button' );
 		if (
 			foto instanceof HTMLElement &&
-			lightbox instanceof HTMLElement &&
+			lightbox instanceof HTMLDialogElement &&
 			ampliada instanceof HTMLImageElement &&
 			pie &&
 			cerrar instanceof HTMLElement
@@ -78,7 +78,8 @@ document.querySelectorAll( '.wp-block-lapaz-historia' ).forEach( ( bloque ) => {
 			ampliada.alt = foto.querySelector( 'img' )?.alt ?? '';
 			pie.textContent = foto.dataset.pie ?? '';
 			pie.hidden = '' === pie.textContent;
-			lightbox.hidden = false;
+			// showModal() deja el resto de la página inerte y lo pone sobre todo.
+			lightbox.showModal();
 			lightbox.classList.add( 'on' );
 			cerrar.focus();
 			return;

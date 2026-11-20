@@ -32,7 +32,18 @@ $lapaz_intro = lapaz_field_text( 'indice_intro', $lapaz_id );
 				$lapaz_t_titulo  = lapaz_boletin_str( $lapaz_tema, 'indice_titulo' );
 				$lapaz_t_titulo  = '' !== $lapaz_t_titulo ? $lapaz_t_titulo : lapaz_boletin_str( $lapaz_tema, 'titulo' );
 				$lapaz_t_resumen = lapaz_boletin_str( $lapaz_tema, 'indice_resumen' );
-				$lapaz_t_imagen  = lapaz_boletin_imagen( lapaz_boletin_imagen_indice( $lapaz_tema ), '', true, true );
+				$lapaz_t_id      = lapaz_boletin_imagen_indice( $lapaz_tema );
+				// Tarjetas de ~300 px (4 columnas), ~400 px (2) o a todo el ancho (1): no hace falta el tamaño `large`.
+				$lapaz_t_imagen = $lapaz_t_id > 0 ? wp_get_attachment_image(
+					$lapaz_t_id,
+					'medium_large',
+					false,
+					array(
+						'alt'     => '',
+						'loading' => 'lazy',
+						'sizes'   => '(min-width: 1200px) 25vw, (min-width: 850px) 50vw, 100vw',
+					)
+				) : '';
 				?>
 				<a class="tema" href="#seccion-<?php echo absint( lapaz_boletin_num( $lapaz_tema, 'n' ) ); ?>">
 					<div class="thumb">

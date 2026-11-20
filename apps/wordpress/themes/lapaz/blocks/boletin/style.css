@@ -151,7 +151,7 @@
 	border-bottom-color: var(--color-nav-text);
 }
 
-.wp-block-lapaz-boletin :is(.indice, .seccion, .anteriores) {
+.wp-block-lapaz-boletin :is(.indice, .seccion) {
 	padding-block: var(--space-12);
 	scroll-margin-top: var(--space-16);
 }
@@ -162,7 +162,7 @@
 	margin-bottom: var(--space-8);
 }
 
-.wp-block-lapaz-boletin :is(.indice-intro h2, .anteriores h2) {
+.wp-block-lapaz-boletin .indice-intro h2 {
 	margin: 0 0 var(--space-2);
 	font-family: var(--font-monique-regular);
 	font-weight: var(--font-weight-komet-regular);

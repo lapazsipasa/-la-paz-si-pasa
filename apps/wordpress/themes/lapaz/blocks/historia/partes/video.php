@@ -55,12 +55,14 @@ $lapaz_play_texto   = $lapaz_es_enlace ? __( 'Ver el video', 'lapaz' ) : __( 'Re
 				);
 			}
 			$lapaz_play_html = '<span class="circ" aria-hidden="true">▶</span><span class="txt">' . esc_html( $lapaz_play_texto ) . '</span>';
+			// Los enlaces abren pestaña nueva: se avisa a los lectores de pantalla.
+			$lapaz_play_enlace = $lapaz_play_html . '<span class="screen-reader-text"> ' . esc_html__( '(abre en una pestaña nueva)', 'lapaz' ) . '</span>';
 			if ( $lapaz_es_enlace ) {
-				printf( '<a class="play" href="%s" target="_blank" rel="noopener">%s</a>', esc_url( $lapaz_video['url'] ), $lapaz_play_html ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $lapaz_play_html ya escapado.
+				printf( '<a class="play" href="%s" target="_blank" rel="noopener">%s</a>', esc_url( $lapaz_video['url'] ), $lapaz_play_enlace ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $lapaz_play_html ya escapado.
 			} else {
 				printf( '<button class="play" type="button">%s</button>', $lapaz_play_html ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $lapaz_play_html ya escapado.
 				// Sin JavaScript el botón no hace nada: el enlace abre el video en otra pestaña.
-				printf( '<noscript><a class="play" href="%s" target="_blank" rel="noopener">%s</a></noscript>', esc_url( $lapaz_video['url'] ), $lapaz_play_html ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $lapaz_play_html ya escapado.
+				printf( '<noscript><a class="play" href="%s" target="_blank" rel="noopener">%s</a></noscript>', esc_url( $lapaz_video['url'] ), $lapaz_play_enlace ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $lapaz_play_html ya escapado.
 			}
 			?>
 		</div>

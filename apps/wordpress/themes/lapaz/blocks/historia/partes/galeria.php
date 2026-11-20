@@ -43,7 +43,7 @@ if ( array() === $lapaz_galeria ) {
 							array(
 								'alt'     => $lapaz_foto['alt'],
 								'loading' => 'lazy',
-								'sizes'   => '(min-width: 850px) 30vw, 100vw',
+								'sizes'   => '(min-width: 850px) 30vw, (min-width: 480px) 50vw, 100vw',
 							)
 						);
 						?>
@@ -62,8 +62,8 @@ if ( array() === $lapaz_galeria ) {
 	</div>
 </section>
 
-<div class="lightbox" role="dialog" aria-modal="true" aria-label="<?php esc_attr_e( 'Fotografía ampliada', 'lapaz' ); ?>" hidden>
+<dialog class="lightbox" aria-label="<?php esc_attr_e( 'Fotografía ampliada', 'lapaz' ); ?>">
 	<button class="cerrar" type="button" aria-label="<?php esc_attr_e( 'Cerrar', 'lapaz' ); ?>">×</button>
 	<img alt="">
 	<p></p>
-</div>
+</dialog>

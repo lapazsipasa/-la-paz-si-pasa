@@ -88,7 +88,7 @@ $lapaz_wrapper = get_block_wrapper_attributes(
 			</div>
 
 			<div class="resultados" data-wp-interactive="lapaz/catalogo" data-wp-router-region="lapaz-catalogo-resultados" data-wp-class--cargando="state.cargando">
-				<p class="conteo" aria-live="polite">
+				<p class="conteo" aria-live="polite" tabindex="-1">
 					<?php
 					echo wp_kses(
 						sprintf(

@@ -79,7 +79,7 @@ $lapaz_anteriores = lapaz_boletin_anteriores( $lapaz_id );
 				<?php endif; ?>
 			</div>
 			<?php require __DIR__ . '/partes/' . $lapaz_molde . '.php'; ?>
-			<a class="volver" href="#indice"><?php esc_html_e( '↑ Volver al índice', 'lapaz' ); ?></a>
+			<a class="volver" href="#indice"><span aria-hidden="true">↑</span> <?php esc_html_e( 'Volver al índice', 'lapaz' ); ?></a>
 		</div>
 	</section>
 		<?php endforeach; ?>

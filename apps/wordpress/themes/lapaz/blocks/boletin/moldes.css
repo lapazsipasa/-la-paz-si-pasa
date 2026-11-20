@@ -1,5 +1,5 @@
 /*
- * Bloque lapaz/boletin: moldes de cifras, tarjetas y agenda, ediciones anteriores y pie.
+ * Bloque lapaz/boletin: moldes de cifras, tarjetas y agenda, pie.
  * Cabecera de sección, fondo papel y rótulos: assets/css/editorial.css.
  * Agenda y pie son paneles protagonistas: azul, texto blanco y celeste de acento.
  */
@@ -183,29 +183,7 @@
 	line-height: 1.5;
 }
 
-/* Ediciones anteriores y pie */
-.wp-block-lapaz-boletin .anteriores {
-	border-top: 1px solid var(--border-subtle);
-}
-
-.wp-block-lapaz-boletin .anteriores ul {
-	display: grid;
-	gap: var(--space-2);
-	margin: var(--space-4) 0 0;
-	padding: 0;
-	list-style: none;
-}
-
-.wp-block-lapaz-boletin .anteriores a {
-	font-weight: var(--font-weight-komet-bold);
-	color: var(--color-nav-text);
-}
-
-.wp-block-lapaz-boletin .anteriores li span {
-	margin-left: var(--space-2);
-	color: var(--color-text-muted);
-}
-
+/* Pie */
 .wp-block-lapaz-boletin .pie {
 	padding-block: var(--space-8);
 	background: var(--color-azul-noche);

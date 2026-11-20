@@ -37,10 +37,12 @@
 	background: var(--color-nav-bg-active);
 }
 
-/* Ítem de la sección actual (lo marca inc/navegacion.php): mismo fondo que :hover. */
+/* Ítem de la sección actual (lo marca inc/navegacion.php): mismo fondo que :hover y una línea
+   inferior, para que el estado no dependa solo del color (WCAG 1.4.1). */
 .lapaz-nav-mobile .current-menu-item > .wp-block-navigation-item__content,
 .lapaz-nav-desktop .current-menu-item > .wp-block-navigation-item__content {
 	background: var(--color-nav-bg-active);
+	box-shadow: inset 0 -3px 0 var(--color-nav-text);
 }
 
 .lapaz-nav-mobile .wp-block-navigation-item,

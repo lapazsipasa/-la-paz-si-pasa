@@ -22,7 +22,7 @@ $lapaz_wrapper = get_block_wrapper_attributes();
 	<div class="hero">
 		<div class="wrap">
 			<div>
-				<img class="ps-grande" src="<?php echo esc_url( $lapaz_img . 'logo-paissana-blanco.png' ); ?>" alt="<?php esc_attr_e( 'PaisSana', 'lapaz' ); ?>" width="1300" height="480">
+				<img class="ps-grande" src="<?php echo esc_url( $lapaz_img . 'logo-paissana-blanco.png' ); ?>" alt="<?php esc_attr_e( 'PaisSana', 'lapaz' ); ?>" width="520" height="192">
 				<h1><?php esc_html_e( 'Quienes producen la paz', 'lapaz' ); ?></h1>
 				<p class="lead"><?php esc_html_e( 'PaisSana es la marca de certificación del Fondo Colombia en Paz que identifica productos y servicios de municipios PDET y ZOMAC. Este catálogo reúne el registro completo de productores vinculados, con su territorio, su categoría y lo que cultivan, transforman o fabrican.', 'lapaz' ); ?></p>
 				<div class="tiles">

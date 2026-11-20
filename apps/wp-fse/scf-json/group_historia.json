@@ -46,7 +46,7 @@
       "name": "antetitulo",
       "aria-label": "",
       "type": "text",
-      "instructions": "Línea corta junto a «PaisSano destacado» en /paissana. Ej.: «Serranía de San Lucas · Sur de Bolívar».",
+      "instructions": "Línea corta junto a «PaisSano destacado» en /productores/. Ej.: «Serranía de San Lucas · Sur de Bolívar».",
       "required": 0,
       "conditional_logic": false,
       "wrapper": {

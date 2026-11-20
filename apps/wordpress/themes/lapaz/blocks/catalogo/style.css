@@ -282,6 +282,9 @@
 	display: block;
 	height: 12px;
 	background: var(--color-surface);
+
+	/* Borde azul: la pista blanca sobre celeste no llega a 3:1 (WCAG 1.4.11); el borde sí, también en :hover. */
+	box-shadow: inset 0 0 0 1px var(--color-nav-text);
 }
 
 .wp-block-lapaz-catalogo .barra .fill {

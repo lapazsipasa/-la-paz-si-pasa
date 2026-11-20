@@ -237,6 +237,45 @@
 	color: var(--color-text-muted);
 }
 
+/* Otras ediciones (boletín) y Otras historias (historia) */
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-historia) .anteriores {
+	padding-block: var(--space-12);
+	border-top: 1px solid var(--border-subtle);
+	scroll-margin-top: var(--space-16);
+}
+
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-historia) .anteriores h2 {
+	margin: 0 0 var(--space-2);
+	font-family: var(--font-monique-regular);
+	font-weight: var(--font-weight-komet-regular);
+	font-size: var(--font-size-seccion);
+	line-height: 1.15;
+	letter-spacing: var(--tracking-rotulo);
+	text-transform: uppercase;
+	color: var(--color-nav-text);
+}
+
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-historia) .anteriores ul {
+	display: grid;
+	gap: var(--space-2);
+	margin: var(--space-4) 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-historia) .anteriores a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	font-weight: var(--font-weight-komet-bold);
+	color: var(--color-nav-text);
+}
+
+:is(.wp-block-lapaz-boletin, .wp-block-lapaz-historia) .anteriores li span {
+	margin-left: var(--space-2);
+	color: var(--color-text-muted);
+}
+
 /* Fondo de las secciones alternas */
 :is(.wp-block-lapaz-boletin, .wp-block-lapaz-catalogo, .wp-block-lapaz-historia) .papel {
 	background: var(--color-papel);
