@@ -1,6 +1,6 @@
 # Revisiones independientes del boletín y el catálogo
 
-**Estado (2026-11-21):** veintitrés revisiones independientes (1 a 10, 12, 13, 15 a 19, 21 a 23 y 25 a 27), todas de solo lectura, y cinco tareas de redacción (11, 14, 20, 24 y 28; la 28 en curso), hechas por AGY sobre la rama `feat/boletin-catalogo-fcp`. La 25 tuvo una primera pasada de un subagente, porque AGY agotó su cuota; AGY la repitió el 2026-11-21. Los informes completos no están en el repo. Esta página deja constancia de cada una: veredicto, hallazgos relevantes, commit que los resolvió y lo que quedó sin aplicar.
+**Estado (2026-11-21):** veintisiete revisiones independientes (1 a 10, 12, 13, 15 a 19, 21 a 23, 25 a 27, 29, 32, 34 y 35), todas de solo lectura, y ocho tareas de redacción (11, 14, 20, 24, 28, 30, 31 y 33), hechas por AGY sobre la rama `feat/boletin-catalogo-fcp`. La 25 tuvo una primera pasada de un subagente, porque AGY agotó su cuota; AGY la repitió el 2026-11-21. Los informes completos no están en el repo. Esta página deja constancia de cada una: veredicto, hallazgos relevantes, commit que los resolvió y lo que quedó sin aplicar. Estado de la rama al cierre: 42 commits, último `c3f7c11`; sin commit, la wiki sincronizada, el manual v3 y el refuerzo de `admin.mjs`.
 
 Gravedad: **bloqueante** impide abrir el PR · **alto** y **crítico** son de seguridad o privacidad · **importante** se arregla antes de producción · los menores se citan en una frase.
 
@@ -95,7 +95,7 @@ Lo que sigue pendiente, en dos listas: [pendiente de decisión o de acceso al se
 - **Veredicto:** la base estaba al ~75 % y no se podía dejar en verde por cuatro bloqueos: `lib.mjs` dejaba procesos Chrome huérfanos ante señales; había aserciones en falso o en vacío (`navegacion.mjs`, `boletin.mjs`); `navegacion.mjs` escribía a mano `/paissana/` y no probaba `/historias/`; CI no ejecutaba `navegacion.mjs` ni `rest.mjs`.
 - **Commit:** `9bb6c80` (cerró T1 a T6: arnés con `detached: true` y limpieza en señales, puerto aleatorio `0`, `prepararPintado()`, constantes de ruta en `fcp-lib.mjs`, suites `boletin`, `catalogo`, `historia`, `navegacion` y `rest` sin Chrome, CI y bases visuales).
 - **Estado (local, 2026-11-20):** en verde `navegacion` 181, `catalogo` 58, `boletin` 56, `historia` 43, `rest` 22 y `lo-que-hacemos` 24; `seguridad` 64 de 64 con la imagen reconstruida, y `seo` 280. Son cifras de antes de las pruebas de la revisión 26.
-- **Sin aplicar:** `bin/check` completo, pendiente de la corrida final. `wp()` duplicada en `lo-que-hacemos.mjs` (resuelta después en `e78e2f1`).
+- **Corrida final (2026-11-21):** `bin/check` en verde (17 pasos) y las 18 suites en verde sobre la imagen reconstruida (958 comprobaciones). `wp()` duplicada en `lo-que-hacemos.mjs` resuelta en `e78e2f1`.
 
 ## 9. URL nuevas y endurecimiento
 
@@ -140,7 +140,7 @@ Lo que sigue pendiente, en dos listas: [pendiente de decisión o de acceso al se
 
 ## 14. Manual v2, descripción de PR y nota para el Fondo (redacción)
 
-- Tarea de redacción: actualización de [`manual-editor.md`](../../manual-editor.md), borrador de PR en [`prs/boletin-catalogo-fcp.md`](../../prs/boletin-catalogo-fcp.md) y nota de entrega en [`nota-para-el-fondo.md`](nota-para-el-fondo.md) (commit `2b7fe49`; el borrador de PR tiene ajustes de hoy sin commit).
+- Tarea de redacción: actualización de [`manual-editor.md`](../../manual-editor.md), borrador de PR en [`prs/boletin-catalogo-fcp.md`](../../prs/boletin-catalogo-fcp.md) y nota de entrega en [`nota-para-el-fondo.md`](nota-para-el-fondo.md) (commit `2b7fe49`; el borrador de PR se reescribió el 2026-11-21 como descripción final, sin commit).
 
 ## 15. Ensayo en papel del despliegue y marcha atrás
 
@@ -219,7 +219,7 @@ Lo que sigue pendiente, en dos listas: [pendiente de decisión o de acceso al se
 ## 24. Documentación del plugin de SEO y descripción final del PR (redacción)
 
 - **Resultado:** textos de la integración de The SEO Framework: sección 10 de [`manual-editor.md`](../../manual-editor.md) (cadenas verificadas en `es_CO`), [`seo-plugin.md`](seo-plugin.md), [`despliegue-fse.md`](../../despliegue-fse.md), [`prs/boletin-catalogo-fcp.md`](../../prs/boletin-catalogo-fcp.md) y la wiki sincronizada.
-- **Commit:** aplicado en `28f1cf0`; los ajustes de hoy, sin commit.
+- **Commit:** aplicado en `28f1cf0`; la sincronización del 2026-11-21, sin commit.
 
 ## 25. Repetición de la verificación de los ajustes de la 22 (AGY, 2026-11-21)
 
@@ -227,10 +227,10 @@ Lo que sigue pendiente, en dos listas: [pendiente de decisión o de acceso al se
 - **Estado:** primera pasada de un subagente, porque AGY agotó su cuota; AGY la repitió el 2026-11-21 con este resultado.
 - **Cierres:**
   - PHPCS en `inc/boletin.php` y la canónica de `boletin.mjs` e `historia.mjs`: hechos en `1d4e1b2`.
-  - `seo.mjs`: que `production()` registre `compose('down')` en `alSalir`, para no dejar contenedores huérfanos si se interrumpe: en curso, sin commit.
+  - `seo.mjs`: el contenedor se baja también si la suite se interrumpe (`compose('down')` en `alSalir`): hecho en `2f13b6b`.
 - **Menores:**
   - la imagen para compartir sale a tamaño completo (`'full'` en `inc/seo-tsf.php:168` y `seo.mjs:195`): hecho en `2f13b6b`. La propuesta de cambiar a `'large'` no procede: ningún archivo lo usa;
-  - `alSalir` como conjunto para no repetir restauraciones: en curso, sin commit;
+  - `alSalir` como conjunto para no repetir restauraciones: hecho;
   - `restosPrueba()` de `fcp-lib.mjs` no se borra: sí se usa (línea 100), ver la 23.
   - staging queda indexable si el panel de despliegue no define `WP_ENVIRONMENT_TYPE=staging`.
 - **Commit:** `2f13b6b` (imagen a tamaño completo), `1d4e1b2` (canónica y PHPCS).
@@ -239,24 +239,58 @@ Lo que sigue pendiente, en dos listas: [pendiente de decisión o de acceso al se
 ## 26. Seguridad de lo añadido desde la revisión 9 (`f0f5f67..HEAD`)
 
 - **Veredicto:** nada crítico ni alto. No se abrieron rutas REST; la redirección de sitemaps no depende de `Host`; un anónimo no puede disparar el vaciado de caché; el frontend no usa `innerHTML`; `autodescription-es_CO.l10n.php` es solo un `return` de cadenas.
-- **Medios (correcciones en curso, sin commit):**
+- **Medios (corregidos en `1546852`):**
   - Un Editor podía guardar redirección, canónica o `noindex` enviando el formulario a mano, porque ocultar la pestaña solo quitaba el HTML. Corrección: `lapaz_tsf_bloquear_visibilidad()` en `inc/seo-tsf.php`, en el filtro `the_seo_framework_save_post_meta`. Prueba en `seo.mjs`.
   - Se podían pedir por HTTP los `.php`, `.mo` y `.po` de `wp-content/languages`. Corrección: bloque en `docker/apache/zz-lapaz-seguridad.conf`. Prueba en `seguridad.mjs` (403).
 - **Bajos:**
-  - `_social_image_url` sin validar el esquema en el tema: `esc_url_raw` con `http` y `https` en `inc/seo-tsf.php` (en el árbol de trabajo, sin commit);
+  - `_social_image_url` sin validar el esquema en el tema: `esc_url_raw` con `http` y `https` en `inc/seo-tsf.php` (corregido en `1546852`);
   - alertas de seguridad para los tres plugins fijados en la imagen (`secure-custom-fields`, `wp-super-cache`, `autodescription`): sin aplicar, es tarea del responsable técnico (ver la lista de pendientes del servidor).
-- **Commit:** pendiente (correcciones en el árbol de trabajo).
+- **Commit:** `1546852` (correcciones de la revisión 26; verificadas en la 29).
 
 ## 27. Auditoría final de la wiki frente al código y el historial
 
 - **Veredicto:** la wiki está al día salvo desfases puntuales. Sin IPs, paneles, correos, teléfonos ni credenciales en `wiki/`, `README.md`, `AGENTS.md`, `apps/wordpress/seed/README.md`, `apps/wp-fse/docker/` ni `apps/wp-fse/bin/`. La sección 10 del manual coincide con `autodescription-es_CO.l10n.php`.
 - **Corregido:** «sin commit» obsoletos en `despliegue-fse.md` y `seo-plugin.md`; pendientes ya resueltos quitados de la lista única; `prs/boletin-catalogo-fcp.md` y `updates.md` al día; la descripción de `/productores/` en `seo-plugin.md` (no tiene rama propia en `inc/seo-tsf.php`); `lapaz-setup` en los README (activa The SEO Framework y bloquea `--seed` en producción ya instalada).
 - **Comprobado y sin cambio:** la imagen social usa `'full'` en `inc/seo-tsf.php:168` y en `seo.mjs:195`. La auditoría decía `'large'`, y no es así.
-- **Commit:** pendiente (la wiki, en el árbol de trabajo).
+- **Commit:** `d957a80`.
 
 ## 28. Guion de pruebas de staging (redacción)
 
-- Tarea de redacción en curso, sin entregar. Cubrirá la lista de [pendiente de probar en staging](#pendiente-de-probar-en-staging).
+- Tarea de redacción: guion de pruebas de staging en [plan-staging](plan-staging.md), que cubre la lista de [pendiente de probar en staging](#pendiente-de-probar-en-staging).
+
+## 29. Verificación de las correcciones de la revisión 26 (AGY, 2026-11-21)
+- **Veredicto:** las tres correcciones de la 26 quedaron resueltas: bloqueo de la visibilidad de TSF al Editor en el servidor, bloque de Apache para `.php`, `.mo` y `.po` de `wp-content/languages`, y esquema `http`/`https` en la imagen social. Sin bloqueantes.
+- **Menores:** `inc/seo-tsf.php` a 297 de 300 líneas (el bloqueo pasó a `inc/seo-tsf-editor.php`); en `seo.mjs` faltaba probar que un `noindex` del admin se conserva cuando guarda el Editor.
+- **Commit:** `1546852`. La extracción y la prueba de preservación están en ese commit. TODO: verificar que `borrar()` en `seo.mjs` también borra el post `__prueba`.
+- **Sin aplicar:** nada del bloque.
+
+## 30. Lista de capturas y manual para el documento (redacción)
+- Tarea de redacción: lista de capturas del manual y texto para el documento de Google que se entrega al Fondo. Los rótulos verificados en pantalla pasan a [manual-editor](../../manual-editor.md).
+
+## 31. Mapa de campos de WordPress a cambios en el sitio (redacción)
+- Tarea de redacción: mapa de cada campo de WordPress a lo que cambia en el sitio, con 13 láminas numeradas que emparejan la pantalla y el bloque (ver [manual-editor](../../manual-editor.md)).
+
+## 32. Firmas y contextos de The SEO Framework 5.2.1 y ganchos de admin (AGY, urgente)
+- **Veredicto:** un fallo crítico, con todas las suites en verde: las pantallas de edición de boletines, historias y páginas se cortaban por un `TypeError` en `lapaz_tsf_imagen()` (filtro de la imagen para compartir), porque el plugin pasa `null` donde el tema espera `bool`. Además, dos altos de lógica en `inc/seo-tsf.php`, uno medio y dos bajos. El fallo entró con la integración del plugin (`2f13b6b`).
+- **Hallazgos:** C1 crítico (`$unica` recibía `null`); A1 `isset($args['pta'])` siempre verdadero, que anulaba el título de boletines y ediciones en el editor; A2 `lapaz_tsf_id()` confundía IDs de términos, usuarios y entradas; M1 la descripción de términos y archivos se pisaba con la general del sitio; B1 `<style>` impreso dentro de un filtro; B2 canónica de archivos también en el panel de ajustes PTA.
+- **Commit:** C1, A1, A2, M1 y B1 resueltos en `c3f7c11`.
+- **Sin aplicar:** B2 (bajo; solo administradores, en *SEO → Ajustes → Archivos de tipos de contenido*; aceptable). Los rótulos del manual, punto 5, quedaron aplicados en el manual v3.
+
+## 33. Manual con láminas emparejadas (redacción)
+- Tarea de redacción: manual v3 con 13 parejas de láminas (pantalla de WordPress y componente del sitio con los mismos números), que pasa a [manual-editor](../../manual-editor.md).
+
+## 34. Suite `admin.mjs` y zonas sin cobertura (AGY)
+- **Veredicto:** `admin.mjs` prueba de verdad las pantallas de edición con sesión de Editor, sin falsos verdes de login ni de `wp_die`. Tres hallazgos medios y uno bajo en la propia suite; cinco de los seis de la 32 cerrados en disco.
+- **Hallazgos (parte A):** `skip` silencioso en el cargador de cajas meta del editor de bloques y en la lectura de logs PHP (`admin.mjs:78-79` y `:85-92`); `wp_insert_user()` sin comprobar `WP_Error` (`:57`); bajo: no se exigen las cinco cajas de taxonomía del productor ni el menú del Editor.
+- **Parte B:** C1, A1, A2, M1 y B1 resueltos; queda B2 (ver la 32).
+- **Parte C (zonas sin cobertura):** guardado POST con validación SCF; WP Super Cache con `WP_CACHE=true`; subida JPEG → WebP de 1500 px; idempotencia de `lapaz-setup` y `lapaz-importar`; editor de bloques en Chrome con sesión; envío SMTP. Ver «Después del PR» en la lista única.
+- **Commit:** la parte A (refuerzo de `admin.mjs`) está **en curso, sin commit**.
+
+## 35. Veredicto final antes del PR (AGY)
+- **Veredicto:** lista para abrir el PR con squash merge. Sin bloqueantes: 42 commits, 188 archivos, +23 485 / −454 líneas contra `lapazsipasa/main`; sin IPs, paneles ni credenciales en el diff; `bin/check` (17 pasos) y las 18 suites (958 comprobaciones) en verde.
+- **Debe ir en este PR:** el refuerzo de `admin.mjs` (en curso), la sincronización de la wiki (en esta entrega) y los rótulos del manual (hechos en el manual v3).
+- **Puede ir después del PR:** la parte C de la 34 y los abiertos de la tabla de la lista única.
+- **Commit:** ninguno nuevo; la sincronización de la wiki y el manual v3 están sin commit.
 
 ---
 
@@ -270,7 +304,7 @@ Solo lo puede hacer William, o el Fondo en su caso. Nada de esto se resuelve en 
 - Respaldos programados de la base de datos y de `wordpress_data`, con una restauración de prueba (R7).
 - Límite de intentos de inicio de sesión en `wp-login.php` en Traefik; comprobar `maxRequestBodyBytes` ≥ 32 MB (R7, R15).
 - Correo real para los certificados de Let's Encrypt; verificar SPF/DKIM/DMARC de Resend (R7, R13).
-- Borrar `cms.lapazsipasa.com` del DNS y el dominio temporal de staging cuando `st` esté activo (ver [despliegue](../../despliegue-fse.md#staging-actual-creado-el-2026-11-08)).
+- Borrar el registro DNS del host `cms` antiguo y el dominio temporal de staging cuando `st` esté activo (ver [despliegue](../../despliegue-fse.md#staging-actual-creado-el-2026-11-08)).
 - Revisar en la base de producción antes del deploy: `wp_template`/`wp_template_part` personalizados, `acf-field-group` en BD, menú editado o monitores externos sobre `/wp-json/` (R15).
 - Historial público: las direcciones del servidor y del panel siguen visibles en el historial de `main` del repo público (documentos de despliegue y un script de migración anteriores a esta rama); retirarlas del árbol no las borra: cerrar el puerto del panel, ponerle HTTPS y rotar la clave (R7, R13).
 - Alertas de seguridad (Wordfence, Patchstack o similar) para `secure-custom-fields`, `wp-super-cache` y `autodescription`, las tres fijadas en la imagen (R26).
@@ -300,9 +334,22 @@ Solo lo puede hacer William, o el Fondo en su caso. Nada de esto se resuelve en 
 - Confirmar si se conserva la nota «Registro con corte a septiembre de 2026» al final del catálogo o se omite por ser registro vivo (R18).
 
 **Del equipo (antes de abrir el PR):**
-- Terminar las correcciones de la revisión 26 (bloqueo de campos de visibilidad de TSF en `inc/seo-tsf.php`; `wp-content/languages` en `zz-lapaz-seguridad.conf`) y de la 25 en `seo.mjs` (`compose('down')` en `alSalir`, `alSalir` como conjunto). Commitear (R25, R26).
-- Correr `apps/wp-fse/bin/check` y la corrida final de todas las suites e2e. Reconstruir la imagen y repetir `seguridad.mjs` (64 de 64 antes de las pruebas de la 26) y `seo.mjs` (R8, R17, R25, R26).
-- Completar capturas y puntos `[CONFIRMAR EN PANTALLA]` de [`manual-editor.md`](../../manual-editor.md) y pasarlo a Google Doc (R4, R13). Es el último paso, lo pidió William.
+- Hecho el 2026-11-21: correcciones de las revisiones 25 y 26 (`2f13b6b`, `1546852`) y corrida final de `bin/check` (17 pasos) y de las 18 suites sobre la imagen reconstruida (`seguridad` 68, `seo` 283, `navegacion` 181, `admin` 13).
+- Hecho: el fallo de las pantallas de edición (`c3f7c11`; ver la 32 y la 34).
+- En curso, sin commit: refuerzo de `apps/wp-fse/tests/e2e/admin.mjs` (parte A de la 34: los dos `skip` silenciosos, `conSeo` en el cargador de cajas, `WP_Error` en `wp_insert_user()` y el patrón de error fatal PHP).
+- En curso: láminas numeradas del manual (13 parejas, [`manual-editor.md`](../../manual-editor.md)) y paso a documento de Google (R4, R13). Es el último paso, lo pidió William.
+
+**Después del PR (revisión 34, parte C, y revisión 35):**
+- Cobertura e2e: POST real con validación SCF (boletín, historia y productor); WP Super Cache con `WP_CACHE=true`; subida JPEG → WebP de 1500 px; idempotencia de `lapaz-setup` y `lapaz-importar`; editor de bloques en Chrome con sesión; prueba de `lapaz-smtp`.
+- Abiertos en el código (tabla de la 35):
+  - R5, duplicación menor de CSS en `catalogo-banner` (baja, sin urgencia).
+  - R7, imágenes Docker fijadas por etiqueta y propietario del código `www-data` frente a `root:www-data` (media; decisiones de William).
+  - R10, posible doble anuncio al enfocar `.conteo` (baja; comprobar con VoiceOver/NVDA en staging).
+  - R17, `scrollbar-gutter: stable` en el lightbox (baja, cosmético).
+  - R32 B2, canónica de archivos en el panel PTA de administradores (baja, aceptable).
+  - R34, refuerzo de `admin.mjs` (media; antes del PR, en curso).
+  - R34, zonas sin cobertura (media; después del PR).
+  - Cerrado en esta entrega: rótulos del manual (R32, punto 5), aplicados en el manual v3.
 
 ## Pendiente de probar en staging
 

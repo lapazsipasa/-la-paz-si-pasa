@@ -83,6 +83,7 @@ Checklist para construir el tema `lapaz` (WP 7.1, PHP 8.3, SCF, Dokploy). Está 
 - **Las reglas se endurecen, nunca se relajan para que pase un cambio.** Si una regla estorba, se discute y se documenta la excepción en el archivo de configuración, con el porqué.
 - **Los tests tienen que poder fallar.** Antes de dar por buena una regla nueva, se rompe a propósito y se confirma que falla. Para la lógica (etapa 4), mutation testing con Infection.
 - **Archivos pequeños:** cuando un archivo pasa el límite de líneas, se divide. No se sube el límite.
+- **Plugins de terceros:** un callback enganchado a un filtro o acción de un plugin externo se contrasta con los `apply_filters`/`do_action` reales de su código, no solo con su documentación, y usa tipos tolerantes (`mixed` o anulables) en lo que no está garantizado. Toda integración que toque wp-admin se cubre en `apps/wp-fse/tests/e2e/admin.mjs` con sesión de Editor (lección de la integración de The SEO Framework, `c3f7c11`).
 
 ### Lecciones que ya son regla (etapa 2)
 
@@ -104,7 +105,7 @@ Checklist para construir el tema `lapaz` (WP 7.1, PHP 8.3, SCF, Dokploy). Está 
 | wp-cli dentro de la imagen (`docker compose exec -u www-data cms wp …`) | setup, menús, contenido | en uso |
 | Query Monitor | errores de PHP, consultas, assets por página | solo en local (`lapaz-setup`) |
 | Create Block Theme | pasar al tema lo editado en el Editor del sitio. Probado hasta 6.9, así que hay que vigilarlo | solo en local |
-| `apps/wp-fse/bin/check` | 16 pasos de análisis estático; ver la [etapa 1.5](specs/wordpress-fse/etapa-1-5-calidad.md) | en uso, también en CI |
+| `apps/wp-fse/bin/check` | 17 pasos de análisis estático; ver la [etapa 1.5](specs/wordpress-fse/etapa-1-5-calidad.md) | en uso, también en CI |
 | `tests/e2e/navbar.mjs` (CDP) | comportamiento y comparación de píxeles con Astro | en uso |
 | Skills oficiales `WordPress/agent-skills` (wp-block-development, wp-block-themes, wp-performance, wp-wpcli-and-ops, wp-project-triage) | guía para agentes | instaladas en `.claude/skills/` (no versionado) |
 

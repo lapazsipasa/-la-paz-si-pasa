@@ -1,8 +1,31 @@
-> **Borrador revisado (2026-11-20).** Contrastado campo por campo con los formularios. Faltan las capturas marcadas `[CAPTURA: …]`, un punto por confirmar en pantalla y confirmar en pantalla los nombres de la caja de SEO cuando el plugin quede instalado. La versión para el equipo del Fondo se entrega como documento de Google; las claves nunca van aquí.
+> **Versión del 2026-11-21.** Las imágenes (`lamina-…` y `captura-…`) se están generando; vivirán en el documento de Google que se entrega al Fondo, no en el repositorio. Las claves de acceso nunca van en este documento.
 
 # Manual del editor — La Paz Sí Pasa
 
-Guía práctica para publicar cada mes el boletín *Caminos de Transformación*, actualizar la historia PaisSana del mes y mantener el catálogo de productores en **La Paz Sí Pasa**, sin necesidad de programar ni tocar el diseño del sitio.
+**Para quién es:** equipo de comunicaciones y edición del Fondo Colombia en Paz encargado de publicar cada mes el boletín *Caminos de Transformación*, actualizar la historia PaisSana del mes y mantener el catálogo de productores.
+
+**Versión:** 2026-11-21
+
+**Acceso:** las claves de acceso se entregan por otro canal (nunca figuran en este documento).
+
+**Cómo leer las láminas de este manual:** cada formulario incluye dos imágenes emparejadas: arriba, la pantalla de WordPress donde escribes; abajo, el bloque del sitio público que cambia. Los círculos numerados (①, ②, ③…) conectan cada campo con el lugar exacto donde aparece en la página.
+
+---
+
+## Índice
+
+1. [Entrar al administrador y orientarte](#1-entrar-al-administrador-y-orientarte)
+2. [Publicar una edición del boletín, paso a paso](#2-publicar-una-edición-del-boletín-paso-a-paso)
+3. [Escribir bien y preparar fotos](#3-escribir-bien-y-preparar-fotos)
+4. [Revisar y publicar](#4-revisar-y-publicar)
+5. [Publicar la historia del mes (PaisSano destacado)](#5-publicar-la-historia-del-mes-paissano-destacado)
+6. [Mantener el catálogo de productores PaisSana](#6-mantener-el-catálogo-de-productores-paissana)
+7. [Lo que NO debes tocar (y por qué)](#7-lo-que-no-debes-tocar-y-por-qué)
+8. [Problemas frecuentes y qué hacer](#8-problemas-frecuentes-y-qué-hacer)
+9. [Lista de comprobación mensual](#9-lista-de-comprobación-mensual)
+10. [Buscadores y redes (SEO) y a quién acudir](#10-buscadores-y-redes-seo-y-a-quién-acudir)
+11. [Resumen en una hoja](#resumen-en-una-hoja)
+12. [Lista de imágenes](#lista-de-imágenes)
 
 ---
 
@@ -10,11 +33,11 @@ Guía práctica para publicar cada mes el boletín *Caminos de Transformación*,
 
 ### Cómo iniciar sesión
 
-1. Abre tu navegador y entra a la dirección del sitio seguida de `/wp-admin` (por ejemplo: `https://lapazsipasa.com/wp-admin`).
-2. Escribe tu **Nombre de usuario o correo electrónico** y tu **Contraseña** (las credenciales se entregan por aparte).
+1. Abre tu navegador y entra a la dirección del sitio seguida de `/wp-admin`.
+2. Escribe tu **Nombre de usuario o dirección de correo** y tu **Contraseña** (las claves de acceso se entregan por otro canal).
 3. Haz clic en **Acceder**.
 
-[CAPTURA 1: Pantalla de inicio de sesión de WordPress en `/wp-admin`.]
+«Imagen: captura-01-inicio-sesion.png — Pantalla de inicio de sesión de WordPress en la dirección del sitio seguida de /wp-admin.»
 
 Si alguna vez olvidas tu contraseña, haz clic en **¿Olvidaste tu contraseña?** en esa misma pantalla y recibirás un correo para crear una nueva. También puedes cambiar tu clave en cualquier momento desde **Perfil** en el menú lateral.
 
@@ -31,7 +54,7 @@ Las cuatro secciones con las que vas a trabajar cada mes son:
 | **Productores** | Agregar, corregir o retirar productores del catálogo PaisSana. | En el catálogo `/productores/`, sus cifras, su buscador y las barras de distribución. |
 | **Medios** | Ver o subir fotos y archivos de video a la biblioteca. | En cualquier boletín o historia donde los elijas. |
 
-[CAPTURA 2: Menú lateral de WordPress con **Boletines**, **Historias PaisSana**, **Productores** y **Medios** resaltados.]
+«Imagen: captura-02-menu-lateral.png — Menú lateral de WordPress con las secciones Boletines, Historias PaisSana, Productores y Medios.»
 
 ---
 
@@ -45,38 +68,58 @@ Cada edición del boletín es una entrada independiente. El sitio arma solo las 
 2. En el campo superior del título (verás el texto guía *Edición 03*), escribe el nombre corto de la edición. Por ejemplo: `Edición 02`.
    - **Ojo:** este título **no** es el titular grande de la portada. Define la dirección web de la edición (`/boletin/edicion-02/`) y el nombre que aparecerá en **Otras ediciones**.
 
-[CAPTURA 3: Parte superior de **Añadir edición** mostrando el campo de título y las pestañas **Edición**, **Portada** y **Secciones**.]
-
 ### Paso 2: Llenar la pestaña **Edición**
 
-Haz clic en la pestaña **Edición** (abre seleccionada por defecto) y completa:
+En esta pestaña defines los datos generales de la edición: número, periodo, franja superior, introducción del índice y créditos fotográficos del pie.
 
-1. **Número de edición** *(obligatorio)*: escribe solo el número. Ejemplo: `2` (el sitio muestra `02`).
-2. **Periodo** *(obligatorio)*: los meses que cubre la edición. Ejemplo: `Octubre – Noviembre 2026`.
-3. **Texto de la franja superior**: aparece en la cinta superior del boletín. Puedes dejar el texto que ya viene puesto (*Boletín · Jefatura de Relacionamiento Estratégico y Comunicaciones*).
-4. **Texto de «En esta edición»**: un párrafo corto que presenta el índice de tarjetas. Ejemplo de la edición 02: *«Ocho secciones con los resultados, las historias y los aliados que marcaron los meses de octubre y noviembre. Entre a cualquiera desde aquí.»*
-5. **Créditos de fotografía**: escribe **un nombre por línea**, sin poner la palabra «Fotografía:» antes. Se muestran en el pie del boletín. Ejemplo:
-   ```text
-   Fernando López Ríos
-   Camila Galindo Muñoz
-   ```
+«Imagen: lamina-01-boletin-edicion-wordpress.png — Pestaña «Edición» del boletín en WordPress con los campos numerados del 1 al 5.»
+
+«Imagen: lamina-01-boletin-edicion-sitio.png — Franja superior, introducción del índice y pie del boletín donde aparecen los campos 1 a 5.»
+
+| Nº | Campo en WordPress | Dónde aparece en el sitio | Consejo |
+| :-: | :--- | :--- | :--- |
+| ① | **Número de edición** *(obligatorio)* | Franja superior (`Edición 02`), pie del boletín, tarjeta de Inicio y título de la pestaña del navegador. | Escribe solo el número (ejemplo: `2`; el sitio muestra `02`). |
+| ② | **Periodo** *(obligatorio)* | Junto al número en la franja superior, en el pie, en **Otras ediciones** y en la tarjeta de Inicio. | Ejemplo: `Octubre – Noviembre 2026`. |
+| ③ | **Texto de la franja superior** | Lado izquierdo de la cinta superior del boletín. | Puedes dejar el texto por defecto (*Boletín · Jefatura de Relacionamiento Estratégico y Comunicaciones*). |
+| ④ | **Texto de «En esta edición»** | Párrafo introductorio debajo del encabezado «En esta edición». | Dos o tres líneas que inviten a recorrer el índice. |
+| ⑤ | **Créditos de fotografía** | Columna derecha del pie del boletín, bajo el rótulo automático «Fotografía». | Escribe **un nombre por línea**, sin anteponer «Fotografía:». |
 
 ### Paso 3: Llenar la pestaña **Portada**
 
-Haz clic en la pestaña **Portada** y completa:
+Aquí armas la cabecera principal del boletín: titular, sumario, firma de portada, fotografía principal y crédito.
 
-1. **Titular** *(obligatorio)*: el titular principal de la edición. Ejemplo: `“Los PDET son un propósito nacional”`. Este titular también sale en la tarjeta **Último boletín** de **Inicio**.
-2. **Sumario**: dos o tres líneas que resumen el tema de portada (su inicio también aparece en la tarjeta de **Inicio**).
-3. **Protagonista o autor**: opcional, aparece debajo del sumario. Ejemplo: `Entrevista a Emilio Archila`.
-4. **Cargo o descripción**: opcional, aparece debajo del nombre. Ejemplo: `Exconsejero presidencial para la estabilización y la consolidación`.
-5. **Foto de portada** *(obligatorio)*: haz clic en **Añadir imagen**, elige o sube una foto horizontal y llena su **Texto alternativo** (ver sección 3).
-6. **Crédito de la foto**: aquí sí escribes `Fotografía: Nombre Apellido`. Ejemplo: `Fotografía: Fernando López Ríos`.
+«Imagen: lamina-02-boletin-portada-wordpress.png — Pestaña «Portada» del boletín en WordPress con los campos numerados del 1 al 6.»
 
-[CAPTURA 4: Pestaña **Portada** llena con un ejemplo real.]
+«Imagen: lamina-02-boletin-portada-sitio.png — Portada de la edición en el sitio público con los elementos 1 a 6.»
+
+| Nº | Campo en WordPress | Dónde aparece en el sitio | Consejo |
+| :-: | :--- | :--- | :--- |
+| ① | **Titular** *(obligatorio)* | Titular principal de la portada del boletín (y en la tarjeta de Inicio). | Ejemplo: `“Los PDET son un propósito nacional”`. |
+| ② | **Sumario** | Párrafo bajo el titular de portada (también alimenta Inicio y buscadores). | Dos o tres líneas claras que resuman el tema principal. |
+| ③ | **Protagonista o autor** | En negrita debajo del sumario en la portada. | Opcional. Ejemplo: `Entrevista a [nombre de la persona]`. |
+| ④ | **Cargo o descripción** | Debajo del nombre del protagonista o autor. | Opcional. Ejemplo: `[cargo de la persona]`. |
+| ⑤ | **Foto de portada** *(obligatorio)* | Fotografía principal a la derecha de la portada (también en Inicio y al compartir). | Usa una foto horizontal y llena su **Texto alternativo**. |
+| ⑥ | **Crédito de la foto** | Pie pequeño debajo de la foto de portada. | Aquí sí escribe `Fotografía: Nombre Apellido`. |
+
+#### Cómo se reutiliza esta portada en **Inicio**
+
+En cuanto publicas la edición, la tarjeta **Último boletín** de **Inicio** se actualiza sola tomando tres campos de la pestaña **Portada** (más el número y el periodo de **Edición**):
+
+«Imagen: lamina-03-boletin-destacado-wordpress.png — Campos de la pestaña «Portada» que se reutilizan en la tarjeta de Inicio (1 a 3).»
+
+«Imagen: lamina-03-boletin-destacado-sitio.png — Tarjeta «Último boletín» en la página de Inicio con los elementos 1 a 3.»
+
+| Nº | Campo en WordPress | Dónde aparece en el sitio | Consejo |
+| :-: | :--- | :--- | :--- |
+| ① | **Titular** | Título de la tarjeta **Último boletín** en Inicio. | Si queda corto y directo, se lee mejor en celular. |
+| ② | **Sumario** | Resumen de la tarjeta en Inicio. | El sitio lo recorta automáticamente a 30 palabras; pon lo esencial al inicio. |
+| ③ | **Foto de portada** | Fotografía a la izquierda de la tarjeta en Inicio. | Usa siempre encuadre horizontal para que no corte rostros. |
+
+**No se muestra en la tarjeta de Inicio:** **Protagonista o autor**, **Cargo o descripción** y **Crédito de la foto** solo aparecen en la portada del boletín. La línea *Edición NN · Periodo* se toma de la pestaña **Edición**.
 
 ### Paso 4: Llenar la pestaña **Secciones**
 
-Haz clic en la pestaña **Secciones**. Al crear una edición nueva, WordPress ya te entrega **las 8 secciones estándar listas y vacías**, en su orden habitual:
+Al crear una edición nueva, WordPress ya te entrega **las 8 secciones estándar listas y vacías**, en su orden habitual:
 
 1. *En portada* (**Artículo**)
 2. *El Fondo en cifras* (**Cifras**)
@@ -87,42 +130,85 @@ Haz clic en la pestaña **Secciones**. Al crear una edición nueva, WordPress ya
 7. *Actualidad* (**Artículo**)
 8. *La agenda* (**Agenda**)
 
-[CAPTURA 5: Pestaña **Secciones** mostrando las 8 filas precargadas colapsadas.]
+#### Campos comunes de todas las secciones
 
-Haz clic en la barra de una sección para abrirla y llenarla. Todas las secciones empiezan con cinco campos comunes que alimentan su encabezado y su tarjeta en el índice «En esta edición»:
+Haz clic en la barra de una sección para abrirla. Los cuatro moldes (**Artículo**, **Cifras**, **Tarjetas** y **Agenda**) empiezan con los mismos cinco campos que construyen la barra superior de navegación, la tarjeta del índice «En esta edición» y la cabecera de la sección.
 
-- **Nombre de la sección** *(obligatorio)*: el nombre que sale en el encabezado, en la barra de secciones y en la tarjeta del índice (ejemplo: `En portada` o `El Fondo en cifras`).
-- **Subtítulo de la sección**: línea corta debajo del nombre (ejemplo: `Entrevista · Programas de Desarrollo con Enfoque Territorial`).
-- **Índice: título**: título corto de la tarjeta en «En esta edición».
-  - En **Artículo** es opcional (si lo dejas vacío, usa el **Título** del artículo).
-  - En **Cifras**, **Tarjetas** y **Agenda** es **obligatorio**.
-- **Índice: imagen**: opcional. Foto horizontal para la tarjeta del índice (recomendada 16:10). En **Artículo**, si la dejas vacía el sitio toma la primera foto del artículo; en **Cifras**, **Tarjetas** y **Agenda**, conviene subir una foto para que la tarjeta no quede sin imagen.
-- **Índice: resumen**: una o dos líneas para la tarjeta del índice.
+«Imagen: lamina-04-boletin-secciones-indice-wordpress.png — Campos comunes al abrir una sección en la pestaña «Secciones» (1 a 5).»
 
-Luego, cada molde tiene sus propios campos:
+«Imagen: lamina-04-boletin-secciones-indice-sitio.png — Barra superior, tarjeta del índice «En esta edición» y cabecera de sección (1 a 5).»
+
+| Nº | Campo en WordPress | Dónde aparece en el sitio | Consejo |
+| :-: | :--- | :--- | :--- |
+| ① | **Nombre de la sección** *(obligatorio)* | En la barra superior, en la tarjeta del índice y como título grande de la sección. | Ejemplo: `En portada`, `El Fondo en cifras`. |
+| ② | **Subtítulo de la sección** | Línea corta debajo del nombre en la cabecera de la sección. | Opcional. Ejemplo: `Entrevista · Programas de Desarrollo con Enfoque Territorial`. |
+| ③ | **Índice: título** | Título enlazado dentro de la tarjeta de «En esta edición». | Obligatorio en Cifras, Tarjetas y Agenda; en Artículo, si lo dejas vacío, usa el **Título** del artículo. |
+| ④ | **Índice: imagen** | Foto horizontal de la tarjeta en «En esta edición» (recomendada 16:10). | En Artículo, si la dejas vacía, toma la primera foto del artículo; en los otros moldes conviene subir una. |
+| ⑤ | **Índice: resumen** | Texto breve de la tarjeta en «En esta edición». | Una o dos líneas claras. |
 
 #### Molde **Artículo**
-- **Etiqueta superior**: palabra o frase corta sobre el titular (ejemplo: `Entrevista`, `Perfil`).
-- **Color de la etiqueta**: elige **Azul** o **Verde**.
-- **Título** *(obligatorio)*: titular del artículo.
-- **Resumen bajo el título**: dos o tres líneas en negrita debajo del titular.
-- **Primer párrafo destacado**: opcional; abre el artículo con letra un poco más grande.
-- **Texto del artículo**: el cuerpo completo (mira la sección 3 para pegar sin formato, subtítulos y citas).
-- **Foto de apertura** y **Crédito de la foto de apertura**: opcional; foto horizontal a todo el ancho antes del texto.
-- **Fotos** (botón **Añadir foto**): de una a tres fotos en la columna lateral. En cada fila eliges **Imagen** *(obligatorio)*, **Formato** (**Vertical** o **Panorámica**) y **Crédito**.
-- **Ficha: título**, **Ficha: texto** y **Ficha: datos** (botón **Añadir dato**, con los campos **Cifra o dato** y **Descripción**): recuadro opcional de datos al lado del texto (ejemplo: *Los PDET en una línea* → `170` / `municipios priorizados`). Si dejas **Ficha: título** vacío, el recuadro no aparece.
-- **Ficha con fondo claro**: actívalo para fondo blanco con borde; apagado usa fondo celeste.
-- **Fotos a la izquierda**: por defecto las fotos van a la derecha del texto; actívalo si prefieres alternar y ponerlas a la izquierda.
+
+Usa este molde para entrevistas, reportajes, perfiles o notas largas con texto, fotos laterales y recuadro de datos opcional.
+
+«Imagen: lamina-05-boletin-molde-articulo-wordpress.png — Campos del molde «Artículo» en WordPress numerados del 1 al 8.»
+
+«Imagen: lamina-05-boletin-molde-articulo-sitio.png — Sección de tipo Artículo en el boletín con los elementos 1 a 8.»
+
+| Nº | Campo en WordPress | Dónde aparece en el sitio | Consejo |
+| :-: | :--- | :--- | :--- |
+| ① | **Etiqueta superior** | Rótulo corto sobre el titular del artículo. | El campo vecino **Color de la etiqueta** cambia el tono entre **Azul** y **Verde**. |
+| ② | **Título** *(obligatorio)* | Titular del artículo (también respaldo de **Índice: título**). | Directo e informativo. |
+| ③ | **Resumen bajo el título** | Dos o tres líneas en negrita justo debajo del titular. | Resume la idea central antes del texto. |
+| ④ | **Primer párrafo destacado** | Párrafo de apertura en letra un poco más grande. | Opcional. |
+| ⑤ | **Texto del artículo** | Cuerpo principal con párrafos, subtítulos y citas. | Pega siempre sin formato (`Ctrl/Cmd + Shift + V`); usa **Título 3** y **Cita** (ver sección 3). |
+| ⑥ | **Foto de apertura** | Foto horizontal a todo el ancho, encima del artículo. | Opcional. Su campo vecino **Crédito de la foto de apertura** aparece al pie de esa foto. |
+| ⑦ | **Fotos** | Columna lateral de 1 a 3 fotos (la primera va arriba de la ficha y las demás debajo). | En cada fila llena **Imagen**, **Formato** (**Vertical** o **Panorámica**) y **Crédito**. Con el interruptor **Fotos a la izquierda** puedes alternar la columna al lado izquierdo. |
+| ⑧ | **Ficha: título** | Recuadro de datos en la columna lateral. | Si **Ficha: título** está vacío, el recuadro no aparece. Complétalo con **Ficha: texto**, **Ficha: datos** (**Cifra o dato** + **Descripción**) y **Ficha con fondo claro** (blanco con borde en vez de celeste). |
 
 #### Molde **Cifras**
-- **Cifras** (botón **Añadir cifra**): cada fila pide **Número** *(obligatorio, ejemplo: `US$100`)* y **Texto** *(obligatorio, ejemplo: `millones invertidos por el FCP y el BID`)*. La **primera fila** se muestra más grande y destacada.
-- **Nota**: párrafo opcional debajo de las cifras.
+
+Usa este molde para mostrar indicadores destacados en tarjetas numéricas con una nota explicativa al pie.
+
+«Imagen: lamina-06-boletin-molde-cifras-wordpress.png — Campos del molde «Cifras» en WordPress numerados del 1 al 3.»
+
+«Imagen: lamina-06-boletin-molde-cifras-sitio.png — Rejilla de indicadores del molde «Cifras» en el boletín (1 a 3).»
+
+| Nº | Campo en WordPress | Dónde aparece en el sitio | Consejo |
+| :-: | :--- | :--- | :--- |
+| ① | **Número** *(obligatorio, dentro de Cifras)* | Cifra grande de cada tarjeta. | La **primera fila** se destaca sola en tamaño más grande. Ejemplo: `US$100`. |
+| ② | **Texto** *(obligatorio, dentro de Cifras)* | Explicación corta debajo del número. | Ejemplo: `millones invertidos por el FCP y el BID`. |
+| ③ | **Nota** | Párrafo aclaratorio al pie de toda la rejilla de cifras. | Opcional; útil para aclarar fuente o periodo de corte. |
 
 #### Molde **Tarjetas**
-- **Tarjetas** (botón **Añadir tarjeta**): cada fila crea una tarjeta con **Etiqueta** (ejemplo: `KfW · Alemania`), **Color** del borde superior (**Azul**, **Naranja** o **Verde**), **Título** *(obligatorio)*, **Texto** (un párrafo por línea), **Monto** (opcional, ejemplo: `€31.250.000`) y **Nota del monto**.
+
+Usa este molde para presentar alianzas, convenios o proyectos en tarjetas con borde superior de color y monto opcional.
+
+«Imagen: lamina-07-boletin-molde-tarjetas-wordpress.png — Campos de una fila del molde «Tarjetas» en WordPress numerados del 1 al 6.»
+
+«Imagen: lamina-07-boletin-molde-tarjetas-sitio.png — Rejilla de tarjetas en el boletín con los elementos 1 a 6.»
+
+| Nº | Campo en WordPress | Dónde aparece en el sitio | Consejo |
+| :-: | :--- | :--- | :--- |
+| ① | **Etiqueta** | Rótulo corto en la parte superior de la tarjeta. | Ejemplo: `KfW · Alemania`. |
+| ② | **Color** | Color del filete superior de la tarjeta. | Elige **Azul**, **Naranja** o **Verde**. |
+| ③ | **Título** *(obligatorio)* | Título de la tarjeta. | Breve y claro. |
+| ④ | **Texto** | Cuerpo de la tarjeta. | Escribe un párrafo por línea. |
+| ⑤ | **Monto** | Cifra destacada al pie de la tarjeta. | Opcional. Ejemplo: `€31.250.000`. |
+| ⑥ | **Nota del monto** | Aclaración pequeña junto al monto. | Solo se muestra si **Monto** tiene contenido. |
 
 #### Molde **Agenda**
-- **Hitos** (botón **Añadir hito**): cada fila tiene **Cuándo** (ejemplo: `Fases II y III`), **Título** *(obligatorio)* y **Texto** (opcional, una o dos frases).
+
+Usa este molde para listar hitos, fases o próximos eventos en forma de línea de tiempo.
+
+«Imagen: lamina-08-boletin-molde-agenda-wordpress.png — Campos de un hito del molde «Agenda» en WordPress numerados del 1 al 3.»
+
+«Imagen: lamina-08-boletin-molde-agenda-sitio.png — Línea de tiempo de la sección «La agenda» en el boletín (1 a 3).»
+
+| Nº | Campo en WordPress | Dónde aparece en el sitio | Consejo |
+| :-: | :--- | :--- | :--- |
+| ① | **Cuándo** | Fecha o etapa sobre cada hito. | Ejemplo: `Fases II y III` o `En implementación`. |
+| ② | **Título** *(obligatorio)* | Título principal del hito. | Concreto y en una sola línea si es posible. |
+| ③ | **Texto** | Explicación breve debajo del título. | Opcional; una o dos frases. |
 
 ### Cómo quitar, reordenar o añadir secciones
 
@@ -143,11 +229,8 @@ Cuando copies texto desde Word, Google Docs o un correo, **no uses** `Ctrl + V` 
 
 ### Subtítulos y citas dentro del texto
 En los campos **Texto del artículo** y **Texto de la crónica**:
-- **Subtítulos:** selecciona la línea y elige **Título 3** en el desplegable de párrafos. Si no ves el desplegable de títulos, pulsa el botón **Más herramientas** (último ícono de la barra) para mostrar la segunda fila. No uses *Título 1* ni *Título 2* ni pongas un párrafo entero en negrita para simular un subtítulo.
+- **Subtítulos:** selecciona la línea y elige **Título 3** en el desplegable de párrafos (si no lo ves en la primera fila, pulsa **Más herramientas** o usa el atajo `Shift + Alt + 3` en Windows / `Control + Option + 3` en Mac). No uses *Título 1* ni *Título 2* ni pongas un párrafo entero en negrita para simular un subtítulo.
 - **Citas:** haz clic en el botón de comillas (**Cita**). Escribe la frase en el primer párrafo, pulsa **Enter** y escribe en el segundo párrafo quién la dijo (nombre y cargo). El sitio le da estilo diferente a la frase y al autor de forma automática.
-
-[CAPTURA 6: Barra del editor de texto mostrando el desplegable con **Título 3** y el botón de **Cita**.]
-[CONFIRMAR EN PANTALLA: verificar si el desplegable de párrafos aparece en la primera fila de la barra básica o al pulsar **Más herramientas**.]
 
 ### Fotos: orientación, peso y créditos
 - **Orientación:** usa fotos **horizontales** en portadas, fotos de apertura, tarjetas del índice y tarjetas destacadas. Si subes una foto vertical en un espacio horizontal, el sitio la recorta para encajar y puede cortar cabezas. En la columna lateral de un artículo puedes marcar **Vertical** si la foto es alta.
@@ -159,19 +242,19 @@ Cada vez que subas o elijas una foto en la biblioteca de medios, llena el campo 
 - No empieces con «Foto de…» ni «Imagen de…».
 - Sirve para que las personas con discapacidad visual entiendan la foto y ayuda a que el contenido aparezca mejor en buscadores.
 
-[CAPTURA 7: Ventana de la biblioteca de medios con los campos **Texto alternativo**, **Leyenda** y **Descripción** señalados a la derecha.]
+«Imagen: captura-07-biblioteca-medios-campos.png — Biblioteca de medios con los campos Texto alternativo, Leyenda de la imagen y Descripción en el panel derecho.»
 
 ---
 
 ## 4. Revisar y publicar
 
-1. Mientras trabajas, haz clic en **Guardar borrador** con frecuencia. **Guardar borrador** funciona aunque todavía falten campos obligatorios.
-2. Antes de revisar cómo se ve, haz clic en **Guardar borrador** y luego en **Vista previa** (si no guardas primero, los cambios recientes pueden no verse en la vista previa).
+1. Mientras trabajas, haz clic en **Solo guardar** con frecuencia. **Solo guardar** funciona aunque todavía falten campos obligatorios.
+2. Antes de revisar cómo se ve, haz clic en **Solo guardar** y luego en **Vista previa** (si no guardas primero, los cambios recientes pueden no verse en la vista previa).
 3. Cuando todo esté listo:
    - Para publicar de inmediato: haz clic en **Publicar**.
    - Para programar fecha y hora: en el panel derecho, junto a **Publicar inmediatamente**, haz clic en **Editar**, elige fecha y hora, pulsa **Aceptar** y luego **Programar**.
 
-[CAPTURA 8: Panel derecho **Publicar** con los botones **Guardar borrador**, **Vista previa** y **Publicar**.]
+«Imagen: captura-08-panel-publicar.png — Panel lateral Publicar con Solo guardar, Vista previa, programación y el botón Publicar.»
 
 ### Qué cambia en el sitio al publicar un boletín
 En cuanto publicas:
@@ -188,53 +271,63 @@ Cada mes se publica una historia nueva de una organización productora. Al publi
 
 1. En el menú lateral haz clic en **Historias PaisSana** y luego en **Añadir historia**.
 2. En el campo superior del título (*Nombre de la organización*), escribe el nombre de la organización (ejemplo: `Asocafé`). Ese título define la dirección web (`/historias/asocafe/`).
-3. Recorre las cinco pestañas en orden:
+3. Recorre las cinco pestañas en orden.
 
 ### Pestaña **Presentación** (la tarjeta destacada)
-Estos campos arman la tarjeta «PaisSano destacado» que se ve en **Inicio**, **Proyectos destacados** y **Productores** (`/productores/`):
-- **Lugar** *(obligatorio)*: municipio y departamento (ejemplo: `Santa Rosa del Sur · Bolívar`).
-- **Subtítulo en el catálogo**: línea corta junto a «PaisSano destacado» en la tarjeta destacada (se ve en Inicio, Proyectos destacados y `/productores/`).
-- **Resumen** *(obligatorio)*: dos o tres líneas para la tarjeta destacada y buscadores (ideal hasta 155 caracteres).
-- **Foto de la tarjeta** *(obligatorio)*: foto horizontal con **Texto alternativo**.
-- **Cifras** (botón **Añadir cifra**): hasta 3 cifras de impacto (**Número** y **Texto**, ambos obligatorios si agregas la fila).
 
-[CAPTURA 9: Pestaña **Presentación** de una historia con cifras y foto de tarjeta.]
+Estos campos arman la tarjeta **PaisSano destacado** que aparece en **Inicio**, **Proyectos destacados** y **Productores** (`/productores/`).
 
-### Pestaña **Portada** (encabezado y ficha de la historia)
-- **Foto de portada**: foto horizontal a todo el ancho (si la dejas vacía, la portada usa fondo azul sólido).
-- **Título de la historia** *(obligatorio)*: el titular grande de la crónica (ejemplo: `Un café que cambió la historia de la serranía`).
-- **Subtítulo**: opcional, una o dos líneas debajo del título.
-- **Ficha** (botón **Añadir dato**): recuadro de datos técnicos bajo la portada (pares **Dato** y **Valor**, ejemplo: `Territorio` / `Sur de Bolívar`).
+«Imagen: lamina-09-historia-presentacion-wordpress.png — Título superior y pestaña «Presentación» de una historia en WordPress (1 a 7).»
 
-### Pestaña **Video**
-Elige una opción en **Origen del video**:
-- **Sin video**: oculta los demás campos y no muestra sección de video en la página.
-- **YouTube**: pega el enlace en **URL de YouTube**. Es la opción recomendada para videos largos o pesados.
-- **Archivo MP4 subido a WordPress**: sube un archivo en **Archivo de video (MP4)**. Úsalo solo si el video pesa **menos de 20 MB**; si pesa más, súbelo primero a YouTube.
-- **Enlace externo (se abre en otra pestaña)**: pega una dirección que empiece por `https://` en **Enlace externo** (por ejemplo un enlace de Google Drive).
+«Imagen: lamina-09-historia-presentacion-sitio.png — Tarjeta «PaisSano destacado» en el sitio público con los elementos 1 a 7.»
 
-Cuando hay video, también puedes llenar **Imagen de portada del video** (miniatura antes de reproducir) y **Subtítulo del video**.
+| Nº | Campo en WordPress | Dónde aparece en el sitio | Consejo |
+| :-: | :--- | :--- | :--- |
+| ① | **Título** *(campo superior de WordPress)* | Nombre de la organización en la tarjeta destacada (y en **Otras historias**). | Define también la dirección `/historias/<nombre>/`. |
+| ② | **Lugar** *(obligatorio)* | Debajo del nombre en la tarjeta (y en la portada de la historia junto a «PaisSano destacado ·»). | Ejemplo: `Santa Rosa del Sur · Bolívar`. |
+| ③ | **Subtítulo en el catálogo** | Línea corta junto al encabezado «PaisSano destacado». | Opcional. Ejemplo: `Serranía de San Lucas · Sur de Bolívar`. |
+| ④ | **Resumen** *(obligatorio)* | Párrafo de presentación de la tarjeta (también descripción por defecto para Google). | Dos o tres líneas, ideal hasta 155 caracteres. |
+| ⑤ | **Foto de la tarjeta** *(obligatorio)* | Fotografía a la izquierda de la tarjeta destacada. | Foto horizontal con **Texto alternativo**. |
+| ⑥ | **Número** *(en Cifras)* | Cifra destacada dentro de la fila de indicadores de la tarjeta. | Puedes añadir hasta 3 cifras (ambos campos obligatorios si creas la fila). |
+| ⑦ | **Texto** *(en Cifras)* | Rótulo pequeño debajo de cada número. | Ejemplo: `familias productoras`. |
 
-### Pestaña **Crónica**
-- **Subtítulo de la crónica**: línea corta bajo el título de la sección.
-- Dentro de **Contenido de la crónica**:
-  - **Resumen de la crónica**: dos o tres líneas en negrita antes del texto.
-  - **Primer párrafo destacado**: opcional.
-  - **Texto de la crónica**: el relato completo (mismas reglas de la sección 3: pegar sin formato, **Título 3** para subtítulos, **Cita** en dos párrafos).
-  - **Fotos** (botón **Añadir foto**): de 1 a 3 fotos al lado del texto (**Imagen** obligatoria y **Crédito**).
-  - **Recuadro de datos** (botón **Añadir dato**): opcional; pares **Rótulo del dato** y **Valor del dato** (ejemplo: `Cofinancia` / `Fondo Colombia en Paz`).
-- **Nota de fuente**: opcional, crédito del reportaje original (puedes poner el título en cursiva).
+### Pestañas **Portada** y **Video**
 
-### Pestaña **Galería**
-1. Haz clic en **Añadir a la galería** y selecciona las fotos (hasta 24).
-2. Haz clic en cada foto seleccionada y llena en el panel derecho:
-   - **Texto alternativo**: qué muestra la foto.
-   - **Leyenda**: el pie de foto que verá el visitante debajo de la imagen y al ampliarla.
-   - **Descripción**: el nombre del fotógrafo (el sitio antepone «Fotografía:» automáticamente).
+Aquí completas el encabezado a todo ancho de `/historias/<nombre>/`, su ficha técnica y el reproductor de video (opcional).
 
-En el sitio, al pulsar cualquier foto de la galería se abre ampliada sobre la pantalla; el visitante puede cerrarla con el botón **×**, pulsando la tecla **Escape** o tocando fuera de la foto.
+«Imagen: lamina-10-historia-portada-video-wordpress.png — Pestañas «Portada» (1 a 5) y «Video» (6 a 8) de una historia en WordPress.»
 
-[CAPTURA 10: Pestaña **Galería** con una foto seleccionada mostrando **Texto alternativo**, **Leyenda** y **Descripción**.]
+«Imagen: lamina-10-historia-portada-video-sitio.png — Portada, ficha técnica y sección de video en la página de la historia (1 a 8).»
+
+| Nº | Campo en WordPress | Dónde aparece en el sitio | Consejo |
+| :-: | :--- | :--- | :--- |
+| ① | **Foto de portada** | Imagen horizontal a todo el ancho arriba de la historia (y foto por defecto al compartir). | Si la dejas vacía, la portada usa fondo azul sólido. |
+| ② | **Título de la historia** *(obligatorio)* | Titular grande sobre la portada de la historia. | Ejemplo: `Un café que cambió la historia de la serranía`. |
+| ③ | **Subtítulo** | Línea opcional debajo del titular de portada. | Una o dos líneas breves. |
+| ④ | **Dato** *(en Ficha)* | Rótulo de cada casilla de la ficha técnica bajo la portada. | Ejemplo: `Territorio`. |
+| ⑤ | **Valor** *(en Ficha)* | Valor correspondiente a cada dato de la ficha. | Ejemplo: `Sur de Bolívar`. Si queda vacío, la fila no se muestra. |
+| ⑥ | **Origen del video** | Activa la sección **El video** y define cómo se abre al pulsar el botón. | Elige **Sin video** (oculta la sección), **YouTube** (**URL de YouTube**, recomendada para videos largos), **Archivo MP4 subido a WordPress** (< 20 MB en **Archivo de video (MP4)**) o **Enlace externo** (`https://` en **Enlace externo**). |
+| ⑦ | **Imagen de portada del video** | Miniatura que se ve antes de reproducir el video. | En YouTube, si la dejas vacía, se usa la miniatura de YouTube. |
+| ⑧ | **Subtítulo del video** | Línea corta sobre el reproductor, junto a «El video». | Opcional. |
+
+### Pestañas **Crónica** y **Galería**
+
+Aquí escribes el relato largo con fotos y recuadro de datos laterales, y subes la galería fotográfica con ampliación.
+
+«Imagen: lamina-11-historia-cronica-galeria-wordpress.png — Pestañas «Crónica» (1 a 7) y «Galería» (8) de una historia en WordPress.»
+
+«Imagen: lamina-11-historia-cronica-galeria-sitio.png — Sección «La crónica» y galería «Las fotografías» en la página de la historia (1 a 8).»
+
+| Nº | Campo en WordPress | Dónde aparece en el sitio | Consejo |
+| :-: | :--- | :--- | :--- |
+| ① | **Subtítulo de la crónica** | Línea corta junto al encabezado «La crónica». | Ejemplo: `Un café que salva vidas`. |
+| ② | **Resumen de la crónica** | Párrafo en negrita antes del texto principal. | Dos o tres líneas que abran el relato. |
+| ③ | **Primer párrafo destacado** | Primer párrafo en letra más grande. | Opcional. |
+| ④ | **Texto de la crónica** | Cuerpo completo de la crónica. | Pega sin formato (`Ctrl/Cmd + Shift + V`), usa **Título 3** para subtítulos y **Cita** en dos párrafos. |
+| ⑤ | **Nota de fuente** | Crédito al final de la columna de texto. | Opcional; puedes poner el título de la obra en cursiva. |
+| ⑥ | **Fotos** | Columna lateral con 1 a 3 fotos (la primera va arriba del recuadro de datos y las demás debajo). | Llena **Imagen** *(obligatoria)* y **Crédito** (`Fotografía: Nombre Apellido`). |
+| ⑦ | **Recuadro de datos** | Ficha lateral con pares **Rótulo del dato** y **Valor del dato**. | Opcional. Ejemplo: `Cofinancia` / `Fondo Colombia en Paz`. |
+| ⑧ | **Galería** | Rejilla «Las fotografías» con vista ampliada al pulsar cada imagen (hasta 24 fotos). | Al hacer clic en cada foto, llena **Texto alternativo**, **Leyenda de la imagen** (pie visible) y **Descripción** (solo el nombre del fotógrafo; el sitio antepone «Fotografía:»). |
 
 ### Qué cambia en el sitio al publicar una historia
 - `/historias/` pasa a mostrar la historia nueva y, debajo, la lista de **Otras historias**.
@@ -254,27 +347,26 @@ El catálogo en `/productores/` se actualiza solo con las entradas de **Producto
 3. Corrige lo que necesites y haz clic en **Actualizar**.
 
 ### Agregar un productor nuevo
-1. Haz clic en **Productores** y luego en **Añadir productor**.
-2. En el título (*Nombre del productor u organización*), escribe el nombre tal como debe aparecer en la tarjeta.
-3. En **Datos del productor**:
-   - **Municipio** *(obligatorio)*: municipio donde opera.
-   - **Productos**: escribe **un producto por línea**, sin guiones ni viñetas al inicio. Ejemplo:
-     ```text
-     Café tostado
-     Café en grano
-     Miel de abejas
-     ```
-   - **Enlace o red social**: opcional (por ahora se guarda como registro y no se muestra en el sitio).
-4. En las cajas de casillas de la columna derecha, marca:
-   - **Departamentos**: marca **1** departamento.
-   - **Categorías**: marca **1 o más** categorías de oferta.
-   - **Tiempos de operación**: marca **1** opción.
-   - **Etnias**: marca **1** opción solo si aplica.
-   - **Poblaciones**: **es solo registro interno**; no se muestra ni filtra en el sitio público.
-   - *Nota:* si falta un departamento o una categoría, puedes crearlo ahí mismo con **Añadir departamento** o **Añadir categoría**.
-5. Haz clic en **Publicar**.
 
-[CAPTURA 11: Pantalla de **Añadir productor** con **Datos del productor** a la izquierda y las cajas de casillas (**Departamentos**, **Categorías**, **Tiempos de operación**, **Etnias**, **Poblaciones**) a la derecha.]
+Haz clic en **Productores** y luego en **Añadir productor**. Completa el título, la caja **Datos del productor** y las cajas de clasificación de la columna derecha:
+
+«Imagen: lamina-12-productor-tarjeta-wordpress.png — Formulario de un productor en WordPress con sus datos y cajas de clasificación (1 a 7).»
+
+«Imagen: lamina-12-productor-tarjeta-sitio.png — Buscador y tarjeta del productor en /productores/ con los elementos 1 a 7.»
+
+| Nº | Campo en WordPress | Dónde aparece en el sitio | Consejo |
+| :-: | :--- | :--- | :--- |
+| ① | **Título** *(campo superior de WordPress)* | Nombre grande arriba de la tarjeta del productor (y en el buscador). | Escribe el nombre tal como debe leerlo el visitante. |
+| ② | **Municipio** *(obligatorio)* | Primera parte de la ubicación (`Municipio · Departamento`) y buscador. | Escribe solo el nombre del municipio. |
+| ③ | **Departamentos** *(caja derecha)* | Segunda parte de la ubicación, desplegable de departamento, conteos y barras de distribución. | Marca **1** departamento (si falta, usa **Añadir departamento**). |
+| ④ | **Productos** | Lista de viñetas dentro de la tarjeta (y texto del buscador). | Escribe **un producto por línea**, sin guiones ni viñetas al inicio. |
+| ⑤ | **Categorías** *(caja derecha)* | Etiquetas grises al pie de la tarjeta, botones de filtro, conteos y barras de distribución. | Marca **1 o más** categorías (si falta, usa **Añadir categoría**). |
+| ⑥ | **Etnias** *(caja derecha)* | Etiqueta diferenciada al final de la tarjeta. | Marca **1** opción solo si aplica (si el término es «Ninguno», no se muestra). |
+| ⑦ | **Tiempos de operación** *(caja derecha)* | Desplegable «Cualquier tiempo de operación» en la barra de filtros de `/productores/`. | Marca **1** opción; no aparece impreso dentro de la tarjeta, pero sí permite filtrar por años de operación. |
+
+**No se muestra en el sitio:** **Enlace o red social** (se guarda por ahora como registro interno) y la caja **Poblaciones** (registro interno; no aparece en la tarjeta, los filtros ni las barras).
+
+Al terminar, haz clic en **Publicar**.
 
 ### Retirar un productor
 - Para ocultarlo temporalmente sin borrarlo: ábrelo, cambia **Estado** de *Publicada* a **Borrador** y haz clic en **Actualizar**.
@@ -294,7 +386,7 @@ Tu cuenta de **Editor** puede ver la sección **Páginas**, pero hay tres págin
 
 Tampoco modifiques plantillas, estilos, el menú principal ni complementos o usuarios (si necesitas cambiar el menú principal o crear un usuario, pídelo al equipo administrador).
 
-[CAPTURA 12: Lista de **Páginas** señalando **Inicio**, **Proyectos destacados** y **Productores PaisSana** como páginas base protegidas.]
+«Imagen: captura-12-paginas-protegidas.png — Lista de Páginas señalando Inicio, Proyectos destacados y Productores PaisSana como páginas base protegidas.»
 
 ---
 
@@ -302,7 +394,7 @@ Tampoco modifiques plantillas, estilos, el menú principal ni complementos o usu
 
 | Problema | Por qué pasa y cómo resolverlo |
 |---|---|
-| **«Validación fallida» al pulsar Publicar** | Falta algún campo obligatorio (marcado con asterisco rojo `*`) o dejaste vacía alguna de las 8 secciones precargadas del boletín. Sube por la página, busca los recuadros marcados en rojo, llénalos o borra con **−** las secciones que no vayas a usar. |
+| **«Validación fallida» al pulsar Publicar** | Falta algún campo obligatorio (marcado con asterisco rojo `*`) o dejaste vacía alguna de las 8 secciones precargadas del boletín. Sube por la página, busca los recuadros marcados en rojo, llénalos o borra con **−** las secciones que no vas a usar. |
 | **Publiqué o edité algo y no lo veo en el sitio** | El sitio guarda copias rápidas de las páginas, pero las renueva solas al publicar, editar o borrar un boletín, historia, productor, noticia, página, menú o al renombrar un departamento o categoría. Haz una recarga forzada manteniendo **`Ctrl + F5`** (Windows) o **`Cmd + Shift + R`** (Mac), o abre la página en una ventana de incógnito. Si pasados unos minutos sigue sin cambiar, avisa al equipo técnico. |
 | **Una foto sale recortada o cortó una cara** | Se subió una foto vertical en un espacio horizontal (portada, tarjeta o apertura). Reemplázala por una foto horizontal o recórtala en horizontal antes de subirla. |
 | **Una cita se ve rara** | Probablemente quedó en un solo párrafo o en tres. Abre el texto, deja la frase en el primer párrafo de la cita, pulsa **Enter** y pon solo el autor en el segundo párrafo. |
@@ -323,7 +415,7 @@ Imprime o revisa esta lista antes de pulsar **Publicar**:
 - [ ] Todas las secciones tienen **Nombre de la sección**, **Índice: título** (en Cifras, Tarjetas y Agenda) e imagen/resumen del índice.
 - [ ] Textos pegados sin formato, subtítulos en **Título 3** y citas en dos párrafos.
 - [ ] **Créditos de fotografía** del pie escritos uno por línea (sin «Fotografía:»).
-- [ ] Guardaste borrador y revisaste **Vista previa** en computador y celular.
+- [ ] Guardaste borrador con **Solo guardar** y revisaste **Vista previa** en computador y celular.
 - [ ] Tras publicar: `/boletin/` muestra la edición nueva y **Inicio** actualizó la tarjeta **Último boletín**.
 
 ### Antes de publicar la historia del mes
@@ -332,8 +424,8 @@ Imprime o revisa esta lista antes de pulsar **Publicar**:
 - [ ] **Portada** con título de la historia y ficha técnica revisada.
 - [ ] **Video** configurado (YouTube, MP4 < 20 MB, enlace `https://` o **Sin video**).
 - [ ] **Crónica** pegada sin formato, con subtítulos en **Título 3** y citas en dos párrafos.
-- [ ] **Galería**: cada foto tiene **Texto alternativo**, **Leyenda** (pie) y **Descripción** (fotógrafo).
-- [ ] Guardaste borrador y revisaste **Vista previa**.
+- [ ] **Galería**: cada foto tiene **Texto alternativo**, **Leyenda de la imagen** (pie) y **Descripción** (fotógrafo).
+- [ ] Guardaste borrador con **Solo guardar** y revisaste **Vista previa**.
 - [ ] Tras publicar: la nueva historia aparece en `/historias/` y destacada en **Inicio**, **Proyectos destacados** y `/productores/`, y la anterior sigue en **Otras historias**.
 
 ---
@@ -342,24 +434,19 @@ Imprime o revisa esta lista antes de pulsar **Publicar**:
 
 ### Título, descripción e imagen para buscadores y redes
 
-El sitio completa solos estos datos a partir del contenido que llenas, pero puedes personalizar cómo aparece cualquier página, boletín o historia en Google, WhatsApp o redes sociales. En `/boletin/` y `/historias/` se muestran los datos que escribas en la caja de la edición o historia más reciente.
+El sitio completa solos estos datos a partir del contenido que llenas, pero puedes personalizar cómo aparece cualquier página, boletín o historia en Google, WhatsApp o redes sociales desde la caja **Ajustes de SEO** (en un boletín o historia está debajo del título; en una página, abre **Cajas meta** al final del editor). En `/boletin/` y `/historias/` se muestran los datos que escribas en la edición o historia más reciente.
 
-1. **Dónde encontrar la caja:**
-   - En un **Boletín** o una **Historia PaisSana**, baja desde el título: verás la caja **Ajustes de SEO**.
-   - En una **Página** (como *Productores PaisSana*), baja hasta el final del editor y abre el panel plegado **Cajas meta**: ahí está **Ajustes de SEO**.
-2. **En la pestaña General:**
-   - **Meta título:** el título que aparecerá en Google. Si lo dejas vacío, el sitio usa el título normal. Debajo verás una barra de color con el estado (**Bien**, **Demasiado corto** o **Demasiado largo**; si te pasas mucho puede decir «Demasiado tiempo»). Deja sin marcar **¿Eliminar el título del sitio?** salvo que quieras omitir «| La Paz Sí Pasa».
-   - **Descripción meta:** el resumen corto que se lee bajo el título en Google y al compartir (ideal hasta 155 caracteres). Si la dejas vacía, el sitio toma el sumario del boletín o el resumen de la historia.
-3. **En la pestaña Social:**
-   - **URL de la imagen social:** haz clic en **Seleccionar imagen** (o **Cambiar la imagen** / **Quita la imagen**) para elegir una foto horizontal de la biblioteca de medios. Si la dejas vacía, se usa la foto de portada.
-4. Haz clic en **Actualizar** o **Publicar** para guardar.
+«Imagen: lamina-13-seo-ajustes-wordpress.png — Caja «Ajustes de SEO» en WordPress (pestañas General y Social) con los campos 1 a 3.»
 
-*(Las etiquetas de la caja vienen traducidas al español; algún texto secundario del contador puede aparecer en inglés.)*
+«Imagen: lamina-13-seo-ajustes-sitio.png — Vista previa del resultado en Google y de la tarjeta al compartir en redes con los elementos 1 a 3.»
 
-[CAPTURA: Caja **Ajustes de SEO** en un boletín, con **Meta título** y **Descripción meta** y su barra de longitud.]
-[CAPTURA: Panel **Cajas meta** desplegado al final de una página, con la pestaña **Social** y el botón **Seleccionar imagen**.]
+| Nº | Campo en WordPress | Dónde aparece en el sitio | Consejo |
+| :-: | :--- | :--- | :--- |
+| ① | **Título meta** *(pestaña General)* | Título azul en Google y título de la tarjeta al compartir. | Si lo dejas vacío, el sitio usa el título automático. Revisa el contador de caracteres («Caracteres: N») y deja sin marcar **¿Eliminar el título del sitio?** salvo que quieras omitir «\| La Paz Sí Pasa». |
+| ② | **Meta descripción** *(pestaña General)* | Resumen corto debajo del título en Google y al compartir. | Ideal hasta 155 caracteres (revisa el contador «Caracteres: N»). Si la dejas vacía, usa el sumario del boletín o el resumen de la historia. |
+| ③ | **URL de imagen social** *(pestaña Social)* | Fotografía de la tarjeta al compartir el enlace en WhatsApp o redes. | Haz clic en **Seleccionar imagen** y elige una foto horizontal. Si la dejas vacía, se usa la foto de portada. |
 
-[CONFIRMAR EN PANTALLA: la ubicación de **Cajas meta** en las páginas; que el Editor solo ve las pestañas **General** y **Social**; y si la casilla **¿Eliminar el título del sitio?** surte efecto por entrada.]
+**No se muestra al editor:** la pestaña de visibilidad y los campos separados por red social están ocultos para mantener la caja simple y evitar cambios accidentales en la indexación. Al terminar, haz clic en **Actualizar** o **Publicar** para guardar.
 
 ### A quién acudir
 Si encuentras un error que no está en la sección 8, necesitas cambiar el menú principal o un cambio no aparece tras recargar, escribe al equipo técnico responsable del sitio indicando:
@@ -372,23 +459,61 @@ Si encuentras un error que no está en la sección 8, necesitas cambiar el menú
 ## Resumen en una hoja
 
 ### Publicar el boletín del mes
-1. Entra a `/wp-admin` → **Boletines** → **Añadir edición**.
+1. Entra a la dirección del sitio seguida de `/wp-admin` → **Boletines** → **Añadir edición**.
 2. Escribe el título corto (`Edición XX`), que define la dirección `/boletin/edicion-XX/`.
 3. En **Edición**, llena **Número de edición**, **Periodo**, texto del índice y **Créditos de fotografía** (un nombre por línea).
 4. En **Portada**, llena **Titular**, **Sumario**, foto horizontal (con **Texto alternativo**) y **Crédito de la foto**.
 5. En **Secciones**, llena las filas que vas a usar y borra con **−** las que no necesites.
 6. Pega los textos sin formato (`Ctrl/Cmd + Shift + V`), usa **Título 3** para subtítulos y **Cita** en dos párrafos.
-7. Haz clic en **Guardar borrador** y revisa **Vista previa**.
+7. Haz clic en **Solo guardar** y revisa **Vista previa**.
 8. Haz clic en **Publicar** (o programa fecha y hora).
 9. Comprueba `/boletin/` y la tarjeta **Último boletín** en **Inicio**.
 
 ### Publicar la historia del mes
-1. Entra a `/wp-admin` → **Historias PaisSana** → **Añadir historia**.
+1. Entra a la dirección del sitio seguida de `/wp-admin` → **Historias PaisSana** → **Añadir historia**.
 2. Escribe el nombre de la organización en el título (define `/historias/<nombre>/`).
 3. En **Presentación**, llena **Lugar**, **Subtítulo en el catálogo**, **Resumen**, **Foto de la tarjeta** y hasta 3 **Cifras**.
 4. En **Portada**, sube la **Foto de portada**, escribe **Título de la historia** y agrega las filas de **Ficha**.
 5. En **Video**, elige **YouTube**, **Archivo MP4** (< 20 MB), **Enlace externo** (`https://`) o **Sin video**.
 6. En **Crónica**, pega el texto sin formato (**Título 3** y **Cita** en dos párrafos) y añade fotos o recuadro de datos si aplica.
-7. En **Galería**, sube las fotos y llena **Texto alternativo**, **Leyenda** (pie) y **Descripción** (fotógrafo) en cada una.
-8. Haz clic en **Guardar borrador** y revisa **Vista previa**.
+7. En **Galería**, sube las fotos y llena **Texto alternativo**, **Leyenda de la imagen** (pie) y **Descripción** (fotógrafo) en cada una.
+8. Haz clic en **Solo guardar** y revisa **Vista previa**.
 9. Haz clic en **Publicar** y comprueba `/historias/`, **Inicio**, **Proyectos destacados** y `/productores/`.
+
+---
+
+## Lista de imágenes
+
+Todas las imágenes necesarias para armar el documento, en orden de aparición (31 archivos: 5 capturas sueltas + 13 láminas emparejadas):
+
+1. `captura-01-inicio-sesion.png`
+2. `captura-02-menu-lateral.png`
+3. `lamina-01-boletin-edicion-wordpress.png`
+4. `lamina-01-boletin-edicion-sitio.png`
+5. `lamina-02-boletin-portada-wordpress.png`
+6. `lamina-02-boletin-portada-sitio.png`
+7. `lamina-03-boletin-destacado-wordpress.png`
+8. `lamina-03-boletin-destacado-sitio.png`
+9. `lamina-04-boletin-secciones-indice-wordpress.png`
+10. `lamina-04-boletin-secciones-indice-sitio.png`
+11. `lamina-05-boletin-molde-articulo-wordpress.png`
+12. `lamina-05-boletin-molde-articulo-sitio.png`
+13. `lamina-06-boletin-molde-cifras-wordpress.png`
+14. `lamina-06-boletin-molde-cifras-sitio.png`
+15. `lamina-07-boletin-molde-tarjetas-wordpress.png`
+16. `lamina-07-boletin-molde-tarjetas-sitio.png`
+17. `lamina-08-boletin-molde-agenda-wordpress.png`
+18. `lamina-08-boletin-molde-agenda-sitio.png`
+19. `captura-07-biblioteca-medios-campos.png`
+20. `captura-08-panel-publicar.png`
+21. `lamina-09-historia-presentacion-wordpress.png`
+22. `lamina-09-historia-presentacion-sitio.png`
+23. `lamina-10-historia-portada-video-wordpress.png`
+24. `lamina-10-historia-portada-video-sitio.png`
+25. `lamina-11-historia-cronica-galeria-wordpress.png`
+26. `lamina-11-historia-cronica-galeria-sitio.png`
+27. `lamina-12-productor-tarjeta-wordpress.png`
+28. `lamina-12-productor-tarjeta-sitio.png`
+29. `captura-12-paginas-protegidas.png`
+30. `lamina-13-seo-ajustes-wordpress.png`
+31. `lamina-13-seo-ajustes-sitio.png`

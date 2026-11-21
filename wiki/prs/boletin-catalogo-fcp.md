@@ -1,6 +1,6 @@
 # Boletín *Caminos de Transformación*, catálogo PaisSana e historia del mes
 
-Rama `feat/boletin-catalogo-fcp` → `main` (39 commits) · [Spec](wiki/specs/boletin-catalogo-fcp.md) · [Decisiones](wiki/decisions/boletin-catalogo-fcp.md) · [Revisiones independientes](wiki/specs/boletin-catalogo-fcp/revisiones-independientes.md)
+Rama `feat/boletin-catalogo-fcp` → `main` (42 commits) · [Spec](wiki/specs/boletin-catalogo-fcp.md) · [Decisiones](wiki/decisions/boletin-catalogo-fcp.md) · [Revisiones independientes](wiki/specs/boletin-catalogo-fcp/revisiones-independientes.md)
 
 ## Problema
 
@@ -10,45 +10,46 @@ El Fondo Colombia en Paz entregó dos piezas como HTML estático con tipografía
 
 - **Modelo de contenido (`apps/wp-fse/scf-json/`):** tres tipos nuevos exclusivos del sitio FSE (`boletin`, `productor` con 5 taxonomías nativas, `historia`), formularios en lenguaje llano y carga inicial idempotente en `apps/wordpress/seed/` (316 productores, edición 02 e historia de Asocafé) ([contrato](wiki/specs/boletin-catalogo-fcp/contrato.md)).
 - **Boletín (`/boletin/` y `/boletin/<slug>/`):** bloque `lapaz/boletin` con contenido flexible en 4 moldes (Artículo, Cifras, Tarjetas, Agenda). Al crear una edición nacen las 8 secciones estándar listas; índice, numeración, barra de secciones y «Otras ediciones» se generan solos ([boletín](wiki/specs/boletin-catalogo-fcp/boletin-estructura.md)).
-- **Catálogo de productores (`/productores/`):** bloques `lapaz/catalogo-portada` y `lapaz/catalogo`, con búsqueda y filtros en servidor (`WP_Query` + índice generado en `apps/wp-fse/mu-plugins/lapaz-catalogo.php`), navegación sin recargar con la Interactivity API sin build y funcionamiento completo sin JavaScript ([catálogo](wiki/specs/boletin-catalogo-fcp/paissana-catalogo.md)).
+- **Catálogo de productores (`/productores/`):** bloques `lapaz/catalogo-portada` y `lapaz/catalogo`, con búsqueda y filtros en servidor (`WP_Query` + índice en `apps/wp-fse/mu-plugins/lapaz-catalogo.php`), navegación sin recargar con la Interactivity API sin build y funcionamiento completo sin JavaScript ([catálogo](wiki/specs/boletin-catalogo-fcp/paissana-catalogo.md)).
 - **Historia del mes (`/historias/` y `/historias/<slug>/`):** bloques `lapaz/historia` (portada, ficha, video YouTube/MP4/enlace, crónica, galería con `<dialog>` nativo y «Otras historias») y `lapaz/historia-destacada`. `/paissana/` se retira (404; nunca estuvo en producción).
-- **Navegación, accesos y guía de estilos:** menú Principal con 4 ítems y estado activo por sección (`inc/navegacion.php`), botones de programas sin publicar en gris deshabilitados, hero compacto en interiores (`is-style-compacto`), accesos desde Inicio y Proyectos destacados (`lapaz/boletin-destacado`, `lapaz/catalogo-banner`, `lapaz/historia-destacada`), tokens en `theme.json` con hojas compartidas `editorial.css` y `lectura.css` y guía de estilos viva solo en local (`lapaz/guia-estilos`) ([navegación](wiki/navegacion.md), [guía de estilos](wiki/guia-de-estilos.md)).
-- **Seguridad y endurecimiento:** API REST cerrada sin sesión (`401`) y tipos del catálogo fuera de REST también con sesión (`lapaz-seguridad.php`), contraseñas de aplicación desactivadas, error de login genérico, oEmbed sin autor, `zz-lapaz-seguridad.conf` (sin listado de directorios, `readme.html`/`debug.log`/`xmlrpc.php` en 403, HSTS bajo HTTPS, `CSP-Report-Only`), límites PHP (`128M` en contenedor de `512M`), `no-new-privileges`, `mariadb:11.8`, acciones de CI fijadas por SHA y limpieza de datos internos en la wiki.
-- **Accesibilidad AA y rendimiento:** contraste ≥ 5,98:1 en indicador de menú activo y pista de barras, `<dialog>` modal nativo, gestión de foco al agotar «Ver más», `_prime_post_caches` en la galería, `sizes` ajustados y vaciado de caché de WP Super Cache al guardar contenido (`lapaz-core.php`).
-- **SEO editable (The SEO Framework 5.2.1, `autodescription`):** el editor cambia título, descripción e imagen para compartir de cada página, boletín e historia, con caja reducida para el Editor; `noindex` en las búsquedas del catálogo; sitemap en `/sitemap.xml`; el SEO del tema queda como respaldo sin el plugin (`inc/seo-tsf.php`, [seo-plugin](wiki/specs/boletin-catalogo-fcp/seo-plugin.md)).
+- **SEO editable (The SEO Framework 5.2.1, `autodescription`):** incluido con suma SHA-256 y traducción `es_CO` en `apps/wp-fse/Dockerfile`. El editor cambia título, descripción e imagen para compartir de cada página, boletín e historia desde una caja reducida (sin visibilidad ni campos sociales sueltos, bloqueado también al guardar en `inc/seo-tsf-editor.php`); el tema aporta valores por defecto, canónicas de archivos y `noindex` en búsquedas del catálogo y fuera de producción (`inc/seo-tsf.php`), sitemap en `/sitemap.xml` con 301 desde `/wp-sitemap*.xml` y respaldo propio sin el plugin (`inc/seo.php`, [seo-plugin](wiki/specs/boletin-catalogo-fcp/seo-plugin.md)).
+- **Navegación, accesos y guía de estilos:** menú Principal con 4 ítems y estado activo por sección (`inc/navegacion.php`), programas sin publicar deshabilitados en gris, hero compacto en interiores, accesos desde Inicio y Proyectos destacados (`lapaz/boletin-destacado`, `lapaz/catalogo-banner`, `lapaz/historia-destacada`), tokens en `theme.json` con `editorial.css` y `lectura.css`, y guía de estilos viva solo en local (`lapaz/guia-estilos`) ([navegación](wiki/navegacion.md), [guía de estilos](wiki/guia-de-estilos.md)).
+- **Seguridad, accesibilidad AA y rendimiento:** API REST cerrada sin sesión (401) y tipos del catálogo fuera de REST también con sesión (`lapaz-seguridad.php`), sin contraseñas de aplicación, login genérico, `zz-lapaz-seguridad.conf` (403 en archivos sensibles y carpeta de idiomas, HSTS bajo HTTPS, `CSP-Report-Only`), `memory_limit = 128M`, `no-new-privileges`, `mariadb:11.8`, acciones de CI fijadas por SHA, contraste ≥ 5,98:1, `<dialog>` nativo, `_prime_post_caches` en la galería y vaciado automático de WP Super Cache al guardar contenido (`lapaz-core.php`).
 
 ## Qué NO incluye
+
 - Video final de Asocafé (pendiente del Fondo; usa enlace externo o sin fuente).
-- Páginas de *Programa Colombia Sostenible* y *Programa Piloto de Inversiones Prioritarias* (botones en gris «próximamente»).
+- Páginas de *Programa Colombia Sostenible* y *Programa Piloto de Inversiones Prioritarias* (botones deshabilitados).
 - Suscripción, envío por correo, descarga PDF del boletín o páginas individuales por productor.
-- Configuración del servidor Dokploy/Traefik (HTTPS del panel, rate limiting en `wp-login.php`, respaldos diarios).
+- Configuración del servidor Dokploy/Traefik (HTTPS del panel, límite de intentos en `wp-login.php`, respaldos diarios).
 
 ## Validación
 
-- **Verificado en local con la imagen reconstruida:** `seguridad.mjs` 64 de 64, `seo.mjs` 280 y `navegacion.mjs` 181, en verde.
-- **Pendiente de la corrida final:** `catalogo`, `boletin`, `historia`, `rest` y `lo-que-hacemos`, y `apps/wp-fse/bin/check` completo.
-- **Revisiones independientes:** 23 de solo lectura (1 a 10, 12, 13, 15 a 19, 21 a 23 y 25 a 27) y 4 tareas de redacción terminadas (11, 14, 20 y 24; la 28 está en curso), registradas en [revisiones-independientes.md](wiki/specs/boletin-catalogo-fcp/revisiones-independientes.md). La 25 la repitió AGY el 2026-11-21.
-- **Pendiente antes de producción:** probar en staging con la imagen reconstruida (`CSP-Report-Only` en consola con Plyr YouTube, HSTS, WP Super Cache real en `/productores/` y vaciado al publicar, Site Health con REST cerrado, subidas de ~20 MB, SEO con un Editor real y `robots` sin `noindex` en producción); verificación con lector de pantalla (VoiceOver/NVDA) y Lighthouse de `/productores/`.
+- **Calidad determinista (`apps/wp-fse/bin/check`):** 17 pasos en verde (PHPCS, PHPStan, ESLint, Stylelint, validación de plantillas, `block.json`, límites de líneas y tokens).
+- **18 suites e2e en verde (958 comprobaciones, salida 0 sobre la imagen reconstruida):** `navbar` (9), `retratos` (43), `layout` (49), `lo-que-hacemos` (24), `actualidad` (27), `paisana-hero` (8), `paisana-mapa` (24), `paisana-audios` (14), `paisana-productores` (10), `paisana-ferias` (24), `boletin` (56), `catalogo` (60), `historia` (43), `navegacion` (181), `seo` (283), `seguridad` (68), `rest` (22) y `admin` (13).
+- **Revisiones independientes:** 27 revisiones de solo lectura (1–10, 12–13, 15–19, 21–23, 25–27, 29, 32, 34 y 35) y 8 tareas de redacción (11, 14, 20, 24, 28, 30, 31 y 33), registradas en [revisiones-independientes.md](wiki/specs/boletin-catalogo-fcp/revisiones-independientes.md).
+- **Fallo real detectado y cerrado antes del PR:** al abrir pantallas de edición con sesión de Editor para capturar el manual, PHP lanzó `TypeError` en `lapaz_tsf_imagen()` porque The SEO Framework 5.2.1 pasa `null` en el tercer parámetro (`$single`) desde la pestaña Social, cortando los formularios SCF y dejando en blanco el editor de bloques. Las 17 suites previas no lo vieron porque ninguna abría `post.php` autenticado. Se corrigió la firma y dos fallos de contexto en `inc/seo-tsf.php` (`c3f7c11`) y se añadió `apps/wp-fse/tests/e2e/admin.mjs` al CI (13 comprobaciones en verde).
+- **Qué NO se ha probado aún de forma automática:** guardado HTTP (POST) con validación SCF, WP Super Cache real con `WP_CACHE=true`, subida de medios JPEG → WebP/1500 px, `lapaz-importar` e idempotencia de `lapaz-setup` en segunda corrida, editor de bloques en Chrome con sesión, envío SMTP, lector de pantalla (VoiceOver/NVDA) y Lighthouse de `/productores/`.
 
 ## Riesgos
 
-- **Cierre de API REST sin sesión:** puede mostrar aviso en *Salud del sitio* del admin; validar en staging junto con el Editor del sitio y The SEO Framework.
-- **Cambia la URL del sitemap:** `/wp-sitemap.xml` pasa a `/sitemap.xml` (301). Hay que reenviarla en Search Console tras desplegar.
-- **SEO con dependencia de un plugin de terceros:** The SEO Framework solo se actualiza reconstruyendo la imagen: subir `TSF_VERSION` y `TSF_SHA256` en `apps/wp-fse/Dockerfile` y los dos archivos de idioma `autodescription-es_CO` en `apps/wp-fse/docker/languages/plugins/`.
-- **CSP:** entra en modo solo informe (`Content-Security-Policy-Report-Only`); no pasar a modo activo sin confirmar consola limpia en `/proyectos-destacados/` (videos YouTube de Plyr).
-- **Historial de la rama:** commits anteriores a `ff6445d` contenían datos de operación ya redactados en `wiki/`; usar **squash merge** a `main` y no publicar commits intermedios de la rama en repos públicos.
+- **Cierre de API REST sin sesión:** puede mostrar aviso en *Salud del sitio*; validar en staging junto con el Editor del sitio y The SEO Framework.
+- **Cambio de sitemap:** `/wp-sitemap.xml` redirige (301) a `/sitemap.xml`; reenviar `/sitemap.xml` en Search Console tras desplegar.
+- **Plugin fijado en la imagen:** actualizar The SEO Framework exige subir `TSF_VERSION`/`TSF_SHA256` en `Dockerfile` y la traducción `es_CO` en `apps/wp-fse/docker/languages/plugins/`.
+- **CSP:** entra en `Content-Security-Policy-Report-Only`; no pasar a modo activo sin confirmar consola limpia en `/proyectos-destacados/` (Plyr/YouTube).
+- **Historial de la rama:** commits anteriores a `ff6445d` contenían datos de operación ya retirados del árbol; hacer **squash merge** a `main` (el squash no borra datos que ya existían en commits previos de `main`: cerrar puerto del panel, activar HTTPS y rotar claves).
 
 ## Después del merge
 
-Seguir [wiki/despliegue-fse.md](wiki/despliegue-fse.md#despliegue-de-boletín-y-catálogo-paissana) primero en staging y luego en producción:
+Ejecutar primero en staging siguiendo el [guion de pruebas de staging](wiki/specs/boletin-catalogo-fcp/plan-staging.md) y luego en producción según [wiki/despliegue-fse.md](wiki/despliegue-fse.md#despliegue-de-boletín-y-catálogo-paissana):
 1. Respaldar la base de datos antes del despliegue.
 2. Desplegar `main` en Dokploy reconstruyendo la imagen de `cms`.
-3. Ejecutar `lapaz-setup` (sin `--seed`) dentro de `cms` para crear/migrar `/productores/`, reglas de caché y enlaces.
-4. Cargar el seed selectivo (`SEED_SOLO=productores`, `boletines`, `historias`, en ese orden; **nunca** `--seed` completo en producción).
-5. Crear el usuario con rol **Editor** y entregar la clave por canal separado.
-6. Verificar HTTP 200/404, cabeceras, consola CSP, caché y permisos del Editor.
+3. Ejecutar `lapaz-setup` (sin `--seed`) dentro de `cms`.
+4. Cargar el seed selectivo (`SEED_SOLO=productores`, `boletines`, `historias`, en ese orden; nunca `--seed` completo en producción).
+5. Crear el usuario **Editor** y entregar la clave por otro canal.
+6. Verificar rutas, cabeceras, consola CSP, caché de página, permisos del Editor y envío de `/sitemap.xml` en Search Console.
 
-## Pendientes del dueño y del Fondo
+## Pendientes
 
-- **Dueño / servidor:** panel Dokploy con HTTPS y puerto directo cerrado, rotación de claves, respaldos diarios, rate limiting en Traefik, 2FA del Editor y decisiones D1–D7 de SEO ([lista completa](wiki/specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor)).
-- **Fondo Colombia en Paz:** video de Asocafé, nombre y correo de la persona editora, confirmar si el boletín deja de llamarse «interno», autorización de productores registrados como personas naturales, corrección del municipio numérico de «Llaneridad Gourmet» y noticias reales de portada.
+- **Dueño / servidor:** panel Dokploy solo por HTTPS y puerto directo cerrado, rotación de claves, respaldos diarios, rate limiting en Traefik, 2FA del Editor y decisiones D1–D7 de SEO ([lista completa](wiki/specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor)).
+- **Fondo Colombia en Paz:** video de Asocafé, datos de la persona editora, confirmar rótulo «Boletín interno», autorización de los 12 registros de personas naturales, erratas de origen en productores (municipios numéricos) y noticias reales de portada ([nota](wiki/specs/boletin-catalogo-fcp/nota-para-el-fondo.md)).

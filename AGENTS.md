@@ -36,5 +36,5 @@ docker run --rm -v "$PWD/../..":/app -w /app/apps/wp-fse composer:2 sh -c "compo
 - `PUBLIC_SITE_URL` se hornea en el build: debe ser el dominio real.
 - Tras cada deploy, comprobar el CMS (ver README, "Después de cada deploy").
 - Secretos por entorno, nunca en el repo.
-- Tema FSE: sigue [`wiki/buenas-practicas-wordpress.md`](wiki/buenas-practicas-wordpress.md). Un componente equivale a un bloque. `apps/wp-fse/bin/check` en verde antes de cerrar una etapa o abrir un PR. Nunca se relaja una regla para que pase.
+- Tema FSE: sigue [`wiki/buenas-practicas-wordpress.md`](wiki/buenas-practicas-wordpress.md). Un componente equivale a un bloque. `apps/wp-fse/bin/check` en verde antes de cerrar una etapa o abrir un PR. Nunca se relaja una regla para que pase. Callbacks sobre plugins de terceros: contra su código real y con tipos tolerantes; toda integración de wp-admin en `apps/wp-fse/tests/e2e/admin.mjs`.
 - Despliegue del sitio FSE (Dokploy, servidores, `lapaz-importar`): [`wiki/despliegue-fse.md`](wiki/despliegue-fse.md).

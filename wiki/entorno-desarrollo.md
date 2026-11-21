@@ -65,12 +65,12 @@ docker compose down -v                           # borrar también la base y upl
 ## Calidad: el criterio de "hecho"
 
 ```bash
-apps/wp-fse/bin/check                              # 16 pasos de análisis estático, todo en Docker
+apps/wp-fse/bin/check                              # 17 pasos de análisis estático, todo en Docker
 cd apps/wp-fse && node tests/e2e/navbar.mjs        # comportamiento (con el stack en :8090)
 cd apps/wp-fse && node tests/e2e/navbar.mjs --visual   # y comparación de píxeles con Astro
 ```
 
-Suites e2e del sitio FSE (en `apps/wp-fse/tests/e2e/`): `navbar`, `retratos`, `layout`, `lo-que-hacemos`, `actualidad`, las cinco de `paisana-*`, `boletin`, `catalogo`, `historia`, `navegacion`, `seo`, `seguridad` y `rest` (sin Chrome).
+Suites e2e del sitio FSE (en `apps/wp-fse/tests/e2e/`): `navbar`, `retratos`, `layout`, `lo-que-hacemos`, `actualidad`, las cinco de `paisana-*`, `boletin`, `catalogo`, `historia`, `navegacion`, `seo`, `seguridad`, `rest` (sin Chrome) y `admin` (sin Chrome: abre las pantallas de edición con sesión de Editor y falla ante cualquier error fatal de PHP).
 
 - **No ejecutar dos suites e2e a la vez** contra `:8090`: varias (`boletin`, `catalogo`, `historia`, `lo-que-hacemos`) crean, editan y borran entradas de prueba en la misma base local y chocan si corren en paralelo.
 - Sin `bin/check` en verde no se cierra una etapa ni se abre un PR.

@@ -2,10 +2,13 @@
 
 Qué cambió, con fecha y PR. Lo reciente arriba.
 
-- **2026-11-21** · documentación y revisiones · **en la rama `feat/boletin-catalogo-fcp` (39 commits sobre `lapazsipasa/main`), sin push, PR ni deploy** · [revisiones](specs/boletin-catalogo-fcp/revisiones-independientes.md)
-  - Documentación del plugin de SEO: `seo-plugin`, `despliegue-fse`, `manual-editor` y el borrador de PR al día (`28f1cf0`).
+- **2026-11-21** · cierre de la rama para PR · **en la rama `feat/boletin-catalogo-fcp` (42 commits sobre `lapazsipasa/main`), sin push, PR ni deploy** · [revisiones](specs/boletin-catalogo-fcp/revisiones-independientes.md)
   - Pruebas: la canónica de una entrada se exige en producción y no en local, en `boletin.mjs` e `historia.mjs`; PHPCS corregido en `inc/boletin.php` (`1d4e1b2`).
-  - Revisiones 25 (todo lo de las revisiones 21 y 22 resuelto), 26 (seguridad, correcciones en curso) y 27 (auditoría de la wiki) registradas.
+  - Seguridad, revisión 26: bloqueo de la visibilidad de TSF al Editor, `wp-content/languages` sin acceso HTTP y esquema `https` en la imagen social (`1546852`).
+  - Guion de pruebas de staging y wiki contrastada con el código (`d957a80`).
+  - Fallo de las pantallas de edición con el plugin de SEO (`TypeError` en `lapaz_tsf_imagen()`): corregido y cubierto con la suite nueva `admin.mjs` (`c3f7c11`).
+  - Corrida final en verde: `bin/check` 17 pasos; 18 suites, 958 comprobaciones. Veredicto del revisor: lista para abrir el PR.
+  - Manual del editor v3 con láminas emparejadas y rótulos verificados en pantalla (sin commit).
 - **2026-11-20** · entrega de la rama: URL nuevas, endurecimiento, accesibilidad, formularios del admin, pruebas, revisiones independientes y SEO editable · **en la rama `feat/boletin-catalogo-fcp` (38 commits sobre `lapazsipasa/main`), sin push, PR ni deploy** · [revisiones](specs/boletin-catalogo-fcp/revisiones-independientes.md)
   - Catálogo en `/productores/` (plantilla `page-productores.html`) e historias en `/historias/<slug>/`, con archivo en `/historias/`. `/paissana/` deja de existir; `lapaz-setup` migra la página conservando su ID (`1e799ea`).
   - Menú: «Proyectos destacados» queda activo también en `/productores/` y `/historias/` (`1e799ea`).
