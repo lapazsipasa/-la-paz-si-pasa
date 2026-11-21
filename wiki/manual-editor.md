@@ -10,8 +10,6 @@ Las claves de acceso se entregan por otro canal.
 
 ---
 
-**Cómo leer las láminas de este manual:** cada formulario incluye dos imágenes emparejadas: arriba, la pantalla de WordPress donde escribes; abajo, el bloque del sitio público que cambia. Los círculos numerados (①, ②, ③…) conectan cada campo con el lugar exacto donde aparece en la página.
-
 ## Índice
 
 1. Entrar al administrador y orientarte
@@ -26,22 +24,25 @@ Las claves de acceso se entregan por otro canal.
 10. Buscadores y redes (SEO) y a quién acudir
 11. Resumen en una hoja
 
+**Cómo leer las láminas de este manual:** cada formulario se explica con tres piezas seguidas: primero **En WordPress** (la pantalla donde escribes), después **En el sitio** (dónde aparece lo que escribiste en la página pública) y por último una **tabla** que dice qué campo es cada número. El círculo con un número lleva el mismo número en las dos imágenes y en la tabla: el ① de WordPress es el ① del sitio. Los números empiezan de nuevo en cada lámina. Los círculos son naranjas y azules por turnos solo para distinguir cuadros vecinos; el color no significa nada. Si una imagen es muy larga, continúa en la página siguiente («1 de 2», «2 de 2»).
+
 ---
 
 ## 1. Entrar al administrador y orientarte
 
 ### Cómo iniciar sesión
 
-1. Abre tu navegador y entra a la dirección del sitio seguida de `/wp-admin`.
+1. Abre tu navegador y entra a la dirección del sitio (la misma que usas para ver la web) seguida de `/wp-admin`.
 2. Escribe tu **Nombre de usuario o dirección de correo** y tu **Contraseña** (las claves de acceso se entregan por otro canal).
 3. Haz clic en **Acceder**.
 
 > **Imagen** `captura-01-inicio-sesion.png`: Pantalla de inicio de sesión de WordPress en la dirección del sitio seguida de /wp-admin.
+
 Si alguna vez olvidas tu contraseña, haz clic en **¿Olvidaste tu contraseña?** en esa misma pantalla y recibirás un correo para crear una nueva. También puedes cambiar tu clave en cualquier momento desde **Perfil** en el menú lateral.
 
 ### Qué menú vas a usar
 
-Al entrar verás una barra oscura a la izquierda. Con tu cuenta de **Editor** puedes crear, editar y publicar contenido y subir fotos. No necesitas entrar a ajustes ni instalar complementos (eso solo lo hace un Administrador).
+Al entrar verás una barra oscura a la izquierda. Con tu cuenta de **Editor** puedes crear, editar y publicar contenido y subir fotos. No necesitas entrar a ajustes ni instalar complementos (eso solo lo hace un Administrador). Verás más entradas en el menú (Noticias, Retratos, Ferias, Videos…); no las necesitas para el boletín, las historias ni el catálogo.
 
 | Menú lateral | Para qué sirve | Dónde aparece en el sitio |
 | --- | --- | --- |
@@ -51,6 +52,7 @@ Al entrar verás una barra oscura a la izquierda. Con tu cuenta de **Editor** pu
 | **Medios** | Ver o subir fotos y archivos de video a la biblioteca. | En cualquier boletín o historia donde los elijas. |
 
 > **Imagen** `captura-02-menu-lateral.png`: Menú lateral de WordPress con las secciones Boletines, Historias PaisSana, Productores y Medios.
+
 ---
 
 ## 2. Publicar una edición del boletín, paso a paso
@@ -67,8 +69,12 @@ Cada edición del boletín es una entrada independiente. El sitio arma solo las 
 
 En esta pestaña defines los datos generales de la edición: número, periodo, franja superior, introducción del índice y créditos fotográficos del pie.
 
+Cada lámina tiene tres piezas con los mismos números: la imagen de WordPress, la imagen del sitio y la tabla (ver «Cómo leer las láminas» al comienzo).
+
 > **Imagen** `lamina-01-boletin-edicion-wordpress.png`: Pestaña «Edición» del boletín en WordPress con los campos numerados del 1 al 5.
+
 > **Imagen** `lamina-01-boletin-edicion-sitio.png`: Franja superior, introducción del índice y pie del boletín donde aparecen los campos 1 a 5.
+
 | Nº | Campo en WordPress | Dónde aparece en el sitio |
 | --- | --- | --- |
 | ① | **Número de edición** *(obligatorio)* | Franja superior (`EDICIÓN 02`), pie del boletín, tarjeta de Inicio y título de la pestaña del navegador. |
@@ -84,7 +90,9 @@ En esta pestaña defines los datos generales de la edición: número, periodo, f
 Aquí armas la cabecera principal del boletín: titular, sumario, firma de portada, fotografía principal y crédito.
 
 > **Imagen** `lamina-02-boletin-portada-wordpress.png`: Pestaña «Portada» del boletín en WordPress con los campos numerados del 1 al 6.
+
 > **Imagen** `lamina-02-boletin-portada-sitio.png`: Portada de la edición en el sitio público con los elementos 1 a 6.
+
 | Nº | Campo en WordPress | Dónde aparece en el sitio |
 | --- | --- | --- |
 | ① | **Titular** *(obligatorio)* | Titular principal de la portada del boletín (y en la tarjeta de Inicio). |
@@ -94,21 +102,13 @@ Aquí armas la cabecera principal del boletín: titular, sumario, firma de porta
 | ⑤ | **Foto de portada** *(obligatorio)* | Fotografía principal a la derecha de la portada (también en Inicio y al compartir). |
 | ⑥ | **Crédito de la foto** | Pie pequeño debajo de la foto de portada. |
 
-**Consejos:** ③ y ④ son opcionales; en ⑤ elige una foto horizontal y llena su **Texto alternativo**; en ⑥ sí escribe `Fotografía: Nombre Apellido`.
+**Consejos:** ③ y ④ son opcionales; en ⑤ elige una foto horizontal y llena su **Texto alternativo** (cómo, en la sección 3); en ⑥ sí escribe `Fotografía: Nombre Apellido`.
 
 ### Cómo se reutiliza esta portada en Inicio
 
-En cuanto publicas la edición, la tarjeta **Último boletín** de **Inicio** se actualiza sola tomando tres campos de la pestaña **Portada** (más el número y el periodo de **Edición**).
+En cuanto publicas, la tarjeta **Último boletín** de **Inicio** se actualiza sola. En la imagen, ① es el **Titular**, ② el **Sumario** (se recorta a 30 palabras: pon la idea principal al comienzo) y ③ la **Foto de portada**, los tres de la pestaña **Portada**; el número y el periodo salen de la pestaña **Edición**.
 
-> **Imagen** `lamina-03-boletin-destacado-wordpress.png`: Campos de la pestaña «Portada» que se reutilizan en la tarjeta de Inicio (1 a 3).
 > **Imagen** `lamina-03-boletin-destacado-sitio.png`: Tarjeta «Último boletín» en la página de Inicio con los elementos 1 a 3.
-| Nº | Campo en WordPress | Dónde aparece en el sitio |
-| --- | --- | --- |
-| ① | **Titular** | Título de la tarjeta **Último boletín** en Inicio. |
-| ② | **Sumario** | Resumen de la tarjeta en Inicio (recortado automáticamente a 30 palabras). |
-| ③ | **Foto de portada** | Fotografía a la izquierda de la tarjeta en Inicio. |
-
-**Consejo:** pon la idea principal al comienzo del sumario porque en Inicio se recorta a 30 palabras. **No se muestra en la tarjeta de Inicio:** **Protagonista o autor**, **Cargo o descripción** y **Crédito de la foto** solo aparecen en la portada del boletín; la línea *Edición NN · Periodo* sale de la pestaña **Edición**.
 
 ### Paso 4: Llenar la pestaña Secciones
 
@@ -123,12 +123,22 @@ Al crear una edición nueva, WordPress ya te entrega **las 8 secciones estándar
 7. *Actualidad* (**Artículo**)
 8. *La agenda* (**Agenda**)
 
+### Cómo quitar, reordenar o añadir secciones
+
+Antes de llenar nada, decide qué secciones usarás esta edición y borra ya las que no.
+
+- **Quitar una sección:** pasa el cursor por el borde derecho de la barra de la sección y haz clic en el botón **−** (quitar fila). **Importante:** si una edición va a tener menos de 8 secciones, **borra las filas que no vas a usar**. Si dejas una fila vacía, al intentar publicar verás «Validación fallida» porque tiene campos obligatorios sin llenar.
+- **Reordenar:** arrastra una sección desde el número a la izquierda de su barra y suéltala donde quieras. La numeración (`01`, `02`…) se ajusta sola.
+- **Añadir una nueva:** haz clic en **Añadir sección** al final de la lista y elige el molde (**Artículo**, **Cifras**, **Tarjetas** o **Agenda**).
+
 ### Campos comunes de todas las secciones
 
 Haz clic en la barra de una sección para abrirla. Los cuatro moldes (**Artículo**, **Cifras**, **Tarjetas** y **Agenda**) empiezan con los mismos cinco campos que arman la barra superior, la tarjeta del índice «En esta edición» y la cabecera de la sección.
 
 > **Imagen** `lamina-04-boletin-secciones-indice-wordpress.png`: Campos comunes al abrir una sección en la pestaña «Secciones» (1 a 5).
+
 > **Imagen** `lamina-04-boletin-secciones-indice-sitio.png`: Barra superior, tarjeta del índice «En esta edición» y cabecera de sección (1 a 5).
+
 | Nº | Campo en WordPress | Dónde aparece en el sitio |
 | --- | --- | --- |
 | ① | **Nombre de la sección** *(obligatorio)* | En la barra superior, en la tarjeta del índice y como título grande de la sección. |
@@ -141,10 +151,14 @@ Haz clic en la barra de una sección para abrirla. Los cuatro moldes (**Artícul
 
 ### Molde Artículo
 
+Para pegar el texto, los subtítulos y las citas sigue las reglas de la sección 3.
+
 Usa este molde para entrevistas, reportajes, perfiles o notas largas con texto, fotos laterales y recuadro de datos opcional.
 
 > **Imagen** `lamina-05-boletin-molde-articulo-wordpress.png`: Campos del molde «Artículo» en WordPress numerados del 1 al 8.
+
 > **Imagen** `lamina-05-boletin-molde-articulo-sitio.png`: Sección de tipo Artículo en el boletín con los elementos 1 a 8.
+
 | Nº | Campo en WordPress | Dónde aparece en el sitio |
 | --- | --- | --- |
 | ① | **Etiqueta superior** | Rótulo corto sobre el titular del artículo (su campo vecino **Color de la etiqueta** cambia entre Azul y Verde). |
@@ -163,7 +177,9 @@ Usa este molde para entrevistas, reportajes, perfiles o notas largas con texto, 
 Usa este molde para mostrar indicadores destacados en tarjetas numéricas con una nota explicativa al pie.
 
 > **Imagen** `lamina-06-boletin-molde-cifras-wordpress.png`: Campos del molde «Cifras» en WordPress numerados del 1 al 3.
+
 > **Imagen** `lamina-06-boletin-molde-cifras-sitio.png`: Rejilla de indicadores del molde «Cifras» en el boletín (1 a 3).
+
 | Nº | Campo en WordPress | Dónde aparece en el sitio |
 | --- | --- | --- |
 | ① | **Número** *(obligatorio, dentro de Cifras)* | Cifra grande de cada tarjeta. |
@@ -177,7 +193,9 @@ Usa este molde para mostrar indicadores destacados en tarjetas numéricas con un
 Usa este molde para presentar alianzas, convenios o proyectos en tarjetas con borde superior de color y monto opcional.
 
 > **Imagen** `lamina-07-boletin-molde-tarjetas-wordpress.png`: Campos de una fila del molde «Tarjetas» en WordPress numerados del 1 al 6.
+
 > **Imagen** `lamina-07-boletin-molde-tarjetas-sitio.png`: Rejilla de tarjetas en el boletín con los elementos 1 a 6.
+
 | Nº | Campo en WordPress | Dónde aparece en el sitio |
 | --- | --- | --- |
 | ① | **Etiqueta** | Rótulo corto en la parte superior de la tarjeta. |
@@ -194,7 +212,9 @@ Usa este molde para presentar alianzas, convenios o proyectos en tarjetas con bo
 Usa este molde para listar hitos, fases o próximos eventos en forma de línea de tiempo.
 
 > **Imagen** `lamina-08-boletin-molde-agenda-wordpress.png`: Campos de un hito del molde «Agenda» en WordPress numerados del 1 al 3.
+
 > **Imagen** `lamina-08-boletin-molde-agenda-sitio.png`: Línea de tiempo de la sección «La agenda» en el boletín (1 a 3).
+
 | Nº | Campo en WordPress | Dónde aparece en el sitio |
 | --- | --- | --- |
 | ① | **Cuándo** | Fecha o etapa sobre cada hito. |
@@ -202,12 +222,6 @@ Usa este molde para listar hitos, fases o próximos eventos en forma de línea d
 | ③ | **Texto** | Explicación breve debajo del título (opcional). |
 
 **Consejo:** usa rótulos cortos en ① (como `Fases II y III` o `En implementación`) y una o dos frases en ③.
-
-### Cómo quitar, reordenar o añadir secciones
-
-- **Quitar una sección:** pasa el cursor por el borde derecho de la barra de la sección y haz clic en el botón **−** (quitar fila). **Importante:** si una edición va a tener menos de 8 secciones, **borra las filas que no vas a usar**. Si dejas una fila vacía, al intentar publicar verás «Validación fallida» porque tiene campos obligatorios sin llenar.
-- **Reordenar:** arrastra una sección desde el número a la izquierda de su barra y suéltala donde quieras. La numeración (`01`, `02`…) se ajusta sola.
-- **Añadir una nueva:** haz clic en **Añadir sección** al final de la lista y elige el molde (**Artículo**, **Cifras**, **Tarjetas** o **Agenda**).
 
 ---
 
@@ -243,6 +257,7 @@ Cada vez que subas o elijas una foto en la biblioteca de medios, llena el campo 
 - Sirve para que las personas con discapacidad visual entiendan la foto y ayuda a que el contenido aparezca mejor en buscadores.
 
 > **Imagen** `captura-07-biblioteca-medios-campos.png`: Biblioteca de medios con los campos Texto alternativo, Leyenda de la imagen y Descripción en el panel derecho.
+
 ---
 
 ## 4. Revisar y publicar
@@ -254,6 +269,7 @@ Cada vez que subas o elijas una foto en la biblioteca de medios, llena el campo 
    - Para programar fecha y hora: en el panel derecho, junto a **Publicar inmediatamente**, haz clic en **Editar**, elige fecha y hora, pulsa **Aceptar** y luego **Programar**.
 
 > **Imagen** `captura-08-panel-publicar.png`: Panel lateral Publicar con Solo guardar, Vista previa, programación y el botón Publicar.
+
 ### Qué cambia en el sitio al publicar un boletín
 
 En cuanto publicas:
@@ -272,13 +288,16 @@ Cada mes se publica una historia nueva de una organización productora. Al publi
 1. En el menú lateral haz clic en **Historias PaisSana** y luego en **Añadir historia**.
 2. En el campo superior del título (*Nombre de la organización*), escribe el nombre de la organización (ejemplo: `Asocafé`). Ese título define la dirección web (`/historias/asocafe/`).
 3. Recorre las cinco pestañas en orden.
+4. Al terminar las pestañas, haz clic en **Solo guardar**, revisa **Vista previa** y pulsa **Publicar** (o programa la fecha); es lo mismo que en la sección 4.
 
 ### Pestaña Presentación (la tarjeta Historia del mes)
 
 Estos campos arman la sección **PaisSano destacado** y su tarjeta **Historia del mes** en **Inicio**, **Proyectos destacados** y **Productores** (`/productores/`).
 
 > **Imagen** `lamina-09-historia-presentacion-wordpress.png`: Título superior y pestaña «Presentación» de una historia en WordPress (1 a 7).
+
 > **Imagen** `lamina-09-historia-presentacion-sitio.png`: Sección «PaisSano destacado» y tarjeta «Historia del mes» en el sitio público (1 a 7).
+
 | Nº | Campo en WordPress | Dónde aparece en el sitio |
 | --- | --- | --- |
 | ① | **Título** *(campo superior de WordPress)* | Nombre de la organización en la tarjeta **Historia del mes** (y en **Otras historias**). |
@@ -296,7 +315,9 @@ Estos campos arman la sección **PaisSano destacado** y su tarjeta **Historia de
 Aquí completas el encabezado a todo ancho de `/historias/<nombre>/`, su ficha técnica y el reproductor de video (opcional). La sección **El video** solo aparece en el sitio cuando eliges una fuente distinta de **Sin video**.
 
 > **Imagen** `lamina-10-historia-portada-video-wordpress.png`: Pestañas «Portada» (1 a 5) y «Video» (6 a 8) de una historia en WordPress (ejemplo con video).
+
 > **Imagen** `lamina-10-historia-portada-video-sitio.png`: Portada, ficha técnica y sección de video en la página de la historia (ejemplo con video, 1 a 8).
+
 | Nº | Campo en WordPress | Dónde aparece en el sitio |
 | --- | --- | --- |
 | ① | **Foto de portada** | Imagen horizontal a todo el ancho arriba de la historia (y foto por defecto al compartir). |
@@ -315,7 +336,9 @@ Aquí completas el encabezado a todo ancho de `/historias/<nombre>/`, su ficha t
 Aquí escribes el relato largo con fotos y recuadro de datos laterales, y subes la galería fotográfica con ampliación.
 
 > **Imagen** `lamina-11-historia-cronica-galeria-wordpress.png`: Pestañas «Crónica» (1 a 7) y «Galería» (8) de una historia en WordPress.
+
 > **Imagen** `lamina-11-historia-cronica-galeria-sitio.png`: Sección «La crónica» y galería «Las fotografías» en la página de la historia (1 a 8).
+
 | Nº | Campo en WordPress | Dónde aparece en el sitio |
 | --- | --- | --- |
 | ① | **Subtítulo de la crónica** | Línea corta junto al encabezado «La crónica». |
@@ -327,7 +350,9 @@ Aquí escribes el relato largo con fotos y recuadro de datos laterales, y subes 
 | ⑦ | **Recuadro de datos** | Ficha lateral con pares **Rótulo del dato** y **Valor del dato** (opcional). |
 | ⑧ | **Galería** | Rejilla «Las fotografías» con vista ampliada al pulsar cada imagen (hasta 24 fotos). |
 
-**Consejos:** en ④ pega sin formato (`Ctrl/Cmd + Shift + V`), aplica **Título 3** con `Shift + Alt + 3` (`Control + Option + 3` en Mac) y usa **Cita** en dos párrafos. En ⑧ los botones del selector aparecen en inglés como **Add to gallery** (Añadir a la galería) y **Bulk actions** (Acciones en lote); al hacer clic en cada foto llena **Texto alternativo**, **Leyenda de la imagen** (pie visible) y **Descripción** (solo el nombre del fotógrafo; el sitio antepone «Fotografía:»).
+**Consejos:** en ④ pega sin formato (`Ctrl/Cmd + Shift + V`), aplica **Título 3** con `Shift + Alt + 3` (`Control + Option + 3` en Mac) y usa **Cita** en dos párrafos. En ⑧ los botones del selector aparecen en inglés como **Add to gallery** (Añadir a la galería) y **Bulk actions** (Acciones en lote).
+
+**Paso de la galería (⑧):** para cada foto, haz clic sobre ella y llena **Texto alternativo**, **Leyenda de la imagen** (pie visible) y **Descripción** (solo el nombre del fotógrafo; el sitio antepone «Fotografía:»).
 
 ### Qué cambia en el sitio al publicar una historia
 
@@ -353,7 +378,9 @@ El catálogo en `/productores/` se actualiza solo con las entradas de **Producto
 Haz clic en **Productores** y luego en **Añadir productor**. Completa el título, la caja **Datos del productor** y las cajas de clasificación de la columna derecha (el ejemplo de las imágenes corresponde a la organización *Asociacion de Productores de Especies Menores del Sur del Tolima*).
 
 > **Imagen** `lamina-12-productor-tarjeta-wordpress.png`: Formulario de un productor en WordPress con sus datos y cajas de clasificación (1 a 7).
+
 > **Imagen** `lamina-12-productor-tarjeta-sitio.png`: Buscador y tarjeta del productor en /productores/ con los elementos 1 a 7.
+
 | Nº | Campo en WordPress | Dónde aparece en el sitio |
 | --- | --- | --- |
 | ① | **Título** *(campo superior de WordPress)* | Nombre grande arriba de la tarjeta del productor (y en el buscador). |
@@ -386,6 +413,7 @@ Tu cuenta de **Editor** puede ver la sección **Páginas**, pero hay tres págin
 Tampoco modifiques plantillas, estilos, el menú principal ni complementos o usuarios (si necesitas cambiar el menú principal o crear un usuario, pídelo al equipo administrador).
 
 > **Imagen** `captura-12-paginas-protegidas.png`: Lista de Páginas señalando Inicio, Proyectos destacados y Productores PaisSana como páginas base protegidas.
+
 ---
 
 ## 8. Problemas frecuentes y qué hacer
@@ -437,7 +465,9 @@ Imprime o revisa esta lista antes de pulsar **Publicar**:
 El sitio completa solos estos datos a partir del contenido que llenas, pero puedes personalizar cómo aparece cualquier página, boletín o historia en Google, WhatsApp o redes sociales desde la caja **Ajustes de SEO** (en un boletín o historia está debajo del título; en una página, abre **Cajas meta** al final del editor). En `/boletin/` y `/historias/` se muestran los datos que escribas en la edición o historia más reciente.
 
 > **Imagen** `lamina-13-seo-ajustes-wordpress.png`: Caja «Ajustes de SEO» en WordPress (pestañas General y Social) con los campos 1 a 3.
+
 > **Imagen** `lamina-13-seo-ajustes-sitio.png`: Vista previa del resultado en Google y de la tarjeta al compartir en redes con los elementos 1 a 3.
+
 | Nº | Campo en WordPress | Dónde aparece en el sitio |
 | --- | --- | --- |
 | ① | **Meta título** *(pestaña General)* | Título azul en Google y título de la tarjeta al compartir. |

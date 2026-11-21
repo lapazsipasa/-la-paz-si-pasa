@@ -74,6 +74,7 @@ Suites e2e del sitio FSE (en `apps/wp-fse/tests/e2e/`): `navbar`, `retratos`, `l
 
 - **No ejecutar dos suites e2e a la vez** contra `:8090`: varias (`boletin`, `catalogo`, `historia`, `lo-que-hacemos`) crean, editan y borran entradas de prueba en la misma base local y chocan si corren en paralelo.
 - Sin `bin/check` en verde no se cierra una etapa ni se abre un PR.
+- **Manual del editor (Word y PDF):** se regenera con `apps/wp-fse/tools/manual/` desde `wiki/manual-editor.md` y el sitio local; salidas en `raw/manual-editor/` (fuera de git). Comandos en su `README.md`.
 - La CI (`.github/workflows/wp-fse.yml`) corre `bin/check` y todas las suites e2e en secuencia.
 - Las reglas se endurecen; nunca se relajan para que pase un cambio.
 - Detalle de cada capa: [etapa 1.5](specs/wordpress-fse/etapa-1-5-calidad.md).

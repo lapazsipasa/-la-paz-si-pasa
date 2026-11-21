@@ -2,13 +2,16 @@
 
 Qué cambió, con fecha y PR. Lo reciente arriba.
 
-- **2026-11-21** · cierre de la rama para PR · **en la rama `feat/boletin-catalogo-fcp` (42 commits sobre `lapazsipasa/main`), sin push, PR ni deploy** · [revisiones](specs/boletin-catalogo-fcp/revisiones-independientes.md)
+- **2026-11-21** · cierre de la rama para PR · **en la rama `feat/boletin-catalogo-fcp` (45 commits sobre `lapazsipasa/main`), sin push, PR ni deploy** · [revisiones](specs/boletin-catalogo-fcp/revisiones-independientes.md)
+  - Manual del editor con una lámina emparejada por formulario (pantalla de WordPress y componente del sitio, mismos números): 13 láminas y 5 capturas (`0a529d3`, `7bb554f`).
+  - Suite `admin.mjs` reforzada a 20 comprobaciones, con guardado HTTP de un boletín borrador como Editor (`2eeeb72`).
+  - Corrida final sobre `7bb554f` con la imagen reconstruida: `bin/check` 17 pasos; 18 suites e2e, 965 comprobaciones, salida 0.
+  - Revisiones 36 y 38 (control visual del manual, con retoques) y 39 en curso (lectura completa del manual maquetado, hecha por un subagente revisor porque AGY perdió su sesión).
   - Pruebas: la canónica de una entrada se exige en producción y no en local, en `boletin.mjs` e `historia.mjs`; PHPCS corregido en `inc/boletin.php` (`1d4e1b2`).
   - Seguridad, revisión 26: bloqueo de la visibilidad de TSF al Editor, `wp-content/languages` sin acceso HTTP y esquema `https` en la imagen social (`1546852`).
   - Guion de pruebas de staging y wiki contrastada con el código (`d957a80`).
   - Fallo de las pantallas de edición con el plugin de SEO (`TypeError` en `lapaz_tsf_imagen()`): corregido y cubierto con la suite nueva `admin.mjs` (`c3f7c11`).
-  - Corrida final en verde: `bin/check` 17 pasos; 18 suites, 958 comprobaciones. Veredicto del revisor: lista para abrir el PR.
-  - Manual del editor v3 con láminas emparejadas y rótulos verificados en pantalla (sin commit).
+  - Veredicto del revisor (revisión 35): lista para abrir el PR, sin bloqueantes.
 - **2026-11-20** · entrega de la rama: URL nuevas, endurecimiento, accesibilidad, formularios del admin, pruebas, revisiones independientes y SEO editable · **en la rama `feat/boletin-catalogo-fcp` (38 commits sobre `lapazsipasa/main`), sin push, PR ni deploy** · [revisiones](specs/boletin-catalogo-fcp/revisiones-independientes.md)
   - Catálogo en `/productores/` (plantilla `page-productores.html`) e historias en `/historias/<slug>/`, con archivo en `/historias/`. `/paissana/` deja de existir; `lapaz-setup` migra la página conservando su ID (`1e799ea`).
   - Menú: «Proyectos destacados» queda activo también en `/productores/` y `/historias/` (`1e799ea`).

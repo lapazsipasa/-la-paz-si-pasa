@@ -123,7 +123,7 @@ Evidencia: commits de la rama (`git log lapazsipasa/main..HEAD`). Lo que no tien
 | 5 | Seed: 316 productores, edición 02, historia de Asocafé | hecha | `69ae2a0` | Carga por secciones en staging (ver [despliegue](../despliegue-fse.md#despliegue-de-boletín-y-catálogo-paissana)) |
 | 6 | Pruebas: suites e2e `boletin`, `catalogo`, `historia`, `navegacion`, `rest`; CI | en rama; en verde el 2026-11-20 (`seguridad` 64 de 64 con la imagen reconstruida) | `c710ccf`, `cd68174`, `afa96b4`, `239dcc9`, `9bb6c80`, `e78e2f1`, `35b50b3` | Cerrar `bin/check`, `seguridad.mjs` (con la imagen reconstruida) y `seo.mjs`; ver [revisión 8](boletin-catalogo-fcp/revisiones-independientes.md#8-pruebas-automáticas) |
 | 7 | Revisión independiente (AGY) | 23 revisiones y 4 tareas de redacción; la 28 en curso | `667cf01`, `e6eb811`, `e152e69`, `a0c2b63`, `3b2941d`, `ff6445d`, `239dcc9`, `f0f5f67`, `1d87a5b`, `e78e2f1`, `35b50b3` | Ver [revisiones independientes](boletin-catalogo-fcp/revisiones-independientes.md) |
-| 8 | Manual para la persona externa | v2 commiteado | `3e08f05` (v1), `2b7fe49` (v2) | Faltan capturas y confirmar en pantalla lo marcado; después, Google Doc |
+| 8 | Manual para la persona externa | v3 con láminas emparejadas (13 parejas, 5 capturas) y texto final | `3e08f05` (v1), `2b7fe49` (v2), `0a529d3` y `7bb554f` (v3) | En curso: lectura completa del maquetado (revisión 39). El dueño lo sube a su Drive como documento de Google. Usuario Editor pendiente de datos del Fondo |
 | 9 | PR, staging, merge, deploy, seed en producción y usuario Editor | pendiente | — | Aprobación de William |
 
 Extras de la rama, fuera de la lista original:

@@ -1,0 +1,1012 @@
+{
+  "version": "2026-11-21",
+  "marcadores": {
+    "ID_EDICION_02": "wp post list --post_type=boletin --name=edicion-02 --field=ID",
+    "ID_ASOCAFE": "wp post list --post_type=historia --name=asocafe --field=ID",
+    "ID_PRODUCTOR": "wp post list --post_type=productor --s='Especies Menores del Sur del Tolima' --field=ID",
+    "ID_PAGINA_PRODUCTORES": "wp post list --post_type=page --name=productores --field=ID"
+  },
+  "productor_ejemplo": {
+    "nombre": "Asociacion de Productores de Especies Menores del Sur del Tolima",
+    "tipo": "organizacion",
+    "municipio": "Chaparral",
+    "departamento": "Tolima",
+    "categorias": [
+      "Agropecuarios",
+      "Alimentos y bebidas"
+    ],
+    "productos": [
+      "Bolsa de Mazamorra",
+      "Bolsa de Maíz Trillado",
+      "Cuchuco de Maíz"
+    ],
+    "tiempo_operacion": "Entre 3 y 5 Años",
+    "etnia": "Indígena",
+    "url_catalogo_filtrado": "/productores/?buscar=Resilientes#explorar",
+    "nota_verificado": "Se cambió el ejemplo: el productor del mapa no tiene etnia marcada ni aparece el tiempo indicado; este sí tiene etnia"
+  },
+  "laminas": [
+    {
+      "id": "01-boletin-edicion",
+      "circulo": 44,
+      "titulo": "Boletín · pestaña Edición",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_EDICION_02}&action=edit",
+        "abrir": "pestaña «Edición» en la caja «Edición del boletín»",
+        "recorte": "#acf-group_boletin_lapazsipasa",
+        "tab": "Edición"
+      },
+      "front": {
+        "url": "/boletin/edicion-02/",
+        "recorte": ".wp-block-lapaz-boletin .franja, .wp-block-lapaz-boletin .indice .indice-intro, .wp-block-lapaz-boletin .pie",
+        "ancho": 1000,
+        "nota": "Los cinco campos de esta pestaña se reparten en tres bandas de la página (franja superior, introducción del índice y pie). Conviene componer esas tres bandas apiladas en una sola imagen de vista pública."
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Número de edición",
+          "campo": "numero",
+          "clave": "field_boletin_numero",
+          "admin_selector": ".acf-field[data-name=\"numero\"]",
+          "front_selector": ".wp-block-lapaz-boletin .franja .meta",
+          "nota": "Se formatea como «Edición 02» junto al periodo. También aparece en .wp-block-lapaz-boletin .pie .pie-datos p:first-child, en la tarjeta de Inicio (.wp-block-lapaz-boletin-destacado .dest-cont .lugar) y en el <title> de la página.",
+          "front_texto": "Edición 02"
+        },
+        {
+          "n": 2,
+          "etiqueta": "Periodo",
+          "campo": "periodo",
+          "clave": "field_boletin_periodo",
+          "admin_selector": ".acf-field[data-name=\"periodo\"]",
+          "front_selector": ".wp-block-lapaz-boletin .franja .meta",
+          "nota": "Se concatena tras «·» con el número de edición. También aparece en .wp-block-lapaz-boletin .pie .pie-datos p:first-child, en .wp-block-lapaz-boletin .anteriores li span y en .wp-block-lapaz-boletin-destacado .dest-cont .lugar.",
+          "front_texto": "Octubre – Noviembre 2026"
+        },
+        {
+          "n": 3,
+          "etiqueta": "Texto de la franja superior",
+          "campo": "rotulo",
+          "clave": "field_boletin_rotulo",
+          "admin_selector": ".acf-field[data-name=\"rotulo\"]",
+          "front_selector": ".wp-block-lapaz-boletin .franja .rotulo",
+          "nota": "Trae un texto por defecto; si se borra, solo se muestra el número y el periodo."
+        },
+        {
+          "n": 4,
+          "etiqueta": "Texto de «En esta edición»",
+          "campo": "indice_intro",
+          "clave": "field_boletin_indice_intro",
+          "admin_selector": ".acf-field[data-name=\"indice_intro\"]",
+          "front_selector": ".wp-block-lapaz-boletin .indice .indice-intro p",
+          "nota": "Párrafo introductorio debajo del encabezado «En esta edición»."
+        },
+        {
+          "n": 5,
+          "etiqueta": "Créditos de fotografía",
+          "campo": "creditos_foto",
+          "clave": "field_boletin_creditos_foto",
+          "admin_selector": ".acf-field[data-name=\"creditos_foto\"]",
+          "front_selector": ".wp-block-lapaz-boletin .pie .creditos",
+          "nota": "Cada línea no vacía se imprime separada por <br> bajo el rótulo automático «Fotografía»."
+        }
+      ],
+      "no_visibles": []
+    },
+    {
+      "id": "02-boletin-portada",
+      "titulo": "Boletín · pestaña Portada",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_EDICION_02}&action=edit",
+        "abrir": "pestaña «Portada» en la caja «Edición del boletín»",
+        "recorte": "#acf-group_boletin_lapazsipasa",
+        "tab": "Portada"
+      },
+      "front": {
+        "url": "/boletin/edicion-02/",
+        "recorte": ".wp-block-lapaz-boletin .portada",
+        "ancho": 1280
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Titular",
+          "campo": "portada_titular",
+          "clave": "field_boletin_portada_titular",
+          "admin_selector": ".acf-field[data-name=\"portada_titular\"]",
+          "front_selector": ".wp-block-lapaz-boletin .portada h1.titular",
+          "nota": "Si se deja vacío, respalda con el título de WordPress. También se reutiliza en Inicio (.wp-block-lapaz-boletin-destacado .dest-cont h3) y como alt de la imagen social."
+        },
+        {
+          "n": 2,
+          "etiqueta": "Sumario",
+          "campo": "portada_sumario",
+          "clave": "field_boletin_portada_sumario",
+          "admin_selector": ".acf-field[data-name=\"portada_sumario\"]",
+          "front_selector": ".wp-block-lapaz-boletin .portada p.sumario",
+          "nota": "También se reutiliza recortado a 30 palabras en Inicio y como meta descripción SEO por defecto."
+        },
+        {
+          "n": 3,
+          "etiqueta": "Protagonista o autor",
+          "campo": "portada_firma_nombre",
+          "clave": "field_boletin_portada_firma_nombre",
+          "admin_selector": ".acf-field[data-name=\"portada_firma_nombre\"]",
+          "front_selector": ".wp-block-lapaz-boletin .portada .firma .rol strong",
+          "nota": "Solo aparece en la portada del boletín."
+        },
+        {
+          "n": 4,
+          "etiqueta": "Cargo o descripción",
+          "campo": "portada_firma_cargo",
+          "clave": "field_boletin_portada_firma_cargo",
+          "admin_selector": ".acf-field[data-name=\"portada_firma_cargo\"]",
+          "front_selector": ".wp-block-lapaz-boletin .portada .firma .rol",
+          "nota": "Aparece en el mismo bloque .rol, debajo del nombre en negrita.",
+          "front_texto": "Exconsejero presidencial para la estabilización y la consolidación"
+        },
+        {
+          "n": 5,
+          "etiqueta": "Foto de portada",
+          "campo": "portada_foto",
+          "clave": "field_boletin_portada_foto",
+          "admin_selector": ".acf-field[data-name=\"portada_foto\"]",
+          "front_selector": ".wp-block-lapaz-boletin .portada figure img",
+          "nota": "También se reutiliza en la tarjeta de Inicio y como imagen social (og:image) por defecto."
+        },
+        {
+          "n": 6,
+          "etiqueta": "Crédito de la foto",
+          "campo": "portada_credito",
+          "clave": "field_boletin_portada_credito",
+          "admin_selector": ".acf-field[data-name=\"portada_credito\"]",
+          "front_selector": ".wp-block-lapaz-boletin .portada figure figcaption.credito",
+          "nota": "Solo se muestra si hay Foto de portada."
+        }
+      ],
+      "no_visibles": []
+    },
+    {
+      "id": "03-boletin-destacado",
+      "titulo": "Boletín · Portada → tarjeta en Inicio",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_EDICION_02}&action=edit",
+        "abrir": "pestaña «Portada» en la caja «Edición del boletín»",
+        "recorte": "#acf-group_boletin_lapazsipasa",
+        "tab": "Portada"
+      },
+      "front": {
+        "url": "/",
+        "recorte": ".wp-block-lapaz-boletin-destacado .destacado",
+        "ancho": 1280,
+        "nota": "Esta tarjeta siempre toma la edición publicada más reciente. La línea «Edición 02 · periodo» (.dest-cont .lugar) se toma automáticamente de Número de edición y Periodo (pestaña «Edición»)."
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Titular",
+          "campo": "portada_titular",
+          "clave": "field_boletin_portada_titular",
+          "admin_selector": ".acf-field[data-name=\"portada_titular\"]",
+          "front_selector": ".wp-block-lapaz-boletin-destacado .dest-cont h3",
+          "nota": "Si está vacío, usa el título de WordPress."
+        },
+        {
+          "n": 2,
+          "etiqueta": "Sumario",
+          "campo": "portada_sumario",
+          "clave": "field_boletin_portada_sumario",
+          "admin_selector": ".acf-field[data-name=\"portada_sumario\"]",
+          "front_selector": ".wp-block-lapaz-boletin-destacado .dest-cont p",
+          "nota": "El bloque lo recorta automáticamente a 30 palabras con wp_trim_words()."
+        },
+        {
+          "n": 3,
+          "etiqueta": "Foto de portada",
+          "campo": "portada_foto",
+          "clave": "field_boletin_portada_foto",
+          "admin_selector": ".acf-field[data-name=\"portada_foto\"]",
+          "front_selector": ".wp-block-lapaz-boletin-destacado .dest-card > img",
+          "nota": "Se imprime en tamaño large a la izquierda de la tarjeta."
+        }
+      ],
+      "no_visibles": [
+        {
+          "etiqueta": "Protagonista o autor",
+          "campo": "portada_firma_nombre",
+          "clave": "field_boletin_portada_firma_nombre",
+          "motivo": "No se pinta en la tarjeta de Inicio (solo en la portada del boletín)."
+        },
+        {
+          "etiqueta": "Cargo o descripción",
+          "campo": "portada_firma_cargo",
+          "clave": "field_boletin_portada_firma_cargo",
+          "motivo": "No se pinta en la tarjeta de Inicio (solo en la portada del boletín)."
+        },
+        {
+          "etiqueta": "Crédito de la foto",
+          "campo": "portada_credito",
+          "clave": "field_boletin_portada_credito",
+          "motivo": "No se pinta en la tarjeta de Inicio (solo en la portada del boletín)."
+        }
+      ]
+    },
+    {
+      "id": "04-boletin-secciones-indice",
+      "titulo": "Boletín · Secciones (campos comunes → índice y barra)",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_EDICION_02}&action=edit",
+        "abrir": "pestaña «Secciones», desplegar la primera fila (En portada, molde Artículo) y encuadrar sus cinco primeros campos",
+        "recorte": ".acf-field[data-name=\"secciones\"] .values > .layout:first-child",
+        "tab": "Secciones"
+      },
+      "front": {
+        "url": "/boletin/edicion-02/",
+        "recorte": ".wp-block-lapaz-boletin .nav, .wp-block-lapaz-boletin .indice, .wp-block-lapaz-boletin #seccion-1 .sec-head",
+        "ancho": 1280,
+        "nota": "Muestra la barra fija de secciones (.nav), la primera tarjeta del índice (.indice .tema:first-child) y la cabecera de la sección (#seccion-1 .sec-head). Los cinco campos existen con el mismo nombre en los cuatro moldes (Artículo, Cifras, Tarjetas y Agenda)."
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Nombre de la sección",
+          "campo": "nombre",
+          "clave": "field_boletin_articulo_nombre",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout:first-child .acf-field[data-name=\"nombre\"]",
+          "front_selector": ".wp-block-lapaz-boletin .indice .tema:first-child .nombre",
+          "nota": "También genera el enlace de la barra superior (.wp-block-lapaz-boletin .nav a[href=\"#seccion-1\"]) y el título grande de la sección (#seccion-1 .sec-head .sec-title). En otros moldes la clave es field_boletin_<molde>_nombre."
+        },
+        {
+          "n": 2,
+          "etiqueta": "Subtítulo de la sección",
+          "campo": "antetitulo",
+          "clave": "field_boletin_articulo_antetitulo",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout:first-child .acf-field[data-name=\"antetitulo\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-1 .sec-head .sec-kicker",
+          "nota": "Aparece en la cabecera de la sección, no en la tarjeta del índice."
+        },
+        {
+          "n": 3,
+          "etiqueta": "Índice: título",
+          "campo": "indice_titulo",
+          "clave": "field_boletin_articulo_indice_titulo",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout:first-child .acf-field[data-name=\"indice_titulo\"]",
+          "front_selector": ".wp-block-lapaz-boletin .indice .tema:first-child h3 a",
+          "nota": "Si se deja vacío en el molde Artículo, usa automáticamente el Título del artículo (y si también falta, el Nombre de la sección)."
+        },
+        {
+          "n": 4,
+          "etiqueta": "Índice: imagen",
+          "campo": "indice_imagen",
+          "clave": "field_boletin_articulo_indice_imagen",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout:first-child .acf-field[data-name=\"indice_imagen\"]",
+          "front_selector": ".wp-block-lapaz-boletin .indice .tema:first-child .thumb img",
+          "nota": "Si se deja vacía, el código toma la primera foto de «Fotos» y, si no hay, la «Foto de apertura»."
+        },
+        {
+          "n": 5,
+          "etiqueta": "Índice: resumen",
+          "campo": "indice_resumen",
+          "clave": "field_boletin_articulo_indice_resumen",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout:first-child .acf-field[data-name=\"indice_resumen\"]",
+          "front_selector": ".wp-block-lapaz-boletin .indice .tema:first-child .cont p",
+          "nota": "Una o dos líneas en la tarjeta del índice «En esta edición»."
+        }
+      ],
+      "no_visibles": []
+    },
+    {
+      "id": "05-boletin-molde-articulo",
+      "titulo": "Boletín · molde Artículo",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_EDICION_02}&action=edit",
+        "abrir": "pestaña «Secciones», desplegar la fila 4 («Obras que conectan», molde Artículo, que tiene apertura, fotos y ficha)",
+        "recorte": ".acf-field[data-name=\"secciones\"] .values > .layout:nth-child(4)",
+        "tab": "Secciones"
+      },
+      "front": {
+        "url": "/boletin/edicion-02/#seccion-4",
+        "recorte": ".wp-block-lapaz-boletin #seccion-4",
+        "ancho": 1280,
+        "nota": "Los campos del molde Artículo vienen del grupo clonado seamless group_articulo_lapazsipasa."
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Etiqueta superior",
+          "campo": "rotulo",
+          "clave": "field_articulo_rotulo",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout:nth-child(4) .acf-field[data-name=\"rotulo\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-4 .articulo .rotulo-seccion",
+          "nota": "El campo vecino «Color de la etiqueta» (rotulo_color, field_articulo_rotulo_color) cambia su estilo entre azul por defecto y clase .verde."
+        },
+        {
+          "n": 2,
+          "etiqueta": "Título",
+          "campo": "titulo",
+          "clave": "field_articulo_titulo",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout:nth-child(4) .acf-field[data-name=\"titulo\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-4 .articulo h2.titulo-art",
+          "nota": "También sirve de respaldo si «Índice: título» queda vacío."
+        },
+        {
+          "n": 3,
+          "etiqueta": "Resumen bajo el título",
+          "campo": "bajada",
+          "clave": "field_articulo_bajada",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout:nth-child(4) .acf-field[data-name=\"bajada\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-4 .articulo p.bajada",
+          "nota": ""
+        },
+        {
+          "n": 4,
+          "etiqueta": "Primer párrafo destacado",
+          "campo": "entradilla",
+          "clave": "field_articulo_entradilla",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout:nth-child(4) .acf-field[data-name=\"entradilla\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-4 .articulo p.entradilla",
+          "nota": "Opcional; abre el artículo con letra más grande."
+        },
+        {
+          "n": 5,
+          "etiqueta": "Texto del artículo",
+          "campo": "cuerpo",
+          "clave": "field_articulo_cuerpo",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout:nth-child(4) .acf-field[data-name=\"cuerpo\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-4 .articulo .cuerpo > p:not(.bajada):not(.entradilla)",
+          "nota": "Se pinta dentro de .articulo .cuerpo tras .entradilla, admitiendo párrafos, subtítulos h3 y citas blockquote."
+        },
+        {
+          "n": 6,
+          "etiqueta": "Foto de apertura",
+          "campo": "apertura",
+          "clave": "field_articulo_apertura",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout:nth-child(4) .acf-field[data-name=\"apertura\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-4 figure.apertura",
+          "nota": "Opcional, a todo el ancho sobre el artículo. Su campo vecino «Crédito de la foto de apertura» (apertura_credito, field_articulo_apertura_credito) se pinta en figure.apertura figcaption.credito."
+        },
+        {
+          "n": 7,
+          "etiqueta": "Fotos",
+          "campo": "fotos",
+          "clave": "field_articulo_fotos",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout:nth-child(4) .acf-field[data-name=\"fotos\"] .acf-row:not(.acf-clone):first-child",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-4 .articulo .media figure:first-of-type",
+          "nota": "Subcampos: Imagen (imagen, field_articulo_foto_imagen), Formato (formato, field_articulo_foto_formato: clase .alto o .panorama en el <img>) y Crédito (credito, field_articulo_foto_credito en figcaption.credito). La 1.ª foto va arriba de la ficha y las demás debajo. El interruptor «Fotos a la izquierda» (fotos_izquierda, field_articulo_fotos_izquierda) añade .invertido a .articulo."
+        },
+        {
+          "n": 8,
+          "etiqueta": "Ficha: título",
+          "campo": "ficha_titulo",
+          "clave": "field_articulo_ficha_titulo",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout:nth-child(4) .acf-field[data-name=\"ficha_titulo\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-4 .articulo .media .ficha",
+          "nota": "Si «Ficha: título» está vacío no se muestra el recuadro. Lo acompañan «Ficha: texto» (ficha_texto, field_articulo_ficha_texto → .ficha p), «Ficha: datos» (ficha_datos, field_articulo_ficha_datos con «Cifra o dato» cifra → li b y «Descripción» texto → li) y «Ficha con fondo claro» (ficha_clara, field_articulo_ficha_clara → clase .clara)."
+        }
+      ],
+      "no_visibles": []
+    },
+    {
+      "id": "06-boletin-molde-cifras",
+      "titulo": "Boletín · molde Cifras",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_EDICION_02}&action=edit",
+        "abrir": "pestaña «Secciones», desplegar la fila 2 («El Fondo en cifras», molde Cifras)",
+        "recorte": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"cifras\"]",
+        "tab": "Secciones"
+      },
+      "front": {
+        "url": "/boletin/edicion-02/#seccion-2",
+        "recorte": ".wp-block-lapaz-boletin #seccion-2",
+        "ancho": 1280
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Número",
+          "campo": "cifras[0].numero",
+          "clave": "field_boletin_cifra_numero",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"cifras\"] .acf-field[data-name=\"cifras\"] .acf-row:not(.acf-clone):first-child .acf-field[data-name=\"numero\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-2 .cifras-grid .cifra.destacada .n",
+          "nota": "La primera fila del repetidor «Cifras» (field_boletin_cifras_lista) recibe automáticamente la clase .destacada."
+        },
+        {
+          "n": 2,
+          "etiqueta": "Texto",
+          "campo": "cifras[0].texto",
+          "clave": "field_boletin_cifra_texto",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"cifras\"] .acf-field[data-name=\"cifras\"] .acf-row:not(.acf-clone):first-child .acf-field[data-name=\"texto\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-2 .cifras-grid .cifra.destacada .l",
+          "nota": "Descripción corta debajo de cada cifra."
+        },
+        {
+          "n": 3,
+          "etiqueta": "Nota",
+          "campo": "nota",
+          "clave": "field_boletin_cifras_nota",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"cifras\"] .acf-field[data-name=\"nota\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-2 p.nota-cifras",
+          "nota": "Párrafo explicativo al pie de la rejilla de cifras."
+        }
+      ],
+      "no_visibles": []
+    },
+    {
+      "id": "07-boletin-molde-tarjetas",
+      "titulo": "Boletín · molde Tarjetas",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_EDICION_02}&action=edit",
+        "abrir": "pestaña «Secciones», desplegar la fila 6 («Alianzas», molde Tarjetas) y abrir la primera fila del repetidor «Tarjetas»",
+        "recorte": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"tarjetas\"] .acf-field[data-name=\"tarjetas\"] .acf-row:not(.acf-clone):first-child",
+        "tab": "Secciones"
+      },
+      "front": {
+        "url": "/boletin/edicion-02/#seccion-6",
+        "recorte": ".wp-block-lapaz-boletin #seccion-6",
+        "ancho": 1280
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Etiqueta",
+          "campo": "tarjetas[0].etiqueta",
+          "clave": "field_boletin_tarjeta_etiqueta",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"tarjetas\"] .acf-field[data-name=\"tarjetas\"] .acf-row:not(.acf-clone):first-child .acf-field[data-name=\"etiqueta\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-6 .tarjetas .tarjeta:first-child .etiqueta",
+          "nota": ""
+        },
+        {
+          "n": 2,
+          "etiqueta": "Color",
+          "campo": "tarjetas[0].color",
+          "clave": "field_boletin_tarjeta_color",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"tarjetas\"] .acf-field[data-name=\"tarjetas\"] .acf-row:not(.acf-clone):first-child .acf-field[data-name=\"color\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-6 .tarjetas .tarjeta:first-child",
+          "nota": "Define el color del filete superior de la tarjeta (azul por defecto; añade .naranja o .verde)."
+        },
+        {
+          "n": 3,
+          "etiqueta": "Título",
+          "campo": "tarjetas[0].titulo",
+          "clave": "field_boletin_tarjeta_titulo",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"tarjetas\"] .acf-field[data-name=\"tarjetas\"] .acf-row:not(.acf-clone):first-child .acf-field[data-name=\"titulo\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-6 .tarjetas .tarjeta:first-child h3",
+          "nota": ""
+        },
+        {
+          "n": 4,
+          "etiqueta": "Texto",
+          "campo": "tarjetas[0].texto",
+          "clave": "field_boletin_tarjeta_texto",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"tarjetas\"] .acf-field[data-name=\"tarjetas\"] .acf-row:not(.acf-clone):first-child .acf-field[data-name=\"texto\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-6 .tarjetas .tarjeta:first-child p:first-of-type",
+          "nota": "Cada línea no vacía se convierte en un párrafo <p>."
+        },
+        {
+          "n": 5,
+          "etiqueta": "Monto",
+          "campo": "tarjetas[0].monto",
+          "clave": "field_boletin_tarjeta_monto",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"tarjetas\"] .acf-field[data-name=\"tarjetas\"] .acf-row:not(.acf-clone):first-child .acf-field[data-name=\"monto\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-6 .tarjetas .tarjeta:first-child .monto",
+          "nota": "Opcional; si está vacío no se imprime el bloque .monto."
+        },
+        {
+          "n": 6,
+          "etiqueta": "Nota del monto",
+          "campo": "tarjetas[0].monto_nota",
+          "clave": "field_boletin_tarjeta_monto_nota",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"tarjetas\"] .acf-field[data-name=\"tarjetas\"] .acf-row:not(.acf-clone):first-child .acf-field[data-name=\"monto_nota\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-6 .tarjetas .tarjeta:first-child .monto span",
+          "nota": "Solo se muestra si «Monto» tiene contenido."
+        }
+      ],
+      "no_visibles": []
+    },
+    {
+      "id": "08-boletin-molde-agenda",
+      "titulo": "Boletín · molde Agenda",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_EDICION_02}&action=edit",
+        "abrir": "pestaña «Secciones», desplegar la fila 8 («La agenda», molde Agenda) y abrir la primera fila del repetidor «Hitos»",
+        "recorte": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"agenda\"] .acf-field[data-name=\"hitos\"] .acf-row:not(.acf-clone):first-child",
+        "tab": "Secciones"
+      },
+      "front": {
+        "url": "/boletin/edicion-02/#seccion-8",
+        "recorte": ".wp-block-lapaz-boletin #seccion-8",
+        "ancho": 1280
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Cuándo",
+          "campo": "hitos[0].cuando",
+          "clave": "field_boletin_hito_cuando",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"agenda\"] .acf-field[data-name=\"hitos\"] .acf-row:not(.acf-clone):first-child .acf-field[data-name=\"cuando\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-8 .linea-tiempo .hito:first-child .cuando",
+          "nota": ""
+        },
+        {
+          "n": 2,
+          "etiqueta": "Título",
+          "campo": "hitos[0].titulo",
+          "clave": "field_boletin_hito_titulo",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"agenda\"] .acf-field[data-name=\"hitos\"] .acf-row:not(.acf-clone):first-child .acf-field[data-name=\"titulo\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-8 .linea-tiempo .hito:first-child h3",
+          "nota": ""
+        },
+        {
+          "n": 3,
+          "etiqueta": "Texto",
+          "campo": "hitos[0].texto",
+          "clave": "field_boletin_hito_texto",
+          "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"agenda\"] .acf-field[data-name=\"hitos\"] .acf-row:not(.acf-clone):first-child .acf-field[data-name=\"texto\"]",
+          "front_selector": ".wp-block-lapaz-boletin #seccion-8 .linea-tiempo .hito:first-child p",
+          "nota": "Opcional."
+        }
+      ],
+      "no_visibles": []
+    },
+    {
+      "id": "09-historia-presentacion",
+      "titulo": "Historia · pestaña Presentación → tarjeta «PaisSano destacado»",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_ASOCAFE}&action=edit",
+        "abrir": "título superior y pestaña «Presentación» en la caja «Historia PaisSana»",
+        "recorte": "#titlediv, #acf-group_historia_lapazsipasa",
+        "tab": "Presentación",
+        "css": "#tsf-inpost-box{display:none !important}"
+      },
+      "front": {
+        "url": "/productores/",
+        "recorte": ".wp-block-lapaz-historia-destacada .destacado",
+        "ancho": 1280,
+        "nota": "La misma tarjeta (bloque lapaz/historia-destacada) se pinta en Inicio (/), Proyectos destacados (/proyectos-destacados/) y el catálogo (/productores/), siempre con la historia publicada más reciente."
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Título (campo superior de WordPress)",
+          "campo": "post_title",
+          "clave": "post_title",
+          "admin_selector": "#titlediv #title",
+          "front_selector": ".wp-block-lapaz-historia-destacada .dest-cont h3",
+          "nota": "También se muestra en «Otras historias» (.anteriores li a), como <title> por defecto y como respaldo si «Título de la historia» está vacío."
+        },
+        {
+          "n": 2,
+          "etiqueta": "Lugar",
+          "campo": "lugar",
+          "clave": "field_historia_lugar",
+          "admin_selector": ".acf-field[data-name=\"lugar\"]",
+          "front_selector": ".wp-block-lapaz-historia-destacada .dest-cont .lugar",
+          "nota": "También se pinta en la portada de /historias/<slug>/ (.port-prod .et tras «PaisSano destacado ·») y en «Otras historias» (.anteriores li span)."
+        },
+        {
+          "n": 3,
+          "etiqueta": "Subtítulo en el catálogo",
+          "campo": "antetitulo",
+          "clave": "field_historia_antetitulo",
+          "admin_selector": ".acf-field[data-name=\"antetitulo\"]",
+          "front_selector": ".wp-block-lapaz-historia-destacada .sec-head .sec-kicker",
+          "nota": "Línea corta a la derecha o debajo del encabezado «PaisSano destacado».",
+          "circ": [
+            -20,
+            10
+          ]
+        },
+        {
+          "n": 4,
+          "etiqueta": "Resumen",
+          "campo": "resumen",
+          "clave": "field_historia_resumen",
+          "admin_selector": ".acf-field[data-name=\"resumen\"]",
+          "front_selector": ".wp-block-lapaz-historia-destacada .dest-cont > p",
+          "nota": "También alimenta la meta descripción SEO por defecto (recortada a 155 caracteres)."
+        },
+        {
+          "n": 5,
+          "etiqueta": "Foto de la tarjeta",
+          "campo": "foto",
+          "clave": "field_historia_foto",
+          "admin_selector": ".acf-field[data-name=\"foto\"]",
+          "front_selector": ".wp-block-lapaz-historia-destacada .dest-card > img",
+          "nota": "También actúa como respaldo de la imagen social (og:image) si no hay Foto de portada."
+        },
+        {
+          "n": 6,
+          "etiqueta": "Número",
+          "campo": "cifras[0].numero",
+          "clave": "field_historia_cifra_numero",
+          "admin_selector": ".acf-field[data-name=\"cifras\"] .acf-row:not(.acf-clone):first-child .acf-field[data-name=\"numero\"]",
+          "front_selector": ".wp-block-lapaz-historia-destacada .dest-cont .mini > div:first-child span",
+          "nota": "Hasta tres cifras en el repetidor «Cifras» (field_historia_cifras)."
+        },
+        {
+          "n": 7,
+          "etiqueta": "Texto",
+          "campo": "cifras[0].texto",
+          "clave": "field_historia_cifra_texto",
+          "admin_selector": ".acf-field[data-name=\"cifras\"] .acf-row:not(.acf-clone):first-child .acf-field[data-name=\"texto\"]",
+          "front_selector": ".wp-block-lapaz-historia-destacada .dest-cont .mini > div:first-child small",
+          "nota": "Rótulo pequeño debajo del número en la tarjeta destacada."
+        }
+      ],
+      "no_visibles": []
+    },
+    {
+      "id": "10-historia-portada-video",
+      "titulo": "Historia · pestañas Portada y Video",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_BORRADOR}&action=edit",
+        "abrir": "pestaña «Portada» (pares 1–5) y pestaña «Video» (pares 6–8) en la caja «Historia PaisSana»",
+        "recorte": "#acf-group_historia_lapazsipasa",
+        "nota": "Como Portada y Video son pestañas separadas en SCF, el script captura ambas pestañas y las apila en la imagen de WordPress.",
+        "tabs": [
+          "Portada",
+          "Video"
+        ]
+      },
+      "front": {
+        "url": "/?p={ID_BORRADOR}&post_type=historia&preview=true",
+        "recorte": ".wp-block-lapaz-historia .port-prod, .wp-block-lapaz-historia .seccion-ficha, .wp-block-lapaz-historia .seccion-video",
+        "ancho": 1280,
+        "nota": "La línea superior .port-prod .et reutiliza el campo «Lugar» de la pestaña Presentación junto al texto fijo «PaisSano destacado ·».",
+        "sesion": true
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Foto de portada",
+          "campo": "portada_foto",
+          "clave": "field_historia_portada_foto",
+          "admin_selector": ".acf-field[data-name=\"portada_foto\"]",
+          "front_selector": ".wp-block-lapaz-historia .port-prod > img",
+          "nota": "También se usa por defecto como imagen social (og:image) de la historia."
+        },
+        {
+          "n": 2,
+          "etiqueta": "Título de la historia",
+          "campo": "portada_titulo",
+          "clave": "field_historia_portada_titulo",
+          "admin_selector": ".acf-field[data-name=\"portada_titulo\"]",
+          "front_selector": ".wp-block-lapaz-historia .port-prod h1",
+          "nota": "Si está vacío, respalda con el título de WordPress."
+        },
+        {
+          "n": 3,
+          "etiqueta": "Subtítulo",
+          "campo": "portada_subtitulo",
+          "clave": "field_historia_portada_subtitulo",
+          "admin_selector": ".acf-field[data-name=\"portada_subtitulo\"]",
+          "front_selector": ".wp-block-lapaz-historia .port-prod p.sub",
+          "nota": "Opcional."
+        },
+        {
+          "n": 4,
+          "etiqueta": "Dato",
+          "campo": "ficha[0].dato",
+          "clave": "field_historia_ficha_dato",
+          "admin_selector": ".acf-field[data-name=\"ficha\"] .acf-row:not(.acf-clone):first-child .acf-field[data-name=\"dato\"]",
+          "front_selector": ".wp-block-lapaz-historia .seccion-ficha .ficha-tec > div:first-child dt",
+          "nota": "Rótulo de cada fila del repetidor «Ficha» (field_historia_ficha)."
+        },
+        {
+          "n": 5,
+          "etiqueta": "Valor",
+          "campo": "ficha[0].valor",
+          "clave": "field_historia_ficha_valor",
+          "admin_selector": ".acf-field[data-name=\"ficha\"] .acf-row:not(.acf-clone):first-child .acf-field[data-name=\"valor\"]",
+          "front_selector": ".wp-block-lapaz-historia .seccion-ficha .ficha-tec > div:first-child dd",
+          "nota": "Si el valor está vacío, la fila no se pinta."
+        },
+        {
+          "n": 6,
+          "etiqueta": "Origen del video",
+          "campo": "video_fuente",
+          "clave": "field_historia_video_fuente",
+          "admin_selector": ".acf-field[data-name=\"video_fuente\"]",
+          "front_selector": ".wp-block-lapaz-historia .seccion-video .video-wrap .play",
+          "nota": "Controla si aparece .seccion-video y qué campo condicional se muestra: «URL de YouTube» (video_youtube, field_historia_video_youtube), «Archivo de video (MP4)» (video_archivo, field_historia_video_archivo) o «Enlace externo» (video_enlace, field_historia_video_enlace). Con «Sin video» la sección no se pinta."
+        },
+        {
+          "n": 7,
+          "etiqueta": "Imagen de portada del video",
+          "campo": "video_poster",
+          "clave": "field_historia_video_poster",
+          "admin_selector": ".acf-field[data-name=\"video_poster\"]",
+          "front_selector": ".wp-block-lapaz-historia .seccion-video .video-wrap img.poster",
+          "nota": "En modo YouTube, si se deja vacía se usa la miniatura de YouTube."
+        },
+        {
+          "n": 8,
+          "etiqueta": "Subtítulo del video",
+          "campo": "video_antetitulo",
+          "clave": "field_historia_video_antetitulo",
+          "admin_selector": ".acf-field[data-name=\"video_antetitulo\"]",
+          "front_selector": ".wp-block-lapaz-historia .seccion-video .sec-head .sec-kicker",
+          "nota": ""
+        }
+      ],
+      "no_visibles": [],
+      "borrador": {
+        "copiar_de": "{ID_ASOCAFE}",
+        "meta": {
+          "video_fuente": "youtube",
+          "video_youtube": "https://www.youtube.com/watch?v=aqz-KE-bpKQ"
+        },
+        "nota": "Asocafe no tiene video: se usa un borrador temporal (copia con YouTube) y se borra al terminar"
+      }
+    },
+    {
+      "id": "11-historia-cronica-galeria",
+      "titulo": "Historia · pestañas Crónica y Galería",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_ASOCAFE}&action=edit",
+        "abrir": "pestaña «Crónica» (pares 1–7) y pestaña «Galería» (par 8) en la caja «Historia PaisSana»",
+        "recorte": "#acf-group_historia_lapazsipasa",
+        "nota": "Como Crónica y Galería son pestañas separadas en SCF, el script captura ambas pestañas y las apila en la imagen de WordPress.",
+        "tabs": [
+          "Crónica",
+          "Galería"
+        ]
+      },
+      "front": {
+        "url": "/historias/asocafe/",
+        "recorte": ".wp-block-lapaz-historia .seccion-cronica, .wp-block-lapaz-historia .seccion-galeria",
+        "ancho": 1280
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Subtítulo de la crónica",
+          "campo": "cronica_antetitulo",
+          "clave": "field_historia_cronica_antetitulo",
+          "admin_selector": ".acf-field[data-name=\"cronica_antetitulo\"]",
+          "front_selector": ".wp-block-lapaz-historia .seccion-cronica .sec-head .sec-kicker",
+          "nota": ""
+        },
+        {
+          "n": 2,
+          "etiqueta": "Resumen de la crónica",
+          "campo": "cronica.bajada",
+          "clave": "field_historia_cronica_bajada",
+          "admin_selector": ".acf-field[data-name=\"cronica\"] .acf-field[data-name=\"bajada\"]",
+          "front_selector": ".wp-block-lapaz-historia .seccion-cronica .cronica .texto p.bajada",
+          "nota": ""
+        },
+        {
+          "n": 3,
+          "etiqueta": "Primer párrafo destacado",
+          "campo": "cronica.entradilla",
+          "clave": "field_historia_cronica_entradilla",
+          "admin_selector": ".acf-field[data-name=\"cronica\"] .acf-field[data-name=\"entradilla\"]",
+          "front_selector": ".wp-block-lapaz-historia .seccion-cronica .cronica .texto p.entradilla",
+          "nota": "Opcional."
+        },
+        {
+          "n": 4,
+          "etiqueta": "Texto de la crónica",
+          "campo": "cronica.cuerpo",
+          "clave": "field_historia_cronica_cuerpo",
+          "admin_selector": ".acf-field[data-name=\"cronica\"] .acf-field[data-name=\"cuerpo\"]",
+          "front_selector": ".wp-block-lapaz-historia .seccion-cronica .cronica .texto > p:not(.bajada):not(.entradilla)",
+          "nota": "Admite párrafos, subtítulos h3 y citas blockquote."
+        },
+        {
+          "n": 5,
+          "etiqueta": "Nota de fuente",
+          "campo": "cronica_fuente",
+          "clave": "field_historia_cronica_fuente",
+          "admin_selector": ".acf-field[data-name=\"cronica_fuente\"]",
+          "front_selector": ".wp-block-lapaz-historia .seccion-cronica .cronica .texto .fuente",
+          "nota": "Opcional; aparece al final de la columna de texto."
+        },
+        {
+          "n": 6,
+          "etiqueta": "Fotos",
+          "campo": "cronica.fotos",
+          "clave": "field_historia_cronica_fotos",
+          "admin_selector": ".acf-field[data-name=\"cronica\"] .acf-field[data-name=\"fotos\"] .acf-row:not(.acf-clone):first-child",
+          "front_selector": ".wp-block-lapaz-historia .seccion-cronica .cronica aside figure:first-of-type",
+          "nota": "Subcampos: «Imagen» (imagen, field_historia_cronica_foto_imagen) y «Crédito» (credito, field_historia_cronica_foto_credito → figcaption.credito). La primera foto va arriba del recuadro de datos y las demás debajo."
+        },
+        {
+          "n": 7,
+          "etiqueta": "Recuadro de datos",
+          "campo": "cronica.ficha_datos",
+          "clave": "field_historia_cronica_ficha_datos",
+          "admin_selector": ".acf-field[data-name=\"cronica\"] .acf-field[data-name=\"ficha_datos\"] .acf-row:not(.acf-clone):first-child",
+          "front_selector": ".wp-block-lapaz-historia .seccion-cronica .cronica aside dl.ficha-tec.una-columna",
+          "nota": "Subcampos: «Rótulo del dato» (cifra, field_historia_cronica_dato_cifra → dt) y «Valor del dato» (texto, field_historia_cronica_dato_texto → dd)."
+        },
+        {
+          "n": 8,
+          "etiqueta": "Galería",
+          "campo": "galeria",
+          "clave": "field_historia_galeria",
+          "admin_selector": ".acf-field[data-name=\"galeria\"]",
+          "front_selector": ".wp-block-lapaz-historia .seccion-galeria .galeria",
+          "nota": "Hasta 24 fotos. En cada figure, el pie (figcaption) sale de la «Leyenda» del adjunto y el crédito (figcaption .credito) de su «Descripción» en la biblioteca de medios."
+        }
+      ],
+      "no_visibles": []
+    },
+    {
+      "id": "12-productor-tarjeta",
+      "titulo": "Productor · formulario y taxonomías → tarjeta y filtros",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_PRODUCTOR}&action=edit",
+        "abrir": "pantalla completa de edición del productor «Asociacion de Productores de Especies Menores del Sur del Tolima» (título, caja «Datos del productor» y cajas de taxonomías a la derecha)",
+        "recorte": "#post-body",
+        "css": "#adminmenumain,#adminmenuback,#adminmenuwrap{display:none !important} #wpcontent{margin-left:0 !important;padding-left:50px !important}"
+      },
+      "front": {
+        "url": "/productores/?buscar=Especies%20Menores%20del%20Sur%20del%20Tolima#explorar",
+        "recorte": ".wp-block-lapaz-catalogo #explorar",
+        "ancho": 1280,
+        "nota": "Al filtrar por «Resilientes», la primera tarjeta (.grid .card:first-child) corresponde a la organización de ejemplo y la barra de filtros superior permite señalar «Tiempos de operación»."
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Título (campo superior de WordPress)",
+          "campo": "post_title",
+          "clave": "post_title",
+          "admin_selector": "#titlediv #title",
+          "front_selector": ".wp-block-lapaz-catalogo .grid .card:first-child h3",
+          "nota": "Nombre de la organización o productor; también lo busca el campo «Productor, producto o municipio»."
+        },
+        {
+          "n": 2,
+          "etiqueta": "Municipio",
+          "campo": "municipio",
+          "clave": "field_productor_municipio",
+          "admin_selector": ".acf-field[data-name=\"municipio\"]",
+          "front_selector": ".wp-block-lapaz-catalogo .grid .card:first-child .ubic",
+          "nota": "Se muestra antes del punto medio «·» junto al departamento. También se indexa automáticamente en post_content para el buscador.",
+          "front_texto": "Chaparral",
+          "circ": [
+            -40,
+            -8
+          ]
+        },
+        {
+          "n": 3,
+          "etiqueta": "Departamentos",
+          "campo": "departamento",
+          "clave": "taxonomy_departamento_lapazsipasa",
+          "admin_selector": "#departamentodiv",
+          "front_selector": ".wp-block-lapaz-catalogo .grid .card:first-child .ubic",
+          "nota": "Se muestra tras «·» junto al municipio. Además alimenta el desplegable select[name=\"departamento\"], los conteos de portada/banner y las barras de distribución (#distribucion).",
+          "front_texto": "Tolima",
+          "circ": [
+            -30,
+            -18
+          ]
+        },
+        {
+          "n": 4,
+          "etiqueta": "Productos",
+          "campo": "productos",
+          "clave": "field_productor_productos",
+          "admin_selector": ".acf-field[data-name=\"productos\"]",
+          "front_selector": ".wp-block-lapaz-catalogo .grid .card:first-child ul",
+          "nota": "Un producto por línea se pinta como un <li>. También se indexa para el buscador."
+        },
+        {
+          "n": 5,
+          "etiqueta": "Categorías",
+          "campo": "categoria_productor",
+          "clave": "taxonomy_categoria_productor_lapazsipasa",
+          "admin_selector": "#categoria_productordiv",
+          "front_selector": ".wp-block-lapaz-catalogo .grid .card:first-child .tags .tag:not(.et)",
+          "nota": "Etiquetas grises de la tarjeta; además alimentan los chips (.chips), los conteos de portada/banner y las barras de distribución."
+        },
+        {
+          "n": 6,
+          "etiqueta": "Etnias",
+          "campo": "etnia",
+          "clave": "taxonomy_etnia_lapazsipasa",
+          "admin_selector": "#etniadiv",
+          "front_selector": ".wp-block-lapaz-catalogo .grid .card:first-child .tags .tag.et",
+          "nota": "Etiqueta diferenciada al final de la tarjeta. Si el término es «Ninguno», no se muestra.",
+          "circ": [
+            75,
+            -8
+          ]
+        },
+        {
+          "n": 7,
+          "etiqueta": "Tiempos de operación",
+          "campo": "tiempo_operacion",
+          "clave": "taxonomy_tiempo_operacion_lapazsipasa",
+          "admin_selector": "#tiempo_operaciondiv",
+          "front_selector": ".wp-block-lapaz-catalogo .filtros select[name=\"tiempo\"]",
+          "nota": "No se imprime dentro de la tarjeta del productor; sirve exclusivamente para filtrar el catálogo desde el desplegable de tiempo de operación."
+        }
+      ],
+      "no_visibles": [
+        {
+          "etiqueta": "Enlace o red social",
+          "campo": "enlace",
+          "clave": "field_productor_enlace",
+          "motivo": "Por ahora no se muestra en ningún lugar del sitio público; lapaz_catalogo_tarjeta() y tarjeta.php no lo leen."
+        },
+        {
+          "etiqueta": "Poblaciones",
+          "campo": "poblacion",
+          "clave": "taxonomy_poblacion_lapazsipasa",
+          "motivo": "Taxonomía de registro interno; no se imprime en la tarjeta ni aparece en los filtros ni en las barras de distribución."
+        }
+      ]
+    },
+    {
+      "id": "13-seo-ajustes",
+      "titulo": "Caja «Ajustes de SEO» → resultado en Google y al compartir",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_EDICION_02}&action=edit",
+        "abrir": "caja «Ajustes de SEO» (#tsf-inpost-box) como usuario Editor: pestaña «General» (pares 1–2) y pestaña «Social» (par 3)",
+        "recorte": "#tsf-inpost-box",
+        "nota": "Como General y Social son dos pestañas de la caja, el script captura ambas y las apila en la imagen de WordPress. Debe hacerse con usuario Editor (no administrador) para que se vea la caja reducida sin «Visibilidad» ni campos OG/Twitter separados.",
+        "tabs": [
+          "General",
+          "Social"
+        ]
+      },
+      "front": {
+        "url": "/boletin/edicion-02/",
+        "recorte": ".seo-preview-mockup",
+        "ancho": 1280,
+        "tipo": "vista_previa_generada",
+        "nota": "Estos campos no se pintan dentro del contenido visible de la página sino en el <head> (<title>, meta[name=\"description\"], meta[property=\"og:title\"], meta[property=\"og:description\"] y meta[property=\"og:image\"]). Para ilustrarlos, el agente de capturas lee esos valores reales del HTML de /boletin/edicion-02/ y renderiza una lámina HTML (.seo-preview-mockup) con dos tarjetas lado a lado: un resultado de Google (.seo-preview-google) y una tarjeta al compartir en WhatsApp/redes (.seo-preview-social)."
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Título meta",
+          "campo": "_genesis_title",
+          "clave": "_genesis_title",
+          "admin_selector": "#tsf-inpost-box #autodescription_title",
+          "front_selector": ".seo-preview-google .seo-titulo",
+          "nota": "Controla <title> y meta[property=\"og:title\"] (también aparece en .seo-preview-social .seo-titulo). Si se deja vacío, el tema genera «Caminos de Transformación, Edición NN | La Paz Sí Pasa» en boletines o «Título | La Paz Sí Pasa» en historias y páginas.",
+          "circ": [
+            -40,
+            -4
+          ]
+        },
+        {
+          "n": 2,
+          "etiqueta": "Meta descripción",
+          "campo": "_genesis_description",
+          "clave": "_genesis_description",
+          "admin_selector": "#tsf-inpost-box #autodescription_description",
+          "front_selector": ".seo-preview-google .seo-descripcion",
+          "nota": "Controla meta[name=\"description\"] y meta[property=\"og:description\"] (también en .seo-preview-social .seo-descripcion). Si se deja vacía, el tema usa el Sumario del boletín, el Resumen de la historia (155 caracteres) o el extracto de la página.",
+          "circ": [
+            -40,
+            -4
+          ]
+        },
+        {
+          "n": 3,
+          "etiqueta": "URL de imagen social",
+          "campo": "_social_image_url",
+          "clave": "_social_image_url",
+          "admin_selector": "#tsf-inpost-box #autodescription_socialimage-url",
+          "front_selector": ".seo-preview-social .seo-imagen",
+          "nota": "Pestaña «Social». Controla meta[property=\"og:image\"]. Si se deja vacía, el tema usa la Foto de portada del boletín o la historia (o la Foto de la tarjeta en historia) y, en último término, assets/img/seo/og.jpg."
+        }
+      ],
+      "no_visibles": [
+        {
+          "etiqueta": "Pestaña Visibilidad y campos Open Graph / Twitter separados",
+          "campo": "visibility / autodescription_og_* / autodescription_twitter_*",
+          "clave": "tsf_editor_ocultos",
+          "motivo": "Ocultos y bloqueados para usuarios sin manage_options por inc/seo-tsf-editor.php."
+        }
+      ]
+    }
+  ]
+}

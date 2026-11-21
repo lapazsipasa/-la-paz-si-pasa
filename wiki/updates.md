@@ -1,24 +1,23 @@
 # Updates
 
-## 2026-11-21 · sincronización final de la wiki, corrida final y fallo de las pantallas de edición
+## 2026-11-21 · cierre de la rama: corrida final, manual con láminas y revisiones
 
-**Estado:** rama `feat/boletin-catalogo-fcp`, 42 commits sobre `lapazsipasa/main` (último `c3f7c11`). **Sin push, sin PR y sin desplegar.** Detalle por commit: [changelog](changelog.md). Cifras y descripción del PR: [prs/boletin-catalogo-fcp](prs/boletin-catalogo-fcp.md).
+**Estado:** rama `feat/boletin-catalogo-fcp`, 45 commits sobre `lapazsipasa/main` (último `7bb554f`). Árbol limpio. **Sin push, sin PR y sin desplegar.** Detalle por commit: [changelog](changelog.md). Cifras y descripción del PR: [prs/boletin-catalogo-fcp](prs/boletin-catalogo-fcp.md).
 
 **Hecho hoy:**
-- Canónica de las suites y PHPCS en `1d4e1b2`.
-- Correcciones de seguridad de la revisión 26 en `1546852`: bloqueo de la visibilidad de TSF al Editor, `wp-content/languages` sin acceso HTTP y esquema `https` en la imagen social.
-- Guion de pruebas de staging y wiki contrastada con el código, en `d957a80`.
-- Fallo de las pantallas de edición: al tomar las capturas del manual, PHP lanzó `TypeError` en `lapaz_tsf_imagen()` (plugin de SEO) y las pantallas de boletines, historias y páginas se cortaban. Ninguna suite abría una pantalla de edición con sesión, así que todo estaba en verde. Corregido en `c3f7c11` y cubierto con la suite nueva `admin.mjs` (13 comprobaciones).
-- Corrida final en verde sobre la imagen reconstruida: `bin/check` 17 pasos; 18 suites, 958 comprobaciones (navbar 9, retratos 43, layout 49, lo-que-hacemos 24, actualidad 27, paisana-hero 8, paisana-mapa 24, paisana-audios 14, paisana-productores 10, paisana-ferias 24, boletin 56, catalogo 60, historia 43, navegacion 181, seo 283, seguridad 68, rest 22, admin 13).
+- Pantallas de edición con el plugin de SEO: `TypeError` en `lapaz_tsf_imagen()` corregido en `c3f7c11`. Ninguna suite abría una pantalla de edición con sesión, por eso estaba todo en verde.
+- `admin.mjs` reforzada en `2eeeb72`: 20 comprobaciones, incluido el guardado real por HTTP de un boletín borrador con sesión de Editor (título, campo y título de SEO se guardan; redirección y `noindex` no).
+- Manual del editor terminado en su forma nueva (`0a529d3`, `7bb554f`): cada formulario con una lámina emparejada (pantalla de WordPress y componente del sitio, con los mismos números); 13 láminas, 72 pares campo → elemento y 5 capturas. Las imágenes y los documentos no viven en el repo.
+- Corrida final sobre `7bb554f`, con la imagen local reconstruida y árbol limpio: `bin/check` 17 pasos en verde; 18 suites e2e con salida 0, 965 comprobaciones.
+- Revisiones 36 (control visual de las 31 imágenes del manual: retocadas) y 38 (segunda pasada visual: todas sirven; sin erratas en el texto).
 - Veredicto del revisor (revisión 35): lista para abrir el PR con squash merge, sin bloqueantes.
-- Manual del editor v3, sin commit: 13 parejas de láminas (pantalla de WordPress y componente del sitio con los mismos números) y los rótulos verificados en pantalla.
 
-**En curso:** refuerzo de `apps/wp-fse/tests/e2e/admin.mjs` (sin commit); láminas numeradas del manual y paso a documento de Google.
+**En curso:**
+- Lectura completa del manual maquetado (51 páginas), revisión 39: 9 ajustes de orden, maquetación e imágenes. La hace un subagente revisor, no AGY, porque AGY perdió su sesión (error de autenticación) al final del día.
+- Herramientas para regenerar el manual, llevándolas a `apps/wp-fse/tools/manual/` (sin commit).
+- Paso a documento de Google: el dueño lo sube a su Drive.
 
-**Siguiente paso:**
-1. Cerrar el refuerzo de `admin.mjs` y correr la suite.
-2. Commit de la wiki, el manual y la suite; squash y PR.
-3. Staging según el guion, y después producción.
+**Siguiente paso:** aprobación para staging y PR. El guion de staging está en [plan-staging](specs/boletin-catalogo-fcp/plan-staging.md).
 
 **Bloqueo:** falta la aprobación de William para push, PR, staging y deploy. Pendientes del servidor y del Fondo en [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor).
 

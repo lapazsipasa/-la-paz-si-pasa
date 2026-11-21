@@ -1,6 +1,6 @@
 # Revisiones independientes del boletín y el catálogo
 
-**Estado (2026-11-21):** veintisiete revisiones independientes (1 a 10, 12, 13, 15 a 19, 21 a 23, 25 a 27, 29, 32, 34 y 35), todas de solo lectura, y ocho tareas de redacción (11, 14, 20, 24, 28, 30, 31 y 33), hechas por AGY sobre la rama `feat/boletin-catalogo-fcp`. La 25 tuvo una primera pasada de un subagente, porque AGY agotó su cuota; AGY la repitió el 2026-11-21. Los informes completos no están en el repo. Esta página deja constancia de cada una: veredicto, hallazgos relevantes, commit que los resolvió y lo que quedó sin aplicar. Estado de la rama al cierre: 42 commits, último `c3f7c11`; sin commit, la wiki sincronizada, el manual v3 y el refuerzo de `admin.mjs`.
+**Estado (2026-11-21):** veintinueve revisiones independientes (1 a 10, 12, 13, 15 a 19, 21 a 23, 25 a 27, 29, 32, 34, 35, 36 y 38) y nueve tareas de redacción (11, 14, 20, 24, 28, 30, 31, 33 y 37). Las revisiones de solo lectura de la 1 a la 35 las hizo AGY sobre la rama `feat/boletin-catalogo-fcp`. La 25 tuvo una primera pasada de un subagente, porque AGY agotó su cuota; AGY la repitió el 2026-11-21. La 36 retocó imágenes del manual; el revisor de las 36 y 38 no está anotado (TODO: verificar). La 39 (lectura completa del manual maquetado) está en curso: la hace un subagente revisor, no AGY, porque AGY perdió su sesión (error de autenticación) al final del día. Los informes completos no están en el repo. Esta página deja constancia de cada una: veredicto, hallazgos relevantes, commit que los resolvió y lo que quedó sin aplicar. Estado de la rama al cierre: 45 commits, último `7bb554f`; sin commit, la sincronización de la wiki de hoy y las herramientas del manual.
 
 Gravedad: **bloqueante** impide abrir el PR · **alto** y **crítico** son de seguridad o privacidad · **importante** se arregla antes de producción · los menores se citan en una frase.
 
@@ -95,7 +95,7 @@ Lo que sigue pendiente, en dos listas: [pendiente de decisión o de acceso al se
 - **Veredicto:** la base estaba al ~75 % y no se podía dejar en verde por cuatro bloqueos: `lib.mjs` dejaba procesos Chrome huérfanos ante señales; había aserciones en falso o en vacío (`navegacion.mjs`, `boletin.mjs`); `navegacion.mjs` escribía a mano `/paissana/` y no probaba `/historias/`; CI no ejecutaba `navegacion.mjs` ni `rest.mjs`.
 - **Commit:** `9bb6c80` (cerró T1 a T6: arnés con `detached: true` y limpieza en señales, puerto aleatorio `0`, `prepararPintado()`, constantes de ruta en `fcp-lib.mjs`, suites `boletin`, `catalogo`, `historia`, `navegacion` y `rest` sin Chrome, CI y bases visuales).
 - **Estado (local, 2026-11-20):** en verde `navegacion` 181, `catalogo` 58, `boletin` 56, `historia` 43, `rest` 22 y `lo-que-hacemos` 24; `seguridad` 64 de 64 con la imagen reconstruida, y `seo` 280. Son cifras de antes de las pruebas de la revisión 26.
-- **Corrida final (2026-11-21):** `bin/check` en verde (17 pasos) y las 18 suites en verde sobre la imagen reconstruida (958 comprobaciones). `wp()` duplicada en `lo-que-hacemos.mjs` resuelta en `e78e2f1`.
+- **Corrida final (2026-11-21, sobre `7bb554f`):** `bin/check` en verde (17 pasos) y las 18 suites con salida 0 sobre la imagen reconstruida (965 comprobaciones; `admin` 20 tras el refuerzo de `2eeeb72`). `wp()` duplicada en `lo-que-hacemos.mjs` resuelta en `e78e2f1`.
 
 ## 9. URL nuevas y endurecimiento
 
@@ -284,13 +284,33 @@ Lo que sigue pendiente, en dos listas: [pendiente de decisión o de acceso al se
 - **Hallazgos (parte A):** `skip` silencioso en el cargador de cajas meta del editor de bloques y en la lectura de logs PHP (`admin.mjs:78-79` y `:85-92`); `wp_insert_user()` sin comprobar `WP_Error` (`:57`); bajo: no se exigen las cinco cajas de taxonomía del productor ni el menú del Editor.
 - **Parte B:** C1, A1, A2, M1 y B1 resueltos; queda B2 (ver la 32).
 - **Parte C (zonas sin cobertura):** guardado POST con validación SCF; WP Super Cache con `WP_CACHE=true`; subida JPEG → WebP de 1500 px; idempotencia de `lapaz-setup` y `lapaz-importar`; editor de bloques en Chrome con sesión; envío SMTP. Ver «Después del PR» en la lista única.
-- **Commit:** la parte A (refuerzo de `admin.mjs`) está **en curso, sin commit**.
+- **Commit:** la parte A (refuerzo de `admin.mjs`) está en `2eeeb72`: 20 comprobaciones, con el guardado HTTP de un boletín borrador como Editor.
 
 ## 35. Veredicto final antes del PR (AGY)
 - **Veredicto:** lista para abrir el PR con squash merge. Sin bloqueantes: 42 commits, 188 archivos, +23 485 / −454 líneas contra `lapazsipasa/main`; sin IPs, paneles ni credenciales en el diff; `bin/check` (17 pasos) y las 18 suites (958 comprobaciones) en verde.
 - **Debe ir en este PR:** el refuerzo de `admin.mjs` (en curso), la sincronización de la wiki (en esta entrega) y los rótulos del manual (hechos en el manual v3).
 - **Puede ir después del PR:** la parte C de la 34 y los abiertos de la tabla de la lista única.
 - **Commit:** ninguno nuevo; la sincronización de la wiki y el manual v3 están sin commit.
+
+## 36. Control visual de las imágenes del manual (retoques)
+- **Veredicto:** de las 31 imágenes del manual, 10 láminas servían tal cual, 2 con retoque y 1 a repetir. Las que lo necesitaban se retocaron.
+- **Revisor:** TODO: verificar (no consta en la fuente).
+- **Commit:** ninguno. Las imágenes y los documentos no viven en el repo.
+- **Sin aplicar:** nada del bloque.
+
+## 37. Manual final en su forma nueva (redacción)
+- Tarea de redacción: texto final del manual del editor, con una lámina emparejada por formulario (pantalla de WordPress y componente del sitio, con los mismos números). Ver [manual-editor](../../manual-editor.md).
+- **Commit:** `0a529d3` (láminas y wiki) y `7bb554f` (texto final).
+
+## 38. Segunda pasada visual del manual
+- **Veredicto:** todas las imágenes sirven. Sin erratas en el texto.
+- **Revisor:** TODO: verificar (no consta en la fuente).
+- **Commit:** ninguno.
+
+## 39. Lectura completa del manual maquetado (en curso)
+- **Estado:** en curso. Documento de 51 páginas: listo con 9 ajustes de orden, maquetación e imágenes, que se aplican en el documento y no en el repo.
+- **Revisor:** un subagente revisor independiente, no AGY. AGY perdió su sesión (error de autenticación) al final del día, igual que se anotó la primera pasada de la 25.
+- **Commit:** ninguno.
 
 ---
 
@@ -334,10 +354,11 @@ Solo lo puede hacer William, o el Fondo en su caso. Nada de esto se resuelve en 
 - Confirmar si se conserva la nota «Registro con corte a septiembre de 2026» al final del catálogo o se omite por ser registro vivo (R18).
 
 **Del equipo (antes de abrir el PR):**
-- Hecho el 2026-11-21: correcciones de las revisiones 25 y 26 (`2f13b6b`, `1546852`) y corrida final de `bin/check` (17 pasos) y de las 18 suites sobre la imagen reconstruida (`seguridad` 68, `seo` 283, `navegacion` 181, `admin` 13).
+- Hecho el 2026-11-21: correcciones de las revisiones 25 y 26 (`2f13b6b`, `1546852`) y corrida final de `bin/check` (17 pasos) y de las 18 suites sobre la imagen reconstruida (`seguridad` 68, `seo` 283, `navegacion` 181, `admin` 20; 965 comprobaciones en total, sobre `7bb554f`).
 - Hecho: el fallo de las pantallas de edición (`c3f7c11`; ver la 32 y la 34).
-- En curso, sin commit: refuerzo de `apps/wp-fse/tests/e2e/admin.mjs` (parte A de la 34: los dos `skip` silenciosos, `conSeo` en el cargador de cajas, `WP_Error` en `wp_insert_user()` y el patrón de error fatal PHP).
-- En curso: láminas numeradas del manual (13 parejas, [`manual-editor.md`](../../manual-editor.md)) y paso a documento de Google (R4, R13). Es el último paso, lo pidió William.
+- Hecho (`2eeeb72`): refuerzo de `apps/wp-fse/tests/e2e/admin.mjs` (parte A de la 34: los dos `skip` silenciosos, `conSeo` en el cargador de cajas, `WP_Error` en `wp_insert_user()` y el patrón de error fatal PHP).
+- Hecho (`0a529d3`, `7bb554f`): láminas numeradas del manual (13 parejas, [`manual-editor.md`](../../manual-editor.md)).
+- En curso: lectura completa del manual maquetado (revisión 39) y paso a documento de Google (R4, R13), que hace el dueño.
 
 **Después del PR (revisión 34, parte C, y revisión 35):**
 - Cobertura e2e: POST real con validación SCF (boletín, historia y productor); WP Super Cache con `WP_CACHE=true`; subida JPEG → WebP de 1500 px; idempotencia de `lapaz-setup` y `lapaz-importar`; editor de bloques en Chrome con sesión; prueba de `lapaz-smtp`.
@@ -347,7 +368,7 @@ Solo lo puede hacer William, o el Fondo en su caso. Nada de esto se resuelve en 
   - R10, posible doble anuncio al enfocar `.conteo` (baja; comprobar con VoiceOver/NVDA en staging).
   - R17, `scrollbar-gutter: stable` en el lightbox (baja, cosmético).
   - R32 B2, canónica de archivos en el panel PTA de administradores (baja, aceptable).
-  - R34, refuerzo de `admin.mjs` (media; antes del PR, en curso).
+  - R34, refuerzo de `admin.mjs` (media; antes del PR, hecho en `2eeeb72`).
   - R34, zonas sin cobertura (media; después del PR).
   - Cerrado en esta entrega: rótulos del manual (R32, punto 5), aplicados en el manual v3.
 
