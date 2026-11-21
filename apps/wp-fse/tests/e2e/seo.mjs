@@ -573,7 +573,7 @@ async function editor() {
 		const tabs = wpJson(
 			`$id=wp_insert_user(["user_login"=>"__prueba","user_pass"=>wp_generate_password(24),"user_email"=>"__prueba@example.test","role"=>"editor"]); if(is_wp_error($id)) WP_CLI::error($id->get_error_message());
 $admin=get_users(["role"=>"administrator","number"=>1,"fields"=>"ID"])[0];
-$por=function($u){ wp_set_current_user($u); ob_start(); $t=array_keys((array)apply_filters("the_seo_framework_inpost_settings_tabs",["general"=>[],"social"=>[],"visibility"=>[]],null)); return ["admin"=>current_user_can("manage_options"),"tabs"=>$t,"css"=>ob_get_clean()]; };
+$por=function($u){ wp_set_current_user($u); ob_start(); lapaz_tsf_estilo_caja(); $t=array_keys((array)apply_filters("the_seo_framework_inpost_settings_tabs",["general"=>[],"social"=>[],"visibility"=>[]],null)); return ["admin"=>current_user_can("manage_options"),"tabs"=>$t,"css"=>ob_get_clean()]; };
 echo wp_json_encode(["editor"=>$por($id),"admin"=>$por($admin)]);`
 		);
 		tests.check(

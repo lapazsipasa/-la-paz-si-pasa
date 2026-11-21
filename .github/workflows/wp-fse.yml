@@ -133,6 +133,7 @@ jobs:
         run: |
           node tests/e2e/seguridad.mjs
           node tests/e2e/rest.mjs
+          node tests/e2e/admin.mjs
       - name: Logs si falla
         if: failure()
         run: docker compose logs cms

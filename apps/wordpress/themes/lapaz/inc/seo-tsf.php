@@ -23,6 +23,10 @@ if ( ! defined( 'THE_SEO_FRAMEWORK_PRESENT' ) ) {
  */
 function lapaz_tsf_id( ?array $args ): int {
 	if ( null !== $args ) {
+		if ( ! empty( $args['tax'] ) || ! empty( $args['taxonomy'] ) || ! empty( $args['pta'] ) || ! empty( $args['uid'] ) ) {
+			return 0; // Término, archivo de tipo o usuario: su `id` no es el de una entrada.
+		}
+
 		return is_numeric( $args['id'] ?? null ) ? (int) $args['id'] : 0;
 	}
 	if ( is_post_type_archive( 'boletin' ) ) {
@@ -72,7 +76,7 @@ function lapaz_tsf_titulo( string $titulo, ?array $args ): string {
 	if ( lapaz_tsf_es_portada( $args ) ) {
 		return 'La Paz Sí Pasa | ' . __( 'Fondo Colombia en Paz', 'lapaz' ); // Completo: va sin la marca del plugin.
 	}
-	if ( isset( $args['pta'] ) ) {
+	if ( ! empty( $args['pta'] ) ) {
 		return $titulo; // Miga «Boletín»: no se llama como la edición.
 	}
 	$id   = lapaz_tsf_id( $args );
@@ -139,6 +143,10 @@ function lapaz_tsf_descripcion( string $descripcion, ?array $args ): string {
 		return __( 'PaisSana reúne a las familias productoras de los territorios PDET: mapas por región, relatos en audio, ferias y videos del café, el cacao y las artesanías.', 'lapaz' );
 	}
 
+	if ( null !== $args && 0 === $id && '' !== $descripcion ) {
+		return $descripcion; // Término, usuario o archivo: se respeta la generada.
+	}
+
 	return __( 'El Fondo Colombia en Paz ejecuta los recursos para implementar la paz: conoce las subcuentas, las cifras de gestión y las historias de los territorios PDET.', 'lapaz' );
 }
 add_filter( 'the_seo_framework_generated_description', 'lapaz_tsf_descripcion', 10, 2 );
@@ -148,11 +156,11 @@ add_filter( 'the_seo_framework_generated_description', 'lapaz_tsf_descripcion', 
  *
  * @param array<mixed>      $detalles Imágenes generadas.
  * @param array<mixed>|null $args     Consulta del plugin.
- * @param bool              $unica    Si se pide una sola.
+ * @param mixed             $unica   Si se pide una sola (bool, o null cuando el plugin pide solo la URL; no se usa).
  * @param string            $contexto Para qué se pide ('social', 'organization', 'oembed').
  * @return array<mixed>
  */
-function lapaz_tsf_imagen( array $detalles, ?array $args, bool $unica, string $contexto ): array {
+function lapaz_tsf_imagen( array $detalles, ?array $args, mixed $unica, string $contexto ): array {
 	if ( 'social' !== $contexto ) {
 		return $detalles;
 	}

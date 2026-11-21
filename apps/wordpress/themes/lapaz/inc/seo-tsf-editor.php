@@ -16,7 +16,7 @@ if ( ! defined( 'THE_SEO_FRAMEWORK_PRESENT' ) ) {
 
 /**
  * Caja reducida para quien no administra: sin la pestaña de visibilidad y sin los campos
- * sociales sueltos (CSS, que solo sale al pintar la caja).
+ * sociales sueltos (CSS, en `lapaz_tsf_estilo_caja`).
  *
  * @param array<string, mixed> $pestanas Pestañas de la caja.
  * @return array<string, mixed>
@@ -24,12 +24,20 @@ if ( ! defined( 'THE_SEO_FRAMEWORK_PRESENT' ) ) {
 function lapaz_tsf_pestanas( array $pestanas ): array {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		unset( $pestanas['visibility'] );
-		echo '<style>.tsf-flex-setting:has(#autodescription_og_title,#autodescription_og_description,#autodescription_twitter_title,#autodescription_twitter_description,#autodescription_twitter_card_type){display:none}</style>' . "\n";
 	}
 
 	return $pestanas;
 }
 add_filter( 'the_seo_framework_inpost_settings_tabs', 'lapaz_tsf_pestanas' );
+
+/** Oculta los campos sociales sueltos a quien no administra. */
+function lapaz_tsf_estilo_caja(): void {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		echo '<style>.tsf-flex-setting:has(#autodescription_og_title,#autodescription_og_description,#autodescription_twitter_title,#autodescription_twitter_description,#autodescription_twitter_card_type){display:none}</style>' . "\n";
+	}
+}
+add_action( 'admin_head-post.php', 'lapaz_tsf_estilo_caja' );
+add_action( 'admin_head-post-new.php', 'lapaz_tsf_estilo_caja' );
 
 /**
  * Quien no administra no cambia redirección, canónica ni robots (el plugin borra lo vacío:
