@@ -94,7 +94,7 @@ async function edicion() {
 			datos[ url ] = d;
 			tests.check( `${ url }: la franja muestra la edición ${ pad( Number( ultima.numero ) ) }`, ( d.franja ?? '' ).includes( pad( Number( ultima.numero ) ) ), d.franja );
 			estructura( url, d, 8 );
-			tests.check( `${ url }: canónica = URL de la edición`, d.canonical === new URL( ruta, site ).href, d.canonical );
+			tests.check( `${ url }: canónica = URL de la edición`, url === ruta ? d.canonical === null || d.canonical === new URL( ruta, site ).href : d.canonical === new URL( ruta, site ).href, d.canonical ); // En la edición, fuera de producción el plugin no imprime canónica (noindex); la exacta la cubre seo.mjs.
 			if ( url === ruta ) {
 				tests.check( `${ url }: 5 artículos`, d.articulos === 5, String( d.articulos ) );
 				tests.check( `${ url }: 1 sección de cifras con la primera destacada`, d.cifrasSecciones === 1 && d.cifrasPrimeraDestacada, `${ d.cifrasSecciones } / ${ d.cifrasPrimeraDestacada }` );

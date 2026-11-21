@@ -54,8 +54,12 @@ add_action( 'wp_insert_post', 'lapaz_boletin_secciones_por_defecto', 10, 3 );
  * ID de la edición publicada más reciente por fecha (0 si no hay).
  */
 function lapaz_boletin_actual(): int {
-	/** @var int $actual */
-	static $actual = -1; // Una consulta por petición (-1: aún sin consultar).
+	/**
+	 * Una consulta por petición (-1: aún sin consultar).
+	 *
+	 * @var int $actual
+	 */
+	static $actual = -1;
 	if ( $actual >= 0 ) {
 		return $actual;
 	}

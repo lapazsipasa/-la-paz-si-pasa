@@ -204,7 +204,7 @@ async function nuevaHistoria() {
 	tests.check( `${ HISTORIAS } con dos historias: muestra la nueva y su canónica apunta a ella`, a.canonical === url( nueva.path ) && ( a.h1 ?? '' ).includes( '__prueba' ), JSON.stringify( a ) );
 	tests.check( `${ HISTORIAS } con dos historias: «Otras historias» lista Asocafé y no la que se muestra`, a.anteriores === 1 && a.titulo === 'Otras historias' && a.enlaces.includes( ASOCAFE ) && ! a.enlaces.includes( nueva.path ), JSON.stringify( a ) );
 	const b = await leerHistoria( ASOCAFE );
-	tests.check( `${ ASOCAFE } sigue con su canónica y lista la nueva en «Otras historias»`, b.canonical === url( ASOCAFE ) && b.enlaces.includes( nueva.path ), JSON.stringify( b ) );
+	tests.check( `${ ASOCAFE } sigue con su canónica y lista la nueva en «Otras historias»`, ( b.canonical === null || b.canonical === url( ASOCAFE ) ) && b.enlaces.includes( nueva.path ), JSON.stringify( b ) );
 }
 
 async function restaurado() {
