@@ -2,7 +2,7 @@
 
 ## 2026-11-21 · cierre de la rama: corrida final, manual con láminas y revisiones
 
-**Estado:** rama `feat/boletin-catalogo-fcp`, 46 commits sobre `lapazsipasa/main` (último `221a33c`). Árbol limpio. **Sin push, sin PR y sin desplegar.** Detalle por commit: [changelog](changelog.md). Cifras y descripción del PR: [prs/boletin-catalogo-fcp](prs/boletin-catalogo-fcp.md).
+**Estado:** rama `feat/boletin-catalogo-fcp`, 48 commits sobre `lapazsipasa/main`. Árbol limpio. **Sin push, sin PR y sin desplegar.** Detalle por commit: [changelog](changelog.md). Cifras y descripción del PR: [prs/boletin-catalogo-fcp](prs/boletin-catalogo-fcp.md).
 
 **Hecho hoy:**
 - Pantallas de edición con el plugin de SEO: `TypeError` en `lapaz_tsf_imagen()` corregido en `c3f7c11`. Ninguna suite abría una pantalla de edición con sesión, por eso estaba todo en verde.
@@ -16,9 +16,11 @@
 - Revisión 39 (lectura completa del manual maquetado, hecha por un subagente revisor porque AGY había perdido su sesión): sus ajustes aplicados. Explicación «Cómo leer las láminas» tras el índice, apartado de quitar o reordenar secciones antes de llenar, paso de publicar en la historia, portada de Inicio reducida a su imagen del sitio. El documento quedó en 46 páginas (Word y PDF).
 - Herramientas para regenerar el manual en el repo: `apps/wp-fse/tools/manual/` (mapa campo → elemento del sitio, generador de láminas numeradas y maquetador). El texto sale de [manual-editor](manual-editor.md); imágenes y documentos fuera del repo.
 
-**En curso:**
-- Revisión 40 de AGY (manual maquetado final y herramientas nuevas): terminada en su panel, pendiente de que William autorice que AGY escriba el informe. Sus hallazgos se aplican al recibirlo.
-- Paso a documento de Google: William sube el Word a su Drive.
+**Revisión 40** (manual maquetado final y herramientas): AGY la terminó pero quedó esperando permiso para escribir el informe, así que la hizo un subagente revisor, igual que la 25 y la 39. Veredicto: listo con 4 cambios necesarios, aplicados: un círculo tapado en la lámina del productor; el generador de láminas se niega a correr contra un sitio que no sea el local; borra el usuario temporal y los borradores aunque se interrumpa; y el README dice que antes hay que cargar el contenido de ejemplo. También los opcionales: marcadores y título del PDF, lámina de Cifras recortada. El manual queda en 43 páginas.
+
+**Pendiente de William:**
+- Subir el Word a su Drive como documento de Google (`raw/manual-editor/`, fuera del repo).
+- Aprobación para push, staging y PR.
 
 **Siguiente paso:** aprobación para staging y PR. El guion de staging está en [plan-staging](specs/boletin-catalogo-fcp/plan-staging.md).
 

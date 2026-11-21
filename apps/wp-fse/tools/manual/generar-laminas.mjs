@@ -1,14 +1,14 @@
-// Uso: node apps/wp-fse/tools/manual/generar-laminas.mjs                 -> todas las láminas (usuario Editor temporal; se borra con --limpiar)
+// Uso: node apps/wp-fse/tools/manual/generar-laminas.mjs                 -> todas las láminas (usuario Editor temporal; se borra al terminar)
 //      ... --solo=01,05,13    -> solo esas láminas (prefijo del id); --front / --admin para un solo lado
 //      ... --limpiar          -> borra el usuario editora-manual. Lee mapa-campos.json (junto a este archivo).
 // Las láminas (PNG) quedan en raw/manual-editor/capturas/ (carpeta fuera de git), o en --salida=<carpeta>.
 // Requiere el sitio local en http://localhost:8090 (docker compose en apps/wp-fse) y Chrome. No guarda ni publica nada.
 import fs from 'node:fs';
 import path from 'node:path';
-import crypto from 'node:crypto';
 import { execSync } from 'node:child_process';
 import { PNG } from 'pngjs';
 import { createBrowserTests, prepararPintado } from '../../tests/e2e/lib.mjs';
+import { exigirLocal } from '../../tests/e2e/fcp-lib.mjs';
 
 const AQUI = import.meta.dirname;
 const WPFSE = path.resolve(AQUI, '../..');
@@ -23,6 +23,9 @@ const MAX_ALTO = 2200, M = 16;
 let TAM = 30; // diámetro de los círculos numerados (px CSS); cada lámina puede pedir otro con "circulo"
 
 const wp = (a) => execSync(`docker compose exec -T -u www-data cms wp --path=/var/www/html ${a}`, { cwd: WPFSE, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+// Guarda: crea usuario y borradores, así que solo corre contra el sitio local (misma comprobación que las suites e2e).
+try { exigirLocal({ site: process.env.SITE_URL ?? 'http://localhost:8090' }); exigirLocal({ site: wp('option get home') }); }
+catch (e) { console.error(`generar-laminas: ${e.message}`); process.exit(1); }
 if (args.includes('--limpiar')) { try { wp(`user delete ${USER} --yes`); } catch {} console.log('usuario borrado'); process.exit(0); }
 
 // --- sesión (Editor temporal) ---
@@ -30,8 +33,7 @@ function sesion() {
   let id = '';
   try { id = wp(`user get ${USER} --field=ID`); } catch {}
   if (!id) {
-    const pass = crypto.randomBytes(18).toString('base64url');
-    wp(`user create ${USER} editora@example.org --role=editor --display_name=Editora --first_name=Editora --user_pass=${pass} --porcelain`);
+    wp(`user create ${USER} editora@example.org --role=editor --display_name=Editora --first_name=Editora --porcelain`);
     id = wp(`user get ${USER} --field=ID`);
   }
   const nombres = wp(`eval 'echo AUTH_COOKIE."|".LOGGED_IN_COOKIE;'`).split('|');
@@ -40,15 +42,17 @@ function sesion() {
 }
 // --- marcadores {ID_...} ---
 const IDS = {};
-for (const [k, cmd] of Object.entries(MAPA.marcadores)) IDS[k] = wp(cmd.replace(/^wp /, '')).split('\n')[0];
+for (const [k, cmd] of Object.entries(MAPA.marcadores)) {
+  IDS[k] = wp(cmd.replace(/^wp /, '')).split('\n')[0];
+  if (!IDS[k]) { console.error(`generar-laminas: no encuentro ${k}; carga el contenido de ejemplo (lapaz-setup --seed, ver README)`); process.exit(1); }
+}
 // Borrador temporal (copia de una entrada con metas cambiadas) para mostrar lo que la entrada real no tiene; se borra al final.
 const BORRADORES = [];
 function borrador(b) {
-  const php = `$s=get_post(${res0(b.copiar_de)}); $id=wp_insert_post(['post_type'=>$s->post_type,'post_title'=>$s->post_title.' (borrador del manual)','post_status'=>'draft']); foreach(get_post_meta($s->ID) as $k=>$v){ if($k==='_edit_lock'||$k==='_edit_last')continue; update_post_meta($id,$k,maybe_unserialize($v[0])); } foreach(json_decode(${JSON.stringify(JSON.stringify(b.meta))},true) as $k=>$v) update_post_meta($id,$k,$v); echo $id;`;
+  const php = `$s=get_post(${res(b.copiar_de)}); $id=wp_insert_post(['post_type'=>$s->post_type,'post_title'=>$s->post_title.' (borrador del manual)','post_status'=>'draft']); foreach(get_post_meta($s->ID) as $k=>$v){ if($k==='_edit_lock'||$k==='_edit_last')continue; update_post_meta($id,$k,maybe_unserialize($v[0])); } foreach(json_decode(${JSON.stringify(JSON.stringify(b.meta))},true) as $k=>$v) update_post_meta($id,$k,$v); echo $id;`;
   const id = execSync(`docker compose exec -T -u www-data cms wp --path=/var/www/html eval ${JSON.stringify(php).replace(/\$/g, '\\$')}`, { cwd: WPFSE, encoding: 'utf8' }).trim();
   BORRADORES.push(id); return id;
 }
-const res0 = (s) => s.replace(/\{(ID_[A-Z_0-9]+)\}/g, (_, k) => IDS[k]);
 const res = (s) => s.replace(/\{(ID_[A-Z_0-9]+)\}/g, (_, k) => IDS[k]);
 
 const t = createBrowserTests();
@@ -74,7 +78,6 @@ async function abrir(ruta, { w = 1280, cookies = null, css = '' } = {}) {
   return p;
 }
 const addCss = (p, c) => p.evaluate(`(()=>{const s=document.createElement('style');s.textContent=${JSON.stringify(c)};document.head.append(s);1})()`);
-const fix = async () => {};
 
 // Abre pestaña ACF por su texto; expande layouts/filas colapsadas que contienen el selector.
 const abrirTab = (p, texto) => p.evaluate(`(()=>{const b=[...document.querySelectorAll('.acf-tab-button,.tsf-flex-nav-tab-label')].find(e=>e.textContent.trim()===${JSON.stringify(texto)});if(!b)return false;b.click();return true})()`);
@@ -128,7 +131,7 @@ function apilar(pngs, destino) {
 const partir = (s) => s.split(/,\s*(?![^()\[\]]*[)\]])/).map((x) => x.trim()).filter(Boolean);
 
 // Marca los pares en la página actual; devuelve los resultados y avisos.
-async function marcarPares(p, pares, lado, informe, id, hechos) {
+async function marcarPares(p, pares, lado, hechos) {
   const items = pares.filter((q) => !hechos.has(q.n)).map((q) => ({ n: q.n, sel: q[lado + '_selector'], texto: q[lado + '_texto'], circ: q.circ }));
   for (const it of items) if (lado === 'admin') await expandir(p, it.sel);
   await sleep(400);
@@ -149,7 +152,6 @@ async function lamina(l, cookies) {
   if (!SOLO_FRONT) {
     const a = l.admin;
     const p = await abrir(res(a.url), { cookies, css: LIMPIA_ADMIN + (a.css || '') });
-    await fix(p, LIMPIA_ADMIN);
     const tabs = a.tabs || [a.tab].filter(Boolean);
     const hechos = new Set(), imgs = [];
     const docW = 1280;
@@ -165,7 +167,7 @@ async function lamina(l, cookies) {
         if (v) vis.push(q);
       }
       if (!vis.length) continue;
-      const r = await marcarPares(p, vis, 'admin', avisos, l.id, hechos);
+      const r = await marcarPares(p, vis, 'admin', hechos);
       const buenos = r.filter((x) => !x.error);
       for (const x of r) if (x.error) avisos.push(`admin n${x.n}: ${x.error}`); else hechos.add(x.n);
       const rec = partir(a.recorte);
@@ -187,10 +189,9 @@ async function lamina(l, cookies) {
     const f = l.front, w = f.ancho || 1280;
     const url = f.tipo === 'vista_previa_generada' ? await vistaPrevia(f) : f.url;
     const p = await abrir(res(url), { w, css: LIMPIA_FRONT, cookies: f.sesion ? cookies : null });
-    await fix(p, LIMPIA_FRONT);
     // la lámina espera un pequeño margen para animaciones de entrada
     await p.css('*{animation:none !important;transition:none !important} .reveal,[data-reveal]{opacity:1 !important;transform:none !important}');
-    const r = await marcarPares(p, l.pares, 'front', avisos, l.id, new Set());
+    const r = await marcarPares(p, l.pares, 'front', new Set());
     for (const x of r) if (x.error) avisos.push(`front n${x.n}: ${x.error}`);
     const docW = await p.evaluate('document.documentElement.clientWidth');
     const bandas = partir(f.recorte);
@@ -240,8 +241,12 @@ async function vistaPrevia(f) {
   return '@html:' + pagina;
 }
 
+// Al salir, también con Ctrl+C o error (lib.mjs convierte las señales en process.exit): borra borradores y usuario temporal.
+process.on('exit', () => {
+  for (const id of BORRADORES) { try { wp(`post delete ${id} --force`); } catch {} }
+  try { wp(`user delete ${USER} --yes`); } catch {}
+});
 const cookies = sesion();
 const lista = MAPA.laminas.filter((l) => !solo.length || solo.some((s) => l.id.startsWith(s)));
-try { for (const l of lista) await lamina(l, cookies); }
-finally { for (const id of BORRADORES) { try { wp(`post delete ${id} --force`); } catch {} } }
+for (const l of lista) await lamina(l, cookies);
 await t.finish();

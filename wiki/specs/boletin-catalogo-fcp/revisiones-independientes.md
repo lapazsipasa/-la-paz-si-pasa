@@ -398,3 +398,12 @@ Lo que no se puede verificar en local con la imagen actual.
 - **Accesibilidad con lector de pantalla (VoiceOver / NVDA):** cierre del `<dialog>` con Escape y retorno de foco; que enfocar `.conteo` al agotar «Ver más» no duplique el anuncio; aviso «(abre en una pestaña nueva)» en el video de enlace externo (R10, R17).
 - **CI:** las acciones fijadas por SHA corren; `navegacion.mjs` y `rest.mjs` entran en el flujo; las suites pasan en la primera ejecución real.
 - **Rendimiento:** Lighthouse de `/productores/` con el hero compacto. TODO: confirmar que se mide.
+
+### 40 · Manual maquetado final y herramientas del manual (2026-11-21)
+
+- **Quién:** subagente revisor. AGY la terminó en su panel pero quedó esperando permiso para escribir el informe.
+- **Veredicto:** listo con 4 cambios necesarios.
+- **Hallazgos:** círculo ③ tapado en la lámina del productor; el generador de láminas no comprobaba que el sitio fuera el local; el usuario temporal y los borradores quedaban vivos si se interrumpía; el README no decía que hay que cargar antes el contenido de ejemplo. Opcionales: marcadores y título del PDF, altura de imagen, recorte de la lámina de Cifras, cuatro retoques de texto y código sin uso.
+- **Resuelto:** todo, en el commit de este cierre. Manual en 43 páginas.
+- **Sin aplicar:** propiedades del documento Word y guarda de líneas `>` en el maquetador (opcionales menores).
+

@@ -10,14 +10,16 @@ Regeneran el manual (Word y PDF) desde el texto de [`wiki/manual-editor.md`](../
 
 ## Requisitos
 
-Node (el de `apps/wp-fse`, con `npm ci` hecho), Google Chrome, Docker con el sitio local en `http://localhost:8090` y Python con `python-docx`, `Pillow`, `numpy` y `PyMuPDF` (este último solo para revisar el PDF). Si Chrome no está en la ruta habitual, define `CHROME`.
+Node (el de `apps/wp-fse`, con `npm ci` hecho), Google Chrome, Docker con el sitio local en `http://localhost:8090` **con el contenido de ejemplo cargado** (`docker compose exec -u www-data cms lapaz-setup --seed` desde `apps/wp-fse`, o el de producción con `lapaz-importar`; ver [`wiki/despliegue-fse.md`](../../../../wiki/despliegue-fse.md)) y Python con `python-docx`, `Pillow`, `numpy` y `PyMuPDF` (este último solo para revisar el PDF): `python3 -m venv .venv && .venv/bin/pip install python-docx Pillow numpy PyMuPDF`. Si Chrome no está en la ruta habitual, define `CHROME_BIN` (láminas) y `CHROME` (PDF).
+
+El script de láminas se niega a correr si `SITE_URL` o el `home` de WordPress no son el sitio local, y se detiene con un mensaje si falta el contenido que necesita (edición `edicion-02`, historia `asocafe`, el productor «Especies Menores del Sur del Tolima» y la página `productores`).
 
 ## Regenerar (desde la raíz del repo)
 
 ```bash
 node apps/wp-fse/tools/manual/generar-laminas.mjs            # láminas -> raw/manual-editor/capturas/
 python3 apps/wp-fse/tools/manual/generar-manual.py           # .docx, .pdf e imagenes/ -> raw/manual-editor/
-node apps/wp-fse/tools/manual/generar-laminas.mjs --limpiar  # borra el usuario temporal
+node apps/wp-fse/tools/manual/generar-laminas.mjs --limpiar  # por si acaso: el script ya borra el usuario temporal y los borradores al salir, incluso con Ctrl+C
 ```
 
 `--solo=01,05` regenera solo esas láminas. Las capturas sueltas (`captura-*.png`: inicio de sesión, menú, medios, panel Publicar, páginas protegidas) se toman a mano y viven en `raw/manual-editor/capturas/`.

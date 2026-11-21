@@ -22,7 +22,7 @@ OUT = SALIDA / "imagenes"
 NOMBRE = "Manual del editor - La Paz Si Pasa"
 CHROME = os.environ.get("CHROME") or next((c for c in ("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", shutil.which("google-chrome"), shutil.which("chromium"), shutil.which("chrome")) if c and Path(c).exists()), "")
 MAXW, SPLIT, TRAMO = 1600, 1.5, 1.0   # ancho máx. px; ratio alto/ancho desde el que se parte; ratio objetivo por tramo
-ANCHO_IN, ALTO_IN = 6.9, 5.8          # caja útil de imagen en la página (pulgadas)
+ANCHO_IN, ALTO_IN = 6.9, 5.2          # caja útil de imagen en la página (pulgadas)
 PEQ = {"captura-01": 3.0, "captura-02": 1.4, "captura-08": 3.8}  # capturas pequeñas: ancho máximo en pulgadas (nunca se parten)
 
 # ---------- imágenes ----------
@@ -65,9 +65,9 @@ def recomponer_productor(im):
     cortes_y = [c(1925), c(2449), c(3100), H]
     out = Image.new("RGB", (W, c(1925)), fondo)
     out.paste(im.crop((0, 0, W, c(1925))), (0, 0))
-    out.paste(Image.new("RGB", (x0 - c(40), c(1925) - c(1160)), fondo), (c(40), c(1160)))
+    out.paste(Image.new("RGB", (x0 - c(120), c(1925) - c(1160)), fondo), (c(40), c(1160)))
     for i in range(3):
-        out.paste(im.crop((x0, cortes_y[i], W, cortes_y[i + 1])), (c(40) + i * c(620), c(1180)))
+        out.paste(im.crop((x0, cortes_y[i], W, cortes_y[i + 1])), (c(40) + i * c(600), c(1180)))
     return out
 
 def preparar(nombre):
@@ -348,7 +348,7 @@ def h(t):
     return o
 
 def build_pdf(blocks):
-    o, k = [f"<!doctype html><meta charset=utf-8><style>{CSS}</style><body>"], 1
+    o, k = [f"<!doctype html><meta charset=utf-8><title>{NOMBRE}</title><style>{CSS}</style><body>"], 1
     o.append(f'<div class=t>{h(blocks[0][1])}</div>')
     cover = [b[1] for b in blocks[1:4]]
     o.append(f'<div class=s>{h(cover[0])}</div><div class=c style="margin-top:60pt">{h(cover[1])}</div><div class=c><b>{h(cover[2])}</b></div><div style="break-after:page"></div>')
@@ -389,7 +389,7 @@ def build_pdf(blocks):
     # listas numeradas: se escriben como "N." manual (ul.n) para no depender del contador del navegador
     tmp = Path(tempfile.mkdtemp()) / "manual.html"
     tmp.write_text("".join(o), encoding="utf-8")
-    subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--no-pdf-header-footer", f"--print-to-pdf={SALIDA / (NOMBRE + '.pdf')}", tmp.as_uri()],
+    subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--no-pdf-header-footer", "--generate-pdf-document-outline", f"--print-to-pdf={SALIDA / (NOMBRE + '.pdf')}", tmp.as_uri()],
                    check=True, capture_output=True, timeout=300)
 
 if __name__ == "__main__":

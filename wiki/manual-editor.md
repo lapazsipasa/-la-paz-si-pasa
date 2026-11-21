@@ -1,4 +1,4 @@
-> **Versión del 2026-11-21.** Cada formulario va con su lámina: la pantalla de WordPress y el componente del sitio que modifica, con los mismos números. Las imágenes no viven en el repo: van en el documento que se entrega al Fondo (Word y PDF, generados desde este texto). Las claves de acceso nunca van aquí.
+> **Versión del 2026-11-21.** Cada formulario va con su lámina: la pantalla de WordPress y el componente del sitio que modifica, con los mismos números. Las imágenes no viven en el repo: van en el documento que se entrega al Fondo (Word y PDF, generados desde este texto). Las claves de acceso nunca van aquí. Si cambias este texto, regenera el Word y el PDF (`apps/wp-fse/tools/manual/README.md`) y actualiza esta fecha.
 
 # Manual del editor — La Paz Sí Pasa
 
@@ -24,7 +24,7 @@ Las claves de acceso se entregan por otro canal.
 10. Buscadores y redes (SEO) y a quién acudir
 11. Resumen en una hoja
 
-**Cómo leer las láminas de este manual:** cada formulario se explica con tres piezas seguidas: primero **En WordPress** (la pantalla donde escribes), después **En el sitio** (dónde aparece lo que escribiste en la página pública) y por último una **tabla** que dice qué campo es cada número. El círculo con un número lleva el mismo número en las dos imágenes y en la tabla: el ① de WordPress es el ① del sitio. Los números empiezan de nuevo en cada lámina. Los círculos son naranjas y azules por turnos solo para distinguir cuadros vecinos; el color no significa nada. Si una imagen es muy larga, continúa en la página siguiente («1 de 2», «2 de 2»).
+**Cómo leer las láminas de este manual:** cada formulario se explica con tres piezas seguidas: primero **En WordPress** (la pantalla donde escribes), después **En el sitio** (dónde aparece lo que escribiste en la página pública) y por último una **tabla** que dice qué campo es cada número. El círculo con un número lleva el mismo número en las dos imágenes y en la tabla: el ① de WordPress es el ① del sitio. Los números empiezan de nuevo en cada lámina. Los círculos son naranjas y azules por turnos solo para distinguir cuadros vecinos; el color no significa nada. Si una imagen es muy larga, sigue en la página siguiente y su pie lo indica («1 de 3», «2 de 3»…).
 
 ---
 
@@ -350,7 +350,7 @@ Aquí escribes el relato largo con fotos y recuadro de datos laterales, y subes 
 | ⑦ | **Recuadro de datos** | Ficha lateral con pares **Rótulo del dato** y **Valor del dato** (opcional). |
 | ⑧ | **Galería** | Rejilla «Las fotografías» con vista ampliada al pulsar cada imagen (hasta 24 fotos). |
 
-**Consejos:** en ④ pega sin formato (`Ctrl/Cmd + Shift + V`), aplica **Título 3** con `Shift + Alt + 3` (`Control + Option + 3` en Mac) y usa **Cita** en dos párrafos. En ⑧ los botones del selector aparecen en inglés como **Add to gallery** (Añadir a la galería) y **Bulk actions** (Acciones en lote).
+**Consejos:** en ④ pega sin formato (`Ctrl/Cmd + Shift + V`), aplica **Título 3** con `Shift + Alt + 3` (`Control + Option + 3` en Mac) y usa **Cita** en dos párrafos. En ⑧ los botones del selector aparecen en inglés como **Add to gallery** (Añadir a la galería) y **Bulk actions** (Acciones en lote). En WordPress, ⑤ **Nota de fuente** está al final de la pestaña Crónica, debajo de ⑦.
 
 **Paso de la galería (⑧):** para cada foto, haz clic sobre ella y llena **Texto alternativo**, **Leyenda de la imagen** (pie visible) y **Descripción** (solo el nombre del fotógrafo; el sitio antepone «Fotografía:»).
 
@@ -412,7 +412,7 @@ Tu cuenta de **Editor** puede ver la sección **Páginas**, pero hay tres págin
 
 Tampoco modifiques plantillas, estilos, el menú principal ni complementos o usuarios (si necesitas cambiar el menú principal o crear un usuario, pídelo al equipo administrador).
 
-> **Imagen** `captura-12-paginas-protegidas.png`: Lista de Páginas señalando Inicio, Proyectos destacados y Productores PaisSana como páginas base protegidas.
+> **Imagen** `captura-12-paginas-protegidas.png`: Lista de Páginas con Inicio, Proyectos destacados y Productores PaisSana, las tres páginas base que no debes tocar.
 
 ---
 

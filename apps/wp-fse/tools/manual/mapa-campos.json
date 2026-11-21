@@ -6,25 +6,6 @@
     "ID_PRODUCTOR": "wp post list --post_type=productor --s='Especies Menores del Sur del Tolima' --field=ID",
     "ID_PAGINA_PRODUCTORES": "wp post list --post_type=page --name=productores --field=ID"
   },
-  "productor_ejemplo": {
-    "nombre": "Asociacion de Productores de Especies Menores del Sur del Tolima",
-    "tipo": "organizacion",
-    "municipio": "Chaparral",
-    "departamento": "Tolima",
-    "categorias": [
-      "Agropecuarios",
-      "Alimentos y bebidas"
-    ],
-    "productos": [
-      "Bolsa de Mazamorra",
-      "Bolsa de Maíz Trillado",
-      "Cuchuco de Maíz"
-    ],
-    "tiempo_operacion": "Entre 3 y 5 Años",
-    "etnia": "Indígena",
-    "url_catalogo_filtrado": "/productores/?buscar=Resilientes#explorar",
-    "nota_verificado": "Se cambió el ejemplo: el productor del mapa no tiene etnia marcada ni aparece el tiempo indicado; este sí tiene etnia"
-  },
   "laminas": [
     {
       "id": "01-boletin-edicion",
@@ -392,7 +373,7 @@
       "admin": {
         "url": "/wp-admin/post.php?post={ID_EDICION_02}&action=edit",
         "abrir": "pestaña «Secciones», desplegar la fila 2 («El Fondo en cifras», molde Cifras)",
-        "recorte": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"cifras\"]",
+        "recorte": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"cifras\"] .acf-field[data-name=\"cifras\"], .acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"cifras\"] .acf-field[data-name=\"nota\"]",
         "tab": "Secciones"
       },
       "front": {
@@ -846,7 +827,7 @@
         "url": "/productores/?buscar=Especies%20Menores%20del%20Sur%20del%20Tolima#explorar",
         "recorte": ".wp-block-lapaz-catalogo #explorar",
         "ancho": 1280,
-        "nota": "Al filtrar por «Resilientes», la primera tarjeta (.grid .card:first-child) corresponde a la organización de ejemplo y la barra de filtros superior permite señalar «Tiempos de operación»."
+        "nota": "Al buscar «Especies Menores del Sur del Tolima», la primera tarjeta (.grid .card:first-child) corresponde a la organización de ejemplo y la barra de filtros superior permite señalar «Tiempos de operación»."
       },
       "pares": [
         {
