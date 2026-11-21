@@ -94,7 +94,7 @@ su www-data -s /bin/bash -c 'lapaz-setup --seed'   # instala, configura, carga e
 
 Con esto el sitio queda completo, con el contenido del seed (sin noticias reales).
 
-En producción (`WP_ENVIRONMENT_TYPE=production` o sin definir), si WordPress ya está instalado —por ejemplo, tras pasar por el instalador web—, `lapaz-setup --seed` se rechaza antes de modificar nada para no pisar contenido editado (guarda en el árbol de trabajo, sin commit). Si de verdad se requiere cargar todo el seed sobre una instalación existente: `lapaz-setup --seed --forzar-seed`.
+En producción (`WP_ENVIRONMENT_TYPE=production` o sin definir), si WordPress ya está instalado —por ejemplo, tras pasar por el instalador web—, `lapaz-setup --seed` se rechaza antes de modificar nada para no pisar contenido editado. Si de verdad se requiere cargar todo el seed sobre una instalación existente: `lapaz-setup --seed --forzar-seed`.
 
 ## 3. Contenido real de producción
 
@@ -163,7 +163,7 @@ Pendientes de decisión, servidor y staging: [revisiones independientes](specs/b
    ```bash
    su www-data -s /bin/bash -c 'lapaz-setup'
    ```
-   Qué hace `apps/wp-fse/docker/lapaz-setup` (en el árbol de trabajo, sin commit):
+   Qué hace `apps/wp-fse/docker/lapaz-setup`:
    - si se pasa `--seed` en producción sobre un sitio ya instalado, lo rechaza antes de cambiar nada (salvo `--forzar-seed`), y rechaza las opciones desconocidas;
    - activa The SEO Framework (`autodescription` 5.2.1) de forma tolerante (si falla, avisa y el tema usa el SEO de respaldo en `inc/seo.php`); una sola vez (`lapaz_seo_configurado`) aplica los ajustes iniciales y migra el extracto de las páginas a `_genesis_description`;
    - crea la página `productores` («Productores PaisSana»); si existe `paissana`, la renombra conservando su ID y la deja publicada; si existen ambas, avisa y no borra ninguna;

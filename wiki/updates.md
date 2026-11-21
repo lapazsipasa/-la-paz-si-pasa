@@ -1,6 +1,28 @@
 # Updates
 
+## 2026-11-21 · revisiones 25 a 27, auditoría de la wiki y cierres
+
+**Estado:** rama `feat/boletin-catalogo-fcp`, 39 commits sobre `lapazsipasa/main` (último `1d4e1b2`). **Sin push, sin PR y sin desplegar.** Detalle por commit: [changelog](changelog.md).
+
+**Hecho hoy:**
+- Documentación del plugin de SEO (`28f1cf0`) y descripción final del PR (tarea 24).
+- Revisión 25 (repetida por AGY): todo lo de las revisiones 21 y 22 resuelto. Canónica de `boletin.mjs` e `historia.mjs` y PHPCS de `inc/boletin.php` en `1d4e1b2`.
+- Revisión 26 (seguridad de lo añadido desde la 9): sin críticos ni altos; dos medios y dos bajos.
+- Revisión 27 (auditoría de la wiki): desfases corregidos.
+
+**En curso (sin commit):** correcciones de la revisión 26 (campos de visibilidad de TSF bloqueados al Editor; `wp-content/languages` sin acceso HTTP) y de la 25 en `seo.mjs` (no dejar contenedores huérfanos si se interrumpe).
+
+**Siguiente paso:**
+1. Terminar esas correcciones y commitearlas.
+2. Corrida final de `bin/check` y de todas las suites e2e.
+3. Reconstruir la imagen y repetir `seguridad.mjs`.
+4. Manual del editor: capturas y documento de Google (William lo pidió para el final).
+
+**Bloqueo:** aprobación de William para PR, staging y deploy. Pendientes del servidor y del Fondo en [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor).
+
 ## 2026-11-20 (cierre de sesión) · dónde quedó y qué sigue
+
+> Superado el 2026-11-21: canónica y PHPCS hechos (`1d4e1b2`), revisión 25 repetida por AGY. Lo de abajo es el registro del momento.
 
 **Estado:** rama `feat/boletin-catalogo-fcp`, 38 commits sobre `lapazsipasa/main`. **Sin push, sin PR y sin desplegar**: falta la aprobación de William. El sitio local quedó reconstruido con la imagen nueva y el plugin de SEO activo.
 
@@ -16,13 +38,15 @@
 1. `boletin.mjs` e `historia.mjs` fallan en la canónica de la entrada: en local todo va con `noindex` y el plugin no imprime canónica en páginas `noindex` (sí en `/boletin/` e `/historias/`). Pasar esas comprobaciones al modo de producción, como hace `seo.mjs`.
 2. PHPCS: `apps/wordpress/themes/lapaz/inc/boletin.php:57`, comentario sin descripción corta.
 3. Corrida final de `bin/check` y de todas las suites; `catalogo`, `rest`, `historia`, `boletin` y `lo-que-hacemos` no se han vuelto a correr con el plugin activo.
-4. Terminar de aplicar la documentación del plugin: quedó a medias. Aplicados: `changelog`, `despliegue-fse`, `features`, `manual-editor` y `seo-plugin`. Faltan: esta página (bloque de abajo, desactualizado), `revisiones-independientes.md` (entradas 21 a 25), `revision-seo-enlaces.md` y `prs/boletin-catalogo-fcp.md`.
+4. **Hecho (2026-11-21):** documentación del plugin. Entradas 21 a 25 en `revisiones-independientes.md`, nota de estado en `revision-seo-enlaces.md`, borrador de `prs/boletin-catalogo-fcp.md` al día, y `changelog`, `features`, `despliegue-fse` y `manual-editor` revisados contra el código.
 5. Revisión 25 (ajustes de SEO): la hizo un revisor independiente porque AGY agotó su cuota. Repetirla con AGY.
 6. Manual del editor: capturas y paso a documento de Google.
 
 **Bloqueo:** aprobación de William para staging y PR; pendientes del servidor y del Fondo en [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor).
 
 ## 2026-11-20 · boletín y catálogo: pruebas, accesibilidad y 17 revisiones
+
+> Superado el mismo día: el estado actual está en el cierre de sesión de arriba (38 commits; el plugin de SEO y las guardas de `lapaz-setup` ya están commiteados en `2f13b6b`). Lo de abajo es el registro del momento.
 
 **Estado:** entrega construida en la rama `feat/boletin-catalogo-fcp` (**34 commits** sobre `lapazsipasa/main`, el último `35b50b3`). **Sin push, sin PR y sin desplegar.** Producción sigue en el sitio FSE de 2026-11-09. Detalle por commit: [changelog](changelog.md). Estado de las revisiones y pendientes: [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md).
 
@@ -47,6 +71,8 @@
 **Siguiente paso:** con la aprobación de William, cerrar los pendientes de arriba, correr `bin/check`, `seguridad.mjs` y `seo.mjs` con la imagen reconstruida, y abrir el PR contra `main` para probar en staging.
 
 ## 2026-11-20 · boletín y catálogo PaisSana: construido en la rama
+
+> Superado el mismo día: el plugin de SEO quedó integrado y commiteado (`2f13b6b`). Ver los bloques de arriba.
 
 **Estado:** construido y con commits en `feat/boletin-catalogo-fcp` (22 commits sobre `lapazsipasa/main`, el último `8347916`). **Sin push, sin PR y sin desplegar:** nada sale a producción hasta que William lo apruebe. Producción sigue en el sitio FSE de 2026-11-09. Bloques, menú y accesos en el [changelog](changelog.md).
 

@@ -31,8 +31,8 @@ docker compose up -d --build
 docker compose exec -u www-data cms lapaz-setup --seed
 ```
 
-WordPress queda en http://localhost:8090. `lapaz-setup --seed` activa el tema y
-SCF, crea la portada y el menú y carga el contenido de ejemplo.
+WordPress queda en http://localhost:8090. `lapaz-setup --seed` activa el tema, SCF y The SEO Framework,
+crea la portada y el menú y carga el contenido de ejemplo.
 
 ## Verificación
 

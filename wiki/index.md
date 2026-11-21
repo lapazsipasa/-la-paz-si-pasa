@@ -43,6 +43,7 @@ Componente Astro (props tipadas)
 
 - [Migración FSE: spec, etapas e inventario](specs/wordpress-fse.md) (etapas construidas; producción desde 2026-11-09)
 - [Boletín y catálogo PaisSana](specs/boletin-catalogo-fcp.md): [contrato entre piezas](specs/boletin-catalogo-fcp/contrato.md), [boletín](specs/boletin-catalogo-fcp/boletin-estructura.md), [catálogo e historia](specs/boletin-catalogo-fcp/paissana-catalogo.md), [accesos](specs/boletin-catalogo-fcp/accesos-paginas-existentes.md), [revisiones independientes y pendientes](specs/boletin-catalogo-fcp/revisiones-independientes.md), [nota para el Fondo](specs/boletin-catalogo-fcp/nota-para-el-fondo.md), [integración de SEO](specs/boletin-catalogo-fcp/seo-plugin.md) y [borrador de PR](prs/boletin-catalogo-fcp.md)
+- [Guion de pruebas de staging](specs/boletin-catalogo-fcp/plan-staging.md): 11 bloques con pasos, resultado esperado y criterio de salida a producción
 - [Manual del editor](manual-editor.md): guía paso a paso para publicar boletines, historias y productores en WordPress
 - [Navegación del sitio](navegacion.md): mapa, problemas y decisiones de William (2026-11-19)
 - [Guía de estilos](guia-de-estilos.md): reglas visuales del sitio

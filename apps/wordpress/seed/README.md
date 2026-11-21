@@ -59,7 +59,7 @@ uid 82, pero la de WordPress es Debian y usa uid 33, que es quien posee
 El sitio de producción es el FSE (`apps/wp-fse/`). Su carga inicial y su operación están en [despliegue-fse.md](../../../wiki/despliegue-fse.md). Resumen:
 
 - Instalación nueva: `su www-data -s /bin/bash -c 'lapaz-setup --seed'` carga todas las secciones.
-- Sitio ya en uso: no usar `--seed`. Cargar solo lo nuevo, una sección por comando: `SEED_SOLO=productores`, `SEED_SOLO=boletines`, `SEED_SOLO=historias` (con `wp --path=/var/www/html eval-file /opt/seed/seed.php`). Las secciones de portada, videos y ferias se actualizan por título y pisan los cambios del editor.
+- Sitio ya en uso: no usar `--seed` (en producción ya instalada, `lapaz-setup --seed` se rechaza salvo `--forzar-seed`). Cargar solo lo nuevo, una sección por comando: `SEED_SOLO=productores`, `SEED_SOLO=boletines`, `SEED_SOLO=historias` (con `wp --path=/var/www/html eval-file /opt/seed/seed.php`). Las secciones de portada, videos y ferias se actualizan por título y pisan los cambios del editor.
 - Lista de secciones: [arriba, en «Secciones del sitio FSE»](#secciones-del-sitio-fse).
 
 ## Headless de respaldo (Dokploy, servidor viejo)

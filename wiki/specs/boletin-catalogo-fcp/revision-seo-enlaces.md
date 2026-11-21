@@ -1,5 +1,9 @@
 # Revisión R2: SEO, URLs y enlaces
 
+> **Actualizado 2026-11-21 (nota añadida; el cuerpo es la auditoría del 20 y no se reescribió).** The SEO Framework (commit `2f13b6b`, verificado en local) ya cubre: edición por los editores de título, descripción e imagen para compartir en páginas, boletines e historias; una sola etiqueta de título, descripción, canónica y robots; datos estructurados básicos (`WebSite`, `WebPage`, `Organization`, sin `NewsArticle`); sitemap en `/sitemap.xml` (`/wp-sitemap.xml` redirige con 301); `noindex` en las búsquedas de `/productores/`, y `noindex` + `nofollow` en la guía. Detalle y pendientes: [seo-plugin](seo-plugin.md).
+>
+> Decisiones D1 a D7: **cerrada** D1 (búsqueda con `noindex`; los filtros conservan la canónica; la URL propia por departamento no se decidió). **Abiertas:** D2, D3 (falta `NewsArticle` y las migas visibles), D4, D5, D6 y D7 (los 404 de entradas no están en `lapaz-limpieza.php`).
+
 Auditoría de solo lectura sobre `http://localhost:8090` (WordPress 7.1, tema `lapaz`, rama `feat/boletin-catalogo-fcp`), 2026-11-20. No se modificó código. Todo lo que dice «local» se midió en vivo; lo que dice «producción» se deduce del código (ver sección 6).
 
 > **Estado al 2026-11-20 (nota añadida; el cuerpo es la auditoría del día y no se reescribió).**

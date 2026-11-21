@@ -1,6 +1,6 @@
 # Revisiones independientes del boletín y el catálogo
 
-**Estado (2026-11-20):** diecisiete revisiones independientes (1 a 10, 12, 13 y 15 a 19), todas de solo lectura, y tres tareas de redacción (11, 14 y 20), hechas por AGY sobre la rama `feat/boletin-catalogo-fcp`. La 21 está en curso, sin informe. Los informes completos no están en el repo. Esta página deja constancia de cada una: veredicto, hallazgos relevantes, commit que los resolvió y lo que quedó sin aplicar.
+**Estado (2026-11-21):** veintitrés revisiones independientes (1 a 10, 12, 13, 15 a 19, 21 a 23 y 25 a 27), todas de solo lectura, y cinco tareas de redacción (11, 14, 20, 24 y 28; la 28 en curso), hechas por AGY sobre la rama `feat/boletin-catalogo-fcp`. La 25 tuvo una primera pasada de un subagente, porque AGY agotó su cuota; AGY la repitió el 2026-11-21. Los informes completos no están en el repo. Esta página deja constancia de cada una: veredicto, hallazgos relevantes, commit que los resolvió y lo que quedó sin aplicar.
 
 Gravedad: **bloqueante** impide abrir el PR · **alto** y **crítico** son de seguridad o privacidad · **importante** se arregla antes de producción · los menores se citan en una frase.
 
@@ -20,7 +20,7 @@ Lo que sigue pendiente, en dos listas: [pendiente de decisión o de acceso al se
 ## 2. Verificación y CSS modular
 
 - **Veredicto:** las correcciones de la revisión 1 quedaron bien resueltas. No lista para pedir aprobación por dos bloqueantes rápidos.
-- **Bloqueantes:** `inc/guia-estilos.php` con 301 líneas (tope de 300 de `bin/check`); suites e2e sin commit mientras CI ya las ejecutaba.
+- **Bloqueantes:** `inc/guia-estilos.php` con 301 líneas (tope de 300 de `bin/check`); suites e2e sin commit mientras CI ya las ejecutaba (resuelto en `c710ccf`).
 - **Importantes:** reindexado redundante en el seed de 316 productores; la guía de estilos debía quedar fuera de producción.
 - **Menores:** `h1` del estado vacío del boletín; el campo «Rótulo» ofrece naranja, azul y verde, pero solo el verde cambia; `.credito` duplicado; `h2` dentro de la guía.
 - **Verificado sin hallazgos:** hoja compartida `assets/css/editorial.css`, tokens en `theme.json`, cero colores sueltos, contraste AA en los cinco bloques editoriales.
@@ -41,7 +41,7 @@ Lo que sigue pendiente, en dos listas: [pendiente de decisión o de acceso al se
 - **Commit:** `a0c2b63` (crónica sin el molde, etiquetas en lenguaje llano, color Azul o Verde, campos de video que aparecen solo con video, «Índice: título» obligatorio en cifras, tarjetas y agenda).
 - **Documentos:** la revisión pedía poner al día la wiki y la guía de despliegue. Se hizo en esta entrega.
 - **Sin aplicar:**
-  - el manual del editor: versión 2 en [`manual-editor.md`](../../manual-editor.md) (commit `3e08f05`; ajustes de las tareas 13 y 14 sin commit); faltan capturas y pasarlo a Google Doc. El usuario Editor sigue pendiente de datos del Fondo;
+  - el manual del editor: versión 2 en [`manual-editor.md`](../../manual-editor.md) (commits `3e08f05`, `2b7fe49` y `28f1cf0`); faltan capturas y pasarlo a Google Doc. El usuario Editor sigue pendiente de datos del Fondo;
   - ver en `wp-admin` real cómo SCF pinta el molde clonado y los botones de TinyMCE: no se pudo en la revisión; TODO: confirmar en staging.
 
 ## 5. Seguridad y privacidad de datos
@@ -69,7 +69,7 @@ Lo que sigue pendiente, en dos listas: [pendiente de decisión o de acceso al se
 - **Sin aplicar:**
   - `.titulo-art` en `<h2>` (mismo nivel que `.sec-title`): no aplicado a propósito porque el cuerpo WYSIWYG usa `<h3>`;
   - tarjetas del índice del boletín como `<article>` con enlace estirado: resuelto después en `1d87a5b` y `35b50b3` (ver revisiones 10 y 17);
-  - los requisitos de accesibilidad para el manual del editor: incorporados en el borrador de [`manual-editor.md`](../../manual-editor.md) (sin commit; TODO: verificar).
+  - los requisitos de accesibilidad para el manual del editor: incorporados en [`manual-editor.md`](../../manual-editor.md) (commit `2b7fe49`; TODO: verificar que cubren todos los requisitos).
 
 ## 7. Ciberseguridad del sitio completo
 
@@ -94,8 +94,8 @@ Lo que sigue pendiente, en dos listas: [pendiente de decisión o de acceso al se
 
 - **Veredicto:** la base estaba al ~75 % y no se podía dejar en verde por cuatro bloqueos: `lib.mjs` dejaba procesos Chrome huérfanos ante señales; había aserciones en falso o en vacío (`navegacion.mjs`, `boletin.mjs`); `navegacion.mjs` escribía a mano `/paissana/` y no probaba `/historias/`; CI no ejecutaba `navegacion.mjs` ni `rest.mjs`.
 - **Commit:** `9bb6c80` (cerró T1 a T6: arnés con `detached: true` y limpieza en señales, puerto aleatorio `0`, `prepararPintado()`, constantes de ruta en `fcp-lib.mjs`, suites `boletin`, `catalogo`, `historia`, `navegacion` y `rest` sin Chrome, CI y bases visuales).
-- **Estado hoy (local):** en verde `navegacion` 181, `catalogo` 58, `boletin` 56, `historia` 43, `rest` 22 y `lo-que-hacemos` 24. `seguridad` 54 de 64 hasta reconstruir la imagen.
-- **Sin aplicar:** `wp()` duplicada en `lo-que-hacemos.mjs` (resuelta después en `e78e2f1`). `bin/check` completo y `seo.mjs` sin correr tras los últimos cambios.
+- **Estado (local, 2026-11-20):** en verde `navegacion` 181, `catalogo` 58, `boletin` 56, `historia` 43, `rest` 22 y `lo-que-hacemos` 24; `seguridad` 64 de 64 con la imagen reconstruida, y `seo` 280. Son cifras de antes de las pruebas de la revisión 26.
+- **Sin aplicar:** `bin/check` completo, pendiente de la corrida final. `wp()` duplicada en `lo-que-hacemos.mjs` (resuelta después en `e78e2f1`).
 
 ## 9. URL nuevas y endurecimiento
 
@@ -136,18 +136,18 @@ Lo que sigue pendiente, en dos listas: [pendiente de decisión o de acceso al se
 - **Veredicto:** árbol actual 100 % limpio de IP, paneles y credenciales; la wiki llevaba 3 commits de retraso frente a `git log` y el manual tenía imprecisiones menores en nombres de campos.
 - **Importantes:** `updates.md`, `changelog.md`, `revisiones-independientes.md`, `contrato.md`, `boletin-catalogo-fcp.md` y `entorno-desarrollo.md` desactualizados; `despliegue-fse.md` sin respaldo previo, sin comando propio de grupos SCF ni verificación de conteos; el historial git anterior a `ff6445d` aún contiene direcciones redactadas (no hacer `git push` sin aplastar).
 - **Menores:** 7 ajustes de etiquetas y claridad en `manual-editor.md`; duplicación de listas de pendientes entre `despliegue-fse.md`, `updates.md` y esta página.
-- **Commit:** `3e08f05` (documentación). El manual v2 y los ajustes de esta revisión están sin commit; los textos de sincronización de la wiki, en la tarea 20.
+- **Commit:** `3e08f05` (documentación); el manual v2 y los ajustes de esta revisión, en `2b7fe49` y `28f1cf0`. Los textos de sincronización de la wiki, en la tarea 20.
 
 ## 14. Manual v2, descripción de PR y nota para el Fondo (redacción)
 
-- Tarea de redacción: actualización de [`manual-editor.md`](../../manual-editor.md), borrador de PR en [`prs/boletin-catalogo-fcp.md`](../../prs/boletin-catalogo-fcp.md) y nota de entrega en [`nota-para-el-fondo.md`](nota-para-el-fondo.md) (en árbol de trabajo, pendientes de commit).
+- Tarea de redacción: actualización de [`manual-editor.md`](../../manual-editor.md), borrador de PR en [`prs/boletin-catalogo-fcp.md`](../../prs/boletin-catalogo-fcp.md) y nota de entrega en [`nota-para-el-fondo.md`](nota-para-el-fondo.md) (commit `2b7fe49`; el borrador de PR tiene ajustes de hoy sin commit).
 
 ## 15. Ensayo en papel del despliegue y marcha atrás
 
 - **Veredicto:** desplegable en staging tal cual y en producción con respaldo previo y tres ajustes en `lapaz-setup`; el headless de respaldo tiene diff 0.
 - **Importantes:** `lapaz-setup` no vaciaba WP Super Cache al terminar, no avisaba de plantillas personalizadas en la base (`wp_template`/`wp_template_part`) que tapan el tema, ni bloqueaba `--seed` sobre producción ya instalada.
 - **Menores:** subir de `mariadb:11` a `11.8` impide downgrade binario de `db` (en rollback se revierte `cms` o se restaura dump SQL).
-- **Commit:** pendiente. Los tres importantes están aplicados en `apps/wp-fse/docker/lapaz-setup` en el árbol de trabajo, sin commit (auditados en la revisión 19; plan de marcha atrás y checklist en la tarea 20).
+- **Commit:** `2f13b6b`. Los tres importantes están aplicados en `apps/wp-fse/docker/lapaz-setup` (auditados en la revisión 19; plan de marcha atrás y checklist en la tarea 20).
 
 ## 16. Diseño de integración de The SEO Framework (`seo-plugin.md`)
 
@@ -155,7 +155,7 @@ Lo que sigue pendiente, en dos listas: [pendiente de decisión o de acceso al se
 - **Bloqueantes:** la sección 4.1 borraba el SEO del tema contradiciendo el fallback sin plugin y olvidaba `lapaz_noindex_fuera_de_produccion` (duplicaría `meta[name="robots"]`); instalar la traducción `es_CO` en tiempo de ejecución no está probado bajo `DISALLOW_FILE_MODS=true`.
 - **Importantes:** faltaban `proyectos-destacados` y `404` en el filtro de título y validar `$_GET['buscar']` vacío; migración de extractos fuera de la guarda única `lapaz_seo_configurado`; `/wp-sitemap.xml` → `/sitemap.xml` sin 301 ni exclusión `^/sitemap` en WP Super Cache; definir `og:locale` (`es_ES` vs `es_CO`) y `og:title` antes de tocar `seo.mjs`.
 - **Menores:** documentar que las actualizaciones de seguridad de `autodescription` entran solo por `Dockerfile`.
-- **Commit:** pendiente (integración en curso, en `inc/seo-tsf.php`, fuera de este PR o en cierre aparte).
+- **Commit:** `2f13b6b` (`inc/seo-tsf.php`, `autodescription` 5.2.1).
 
 ## 17. Verificación de correcciones de las revisiones 10 (`1d87a5b`) y 12 (`e78e2f1`)
 
@@ -169,20 +169,94 @@ Lo que sigue pendiente, en dos listas: [pendiente de decisión o de acceso al se
 
 - **Veredicto:** se cumplió «queda como venía»: las 8 secciones y 10 fotos del boletín, la crónica y 12 fotos de Asocafé y los 316 productores (28 departamentos, 10 categorías) pasaron íntegros sin omisiones ni duplicados.
 - **Importantes:** ninguno. Solo diferencias deliberadas (omisión de logos del prototipo y del aviso de video local en Drive; normalización de espacios dobles y tildes/mayúsculas en etiquetas tomadas del HTML del prototipo; centinelas «Ninguno» omitidos en taxonomías).
-- **Menores:** claves sobrantes en `apps/wordpress/seed/historia-asocafe.json` (`cronica.rotulo_color`, etc.) ignoradas por PHP; tres puntos editoriales para confirmar con el Fondo («Boletín interno», nota «Registro con corte a septiembre de 2026» y erratas de origen en registros de productores).
-- **Commit:** pendiente. Hay cambios sin commit en `apps/wordpress/seed/historia-asocafe.json` (TODO: verificar que es la limpieza menor); las consultas al Fondo están en [`nota-para-el-fondo.md`](nota-para-el-fondo.md).
+- **Menores:** claves sobrantes en `historia-asocafe.json` (`cronica.rotulo_color`, etc.), ya quitadas en `384db0d`; tres puntos editoriales para confirmar con el Fondo («Boletín interno», nota «Registro con corte a septiembre de 2026» y erratas de origen en registros de productores).
+- **Commit:** `384db0d` (la crónica de Asocafé solo lleva los campos de su formulario). Las consultas al Fondo están en [`nota-para-el-fondo.md`](nota-para-el-fondo.md).
 
 ## 19. Cambios de `lapaz-setup` (árbol de trabajo)
 
 - **Veredicto:** la guarda contra `--seed`, el aviso de plantillas y el vaciado de caché están bien ubicados y no rompen CI, `lapaz-importar` ni el primer arranque en producción; tres hallazgos medios antes de hacer commit.
 - **Medios:** `wp post list ... | tail -n +2` sin protección aborta el script bajo `set -euo pipefail` antes de vaciar la caché (y no filtra `--wp_theme=lapaz --post_status=publish`); el `case` de argumentos ignora en silencio opciones desconocidas (`--help`, typos); el vaciado de caché no avisa por `stderr` si falta `wp_cache_clear_cache()` o si `wp-content/cache/` no es escribible.
-- **Estado:** por lectura del árbol de trabajo, los tres medios parecen corregidos (el `case` rechaza opciones desconocidas, el vaciado avisa por `stderr` y no aparece `tail -n +2`); no se ha ejecutado el script. TODO: verificar y commitear.
+- **Estado:** los tres medios están corregidos en `2f13b6b` (el `case` rechaza opciones desconocidas, el vaciado avisa por `stderr`, ya no hay `tail -n +2`). No se ha ejecutado el script en local. TODO: verificar en staging.
 - **Bajos:** añadir `--path=/var/www/html` al comando alternativo del mensaje de error; anotar en la guía el caso de instalación previa por asistente web.
-- **Commit:** pendiente (árbol de trabajo en `apps/wp-fse/docker/lapaz-setup`).
+- **Commit:** `2f13b6b`.
 
 ## 20. Textos de sincronización de la wiki (redacción)
 
 - Tarea de redacción: textos listos para actualizar esta página, [`despliegue-fse.md`](../../despliegue-fse.md), [`changelog.md`](../../changelog.md), [`updates.md`](../../updates.md), [`contrato.md`](contrato.md), [`boletin-catalogo-fcp.md`](../boletin-catalogo-fcp.md), [`entorno-desarrollo.md`](../../entorno-desarrollo.md), [`index.md`](../../index.md), [`AGENTS.md`](../../../AGENTS.md) y la lista única de pendientes.
+
+## 21. Plugin de SEO en la imagen y el arranque
+
+- **Veredicto:** arquitectura sólida; un riesgo bloqueante y tres importantes antes del primer arranque.
+- **Hallazgos:**
+  - **Bloqueante:** la firma de la API del plugin no estaba verificada, y el vaciado del sitemap no comprobaba `class_exists`: abortaba el arranque si el plugin faltaba.
+  - SCF y el plugin se activaban en la misma llamada.
+  - El sitemap se vaciaba antes de tiempo.
+  - La copia de idiomas de `entrypoint.sh` podía impedir el arranque.
+  - El paquete de idioma de wordpress.org cambia de suma cuando alguien edita una traducción.
+- **Commit:** `2f13b6b`: activación tolerante con aviso, firma confirmada en el código del plugin, vaciado al final, copia de idiomas tolerante y traducción `es_CO` guardada en el repo (`apps/wp-fse/docker/languages/plugins/`).
+- **Sin aplicar:** ninguno.
+
+## 22. Integración del plugin en el tema
+
+- **Veredicto:** sin bloqueantes; ningún camino deja producción en `noindex`.
+- **Hallazgos:**
+  - `/boletin/` e `/historias/` ignoraban lo que el editor escribía en la caja de SEO de la entrada más reciente.
+  - El catálogo filtrado llevaba `nofollow` y `noindex` en más casos de los decididos (D1 de la [auditoría de SEO](revision-seo-enlaces.md#5-decisiones-para-william)).
+  - `inc/seo-tsf.php` quedó a 3 líneas del tope de 300.
+  - Consulta repetida por la página de la guía.
+  - El CSS de la caja se imprimía en todo el admin.
+  - La redirección del sitemap antiguo no cubría la barra final ni los sub-sitemaps.
+- **Commit:** `2f13b6b` (`inc/seo-tsf.php`, ya en 279 líneas).
+- **Sin aplicar:** ninguno.
+
+## 23. Auditoría de sobras antes del PR
+
+- **Veredicto:** rama limpia: sin funciones, clases CSS, tokens, atributos de bloque ni archivos muertos.
+- **Hallazgos:** seis retoques menores, entre ellos una clase `azul` sin regla CSS, comentarios heredados y un helper de pruebas que el revisor creyó sin uso.
+- **Commit:** `2f13b6b` (la clase y los comentarios).
+- **Sin aplicar:** el helper `restosPrueba` de `apps/wp-fse/tests/e2e/fcp-lib.mjs` sí se usa dentro del propio archivo (línea 100): el hallazgo era incorrecto.
+
+## 24. Documentación del plugin de SEO y descripción final del PR (redacción)
+
+- **Resultado:** textos de la integración de The SEO Framework: sección 10 de [`manual-editor.md`](../../manual-editor.md) (cadenas verificadas en `es_CO`), [`seo-plugin.md`](seo-plugin.md), [`despliegue-fse.md`](../../despliegue-fse.md), [`prs/boletin-catalogo-fcp.md`](../../prs/boletin-catalogo-fcp.md) y la wiki sincronizada.
+- **Commit:** aplicado en `28f1cf0`; los ajustes de hoy, sin commit.
+
+## 25. Repetición de la verificación de los ajustes de la 22 (AGY, 2026-11-21)
+
+- **Veredicto:** todo lo de las revisiones 21 y 22 quedó resuelto. Imprimir el CSS desde el filtro de pestañas de TSF es seguro en 5.2.1 (el filtro se aplica una sola vez, al pintar la caja), pero es frágil: si una versión futura lo llama antes de cabeceras o en AJAX, habrá que moverlo a `admin_head-post.php`. Producción nunca queda en `noindex` por error.
+- **Estado:** primera pasada de un subagente, porque AGY agotó su cuota; AGY la repitió el 2026-11-21 con este resultado.
+- **Cierres:**
+  - PHPCS en `inc/boletin.php` y la canónica de `boletin.mjs` e `historia.mjs`: hechos en `1d4e1b2`.
+  - `seo.mjs`: que `production()` registre `compose('down')` en `alSalir`, para no dejar contenedores huérfanos si se interrumpe: en curso, sin commit.
+- **Menores:**
+  - la imagen para compartir sale a tamaño completo (`'full'` en `inc/seo-tsf.php:168` y `seo.mjs:195`): hecho en `2f13b6b`. La propuesta de cambiar a `'large'` no procede: ningún archivo lo usa;
+  - `alSalir` como conjunto para no repetir restauraciones: en curso, sin commit;
+  - `restosPrueba()` de `fcp-lib.mjs` no se borra: sí se usa (línea 100), ver la 23.
+  - staging queda indexable si el panel de despliegue no define `WP_ENVIRONMENT_TYPE=staging`.
+- **Commit:** `2f13b6b` (imagen a tamaño completo), `1d4e1b2` (canónica y PHPCS).
+- **Sin aplicar:** definir `WP_ENVIRONMENT_TYPE=staging` en el panel de staging (ver la [tabla de variables](../../despliegue-fse.md)).
+
+## 26. Seguridad de lo añadido desde la revisión 9 (`f0f5f67..HEAD`)
+
+- **Veredicto:** nada crítico ni alto. No se abrieron rutas REST; la redirección de sitemaps no depende de `Host`; un anónimo no puede disparar el vaciado de caché; el frontend no usa `innerHTML`; `autodescription-es_CO.l10n.php` es solo un `return` de cadenas.
+- **Medios (correcciones en curso, sin commit):**
+  - Un Editor podía guardar redirección, canónica o `noindex` enviando el formulario a mano, porque ocultar la pestaña solo quitaba el HTML. Corrección: `lapaz_tsf_bloquear_visibilidad()` en `inc/seo-tsf.php`, en el filtro `the_seo_framework_save_post_meta`. Prueba en `seo.mjs`.
+  - Se podían pedir por HTTP los `.php`, `.mo` y `.po` de `wp-content/languages`. Corrección: bloque en `docker/apache/zz-lapaz-seguridad.conf`. Prueba en `seguridad.mjs` (403).
+- **Bajos:**
+  - `_social_image_url` sin validar el esquema en el tema: `esc_url_raw` con `http` y `https` en `inc/seo-tsf.php` (en el árbol de trabajo, sin commit);
+  - alertas de seguridad para los tres plugins fijados en la imagen (`secure-custom-fields`, `wp-super-cache`, `autodescription`): sin aplicar, es tarea del responsable técnico (ver la lista de pendientes del servidor).
+- **Commit:** pendiente (correcciones en el árbol de trabajo).
+
+## 27. Auditoría final de la wiki frente al código y el historial
+
+- **Veredicto:** la wiki está al día salvo desfases puntuales. Sin IPs, paneles, correos, teléfonos ni credenciales en `wiki/`, `README.md`, `AGENTS.md`, `apps/wordpress/seed/README.md`, `apps/wp-fse/docker/` ni `apps/wp-fse/bin/`. La sección 10 del manual coincide con `autodescription-es_CO.l10n.php`.
+- **Corregido:** «sin commit» obsoletos en `despliegue-fse.md` y `seo-plugin.md`; pendientes ya resueltos quitados de la lista única; `prs/boletin-catalogo-fcp.md` y `updates.md` al día; la descripción de `/productores/` en `seo-plugin.md` (no tiene rama propia en `inc/seo-tsf.php`); `lapaz-setup` en los README (activa The SEO Framework y bloquea `--seed` en producción ya instalada).
+- **Comprobado y sin cambio:** la imagen social usa `'full'` en `inc/seo-tsf.php:168` y en `seo.mjs:195`. La auditoría decía `'large'`, y no es así.
+- **Commit:** pendiente (la wiki, en el árbol de trabajo).
+
+## 28. Guion de pruebas de staging (redacción)
+
+- Tarea de redacción en curso, sin entregar. Cubrirá la lista de [pendiente de probar en staging](#pendiente-de-probar-en-staging).
 
 ---
 
@@ -199,6 +273,7 @@ Solo lo puede hacer William, o el Fondo en su caso. Nada de esto se resuelve en 
 - Borrar `cms.lapazsipasa.com` del DNS y el dominio temporal de staging cuando `st` esté activo (ver [despliegue](../../despliegue-fse.md#staging-actual-creado-el-2026-11-08)).
 - Revisar en la base de producción antes del deploy: `wp_template`/`wp_template_part` personalizados, `acf-field-group` en BD, menú editado o monitores externos sobre `/wp-json/` (R15).
 - Historial público: las direcciones del servidor y del panel siguen visibles en el historial de `main` del repo público (documentos de despliegue y un script de migración anteriores a esta rama); retirarlas del árbol no las borra: cerrar el puerto del panel, ponerle HTTPS y rotar la clave (R7, R13).
+- Alertas de seguridad (Wordfence, Patchstack o similar) para `secure-custom-fields`, `wp-super-cache` y `autodescription`, las tres fijadas en la imagen (R26).
 
 **Decisiones de William:**
 - Aprobación de push (aplastando el historial anterior a `ff6445d` antes de subir a un remoto público, R13/R17), PR y deploy.
@@ -208,7 +283,7 @@ Solo lo puede hacer William, o el Fondo en su caso. Nada de esto se resuelve en 
 - Pasar CSP a modo activo tras confirmar cero violaciones en staging con Plyr/YouTube (R7, R9).
 - Fijar imágenes Docker por digest (hoy `mariadb:11.8` y `wordpress:7.1.3-php8.3-apache` por etiqueta) (R7, R9).
 - Cambiar el propietario del código en el contenedor a `root:www-data` (R7).
-- Integración de The SEO Framework (`autodescription` 5.2.1): aprobar `og:locale` (`es_ES` vs `es_CO`), `og:title` sin sufijo y horneado de la traducción `es_CO` en el `Dockerfile` (R16).
+- Integración de The SEO Framework (`autodescription` 5.2.1): visto bueno a `og:locale` `es_CO` (forzado en `inc/seo-tsf.php`) y a `og:title` sin sufijo (valor de fábrica, según [seo-plugin](seo-plugin.md)). La traducción `es_CO` ya va horneada en el `Dockerfile` (`2f13b6b`) (R16).
 - `memory_limit` frente al tope de 512 MB: subir el contenedor o bajar el límite (R9).
 - Confirmar que el menú principal lo cambia solo un administrador (R5).
 - Decisiones D1 a D7 de la [revisión de SEO](revision-seo-enlaces.md#5-decisiones-para-william) (filtros y canónicas, listado de historias, datos estructurados, extractos, destinos de programas, política de privacidad y 404 de entradas).
@@ -225,29 +300,33 @@ Solo lo puede hacer William, o el Fondo en su caso. Nada de esto se resuelve en 
 - Confirmar si se conserva la nota «Registro con corte a septiembre de 2026» al final del catálogo o se omite por ser registro vivo (R18).
 
 **Del equipo (antes de abrir el PR):**
-- Verificar y commitear `lapaz-setup` (R19: los tres medios parecen aplicados en el árbol de trabajo, sin ejecutar) y la limpieza de `historia-asocafe.json` (R18).
-- Correr `apps/wp-fse/bin/check`, reconstruir la imagen local y pasar `seguridad.mjs` (hoy 54 de 64; meta 64/64) y `seo.mjs` (R8, R17).
-- Completar capturas y puntos `[CONFIRMAR EN PANTALLA]` de [`manual-editor.md`](../../manual-editor.md) y pasarlo a Google Doc (R4, R13).
+- Terminar las correcciones de la revisión 26 (bloqueo de campos de visibilidad de TSF en `inc/seo-tsf.php`; `wp-content/languages` en `zz-lapaz-seguridad.conf`) y de la 25 en `seo.mjs` (`compose('down')` en `alSalir`, `alSalir` como conjunto). Commitear (R25, R26).
+- Correr `apps/wp-fse/bin/check` y la corrida final de todas las suites e2e. Reconstruir la imagen y repetir `seguridad.mjs` (64 de 64 antes de las pruebas de la 26) y `seo.mjs` (R8, R17, R25, R26).
+- Completar capturas y puntos `[CONFIRMAR EN PANTALLA]` de [`manual-editor.md`](../../manual-editor.md) y pasarlo a Google Doc (R4, R13). Es el último paso, lo pidió William.
 
 ## Pendiente de probar en staging
+
+El orden y los pasos para ejecutarlo todo en una sesión están en el [guion de pruebas de staging](plan-staging.md).
 
 Lo que no se puede verificar en local con la imagen actual.
 
 - **Política de contenido:** consola sin violaciones de `Content-Security-Policy-Report-Only` en `/`, `/proyectos-destacados/` (un video de Plyr de YouTube y un audio), `/productores/`, `/historias/` y `/boletin/`.
-- **Cabeceras de Apache con la imagen reconstruida:** HSTS solo por HTTPS (`max-age=31536000`, ausente en HTTP interno); sin `X-Powered-By`; sin listado de directorios; 403 en `readme.html`, `license.txt`, `wp-config-sample.php`, `debug.log` y `xmlrpc.php`.
+- **Cabeceras de Apache con la imagen reconstruida:** HSTS solo por HTTPS (`max-age=31536000`, ausente en HTTP interno); sin `X-Powered-By`; sin listado de directorios; 403 en `readme.html`, `license.txt`, `wp-config-sample.php`, `debug.log` y `xmlrpc.php`, y en `/wp-content/languages/plugins/autodescription-es_CO.{l10n.php,mo}` (R26).
 - **Caché de página real (WP Super Cache):**
   - `/productores/` limpio, servido desde caché;
   - `/productores/?buscar=…` y `/productores/?x=1` fuera de caché;
-  - publicar, editar o borrar un productor, un boletín o una historia vacía la caché.
+  - publicar, editar o borrar un productor, un boletín o una historia vacía la caché;
+  - `/sitemap.xml` no queda en caché de página.
 - **API REST:** 401 sin sesión en `/wp-json/wp/v2/users` y en los tipos cerrados; el editor de bloques, el Editor del sitio y Salud del sitio funcionan sin aviso de REST.
 - **Subidas grandes:** MP4 de unos 20 MB y JPEG grande, con `memory_limit = 128M` y `upload_max_filesize = 32M` detrás de Traefik (R9, R15).
 - **HSTS y Traefik:** la cabecera llega solo cuando el visitante entra por HTTPS.
 - **Migración de `lapaz-setup`:** `paissana` pasa a `productores` con el mismo ID; el menú migra solo si es el de fábrica; el caso de las dos páginas a la vez.
 - **Seed por secciones:** `productores`, `boletines` e `historias`, en ese orden; 316 productores, una edición y una historia; correrlo dos veces no duplica.
 - **Grupos SCF:** aparecen en *Historias PaisSana*, *Boletines* y *Productores* sin importación manual.
-- **Permisos del Editor:** edita boletines, historias y productores; no instala plugins ni cambia ajustes.
+- **Permisos del Editor:** edita boletines, historias y productores; no instala plugins ni cambia ajustes. La caja de SEO le muestra solo General e imagen social; probar con un usuario Editor real, no de prueba. Enviando a mano `redirect`, `_genesis_noindex` o `_genesis_canonical_uri`, el Editor no los guarda (R26).
+- **SEO en producción:** `robots` sin `noindex` con `WP_ENVIRONMENT_TYPE=production`; en staging, `WP_ENVIRONMENT_TYPE=staging` (sin esa variable, staging queda indexable).
 - **Rutas:** `/productores/`, `/historias/` y `/boletin/` responden 200; `/paissana/` responde 404.
-- **Sitemap:** ruta por confirmar, porque la integración del plugin de SEO (en curso) puede cambiarla. Debe incluir `boletin` e `historia` y excluir `productor` y `guia-de-estilos` (R9, R15). No dar por vigente ninguna ruta todavía.
+- **Sitemap:** `/sitemap.xml` (un solo `urlset`, con The SEO Framework); `/wp-sitemap.xml` debe dar 301 a esa ruta. Debe incluir `boletin` e `historia` y excluir `productor` y `guia-de-estilos` (R9, R15). Tras desplegar, reenviar `/sitemap.xml` en Search Console para reemplazar `/wp-sitemap.xml`.
 - **Accesibilidad con lector de pantalla (VoiceOver / NVDA):** cierre del `<dialog>` con Escape y retorno de foco; que enfocar `.conteo` al agotar «Ver más» no duplique el anuncio; aviso «(abre en una pestaña nueva)» en el video de enlace externo (R10, R17).
 - **CI:** las acciones fijadas por SHA corren; `navegacion.mjs` y `rest.mjs` entran en el flujo; las suites pasan en la primera ejecución real.
 - **Rendimiento:** Lighthouse de `/productores/` con el hero compacto. TODO: confirmar que se mide.
