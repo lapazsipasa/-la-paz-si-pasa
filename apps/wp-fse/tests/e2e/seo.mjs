@@ -30,7 +30,7 @@ const b64 = ( valor ) =>
 	Buffer.from( JSON.stringify( valor ) ).toString( 'base64' );
 
 // Restauraciones que deben correr aunque la suite se interrumpa (SIGINT/SIGTERM salen por `exit`).
-const alSalir = [];
+const alSalir = new Set();
 process.on( 'exit', () =>
 	alSalir.forEach( ( restaurar ) => {
 		try {
@@ -368,7 +368,7 @@ async function conMeta( etiqueta, id, { meta = {}, excerpt }, accion ) {
 					: `wp_update_post(["ID"=>${ id },"post_excerpt"=>$s["x"]]);`
 			}`
 		);
-	alSalir.push( volver );
+	alSalir.add( volver );
 	try {
 		wp(
 			`foreach(json_decode(base64_decode("${ b64(
@@ -384,6 +384,7 @@ async function conMeta( etiqueta, id, { meta = {}, excerpt }, accion ) {
 		await accion();
 	} finally {
 		volver();
+		alSalir.delete( volver );
 		tests.check(
 			`${ etiqueta }: metadatos originales restaurados`,
 			JSON.stringify( JSON.parse( wp( snapshot ) ) ) ===
@@ -564,9 +565,9 @@ async function editor() {
 	exigirLocal( tests );
 	const borrar = () =>
 		wp(
-			'require_once ABSPATH."wp-admin/includes/user.php"; $u=get_user_by("login","__prueba"); if($u) wp_delete_user($u->ID); echo 1;'
+			'require_once ABSPATH."wp-admin/includes/user.php"; foreach(get_posts(["title"=>"__prueba","post_type"=>"any","post_status"=>"any","numberposts"=>-1]) as $x) wp_delete_post($x->ID,true); $u=get_user_by("login","__prueba"); if($u) wp_delete_user($u->ID); echo 1;'
 		);
-	alSalir.push( borrar );
+	alSalir.add( borrar );
 	try {
 		borrar();
 		const tabs = wpJson(
@@ -596,11 +597,51 @@ echo wp_json_encode(["editor"=>$por($id),"admin"=>$por($admin)]);`
 				tabs.admin.tabs.includes( 'visibility' ),
 			JSON.stringify( tabs.admin )
 		);
+		// Guardado a mano por el camino real del plugin (Post::save_meta): el editor no cambia
+		// redirección, canónica ni robots; el administrador sí.
+		const guardado = wpJson(
+			`$ed=get_user_by("login","__prueba")->ID; $admin=get_users(["role"=>"administrator","number"=>1,"fields"=>"ID"])[0];
+$p=wp_insert_post(["post_title"=>"__prueba","post_status"=>"draft","post_type"=>"page"]);
+$k=["redirect","_genesis_canonical_uri","_genesis_noindex","_genesis_nofollow","_genesis_noarchive"];
+$por=function($u) use($p,$k){ wp_set_current_user($u); \\The_SEO_Framework\\Data\\Plugin\\Post::save_meta($p,["redirect"=>"https://malo.example/x","_genesis_canonical_uri"=>"https://malo.example/c","_genesis_noindex"=>1,"_genesis_nofollow"=>1,"_genesis_noarchive"=>1,"_genesis_title"=>"__prueba titulo"]); $r=[]; foreach($k as $c) $r[$c]=get_post_meta($p,$c,true); $r["titulo"]=get_post_meta($p,"_genesis_title",true); foreach($k as $c) delete_post_meta($p,$c); return $r; };
+$o=["editor"=>$por($ed)]; $o["admin"]=$por($admin); wp_delete_post($p,true); echo wp_json_encode($o);`
+		);
+		tests.check(
+			'Editor: no guarda redirección, canónica ni robots enviando el formulario a mano',
+			Object.entries( guardado.editor ).every(
+				( [ c, v ] ) => c === 'titulo' || v === ''
+			) && guardado.editor.titulo === '__prueba titulo',
+			JSON.stringify( guardado.editor )
+		);
+		tests.check(
+			'Administrador: sí guarda redirección, canónica y robots',
+			guardado.admin.redirect === 'https://malo.example/x' &&
+				guardado.admin._genesis_canonical_uri === 'https://malo.example/c' &&
+				guardado.admin._genesis_noindex === '1',
+			JSON.stringify( guardado.admin )
+		);
+		// Un administrador dejó noindex y una redirección; después guarda un Editor con otros valores.
+		const conserva = wpJson(
+			`$ed=get_user_by("login","__prueba")->ID; $admin=get_users(["role"=>"administrator","number"=>1,"fields"=>"ID"])[0];
+$p=wp_insert_post(["post_title"=>"__prueba","post_status"=>"draft","post_type"=>"page"]);
+wp_set_current_user($admin); \\The_SEO_Framework\\Data\\Plugin\\Post::save_meta($p,["redirect"=>"https://admin.example/r","_genesis_noindex"=>1]);
+wp_set_current_user($ed); \\The_SEO_Framework\\Data\\Plugin\\Post::save_meta($p,["redirect"=>"","_genesis_noindex"=>0,"_genesis_title"=>"__prueba otro"]);
+echo wp_json_encode(["redirect"=>get_post_meta($p,"redirect",true),"noindex"=>get_post_meta($p,"_genesis_noindex",true),"titulo"=>get_post_meta($p,"_genesis_title",true)]);`
+		);
+		tests.check(
+			'Editor: al guardar conserva el noindex y la redirección que dejó un administrador',
+			conserva.redirect === 'https://admin.example/r' &&
+				conserva.noindex === '1' &&
+				conserva.titulo === '__prueba otro',
+			JSON.stringify( conserva )
+		);
 	} finally {
 		borrar();
+		alSalir.delete( borrar );
 		tests.check(
 			'Editor: usuario temporal __prueba eliminado',
-			wp( 'echo get_user_by("login","__prueba") ? 1 : 0;' ) === '0'
+			wp( 'echo get_user_by("login","__prueba") ? 1 : 0;' ) === '0' &&
+				wp( 'echo count(get_posts(["title"=>"__prueba","post_type"=>"any","post_status"=>"any"]));' ) === '0'
 		);
 	}
 }
@@ -622,7 +663,7 @@ async function respaldo( e ) {
 		wp(
 			`require_once ABSPATH."wp-admin/includes/plugin.php"; $r=activate_plugin("${ PLUGIN }"); if(is_wp_error($r)) WP_CLI::error($r->get_error_message()); echo 1;`
 		);
-	alSalir.push( activar );
+	alSalir.add( activar );
 	try {
 		wp(
 			`require_once ABSPATH."wp-admin/includes/plugin.php"; deactivate_plugins("${ PLUGIN }"); echo 1;`
@@ -685,6 +726,7 @@ async function respaldo( e ) {
 		);
 	} finally {
 		activar();
+		alSalir.delete( activar );
 		tests.check( 'Respaldo: plugin reactivado', activo() );
 		tests.check(
 			'Respaldo: ajustes del plugin intactos',
@@ -728,6 +770,16 @@ async function production() {
 				maxBuffer: 10 * 1024 * 1024,
 			}
 		);
+	let bajado = false;
+	const bajar = () => {
+		if ( bajado ) {
+			return;
+		}
+		bajado = true;
+		alSalir.delete( bajar );
+		compose( 'down', '--volumes', '--remove-orphans' );
+	};
+	alSalir.add( bajar ); // También si la suite se interrumpe con una señal.
 	try {
 		console.log(
 			'• Producción: levantando stack efímero sin puertos publicados'
@@ -973,7 +1025,7 @@ async function production() {
 		);
 	} finally {
 		try {
-			compose( 'down', '--volumes', '--remove-orphans' );
+			bajar();
 			tests.check( 'Producción: stack temporal eliminado', true );
 		} catch ( error ) {
 			tests.check(

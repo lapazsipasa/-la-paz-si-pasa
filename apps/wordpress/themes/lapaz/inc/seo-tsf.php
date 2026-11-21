@@ -1,8 +1,8 @@
 <?php
 /**
  * The SEO Framework (`autodescription`): título, descripción, imagen, canónica y robots por
- * defecto, caja reducida para quien edita y JSON-LD sin la búsqueda falsa. Lo que el editor
- * escribe en la caja siempre gana. Sin el plugin no hace nada: el respaldo vive en `seo.php`.
+ * defecto y JSON-LD sin la búsqueda falsa. Lo del editor gana. Sin el plugin
+ * no hace nada: el respaldo vive en `seo.php`.
  *
  * @package lapaz
  */
@@ -16,8 +16,8 @@ if ( ! defined( 'THE_SEO_FRAMEWORK_PRESENT' ) ) {
 }
 
 /**
- * Entrada que describe una consulta del plugin: la de `$args['id']`, o la de la página actual
- * (en /boletin/ y /historias/, la que el archivo muestra). 0 si no hay.
+ * Entrada de una consulta del plugin: `$args['id']` o la de la página actual (en /boletin/ y
+ * /historias/, la que el archivo muestra). 0 si no hay.
  *
  * @param array<mixed>|null $args Consulta del plugin; null es la página actual.
  */
@@ -36,8 +36,7 @@ function lapaz_tsf_id( ?array $args ): int {
 }
 
 /**
- * Lo que el editor escribió en la caja de SEO de la entrada que muestra /boletin/ o /historias/
- * (el plugin solo lee esa caja en la página de la entrada). '' si no hay o no es ese archivo.
+ * Lo escrito en la caja de SEO de la entrada que muestra /boletin/ o /historias/. '' si no hay.
  *
  * @param array<mixed>|null $args  Consulta del plugin.
  * @param string            $clave Metadato de la caja.
@@ -159,7 +158,7 @@ function lapaz_tsf_imagen( array $detalles, ?array $args, bool $unica, string $c
 	}
 	$id   = lapaz_tsf_id( $args );
 	$tipo = $id > 0 ? get_post_type( $id ) : false;
-	$url  = lapaz_tsf_editor( $args, '_social_image_url' );
+	$url  = esc_url_raw( lapaz_tsf_editor( $args, '_social_image_url' ), array( 'http', 'https' ) );
 	$foto = get_post_meta( $id, '_social_image_id', true );
 	$foto = is_numeric( $foto ) ? (int) $foto : 0;
 	if ( '' === $url ) {
@@ -259,21 +258,3 @@ function lapaz_tsf_locale( array $etiquetas ): array {
 	return $etiquetas;
 }
 add_filter( 'the_seo_framework_meta_render_data', 'lapaz_tsf_locale' );
-
-/**
- * Caja reducida para quien no administra: sin la pestaña de visibilidad (noindex, canónica,
- * redirección) y sin los campos sociales sueltos (CSS). El filtro solo corre al pintar la caja,
- * así que el CSS solo sale en las pantallas de edición.
- *
- * @param array<string, mixed> $pestanas Pestañas de la caja.
- * @return array<string, mixed>
- */
-function lapaz_tsf_pestanas( array $pestanas ): array {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		unset( $pestanas['visibility'] );
-		echo '<style>.tsf-flex-setting:has(#autodescription_og_title,#autodescription_og_description,#autodescription_twitter_title,#autodescription_twitter_description,#autodescription_twitter_card_type){display:none}</style>' . "\n";
-	}
-
-	return $pestanas;
-}
-add_filter( 'the_seo_framework_inpost_settings_tabs', 'lapaz_tsf_pestanas' );

@@ -169,6 +169,15 @@ for ( const route of [
 	await test( `${ route }: 403 (readme, license, sample y debug.log: imagen nueva)`, () =>
 		assert.equal( result.response.status, 403 ) );
 }
+// Traducciones: PHP las lee del disco, nunca se sirven por HTTP (hay un .mo y un .l10n.php reales).
+for ( const route of [
+	'/wp-content/languages/plugins/autodescription-es_CO.l10n.php',
+	'/wp-content/languages/plugins/autodescription-es_CO.mo',
+] ) {
+	const result = await request( route );
+	await test( `${ route }: 403 (imagen nueva)`, () =>
+		assert.equal( result.response.status, 403 ) );
+}
 for ( const route of [
 	'/wp-content/uploads/',
 	'/wp-content/themes/lapaz/assets/',
