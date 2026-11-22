@@ -164,7 +164,11 @@ async function pagina() {
 		tests.check( 'Lightbox: abre como diálogo modal (open, :modal y clase on) con la foto ampliada', e.abierto && e.modal && e.on && e.src.length > 0, JSON.stringify( e ) );
 		tests.check( 'Lightbox: el foco queda en «Cerrar» y el fondo no recibe foco', e.enCerrar && ! e.colado, JSON.stringify( e ) );
 		await page.key( 'Tab' );
-		tests.check( 'Lightbox: Tab no saca el foco del diálogo', await page.evaluate( `document.activeElement === document.querySelector('.lightbox .cerrar')` ) );
+		// El diálogo nativo puede ceder el foco al navegador (Chrome de CI lo hace); lo que no puede es dejarlo en la página de fondo.
+		tests.check(
+			'Lightbox: Tab no lleva el foco a la página de fondo',
+			await page.evaluate( `(() => { const a = document.activeElement; return ! a || a === document.body || !! a.closest('.lightbox'); })()` )
+		);
 
 		await page.key( 'Escape' );
 		e = await cerrado();
