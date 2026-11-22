@@ -86,7 +86,11 @@ export function createBrowserTests() {
 	abiertos.add( entrada );
 	// Puerto real: la primera línea de DevToolsActivePort.
 	const leerPuerto = async () => {
-		for ( let i = 0; i < 100; i++ ) {
+		// ponytail: hasta 30 s; el primer arranque en CI es lento.
+		for ( let i = 0; i < 300; i++ ) {
+			if ( browser.exitCode !== null ) {
+				throw new Error( `Chrome se cerró al arrancar (código ${ browser.exitCode })` );
+			}
 			try {
 				return Number(
 					fs.readFileSync( path.join( profile, 'DevToolsActivePort' ), 'utf8' ).split( '\n' )[ 0 ]
