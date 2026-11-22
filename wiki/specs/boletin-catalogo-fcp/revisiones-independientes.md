@@ -406,4 +406,5 @@ Lo que no se puede verificar en local con la imagen actual.
 - **Hallazgos:** círculo ③ tapado en la lámina del productor; el generador de láminas no comprobaba que el sitio fuera el local; el usuario temporal y los borradores quedaban vivos si se interrumpía; el README no decía que hay que cargar antes el contenido de ejemplo. Opcionales: marcadores y título del PDF, altura de imagen, recorte de la lámina de Cifras, cuatro retoques de texto y código sin uso.
 - **Resuelto:** todo, en el commit de este cierre. Manual en 43 páginas.
 - **Sin aplicar:** propiedades del documento Word y guarda de líneas `>` en el maquetador (opcionales menores).
+- **AGY (2026-11-21):** guardó después su propia revisión 40. Coincide con la del subagente en lo aplicado. Además señaló, y se resolvió en el commit de este cierre: el README no bastaba para regenerar en un clon limpio (faltaban las 5 capturas que no hace el script); variable de Chrome distinta en cada script (ahora `CHROME_BIN` para ambos); el maquetador ignoraba en silencio líneas de imagen mal formadas (ahora falla con aviso). Sin aplicar, opcional: cortes de las láminas 05 y 11.
 

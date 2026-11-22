@@ -1,4 +1,4 @@
-> **Versión del 2026-11-21.** Cada formulario va con su lámina: la pantalla de WordPress y el componente del sitio que modifica, con los mismos números. Las imágenes no viven en el repo: van en el documento que se entrega al Fondo (Word y PDF, generados desde este texto). Las claves de acceso nunca van aquí. Si cambias este texto, regenera el Word y el PDF (`apps/wp-fse/tools/manual/README.md`) y actualiza esta fecha.
+> **Versión del 2026-11-21.** Cada formulario va con su lámina: la pantalla de WordPress y el componente del sitio que modifica, con los mismos números. Las imágenes no viven en el repo: van en el documento que se entrega al Fondo (Word y PDF, generados desde este texto). Las claves de acceso nunca van aquí. Si cambias este texto, regenera el Word y el PDF ([cómo regenerar el Word y el PDF](../apps/wp-fse/tools/manual/README.md)) y actualiza esta fecha.
 
 # Manual del editor — La Paz Sí Pasa
 

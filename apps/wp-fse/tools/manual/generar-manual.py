@@ -20,7 +20,7 @@ MD = Path(sys.argv[1]) if len(sys.argv) > 1 else REPO / "wiki" / "manual-editor.
 CAP = Path(sys.argv[2]) if len(sys.argv) > 2 else SALIDA / "capturas"
 OUT = SALIDA / "imagenes"
 NOMBRE = "Manual del editor - La Paz Si Pasa"
-CHROME = os.environ.get("CHROME") or next((c for c in ("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", shutil.which("google-chrome"), shutil.which("chromium"), shutil.which("chrome")) if c and Path(c).exists()), "")
+CHROME = os.environ.get("CHROME_BIN") or os.environ.get("CHROME") or next((c for c in ("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", shutil.which("google-chrome"), shutil.which("chromium"), shutil.which("chrome")) if c and Path(c).exists()), "")
 MAXW, SPLIT, TRAMO = 1600, 1.5, 1.0   # ancho máx. px; ratio alto/ancho desde el que se parte; ratio objetivo por tramo
 ANCHO_IN, ALTO_IN = 6.9, 5.2          # caja útil de imagen en la página (pulgadas)
 PEQ = {"captura-01": 3.0, "captura-02": 1.4, "captura-08": 3.8}  # capturas pequeñas: ancho máximo en pulgadas (nunca se parten)
@@ -148,9 +148,11 @@ def parse(md):
             rows = []
             while i < len(L) and L[i].startswith("|"):
                 if not re.match(r"^\|[\s|:-]+\|$", L[i]):
-                    rows.append([c.strip() for c in L[i].strip().strip("|").split(" | ")])
+                    rows.append([c.strip() for c in L[i].strip().strip("|").split("|")])
                 i += 1
             blocks.append(("table", rows))
+        elif s.startswith(">") and not re.match(r"^> \*\*Imagen\*\* `(.+?)`: (.+)$", s.strip()):
+            sys.exit(f"Línea '>' que no es una imagen válida (esperado: > **Imagen** `archivo.png`: pie): {s}")
         elif (m := re.match(r"^> \*\*Imagen\*\* `(.+?)`: (.+)$", s.strip())):
             f, pie = m.group(1), m.group(2)
             usadas.append(f)
@@ -393,7 +395,7 @@ def build_pdf(blocks):
                    check=True, capture_output=True, timeout=300)
 
 if __name__ == "__main__":
-    assert CHROME, "No encuentro Chrome: define la variable CHROME con su ruta"
+    assert CHROME, "No encuentro Chrome: define CHROME_BIN con su ruta"
     shutil.rmtree(OUT, ignore_errors=True)  # quita imágenes de ediciones anteriores
     blocks, usadas = parse(MD.read_text(encoding="utf-8"))
     faltan = [f for f in usadas if not (CAP / f).exists()]
