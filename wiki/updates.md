@@ -1,5 +1,13 @@
 # Updates
 
+## 2026-11-21 · PR abierto
+
+**Estado:** rama subida y [PR #2](https://github.com/lapazsipasa/-la-paz-si-pasa/pull/2) abierto contra `main`, con los 49 commits (sin aplastar, por decisión de William, para que la historia documente el trabajo). Antes de subir, la rama se reaplicó sobre `main` y los datos de operación que llevaban cuatro commits antiguos se cambiaron por marcadores en cada commit; ninguno los contiene. `main` ya los tenía en su historia anterior: se mitigan en el servidor.
+
+**Siguiente paso:** CI del PR en verde, revisión y merge sin squash; luego staging con el [guion](specs/boletin-catalogo-fcp/plan-staging.md) (antes, `WP_ENVIRONMENT_TYPE=staging`).
+
+**Pendiente de William:** merge, aprobación de staging y producción, subir el manual a Drive, usuario Editor, pendientes del servidor y nota al Fondo.
+
 ## 2026-11-21 · cierre de la rama: corrida final, manual con láminas y revisiones
 
 **Estado:** rama `feat/boletin-catalogo-fcp`, 48 commits sobre `lapazsipasa/main`. Árbol limpio. **Sin push, sin PR y sin desplegar.** Detalle por commit: [changelog](changelog.md). Cifras y descripción del PR: [prs/boletin-catalogo-fcp](prs/boletin-catalogo-fcp.md).
