@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-# Regenera el manual del editor (.docx + .pdf + imagenes/) desde wiki/manual-editor.md y las láminas PNG.
-# Uso (desde la raíz del repo): python3 apps/wp-fse/tools/manual/generar-manual.py [texto.md] [carpeta-capturas]
+# Regenera los manuales del editor (.docx + .pdf + imagenes/) desde wiki/manual-editor.md y las láminas PNG:
+# el manual general y un manual por tipo de contenido (raw/manual-editor/por-tipo/).
+# Uso (desde la raíz del repo): python3 apps/wp-fse/tools/manual/generar-manual.py [texto.md] [carpeta-capturas] [--tipo=noticias,ferias | --solo-general]
 # Requiere python-docx, Pillow, numpy y Google Chrome (el PDF se imprime con Chrome headless).
 # Por defecto: texto wiki/manual-editor.md, láminas raw/manual-editor/capturas/, salidas en raw/manual-editor/ (fuera de git).
-import html, math, os, re, shutil, subprocess, sys, tempfile
+import argparse, html, math, os, re, shutil, subprocess, sys, tempfile, unicodedata
 from pathlib import Path
 import numpy as np
 from PIL import Image
@@ -16,10 +17,31 @@ from docx.shared import Cm, Inches, Pt, RGBColor
 
 REPO = Path(__file__).resolve().parents[4]
 SALIDA = REPO / "raw" / "manual-editor"
-MD = Path(sys.argv[1]) if len(sys.argv) > 1 else REPO / "wiki" / "manual-editor.md"
-CAP = Path(sys.argv[2]) if len(sys.argv) > 2 else SALIDA / "capturas"
-OUT = SALIDA / "imagenes"
-NOMBRE = "Manual del editor - La Paz Si Pasa"
+ap = argparse.ArgumentParser()
+ap.add_argument("texto", nargs="?", default=REPO / "wiki" / "manual-editor.md")
+ap.add_argument("capturas", nargs="?", default=SALIDA / "capturas")
+ap.add_argument("--tipo", help="solo estos manuales por tipo, separados por coma (sin el general)")
+ap.add_argument("--solo-general", action="store_true", help="solo el manual general")
+ARGS = ap.parse_args()
+MD, CAP = Path(ARGS.texto), Path(ARGS.capturas)
+OUT = SALIDA / "imagenes"  # compartida: una lámina se llama igual y sale igual en todos los manuales
+SUFIJO = "La Paz Si Pasa"
+# slug -> (nombre, [títulos de las secciones del tipo, sin el número])
+TIPOS = {
+    "boletin": ("Boletín", ["Publicar una edición del boletín, paso a paso"]),
+    "historia": ("Historia del mes", ["Publicar la historia del mes (PaisSano destacado)"]),
+    "productores": ("Catálogo de productores", ["Mantener el catálogo de productores PaisSana"]),
+    "noticias": ("Noticias", ["Publicar una noticia"]),
+    "retratos": ("Retratos de la Paz", ["Publicar un retrato (Retratos de la Paz)"]),
+    "videos": ("Videos", ["Publicar un video (Actualidad)"]),
+    "relatos-sonoros": ("Relatos sonoros", ["Publicar un relato sonoro (El corazón del campo)"]),
+    "ferias": ("Ferias", ["Publicar una feria (PaisSana en ferias)"]),
+    "subcuentas": ("Subcuentas", ["Mantener las subcuentas"]),
+    "paginas": ("Páginas Inicio y Proyectos destacados", ["Editar las páginas Inicio y Proyectos destacados"]),
+}
+ANTES = ["Entrar al administrador y orientarte"]
+DESPUES = ["Escribir bien y preparar fotos", "Revisar y publicar", "Lo que NO debes tocar (y por qué)",
+           "Problemas frecuentes y qué hacer", "Buscadores y redes (SEO) y a quién acudir"]
 CHROME = os.environ.get("CHROME_BIN") or os.environ.get("CHROME") or next((c for c in ("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", shutil.which("google-chrome"), shutil.which("chromium"), shutil.which("chrome")) if c and Path(c).exists()), "")
 MAXW, SPLIT, TRAMO = 1600, 1.5, 1.0   # ancho máx. px; ratio alto/ancho desde el que se parte; ratio objetivo por tramo
 ANCHO_IN, ALTO_IN = 6.9, 5.2          # caja útil de imagen en la página (pulgadas)
@@ -130,6 +152,32 @@ def runs(t, b=False, i=False, c=False):
         out.append((t[pos:], b, i, c))
     return out
 
+def es_resumen(t):
+    return re.sub(r"^\d+\. ", "", t) == "Resumen en una hoja"
+
+def recortar(md, nombre, titulos):
+    """Texto del manual de un tipo: portada con su subtítulo, índice propio, 'Cómo leer…' y solo las secciones pedidas, renumeradas."""
+    L = md.split("\n=====")[0].split("\n")
+    ini = next(j for j, x in enumerate(L) if x.startswith("# "))
+    sec = [j for j, x in enumerate(L) if x.startswith("## ") and j > ini]
+    por = {}
+    for a, b in zip(sec, sec[1:] + [len(L)]):
+        m = re.match(r"^## (?:\d+\. )?(.+?)\s*$", L[a])
+        por[m.group(1)] = L[a + 1:b]
+    faltan = [t for t in titulos if t not in por]
+    if faltan:
+        sys.exit(f"Manual «{nombre}»: no encuentro en {MD} las secciones {faltan}")
+    leer = next((x for x in L if x.startswith("**Cómo leer las láminas")), None)
+    if not leer:
+        sys.exit(f"Manual «{nombre}»: no encuentro el párrafo «Cómo leer las láminas…» en {MD}")
+    cab = L[ini:sec[0]]
+    k = next(j for j in range(1, len(cab)) if cab[j].strip())  # primera línea con texto tras el título = subtítulo
+    cab[k] = f"**{nombre}**"
+    out = cab + ["## Índice", ""] + [f"{n}. {t}" for n, t in enumerate(titulos, 1)] + ["", leer, "", "---", ""]
+    for n, t in enumerate(titulos, 1):
+        out += [f"## {n}. {t}"] + por[t]
+    return "\n".join(out)
+
 def parse(md):
     L = md.split("\n=====")[0].split("\n")
     L = L[next(j for j, x in enumerate(L) if x.startswith("# ")):]  # salta la nota de versión inicial
@@ -220,7 +268,7 @@ def fmt_par(p, **kw):
         setattr(f, k, v)
     return p
 
-def build_docx(blocks):
+def build_docx(blocks, destino):
     d = Document()
     sec = d.sections[0]
     sec.page_width, sec.page_height = Inches(8.5), Inches(11)
@@ -263,7 +311,7 @@ def build_docx(blocks):
         if tipo in ("h1", "h2"):
             p = d.add_paragraph(style="Heading 1" if tipo == "h1" else "Heading 2")
             p.add_run(b[1])
-            if tipo == "h1" and b[1].startswith("11. "):
+            if tipo == "h1" and es_resumen(b[1]):
                 p.paragraph_format.page_break_before = True
         elif tipo == "p":
             add_runs(d.add_paragraph(), b[1])
@@ -319,7 +367,7 @@ def build_docx(blocks):
                     if ri == 0:
                         sombrear(c, "E3EAF3")
             d.add_paragraph().paragraph_format.space_after = Pt(4)
-    d.save(SALIDA / f"{NOMBRE}.docx")
+    d.save(destino.with_name(destino.name + ".docx"))
 
 # ---------- html -> pdf ----------
 CSS = """
@@ -349,8 +397,8 @@ def h(t):
         o += x
     return o
 
-def build_pdf(blocks):
-    o, k = [f"<!doctype html><meta charset=utf-8><title>{NOMBRE}</title><style>{CSS}</style><body>"], 1
+def build_pdf(blocks, destino):
+    o, k = [f"<!doctype html><meta charset=utf-8><title>{destino.name}</title><style>{CSS}</style><body>"], 1
     o.append(f'<div class=t>{h(blocks[0][1])}</div>')
     cover = [b[1] for b in blocks[1:4]]
     o.append(f'<div class=s>{h(cover[0])}</div><div class=c style="margin-top:60pt">{h(cover[1])}</div><div class=c><b>{h(cover[2])}</b></div><div style="break-after:page"></div>')
@@ -363,10 +411,10 @@ def build_pdf(blocks):
         if tipo != "li": cierra()
         if tipo in ("h1", "h2"):
             tg = "h1" if tipo == "h1" else "h2"
-            cls = ' class=pb' if (tipo == "h1" and b[1].startswith("11. ")) else ""
+            cls = ' class=pb' if (tipo == "h1" and es_resumen(b[1])) else ""
             if rec: o.append("</section>"); rec = False
             if tipo == "h2" and en_resumen: o.append("<section class=rec>"); rec = True
-            en_resumen = b[1].startswith("11. ") if tipo == "h1" else en_resumen
+            en_resumen = es_resumen(b[1]) if tipo == "h1" else en_resumen
             o.append(f"<{tg}{cls}>{h(b[1])}</{tg}>")
         elif tipo == "p":
             o.append(f"<p>{h(b[1])}</p>")
@@ -391,15 +439,30 @@ def build_pdf(blocks):
     # listas numeradas: se escriben como "N." manual (ul.n) para no depender del contador del navegador
     tmp = Path(tempfile.mkdtemp()) / "manual.html"
     tmp.write_text("".join(o), encoding="utf-8")
-    subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--no-pdf-header-footer", "--generate-pdf-document-outline", f"--print-to-pdf={SALIDA / (NOMBRE + '.pdf')}", tmp.as_uri()],
+    subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--no-pdf-header-footer", "--generate-pdf-document-outline", f"--print-to-pdf={destino.with_name(destino.name + '.pdf')}", tmp.as_uri()],
                    check=True, capture_output=True, timeout=300)
+
+def plano(t):  # nombre de archivo sin acentos
+    return unicodedata.normalize("NFKD", t).encode("ascii", "ignore").decode()
 
 if __name__ == "__main__":
     assert CHROME, "No encuentro Chrome: define CHROME_BIN con su ruta"
+    md = MD.read_text(encoding="utf-8")
+    sel = [] if ARGS.solo_general else (ARGS.tipo.split(",") if ARGS.tipo else list(TIPOS))
+    if desconocidos := [t for t in sel if t not in TIPOS]:
+        sys.exit(f"Tipo desconocido {desconocidos}; los válidos son {list(TIPOS)}")
+    trabajos = [] if ARGS.tipo else [(SALIDA / f"Manual general - {SUFIJO}", md)]
+    for t in sel:  # se recortan todos antes de generar: si falta una sección, no sale ningún manual a medias
+        nombre, titulos = TIPOS[t]
+        trabajos.append((SALIDA / "por-tipo" / f"Manual - {plano(nombre)} - {SUFIJO}", recortar(md, nombre, ANTES + titulos + DESPUES)))
     shutil.rmtree(OUT, ignore_errors=True)  # quita imágenes de ediciones anteriores
-    blocks, usadas = parse(MD.read_text(encoding="utf-8"))
-    faltan = [f for f in usadas if not (CAP / f).exists()]
-    assert not faltan, faltan
-    build_docx(blocks)
-    build_pdf(blocks)
-    print("imágenes citadas:", len(usadas), "| tramos:", sum(b[0] == "img" for b in blocks))
+    (SALIDA / "por-tipo").mkdir(parents=True, exist_ok=True)
+    for viejo in SALIDA.glob("Manual del editor - La Paz Si Pasa.*"):
+        viejo.unlink()  # nombre antiguo del manual general
+    for destino, texto in trabajos:
+        blocks, usadas = parse(texto)
+        faltan = [f for f in usadas if not (CAP / f).exists()]
+        assert not faltan, faltan
+        build_docx(blocks, destino)
+        build_pdf(blocks, destino)
+        print(destino.name, "| imágenes citadas:", len(usadas), "| tramos:", sum(b[0] == "img" for b in blocks))

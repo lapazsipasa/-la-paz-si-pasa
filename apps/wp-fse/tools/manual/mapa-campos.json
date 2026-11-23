@@ -1,10 +1,18 @@
 {
-  "version": "2026-11-21",
+  "version": "2026-11-22",
   "marcadores": {
     "ID_EDICION_02": "wp post list --post_type=boletin --name=edicion-02 --field=ID",
     "ID_ASOCAFE": "wp post list --post_type=historia --name=asocafe --field=ID",
     "ID_PRODUCTOR": "wp post list --post_type=productor --s='Especies Menores del Sur del Tolima' --field=ID",
-    "ID_PAGINA_PRODUCTORES": "wp post list --post_type=page --name=productores --field=ID"
+    "ID_PAGINA_PRODUCTORES": "wp post list --post_type=page --name=productores --field=ID",
+    "ID_NOTICIA": "wp post list --post_type=noticia --name=balance-de-colombia-sostenible --field=ID",
+    "ID_RETRATO": "wp post list --post_type=retrato --name=karen-baracaldo --field=ID",
+    "ID_VIDEO": "wp post list --post_type=video --name=cacaoma-manaure-cesar --field=ID",
+    "ID_AUDIO": "wp post list --post_type=audio_relato --s='Lácteos Calamar' --field=ID",
+    "ID_FERIA": "wp post list --post_type=feria --meta_key=abierta_por_defecto --meta_value=1 --field=ID",
+    "ID_SUBCUENTA": "wp post list --post_type=subcuenta --orderby=menu_order --order=ASC --field=ID",
+    "ID_INICIO": "wp option get page_on_front",
+    "ID_PROYECTOS": "wp post list --post_type=page --name=proyectos-destacados --field=ID"
   },
   "laminas": [
     {
@@ -988,6 +996,411 @@
           "motivo": "Ocultos y bloqueados para usuarios sin manage_options por inc/seo-tsf-editor.php."
         }
       ]
+    },
+    {
+      "id": "14-noticia",
+      "titulo": "Noticia → línea de tiempo «Noticias» en Inicio",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_NOTICIA}&action=edit",
+        "recorte": "#titlediv, #acf-group_noticias_lapazsipasa",
+        "css": "#tsf-inpost-box{display:none !important} .wrap > .page-title-action{display:none !important}"
+      },
+      "front": {
+        "url": "/",
+        "recorte": ".wp-block-lapaz-lo-que-hacemos .timeline",
+        "ancho": 1280,
+        "nota": "Máximo 3 noticias por año, de la más reciente a la más antigua.",
+        "css": ".wp-block-lapaz-lo-que-hacemos .timeline{height:auto !important;align-self:start !important} .wp-block-lapaz-lo-que-hacemos .timeline__list{height:auto !important;min-height:0 !important}"
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Titular de la noticia",
+          "admin_selector": "#titlediv #title",
+          "front_selector": ".wp-block-lapaz-lo-que-hacemos .timeline__list",
+          "front_texto": "Balance de Colombia Sostenible"
+        },
+        {
+          "n": 2,
+          "etiqueta": "URL externa",
+          "admin_selector": ".acf-field[data-name=\"url\"]",
+          "front_selector": ".wp-block-lapaz-lo-que-hacemos .timeline__news a[href=\"https://example.com/ejemplo-2\"]",
+          "front_circ": "derecha"
+        },
+        {
+          "n": 3,
+          "etiqueta": "Fecha de publicación",
+          "admin_selector": ".acf-field[data-name=\"fecha\"]",
+          "front_selector": ".wp-block-lapaz-lo-que-hacemos .timeline__row:first-child .timeline__year"
+        }
+      ],
+      "no_visibles": []
+    },
+    {
+      "id": "15-retrato",
+      "titulo": "Retrato → carrusel «Retratos de la Paz» en Inicio",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_RETRATO}&action=edit",
+        "recorte": "#titlediv, #acf-group_retratos_lapazsipasa",
+        "css": "#tsf-inpost-box{display:none !important} .wrap > .page-title-action{display:none !important}"
+      },
+      "front": {
+        "url": "/",
+        "recorte": ".wp-block-lapaz-retratos .retratos-slider",
+        "ancho": 1280,
+        "nota": "El retrato publicado más reciente es la primera diapositiva."
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Foto",
+          "admin_selector": ".acf-field[data-name=\"foto\"]",
+          "front_selector": ".wp-block-lapaz-retratos .retratos-slider__foto",
+          "front_circ": [
+            14,
+            14
+          ]
+        },
+        {
+          "n": 2,
+          "etiqueta": "Descripción",
+          "admin_selector": ".acf-field[data-name=\"descripcion\"]",
+          "front_selector": ".wp-block-lapaz-retratos .retratos-slider__campos[aria-hidden=\"false\"] .retratos-slider__descripcion",
+          "front_circ": "izquierda",
+          "front_caja": false
+        },
+        {
+          "n": 3,
+          "etiqueta": "Proyecto",
+          "admin_selector": ".acf-field[data-name=\"proyecto\"]",
+          "front_selector": ".wp-block-lapaz-retratos .retratos-slider__campos[aria-hidden=\"false\"] p:nth-of-type(2)",
+          "front_circ": "izquierda",
+          "front_caja": false
+        },
+        {
+          "n": 4,
+          "etiqueta": "Lugar",
+          "admin_selector": ".acf-field[data-name=\"lugar\"]",
+          "front_selector": ".wp-block-lapaz-retratos .retratos-slider__campos[aria-hidden=\"false\"] p:nth-of-type(3)",
+          "front_circ": "izquierda",
+          "front_caja": false
+        }
+      ],
+      "no_visibles": []
+    },
+    {
+      "id": "16-video",
+      "titulo": "Video → sección «Actualidad» en Inicio",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_VIDEO}&action=edit",
+        "recorte": "#titlediv, #acf-group_videos_lapazsipasa",
+        "css": "#tsf-inpost-box{display:none !important} .wrap > .page-title-action{display:none !important}"
+      },
+      "front": {
+        "url": "/",
+        "recorte": ".wp-block-lapaz-actualidad .actualidad__destacado",
+        "ancho": 1280,
+        "nota": "El video publicado más reciente es el destacado; con la etiqueta PaisSana también sale en Proyectos destacados."
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Título del video",
+          "admin_selector": "#titlediv #title",
+          "front_selector": ".actualidad__info-titulo"
+        },
+        {
+          "n": 2,
+          "etiqueta": "Descripción",
+          "admin_selector": ".acf-field[data-name=\"descripcion\"]",
+          "front_selector": ".actualidad__descripcion"
+        },
+        {
+          "n": 3,
+          "etiqueta": "URL de YouTube",
+          "admin_selector": ".acf-field[data-name=\"youtube_url\"]",
+          "front_selector": ".actualidad__play"
+        },
+        {
+          "n": 4,
+          "etiqueta": "Miniatura",
+          "admin_selector": ".acf-field[data-name=\"thumbnail\"]",
+          "front_selector": ".actualidad__player",
+          "front_circ": [
+            12,
+            12
+          ]
+        },
+        {
+          "n": 5,
+          "etiqueta": "Etiquetas",
+          "admin_selector": ".acf-field[data-name=\"tags\"]",
+          "front_selector": ".actualidad__etiquetas"
+        }
+      ],
+      "no_visibles": []
+    },
+    {
+      "id": "17-relato-sonoro",
+      "titulo": "Relato sonoro → reproductor «El corazón del campo» en Proyectos destacados",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_AUDIO}&action=edit",
+        "recorte": "#titlediv, #acf-group_audio_relatos_lapazsipasa",
+        "css": "#tsf-inpost-box{display:none !important} .wrap > .page-title-action{display:none !important}"
+      },
+      "front": {
+        "url": "/proyectos-destacados/",
+        "recorte": ".wp-block-lapaz-paisana-audios .audio-player-wrapper",
+        "ancho": 900,
+        "nota": "El relato con menor Orden es el que suena primero."
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Productor",
+          "admin_selector": ".acf-field[data-name=\"productor\"]",
+          "front_selector": ".producer-info h4",
+          "front_texto": "María Cristina Canchila",
+          "front_circ": "derecha"
+        },
+        {
+          "n": 2,
+          "etiqueta": "Marca o producto",
+          "admin_selector": ".acf-field[data-name=\"marca\"]",
+          "front_selector": ".producer-info .brand",
+          "front_texto": "Lácteos Calamar",
+          "front_circ": "derecha"
+        },
+        {
+          "n": 3,
+          "etiqueta": "Lugar",
+          "admin_selector": ".acf-field[data-name=\"lugar\"]",
+          "front_selector": ".producer-info .location",
+          "front_texto": "Calamar, Guaviare",
+          "front_circ": "derecha"
+        },
+        {
+          "n": 4,
+          "etiqueta": "Archivo de audio",
+          "admin_selector": ".acf-field[data-name=\"audio\"]",
+          "front_selector": ".play-pause-btn"
+        },
+        {
+          "n": 5,
+          "etiqueta": "Duración en segundos",
+          "admin_selector": ".acf-field[data-name=\"duracion_segundos\"]",
+          "front_selector": "[data-audio=\"duracion\"]",
+          "front_circ": "izquierda"
+        },
+        {
+          "n": 6,
+          "etiqueta": "Orden",
+          "admin_selector": ".acf-field[data-name=\"orden\"]",
+          "front_selector": ".nav-controls"
+        }
+      ],
+      "no_visibles": [],
+      "circulo": 22
+    },
+    {
+      "id": "18-feria",
+      "titulo": "Feria → acordeón «PaisSana en ferias» en Proyectos destacados",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_FERIA}&action=edit",
+        "recorte": "#titlediv, #acf-group_ferias_lapazsipasa",
+        "css": "#tsf-inpost-box{display:none !important} .wrap > .page-title-action{display:none !important} .acf-field[data-name=\"galeria\"] .acf-gallery{height:240px !important}"
+      },
+      "front": {
+        "url": "/proyectos-destacados/",
+        "recorte": ".ferias-acordeon-list > details[open]",
+        "ancho": 1280
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Nombre de la feria",
+          "admin_selector": "#titlediv #title",
+          "front_selector": "details[open] .feria-title"
+        },
+        {
+          "n": 2,
+          "etiqueta": "Descripción",
+          "admin_selector": ".acf-field[data-name=\"descripcion\"]",
+          "front_selector": "details[open] .feria-desc"
+        },
+        {
+          "n": 3,
+          "etiqueta": "Galería",
+          "admin_selector": ".acf-field[data-name=\"galeria\"]",
+          "front_selector": "details[open] .gallery-grid-3x2"
+        },
+        {
+          "n": 4,
+          "etiqueta": "Videos verticales",
+          "admin_selector": ".acf-field[data-name=\"videos\"]",
+          "front_selector": "details[open] .vertical-video-card"
+        },
+        {
+          "n": 5,
+          "etiqueta": "Abierta por defecto",
+          "admin_selector": ".acf-field[data-name=\"abierta_por_defecto\"]",
+          "front_selector": "details[open] > summary .chevron"
+        }
+      ],
+      "no_visibles": []
+    },
+    {
+      "id": "19-subcuenta",
+      "titulo": "Subcuenta → carrusel «Conoce las subcuentas» en Inicio",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_SUBCUENTA}&action=edit",
+        "recorte": "#titlediv, #acf-group_subcuentas_lapazsipasa, #pageparentdiv",
+        "css": "#tsf-inpost-box{display:none !important} .wrap > .page-title-action{display:none !important}"
+      },
+      "front": {
+        "url": "/",
+        "recorte": ".wp-block-lapaz-lo-que-hacemos #subcuentas",
+        "ancho": 1280
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Logo",
+          "admin_selector": ".acf-field[data-name=\"icono\"]",
+          "front_selector": ".subcuentas__track li:first-child img"
+        },
+        {
+          "n": 2,
+          "etiqueta": "Orden",
+          "admin_selector": "#menu_order",
+          "front_selector": ".subcuentas__track",
+          "admin_circ": "derecha"
+        }
+      ],
+      "no_visibles": []
+    },
+    {
+      "id": "20-pagina-inicio",
+      "titulo": "Página Inicio → imagen de portada y banner de noticias",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_INICIO}&action=edit",
+        "recorte": "#acf-group_home_lapazsipasa .acf-fields",
+        "css": "#tsf-inpost-box{display:none !important} .components-modal__screen-overlay{display:none !important} .edit-post-meta-boxes-main{height:1300px !important;max-height:none !important} .interface-interface-skeleton__sidebar{display:none !important} .postbox-header{visibility:hidden !important}",
+        "alto": 1600,
+        "js": "(()=>{const b=[...document.querySelectorAll('button')].find(b=>b.textContent.trim()==='Cajas meta');if(b&&b.getAttribute('aria-expanded')!=='true')b.click();return 1})()"
+      },
+      "front": {
+        "url": "/",
+        "recorte": ".wp-block-lapaz-hero, .wp-block-lapaz-lo-que-hacemos .banner-cta",
+        "ancho": 1280
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Imagen del hero",
+          "admin_selector": ".acf-field[data-name=\"hero_imagen\"]",
+          "front_selector": ".wp-block-lapaz-hero .hero__bg",
+          "front_circ": [
+            16,
+            16
+          ],
+          "admin_circ": "dentro",
+          "front_caja": false
+        },
+        {
+          "n": 2,
+          "etiqueta": "URL del banner «Más noticias del fondo»",
+          "admin_selector": ".acf-field[data-name=\"noticias_cta_url\"]",
+          "front_selector": ".wp-block-lapaz-lo-que-hacemos .banner-cta",
+          "admin_circ": "dentro"
+        }
+      ],
+      "no_visibles": []
+    },
+    {
+      "id": "21-pagina-proyectos",
+      "titulo": "Página Proyectos destacados → cifras y mapa",
+      "admin": {
+        "url": "/wp-admin/post.php?post={ID_PROYECTOS}&action=edit",
+        "recorte": "#acf-group_proyectos_lapazsipasa .acf-tab-wrap",
+        "css": "#tsf-inpost-box{display:none !important} .components-modal__screen-overlay{display:none !important} .edit-post-meta-boxes-main{height:1300px !important;max-height:none !important} #acf-group_proyectos_lapazsipasa{max-width:1000px} .interface-interface-skeleton__sidebar{display:none !important} .postbox-header{visibility:hidden !important}",
+        "alto": 1600,
+        "js": "(()=>{const b=[...document.querySelectorAll('button')].find(b=>b.textContent.trim()==='Cajas meta');if(b&&b.getAttribute('aria-expanded')!=='true')b.click();return 1})()",
+        "tabs": [
+          "Datos relevantes (PaisSana)",
+          "Regiones del mapa"
+        ]
+      },
+      "front": {
+        "url": "/proyectos-destacados/",
+        "recorte": ".wp-block-lapaz-paisana-hero .hero-stats, .wp-block-lapaz-paisana-mapa .mapa-carrusel",
+        "ancho": 1280
+      },
+      "pares": [
+        {
+          "n": 1,
+          "etiqueta": "Cifra 1",
+          "admin_selector": ".acf-field[data-name=\"cifra_1_valor\"]",
+          "front_selector": ".hero-stats .stats-list li:nth-child(1) .stat-number",
+          "admin_circ": "dentro",
+          "front_circ": "derecha"
+        },
+        {
+          "n": 2,
+          "etiqueta": "Texto de la cifra 1",
+          "admin_selector": ".acf-field[data-name=\"cifra_1_texto\"]",
+          "front_selector": ".hero-stats .stats-list li:nth-child(1) .stat-text",
+          "admin_circ": "dentro",
+          "front_circ": "derecha"
+        },
+        {
+          "n": 3,
+          "etiqueta": "Cifra 2",
+          "admin_selector": ".acf-field[data-name=\"cifra_2_valor\"]",
+          "front_selector": ".hero-stats .stats-list li:nth-child(2) .stat-number",
+          "admin_circ": "dentro",
+          "front_circ": "derecha"
+        },
+        {
+          "n": 4,
+          "etiqueta": "Texto de la cifra 2",
+          "admin_selector": ".acf-field[data-name=\"cifra_2_texto\"]",
+          "front_selector": ".hero-stats .stats-list li:nth-child(2) .stat-text",
+          "admin_circ": "dentro",
+          "front_circ": "derecha"
+        },
+        {
+          "n": 5,
+          "etiqueta": "Cifra 3",
+          "admin_selector": ".acf-field[data-name=\"cifra_3_valor\"]",
+          "front_selector": ".hero-stats .stats-list li:nth-child(3) .stat-number",
+          "admin_circ": "dentro",
+          "front_circ": "derecha"
+        },
+        {
+          "n": 6,
+          "etiqueta": "Texto de la cifra 3",
+          "admin_selector": ".acf-field[data-name=\"cifra_3_texto\"]",
+          "front_selector": ".hero-stats .stats-list li:nth-child(3) .stat-text",
+          "admin_circ": "dentro",
+          "front_circ": "derecha"
+        },
+        {
+          "n": 7,
+          "etiqueta": "Caribe · productores",
+          "admin_selector": ".acf-field[data-name=\"region_caribe_total\"]",
+          "front_selector": ".tab-content.active .total-badge",
+          "admin_circ": "dentro"
+        },
+        {
+          "n": 8,
+          "etiqueta": "Caribe · departamentos",
+          "admin_selector": ".acf-field[data-name=\"region_caribe_deptos\"]",
+          "front_selector": ".tab-content.active .deptos-list",
+          "admin_circ": "dentro"
+        }
+      ],
+      "no_visibles": []
     }
   ]
 }

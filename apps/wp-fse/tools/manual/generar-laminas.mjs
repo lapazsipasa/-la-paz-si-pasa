@@ -62,9 +62,10 @@ fs.mkdirSync(OUT, { recursive: true });
 const LIMPIA_ADMIN = '.notice,.update-nag,.notice-warning,.updated,#query-monitor-main,#qm,#qm-metabox,#wpadminbar,#edit-slug-box,.error:not(.acf-error-message){display:none !important} html.wp-toolbar{padding-top:0 !important}';
 const LIMPIA_FRONT = '#wpadminbar{display:none !important} html{margin-top:0 !important}';
 
-async function abrir(ruta, { w = 1280, cookies = null, css = '' } = {}) {
+// alto: alto de la ventana (el editor de bloques no deja crecer la página: las cajas meta viven en un panel); js: expresión tras cargar.
+async function abrir(ruta, { w = 1280, cookies = null, css = '', alto = 900, js = '' } = {}) {
   const p = await t.openPage('about:blank', w);
-  await p.send('Emulation.setDeviceMetricsOverride', { width: w, height: 900, deviceScaleFactor: 1, mobile: false });
+  await p.send('Emulation.setDeviceMetricsOverride', { width: w, height: alto, deviceScaleFactor: 1, mobile: false });
   if (cookies) for (const [n, v] of cookies) for (const pa of ['/', '/wp-admin'])
     await p.send('Network.setCookie', { name: n, value: v, domain: 'localhost', path: pa });
   if (ruta.startsWith('@html:')) { // página local dibujada por el script, servida desde el mismo origen para que carguen las imágenes
@@ -74,6 +75,7 @@ async function abrir(ruta, { w = 1280, cookies = null, css = '' } = {}) {
   else await p.send('Page.navigate', { url: t.site + ruta });
   for (let i = 0; i < 40; i++) { await sleep(500); if ((await p.evaluate('document.readyState')) === 'complete' && i > 3) break; }
   p.css = (x) => addCss(p, x); if (css) await p.css(css);
+  if (js) { await p.evaluate(js); await sleep(1500); }
   await prepararPintado(p);
   return p;
 }
@@ -97,11 +99,13 @@ const MARCAR = `window.__marcar=(items,colores)=>{
     else b=el.getBoundingClientRect();
     const cs=getComputedStyle(el);
     if(b.width<2||b.height<2||cs.visibility==='hidden'){out.push({n:it.n,error:'invisible o sin tamaño'});continue}
-    const x=b.left+scrollX,y=b.top+scrollY,c=colores[(it.n-1)%2];
+    const P=it.pad||0,x=b.left+scrollX-P,y=b.top+scrollY-P,c=colores[(it.n-1)%2];b={width:b.width+2*P,height:b.height+2*P};
     const o=document.createElement('div');o.className='__lam';
     o.style.cssText='position:absolute;pointer-events:none;box-sizing:border-box;border:2px solid '+c+';border-radius:3px;box-shadow:0 0 0 1.5px rgba(255,255,255,.9),inset 0 0 0 1px rgba(255,255,255,.9);z-index:2147483000;left:'+x+'px;top:'+y+'px;width:'+b.width+'px;height:'+b.height+'px';
-    document.body.append(o);
-    let bx=x+(it.circ?it.circ[0]:-S*2/3),by=y+(it.circ?it.circ[1]:-S*2/3);
+    if(it.caja!==false)document.body.append(o); // caja:false = solo el número (texto girado que la caja tacharía)
+    // circ: [dx,dy] desde la esquina, o 'derecha' / 'izquierda' (fuera de la caja, centrado en alto) / 'dentro' (esquina superior derecha, dentro)
+    const cm=typeof it.circ==='string'?{derecha:[b.width+4,(b.height-S)/2],izquierda:[-S-4,(b.height-S)/2],dentro:[b.width-S-6,6]}[it.circ]:it.circ;
+    let bx=x+(cm?cm[0]:-S*2/3),by=y+(cm?cm[1]:-S*2/3);
     if(!it.circ&&pos.some(q=>Math.abs(q[0]-bx)<S+2&&Math.abs(q[1]-by)<S+2)){bx=x+b.width-S/3;}
     while(!it.circ&&pos.some(q=>Math.abs(q[0]-bx)<S+2&&Math.abs(q[1]-by)<S+2))by+=S+4;
     pos.push([bx,by]);
@@ -132,7 +136,7 @@ const partir = (s) => s.split(/,\s*(?![^()\[\]]*[)\]])/).map((x) => x.trim()).fi
 
 // Marca los pares en la página actual; devuelve los resultados y avisos.
 async function marcarPares(p, pares, lado, hechos) {
-  const items = pares.filter((q) => !hechos.has(q.n)).map((q) => ({ n: q.n, sel: q[lado + '_selector'], texto: q[lado + '_texto'], circ: q.circ }));
+  const items = pares.filter((q) => !hechos.has(q.n)).map((q) => ({ n: q.n, sel: q[lado + '_selector'], texto: q[lado + '_texto'], circ: q[lado + '_circ'] || q.circ, pad: lado === 'front' ? 3 : 0, caja: q[lado + '_caja'] }));
   for (const it of items) if (lado === 'admin') await expandir(p, it.sel);
   await sleep(400);
   if (lado === 'admin') await p.evaluate(`(()=>{const R=(v)=>v.replace(/http:\\/\\/localhost:8090/g,'https://lapazsipasa.com').replace(/localhost:8090/g,'lapazsipasa.com');document.querySelectorAll('input,textarea').forEach(e=>{if(e.placeholder)e.placeholder=R(e.placeholder);if(e.type==='text'||e.type==='url')e.value=R(e.value)});const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode())if(n.data.includes('localhost:8090'))n.data=R(n.data);1})()`);
@@ -151,7 +155,7 @@ async function lamina(l, cookies) {
   // ---------- WordPress ----------
   if (!SOLO_FRONT) {
     const a = l.admin;
-    const p = await abrir(res(a.url), { cookies, css: LIMPIA_ADMIN + (a.css || '') });
+    const p = await abrir(res(a.url), { cookies, css: LIMPIA_ADMIN + (a.css || ''), alto: a.alto, js: a.js });
     const tabs = a.tabs || [a.tab].filter(Boolean);
     const hechos = new Set(), imgs = [];
     const docW = 1280;
@@ -188,7 +192,7 @@ async function lamina(l, cookies) {
   if (!SOLO_ADMIN) {
     const f = l.front, w = f.ancho || 1280;
     const url = f.tipo === 'vista_previa_generada' ? await vistaPrevia(f) : f.url;
-    const p = await abrir(res(url), { w, css: LIMPIA_FRONT, cookies: f.sesion ? cookies : null });
+    const p = await abrir(res(url), { w, css: LIMPIA_FRONT + (f.css || ''), cookies: f.sesion ? cookies : null, alto: f.alto, js: f.js });
     // la lámina espera un pequeño margen para animaciones de entrada
     await p.css('*{animation:none !important;transition:none !important} .reveal,[data-reveal]{opacity:1 !important;transform:none !important}');
     const r = await marcarPares(p, l.pares, 'front', new Set());
