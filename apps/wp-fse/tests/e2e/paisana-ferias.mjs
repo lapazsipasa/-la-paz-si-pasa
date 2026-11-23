@@ -1,5 +1,5 @@
 // node tests/e2e/paisana-ferias.mjs [--visual | --baseline http://127.0.0.1:4321]
-import { runPaisana } from './paisana-lib.mjs';
+import { runPaisana, wp } from './paisana-lib.mjs';
 
 await runPaisana(
 	{
@@ -81,5 +81,23 @@ await runPaisana(
 		return playing && !feria.querySelector('iframe,video') && Boolean(feria.querySelector('.play-btn-overlay'));
 	})()` );
 		tests.check( `${ width }: cerrar la feria detiene su video`, stopped );
+		if ( width !== 360 ) return;
+		// SCF no vacía la URL de YouTube que oculta al elegir el MP4: el Origen de la fila debe mandar.
+		// Los filtros viven solo en este proceso de wp-cli; no cambian la base.
+		const origen = JSON.parse(
+			wp(
+				'foreach(["field_feria_fuente_video"=>"wordpress","field_feria_video_youtube"=>"https://www.youtube.com/watch?v=dQw4w9WgXcQ"] as $k=>$v) add_filter("acf/load_value/key=$k", static fn()=>$v); add_filter("acf/format_value/key=field_feria_video_file", static fn()=>["url"=>"https://example.test/nuevo.mp4"]); $f=get_posts(["post_type"=>"feria","posts_per_page"=>1]); echo wp_json_encode(array_map(static fn($r)=>[$r["fuente"],$r["url"]], lapaz_feria_videos($f[0]->ID,"x")));'
+			)
+		);
+		tests.check(
+			'Origen «Archivo MP4» manda en la fila aunque quede una URL de YouTube guardada',
+			origen.length > 0 &&
+				origen.every(
+					( [ fuente, url ] ) =>
+						fuente === 'wordpress' &&
+						url === 'https://example.test/nuevo.mp4'
+				),
+			JSON.stringify( origen )
+		);
 	}
 );

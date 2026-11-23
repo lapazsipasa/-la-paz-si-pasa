@@ -46,10 +46,13 @@ function lapaz_catalogo_indexar( int $post_id ): void {
 		// El guardado vuelve a disparar wp_after_insert_post y lo encola: la bandera evita el
 		// bucle y la baja de la cola, de abajo, descarta ese re-encolado.
 		$guardando = true;
+		// wp_update_post quita una capa de barras: sin wp_slash se perdería una «\» del texto.
 		wp_update_post(
-			array(
-				'ID'           => $post_id,
-				'post_content' => $texto,
+			wp_slash(
+				array(
+					'ID'           => $post_id,
+					'post_content' => $texto,
+				)
 			)
 		);
 		$guardando = false;
@@ -124,6 +127,31 @@ function lapaz_catalogo_al_cambiar_terminos( int $object_id, mixed $terms, mixed
 	}
 }
 add_action( 'set_object_terms', 'lapaz_catalogo_al_cambiar_terminos', 10, 4 );
+
+/**
+ * Renombre o borrado de un departamento o una categoría: encola sus productores, cuyo texto
+ * de búsqueda lleva el nombre del término. Al borrar, delete_term trae los productores en
+ * $object_ids, porque ya no están en el término.
+ *
+ * @param int    $term_id    Término.
+ * @param int    $tt_id      Id de term_taxonomy (no se usa).
+ * @param string $taxonomy   Taxonomía.
+ * @param mixed  $args       Datos del término (no se usa).
+ * @param mixed  $object_ids Entradas que tenía el término (solo en delete_term).
+ */
+function lapaz_catalogo_al_editar_termino( int $term_id, int $tt_id, string $taxonomy, mixed $args = null, mixed $object_ids = null ): void {
+	if ( ! in_array( $taxonomy, array( 'departamento', 'categoria_productor' ), true ) ) {
+		return;
+	}
+	$ids = is_array( $object_ids ) ? $object_ids : get_objects_in_term( $term_id, $taxonomy );
+	foreach ( is_array( $ids ) ? $ids : array() as $id ) {
+		if ( is_numeric( $id ) ) {
+			lapaz_catalogo_cola( (int) $id );
+		}
+	}
+}
+add_action( 'edited_term', 'lapaz_catalogo_al_editar_termino', 10, 3 );
+add_action( 'delete_term', 'lapaz_catalogo_al_editar_termino', 10, 5 );
 
 /**
  * Guardado de campos SCF de un productor.

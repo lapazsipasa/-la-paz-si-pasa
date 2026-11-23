@@ -58,7 +58,7 @@
       "name": "video_file",
       "aria-label": "",
       "type": "file",
-      "instructions": "Sube el MP4 ya comprimido. Evita archivos de más de 50 MB.",
+      "instructions": "Sube el MP4 ya comprimido. Evita archivos de más de 32 MB; si pesa más, súbelo a YouTube.",
       "required": 1,
       "conditional_logic": [[{ "field": "field_video_fuente", "operator": "==", "value": "wordpress" }]],
       "wrapper": { "width": "", "class": "", "id": "" },

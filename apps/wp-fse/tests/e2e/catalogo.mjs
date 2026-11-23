@@ -182,8 +182,16 @@ async function altaYBaja() {
 		tests.check( 'Alta: se le encuentra por su municipio (texto de búsqueda) y aparece su tarjeta', esConteo( conteoDe( html ), 1, TOTAL + 1 ) && tarjetasDe( html ) === 1 && html.includes( '__prueba Productor' ), `«${ conteoDe( html ) }»` );
 		const sinFiltro = await servido( `?ver=${ 36 * 10 }` );
 		tests.check( 'Alta: aparece en el catálogo completo', sinFiltro.includes( '__prueba Productor' ) && tarjetasDe( sinFiltro ) === TOTAL + 1, `${ tarjetasDe( sinFiltro ) } tarjetas` );
+		// Renombrar o borrar un término reindexa el texto de búsqueda de sus productores.
+		wp( `$t=wp_insert_term("Zzdeptoprueba","departamento"); wp_set_object_terms(${ Number( id ) },[(int)$t["term_id"]],"departamento",true); echo 1;` );
+		wp( `$t=get_term_by("name","Zzdeptoprueba","departamento"); wp_update_term($t->term_id,"departamento",["name"=>"Zzdeptorenombrado"]); echo 1;` );
+		const renombrado = await servido( '?buscar=Zzdeptorenombrado' );
+		tests.check( 'Renombrar un departamento: se encuentra al productor por el nombre nuevo', esConteo( conteoDe( renombrado ), 1, TOTAL + 1 ) && renombrado.includes( '__prueba Productor' ), `«${ conteoDe( renombrado ) }»` );
+		wp( `$t=get_term_by("name","Zzdeptorenombrado","departamento"); wp_delete_term($t->term_id,"departamento"); echo 1;` );
+		const borrado = await servido( '?buscar=Zzdeptorenombrado' );
+		tests.check( 'Borrar un departamento: el productor deja de salir por ese nombre', esConteo( conteoDe( borrado ), 0, TOTAL + 1 ), `«${ conteoDe( borrado ) }»` );
 	} finally {
-		wp( `wp_delete_post(${ Number( id ) },true); echo 1;` );
+		wp( `wp_delete_post(${ Number( id ) },true); foreach(["Zzdeptoprueba","Zzdeptorenombrado"] as $n){ $t=get_term_by("name",$n,"departamento"); if($t) wp_delete_term($t->term_id,"departamento"); } echo 1;` );
 	}
 	const despues = await leer();
 	tests.check( 'Baja: el total, los conteos de sus términos y la búsqueda por municipio vuelven a como estaban', JSON.stringify( despues ) === JSON.stringify( antes ), JSON.stringify( despues ) );

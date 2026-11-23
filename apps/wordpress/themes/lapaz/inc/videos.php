@@ -42,12 +42,19 @@ function lapaz_youtube_id( string $url ): string {
 
 /**
  * Fuente reproducible de un video, como videoSource(): YouTube primero, luego el MP4 subido.
+ * Si el editor eligió el MP4 y lo subió, manda: SCF no vacía la URL que oculta, así que puede traer un valor viejo.
+ * SCF devuelve «youtube» (el valor por defecto) en datos viejos sin `fuente_video`; por eso el MP4 solo gana si se eligió.
  *
  * @param string $youtube_url URL de YouTube del campo SCF.
  * @param string $file_url    URL del MP4 del campo SCF.
+ * @param string $fuente      Campo `fuente_video` (YouTube o el MP4); vacío si el campo no la tiene.
  * @return array{fuente: string, estado: string, video_url: string, thumbnail_url: string}
  */
-function lapaz_video_source( string $youtube_url, string $file_url ): array {
+function lapaz_video_source( string $youtube_url, string $file_url, string $fuente = '' ): array {
+	// Las opciones son «youtube» y la del MP4: cualquier otra elegida es el MP4.
+	if ( '' !== $fuente && 'youtube' !== $fuente && '' !== $file_url ) {
+		$youtube_url = '';
+	}
 	$id = lapaz_youtube_id( $youtube_url );
 	if ( '' !== $id ) {
 		return array(
@@ -92,7 +99,7 @@ function lapaz_get_videos(): array {
 	foreach ( $posts as $post ) {
 		$archivo      = function_exists( 'get_field' ) ? get_field( 'video_file', $post->ID ) : null;
 		$file_url     = is_array( $archivo ) && is_string( $archivo['url'] ?? null ) ? $archivo['url'] : '';
-		$source       = lapaz_video_source( lapaz_field_text( 'youtube_url', $post->ID ), $file_url );
+		$source       = lapaz_video_source( lapaz_field_text( 'youtube_url', $post->ID ), $file_url, lapaz_field_text( 'fuente_video', $post->ID ) );
 		$thumbnail_id = lapaz_field_image_id( 'thumbnail', $post->ID );
 		// Si la miniatura se borró de la biblioteca, se cae a la de YouTube.
 		$thumbnail_id = $thumbnail_id > 0 && wp_attachment_is_image( $thumbnail_id ) ? $thumbnail_id : 0;

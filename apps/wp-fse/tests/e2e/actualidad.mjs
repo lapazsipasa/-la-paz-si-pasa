@@ -1,6 +1,7 @@
 // node tests/e2e/actualidad.mjs [--visual | --baseline http://127.0.0.1:4321]
 import { execFileSync } from 'node:child_process';
 import { createBrowserTests } from './lib.mjs';
+import { wp } from './paisana-lib.mjs';
 
 const { baselineFrom, visual, site, check, openPage, compare, finish } =
 	createBrowserTests();
@@ -173,6 +174,22 @@ async function singleVideo() {
 	}
 }
 
+// SCF no vacía la URL de YouTube que oculta al elegir el MP4: la fuente elegida debe mandar.
+// Los filtros viven solo en este proceso de wp-cli; no cambian la base.
+function fuenteElegida() {
+	const fuente = JSON.parse(
+		wp(
+			'add_filter("acf/pre_load_reference", static fn($r,$n)=>"video_file"===$n?"field_video_file":$r, 10, 2); foreach(["field_video_fuente"=>"wordpress","field_video_youtube_url"=>"https://www.youtube.com/watch?v=dQw4w9WgXcQ","field_video_file"=>1] as $k=>$v) add_filter("acf/load_value/key=$k", static fn()=>$v); add_filter("acf/format_value/key=field_video_file", static fn()=>["url"=>"https://example.test/nuevo.mp4"]); $v=lapaz_get_videos()[0]??[]; echo wp_json_encode([$v["fuente"]??"",$v["video_url"]??""]);'
+		)
+	);
+	check(
+		'Fuente «Archivo MP4» manda aunque quede una URL de YouTube guardada',
+		fuente[ 0 ] === 'wordpress' &&
+			fuente[ 1 ] === 'https://example.test/nuevo.mp4',
+		JSON.stringify( fuente )
+	);
+}
+
 try {
 	for ( const width of baselineFrom || visual
 		? [ 360, 850, 1440 ]
@@ -186,7 +203,10 @@ try {
 			page.close();
 		}
 	}
-	if ( wordpress ) await singleVideo();
+	if ( wordpress ) {
+		await singleVideo();
+		fuenteElegida();
+	}
 } finally {
 	await finish();
 }
