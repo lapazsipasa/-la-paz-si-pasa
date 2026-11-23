@@ -327,6 +327,7 @@
         "url": "/boletin/edicion-02/#seccion-4",
         "recorte": ".wp-block-lapaz-boletin #seccion-4",
         "ancho": 1280,
+        "pad": [8, 3],
         "nota": "Los campos del molde Artículo vienen del grupo clonado seamless group_articulo_lapazsipasa."
       },
       "pares": [
@@ -337,6 +338,7 @@
           "clave": "field_articulo_rotulo",
           "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout:nth-child(4) .acf-field[data-name=\"rotulo\"]",
           "front_selector": ".wp-block-lapaz-boletin #seccion-4 .articulo .rotulo-seccion",
+          "front_circ": [-17, -14],
           "nota": "El campo vecino «Color de la etiqueta» (rotulo_color, field_articulo_rotulo_color) cambia su estilo entre azul por defecto y clase .verde."
         },
         {

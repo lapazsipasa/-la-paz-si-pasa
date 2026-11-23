@@ -79,6 +79,7 @@ def cortes(im, n, umbral=0.006, minrun=16, forzar=False):
     # nunca cortar pegado a un círculo numerado (filas con muchos píxeles saturados en el margen izquierdo, más 12 px de holgura)
     rgb = np.asarray(im.convert("RGB")).astype(int)[:, : im.width // 30]
     circ = (rgb.max(2) - rgb.min(2) > 100).sum(1) > 25
+    circ &= np.convolve(circ, np.ones(7), "same") >= 7  # un círculo ocupa muchas filas seguidas; el borde horizontal de una caja, 2 o 3
     vacia &= ~np.convolve(circ, np.ones(25), "same").astype(bool)
     res = []
     for i in range(1, n):
@@ -314,7 +315,7 @@ def build_docx(blocks, destino):
     S["Normal"].paragraph_format.line_spacing = 1.15
     fuente(S["Title"], 28, "1F3A5F", True)
     fuente(S["Subtitle"], 14, "444444", False)
-    for n, tam, antes in (("Heading 1", 20, 18), ("Heading 2", 14, 14), ("Heading 3", 12, 10)):
+    for n, tam, antes in (("Heading 1", 19, 20), ("Heading 2", 13.5, 14), ("Heading 3", 12, 10)):
         fuente(S[n], tam, "1F3A5F", True)
         S[n].paragraph_format.space_before, S[n].paragraph_format.space_after = Pt(antes), Pt(6)
         S[n].paragraph_format.keep_with_next = True
@@ -356,7 +357,10 @@ def build_docx(blocks, destino):
         elif tipo == "img":
             _, ruta, w, h, cap, lab, peq = b
             if lab:
-                add_runs(fmt_par(d.add_paragraph(), keep_with_next=True, space_before=Pt(8), space_after=Pt(3)), lab, 10, True)
+                p = fmt_par(d.add_paragraph(), keep_with_next=True, space_before=Pt(12), space_after=Pt(4))
+                add_runs(p, lab, 9, True)
+                for r in p.runs:  # mismo rótulo que el PDF: versalitas azules
+                    r.font.all_caps, r.font.color.rgb = True, RGBColor.from_string("1F3A5F")
             ancho = Inches(min(peq or ANCHO_IN, ALTO_IN * w / h))
             p = fmt_par(d.add_paragraph(), keep_with_next=True, alignment=WD_ALIGN_PARAGRAPH.CENTER, space_after=Pt(2))
             p.add_run().add_picture(str(ruta), width=ancho)
@@ -402,17 +406,18 @@ CSS = """
 @page { size: 8.5in 11in; margin: 1.7cm; @bottom-center { content: counter(page); font: 9pt Helvetica, Arial, sans-serif; color:#666 } }
 @page :first { @bottom-center { content: none } }
 body { font: 10.5pt/1.35 Helvetica, Arial, sans-serif; color:#222; margin:0 }
-h1 { font-size:20pt; color:#1F3A5F; margin:18pt 0 6pt; break-after:avoid }
-h2 { font-size:14pt; color:#1F3A5F; margin:14pt 0 6pt; break-after:avoid }
+h1 { font-size:19pt; line-height:1.2; color:#1F3A5F; margin:20pt 0 7pt; break-after:avoid }
+h2 { font-size:13.5pt; line-height:1.25; color:#1F3A5F; margin:14pt 0 5pt; break-after:avoid }
 .t { font-size:28pt; font-weight:bold; color:#1F3A5F; margin-top:3.2in }
 .s { font-size:14pt; color:#444; margin-top:24pt } .c { font-size:12pt; margin-top:50pt } .c b { font-weight:bold }
 .pb { break-before:page } .t,.s,.c { break-after:avoid } p { margin:0 0 6pt } code { font:9.5pt "Courier New",monospace; background:#f0f0f0; padding:0 2px }
 ul,ol { margin:0 0 6pt; padding-left:20pt } li { margin-bottom:3pt } ul.n { list-style:none; padding-left:0 } ul.n li { padding-left:16pt; text-indent:-16pt }
-figure { margin:0 0 12pt; text-align:center; break-inside:avoid }
-figure img { max-width:%sin; max-height:%sin; width:auto; height:auto } figure.peq img { max-width:var(--w) } figcaption { font-size:9pt; color:#555; margin-top:3pt }
-.l { font-weight:bold; font-size:10pt; margin:8pt 0 3pt; break-after:avoid; text-align:left }
-table { border-collapse:collapse; width:100%%; margin:6pt 0 10pt; font-size:10pt } th,td { border:1px solid #bbb; padding:3pt 5pt; vertical-align:top; text-align:left }
-th { background:#E3EAF3 } tr,section.rec,table.corta { break-inside:avoid } thead { display:table-header-group } td.n { text-align:center; font-weight:bold; font-size:12pt; width:9%%; }
+figure { margin:0 0 12pt; text-align:center; break-inside:avoid } .l + figure { margin-bottom:6pt }
+figure img { max-width:%sin; max-height:%sin; width:auto; height:auto } figure.peq img { max-width:var(--w) } figcaption { font-size:9pt; line-height:1.3; color:#555; margin:4pt auto 0; max-width:5.8in }
+.l { font-weight:bold; font-size:9pt; color:#1F3A5F; text-transform:uppercase; letter-spacing:.05em; margin:12pt 0 4pt; break-after:avoid; text-align:left }
+figure + .l { margin-top:8pt }
+table { border-collapse:collapse; width:100%%; margin:8pt 0 10pt; font-size:10pt; line-height:1.3 } th,td { border:1px solid #bbb; padding:3pt 5pt; vertical-align:top; text-align:left }
+th { background:#E3EAF3 } tr,tbody.g,section.rec,table.corta { break-inside:avoid } thead { display:table-header-group } td.n { text-align:center; font-weight:bold; font-size:12pt; width:9%%; }
 p,li { orphans:3; widows:3 } p:has(+ ul), p:has(+ table) { break-after:avoid } li.dp { break-after:avoid }
 .res { font-size:9.5pt; line-height:1.2 } .res h1 { margin-top:0 } .res h2 { font-size:12pt; margin:8pt 0 3pt } .res li { margin-bottom:1.5pt }
 """ % (ANCHO_IN, ALTO_IN)
@@ -466,8 +471,11 @@ def build_pdf(blocks, destino):
             o.append(f'{fig}<img src="{ruta.as_uri()}"><figcaption>{h(cap)}</figcaption></figure>')
         elif tipo == "table":
             rows = b[1]
-            o.append(f"<table{' class=corta' if len(rows) <= 8 else ''}><thead><tr>" + "".join(f"<th>{h(c)}</th>" for c in rows[0]) + "</tr></thead><tbody>")
-            for r in rows[1:]:
+            o.append(f"<table{' class=corta' if len(rows) <= 8 else ''}><thead><tr>" + "".join(f"<th>{h(c)}</th>" for c in rows[0]) + "</tr></thead><tbody" + (" class=g" if len(rows) > 6 else "") + ">")
+            cuerpo = rows[1:]
+            for j, r in enumerate(cuerpo):
+                if len(cuerpo) >= 6 and j in (2, len(cuerpo) - 2):  # tbody.g: nunca menos de 2 filas al pie ni al tope de página
+                    o.append(f"</tbody><tbody{' class=g' if j > 2 else ''}>")
                 o.append("<tr>" + "".join(f'<td class=n>{h(c)}</td>' if (len(r) == 3 and ci == 0) else f"<td>{h(c)}</td>" for ci, c in enumerate(r)) + "</tr>")
             o.append("</tbody></table>")
     cierra()

@@ -99,7 +99,7 @@ const MARCAR = `window.__marcar=(items,colores)=>{
     else b=el.getBoundingClientRect();
     const cs=getComputedStyle(el);
     if(b.width<2||b.height<2||cs.visibility==='hidden'){out.push({n:it.n,error:'invisible o sin tamaño'});continue}
-    const P=it.pad||0,x=b.left+scrollX-P,y=b.top+scrollY-P,c=colores[(it.n-1)%2];b={width:b.width+2*P,height:b.height+2*P};
+    const [PX,PY]=Array.isArray(it.pad)?it.pad:[it.pad||0,it.pad||0],x=b.left+scrollX-PX,y=b.top+scrollY-PY,c=colores[(it.n-1)%2];b={width:b.width+2*PX,height:b.height+2*PY};
     const o=document.createElement('div');o.className='__lam';
     o.style.cssText='position:absolute;pointer-events:none;box-sizing:border-box;border:2px solid '+c+';border-radius:3px;box-shadow:0 0 0 1.5px rgba(255,255,255,.9),inset 0 0 0 1px rgba(255,255,255,.9);z-index:2147483000;left:'+x+'px;top:'+y+'px;width:'+b.width+'px;height:'+b.height+'px';
     if(it.caja!==false)document.body.append(o); // caja:false = solo el número (texto girado que la caja tacharía)
@@ -138,8 +138,9 @@ const partir = (s) => s.split(/,\s*(?![^()\[\]]*[)\]])/).map((x) => x.trim()).fi
 
 // Marca los pares en la página actual; devuelve los resultados y avisos.
 // circ por defecto de la lámina: front.circ / admin.circ (p. ej. 'fuera'); el de cada par manda.
-async function marcarPares(p, pares, lado, hechos, circ) {
-  const items = pares.filter((q) => !hechos.has(q.n)).map((q) => ({ n: q.n, sel: q[lado + '_selector'], texto: q[lado + '_texto'], circ: q[lado + '_circ'] || q.circ || circ, pad: lado === 'front' ? 3 : 0, caja: q[lado + '_caja'] }));
+// Relleno de la caja (px o [horizontal, vertical]): front_pad / admin_pad del par, si no front.pad / admin.pad de la lámina; por defecto 3 en el sitio y 0 en WordPress.
+async function marcarPares(p, pares, lado, hechos, circ, pad = lado === 'front' ? 3 : 0) {
+  const items = pares.filter((q) => !hechos.has(q.n)).map((q) => ({ n: q.n, sel: q[lado + '_selector'], texto: q[lado + '_texto'], circ: q[lado + '_circ'] || q.circ || circ, pad: q[lado + '_pad'] ?? pad, caja: q[lado + '_caja'] }));
   for (const it of items) if (lado === 'admin') await expandir(p, it.sel);
   await sleep(400);
   if (lado === 'admin') await p.evaluate(`(()=>{const R=(v)=>v.replace(/http:\\/\\/localhost:8090/g,'https://lapazsipasa.com').replace(/localhost:8090/g,'lapazsipasa.com');document.querySelectorAll('input,textarea').forEach(e=>{if(e.placeholder)e.placeholder=R(e.placeholder);if(e.type==='text'||e.type==='url')e.value=R(e.value)});const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode())if(n.data.includes('localhost:8090'))n.data=R(n.data);1})()`);
@@ -174,7 +175,7 @@ async function lamina(l, cookies) {
         if (v) vis.push(q);
       }
       if (!vis.length) continue;
-      const r = await marcarPares(p, vis, 'admin', hechos, a.circ);
+      const r = await marcarPares(p, vis, 'admin', hechos, a.circ, a.pad);
       const buenos = r.filter((x) => !x.error);
       for (const x of r) if (x.error) avisos.push(`admin n${x.n}: ${x.error}`); else hechos.add(x.n);
       const rec = partir(a.recorte);
@@ -198,7 +199,7 @@ async function lamina(l, cookies) {
     const p = await abrir(res(url), { w, css: LIMPIA_FRONT + (f.css || ''), cookies: f.sesion ? cookies : null, alto: f.alto, js: f.js });
     // la lámina espera un pequeño margen para animaciones de entrada
     await p.css('*{animation:none !important;transition:none !important} .reveal,[data-reveal]{opacity:1 !important;transform:none !important}');
-    const r = await marcarPares(p, l.pares, 'front', new Set(), f.circ);
+    const r = await marcarPares(p, l.pares, 'front', new Set(), f.circ, f.pad);
     for (const x of r) if (x.error) avisos.push(`front n${x.n}: ${x.error}`);
     const docW = await p.evaluate('document.documentElement.clientWidth');
     const bandas = partir(f.recorte);
