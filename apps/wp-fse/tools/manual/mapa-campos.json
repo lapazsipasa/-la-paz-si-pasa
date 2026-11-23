@@ -785,7 +785,8 @@
       "front": {
         "url": "/historias/asocafe/",
         "recorte": ".wp-block-lapaz-historia .seccion-cronica, .wp-block-lapaz-historia .seccion-galeria",
-        "ancho": 1280
+        "ancho": 1280,
+        "pad": [8, 3]
       },
       "pares": [
         {

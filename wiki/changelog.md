@@ -4,6 +4,7 @@ Qué cambió, con fecha y PR. Lo reciente arriba.
 
 - **2026-11-23** · prueba de dev y CSP · en la rama `feat/boletin-catalogo-fcp` (PR #2)
   - Revisión 45 (AGY, 11 PDF de `5cb941e`): sin hallazgos altos ni medios; resueltos los hallazgos de la 44.
+  - Revisión 46 (AGY, PDF de `c75b944`): sin hallazgos altos ni medios. Los 4 bajos quedaron aplicados: «(N de M)» sin partirse, `orphans`/`widows` en 2, `code` sin partir y margen en la lámina 11 para no rozar los pies de foto.
   - CSP: la única violación en dev era el router de la Interactivity API en `/productores/` (compila WebAssembly). `script-src` suma `'wasm-unsafe-eval'` (`cf74458`), que no habilita `eval` de JavaScript. Tras el cambio, 0 violaciones en 9 rutas a 360 y 1440 px, incluido un video de YouTube en Plyr.
   - Dev (`dev.lapazsipasa.com`, desplegado con `cf74458`): `bin/check` en verde; sitemap y 292 recursos propios responden 200; 404 en `/paissana/`, 301 en `/wp-sitemap.xml`, 403 en `/xmlrpc.php` y `/readme.html`, 401 sin sesión en `/wp-json/wp/v2/users`. Cabeceras de seguridad presentes, sin `X-Powered-By`; `noindex` en todo el sitio.
   - Suites e2e de solo lectura contra dev: layout, navbar, retratos, paisana-audios y paisana-productores (125 comprobaciones en verde). Las 13 que escriben con wp-cli solo valen en local y no se corrieron en dev.

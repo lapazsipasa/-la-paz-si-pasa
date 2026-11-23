@@ -346,12 +346,17 @@ La 40 (AGY, manual y sus herramientas) se aplicó en `dc49c39` y `98c8c05`. Las 
 - **Commit:** ninguno. Ajustes finales de PDF en curso.
 - **Descartado:** tilde de «vídeo» (ver 42).
 
+### 46. PDF tras el pulido final (AGY, 2026-11-23)
+- **Ángulo:** los 11 PDF de `c75b944` (194 páginas).
+- **Veredicto:** sin hallazgos altos ni medios. Resueltos el roce de `lamina-05` y las tablas con una fila sola.
+- **Bajos, aplicados:** contador «(N de 3)» partido en los pies, línea viuda en el manual de páginas, `/wp-admin` partido en p02 y roce del recuadro con los pies de foto en la lámina 11 (crónica y galería de la historia).
+
 ### 45. Verificación final de los PDF (AGY, 2026-11-23)
 - **Ángulo:** lectura visual de los 11 PDF regenerados con `5cb941e`: 195 páginas (manual general 64 y 10 manuales por tipo 131).
 - **Veredicto:** sin hallazgos de severidad alta ni media.
 - **Resueltos de la 44:** B3, B4 y N1 a N4 (retrato en la lista mensual, paso de `lamina-04`, círculo huérfano de `lamina-05`, tablas cortas, ayuda de SVG de `lamina-19` y franja con paso de lista).
 - **Hallazgos:** baja, cosmética: en `manual-subcuentas` (p07-p08) la tabla de problemas frecuentes arranca con una fila al pie. No requiere cambio.
-- **Commit:** ninguno. `c75b944` (espaciado y estética de los PDF) llegó después de esta revisión (TODO: verificar si necesita revisión propia).
+- **Commit:** ninguno. `c75b944` (espaciado y estética de los PDF) llegó después de esta revisión; lo revisó la 46.
 
 ---
 

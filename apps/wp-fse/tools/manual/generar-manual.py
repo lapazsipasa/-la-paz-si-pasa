@@ -240,7 +240,7 @@ def parse(md):
             lab = {"wordpress": "En WordPress", "sitio": "En el sitio"}.get(Path(f).stem.rsplit("-", 1)[-1]) if f.startswith("lamina-") else None
             partes = preparar(f)
             for k, (p, w, h) in enumerate(partes):
-                cap = pie if len(partes) == 1 else f"{pie} ({k + 1} de {len(partes)})"
+                cap = pie if len(partes) == 1 else f"{pie} ({k + 1}\u00a0de\u00a0{len(partes)})"
                 blocks.append(("img", p, w, h, cap, lab if k == 0 else None, PEQ.get(Path(f).stem[:10])))
             i += 1
         elif re.match(r"^\s*(\d+)\. ", s) or re.match(r"^\s*- ", s):
@@ -410,7 +410,7 @@ h1 { font-size:19pt; line-height:1.2; color:#1F3A5F; margin:20pt 0 7pt; break-af
 h2 { font-size:13.5pt; line-height:1.25; color:#1F3A5F; margin:14pt 0 5pt; break-after:avoid }
 .t { font-size:28pt; font-weight:bold; color:#1F3A5F; margin-top:3.2in }
 .s { font-size:14pt; color:#444; margin-top:24pt } .c { font-size:12pt; margin-top:50pt } .c b { font-weight:bold }
-.pb { break-before:page } .t,.s,.c { break-after:avoid } p { margin:0 0 6pt } code { font:9.5pt "Courier New",monospace; background:#f0f0f0; padding:0 2px }
+.pb { break-before:page } .t,.s,.c { break-after:avoid } p { margin:0 0 6pt } code { white-space:nowrap; font:9.5pt "Courier New",monospace; background:#f0f0f0; padding:0 2px }
 ul,ol { margin:0 0 6pt; padding-left:20pt } li { margin-bottom:3pt } ul.n { list-style:none; padding-left:0 } ul.n li { padding-left:16pt; text-indent:-16pt }
 figure { margin:0 0 12pt; text-align:center; break-inside:avoid } .l + figure { margin-bottom:6pt }
 figure img { max-width:%sin; max-height:%sin; width:auto; height:auto } figure.peq img { max-width:var(--w) } figcaption { font-size:9pt; line-height:1.3; color:#555; margin:4pt auto 0; max-width:5.8in }
@@ -418,7 +418,7 @@ figure img { max-width:%sin; max-height:%sin; width:auto; height:auto } figure.p
 figure + .l { margin-top:8pt }
 table { border-collapse:collapse; width:100%%; margin:8pt 0 10pt; font-size:10pt; line-height:1.3 } th,td { border:1px solid #bbb; padding:3pt 5pt; vertical-align:top; text-align:left }
 th { background:#E3EAF3 } tr,tbody.g,section.rec,table.corta { break-inside:avoid } thead { display:table-header-group } td.n { text-align:center; font-weight:bold; font-size:12pt; width:9%%; }
-p,li { orphans:3; widows:3 } p:has(+ ul), p:has(+ table) { break-after:avoid } li.dp { break-after:avoid }
+p,li { orphans:2; widows:2 } p:has(+ ul), p:has(+ table) { break-after:avoid } li.dp { break-after:avoid }
 .res { font-size:9.5pt; line-height:1.2 } .res h1 { margin-top:0 } .res h2 { font-size:12pt; margin:8pt 0 3pt } .res li { margin-bottom:1.5pt }
 """ % (ANCHO_IN, ALTO_IN)
 

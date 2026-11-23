@@ -7,7 +7,7 @@
 **Hecho hoy:**
 - CSP: `'wasm-unsafe-eval'` en `script-src` (`cf74458`). Era la única violación en dev, por el router de la Interactivity API en `/productores/`. Tras el cambio, 0 violaciones en 9 rutas a 360 y 1440 px, incluido un video de YouTube en Plyr.
 - Dev: `bin/check` en verde; recorrido de rutas, cabeceras y archivos sensibles; suites de solo lectura en verde (125 comprobaciones).
-- Revisión 45 (AGY, 11 PDF): sin hallazgos altos ni medios. `c75b944` llegó después de esa revisión (TODO: verificar si hace falta revisarlo).
+- Revisión 45 (AGY, 11 PDF): sin hallazgos altos ni medios. `c75b944` lo revisó la 46 (sin altos ni medios; los 4 bajos, aplicados).
 - Wiki: CSP y dev al día en despliegue, PR, revisiones, changelog e índice.
 
 **Siguiente paso:** repetir en local, sobre `cf74458`, las 13 suites que escriben con wp-cli.
