@@ -3,9 +3,10 @@
 Qué cambió, con fecha y PR. Lo reciente arriba.
 
 - **2026-11-23** · prueba de dev y CSP · en la rama `feat/boletin-catalogo-fcp` (PR #2)
-  - Revisión 45 (AGY, PDF tras `5cb941e`): sin hallazgos altos ni medios; pulido final de los PDF (`c75b944`).
-  - Dev (`dev.lapazsipasa.com`): las URL del sitemap y 291 recursos propios responden 200; 404, 301, 403 y 401 donde corresponde; cabeceras de seguridad presentes; `noindex` en todo el sitio. Suites layout, navbar, retratos, audios y productores en verde contra dev (125 comprobaciones).
-  - CSP: la única violación era el router de la Interactivity API en `/productores/` (compila WebAssembly). `script-src` suma `'wasm-unsafe-eval'`, que no habilita `eval` de JavaScript.
+  - Revisión 45 (AGY, 11 PDF de `5cb941e`): sin hallazgos altos ni medios; resueltos los hallazgos de la 44.
+  - CSP: la única violación en dev era el router de la Interactivity API en `/productores/` (compila WebAssembly). `script-src` suma `'wasm-unsafe-eval'` (`cf74458`), que no habilita `eval` de JavaScript. Tras el cambio, 0 violaciones en 9 rutas a 360 y 1440 px, incluido un video de YouTube en Plyr.
+  - Dev (`dev.lapazsipasa.com`, desplegado con `cf74458`): `bin/check` en verde; sitemap y 292 recursos propios responden 200; 404 en `/paissana/`, 301 en `/wp-sitemap.xml`, 403 en `/xmlrpc.php` y `/readme.html`, 401 sin sesión en `/wp-json/wp/v2/users`. Cabeceras de seguridad presentes, sin `X-Powered-By`; `noindex` en todo el sitio.
+  - Suites e2e de solo lectura contra dev: layout, navbar, retratos, paisana-audios y paisana-productores (125 comprobaciones en verde). Las 13 que escriben con wp-cli solo valen en local y no se corrieron en dev.
 - **2026-11-22** · manual general y manuales por tipo de contenido · en la rama `feat/boletin-catalogo-fcp`
   - Revisión 42 (AGY, PDF): portada completa, secciones comunes por tipo (SEO solo en boletín, historia y páginas), «A quién acudir» separado de SEO, resumen en una página, mejores cortes de imagen y saltos de página, y círculos de las láminas 01-10, 12, 16 y 18 fuera del texto.
   - Revisión 43 (AGY, código de `37b631e`): con MP4 elegido y sin archivo no se cae a YouTube, `SUCRE:` sin número se ignora y la reindexación corre antes del vaciado de caché (`c0c05a4`).

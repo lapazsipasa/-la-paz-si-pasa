@@ -1,6 +1,6 @@
 # Revisiones independientes del boletín y el catálogo
 
-**Estado (2026-11-22): revisiones hasta la 44 (ver 40 a 44).** Resumen del 2026-11-21: veintinueve revisiones independientes (1 a 10, 12, 13, 15 a 19, 21 a 23, 25 a 27, 29, 32, 34, 35, 36 y 38) y nueve tareas de redacción (11, 14, 20, 24, 28, 30, 31, 33 y 37). Las revisiones de solo lectura de la 1 a la 35 las hizo AGY sobre la rama `feat/boletin-catalogo-fcp`. La 25 tuvo una primera pasada de un subagente, porque AGY agotó su cuota; AGY la repitió el 2026-11-21. La 36 retocó imágenes del manual; el revisor de las 36 y 38 no está anotado (TODO: verificar). La 39 (lectura completa del manual maquetado) está en curso: la hace un subagente revisor, no AGY, porque AGY perdió su sesión (error de autenticación) al final del día. Los informes completos no están en el repo. Esta página deja constancia de cada una: veredicto, hallazgos relevantes, commit que los resolvió y lo que quedó sin aplicar. Estado de la rama al cierre: 45 commits, último `7bb554f`; sin commit, la sincronización de la wiki de hoy y las herramientas del manual.
+**Estado (2026-11-23): revisiones hasta la 45 (ver 40 a 45).** Resumen del 2026-11-21: veintinueve revisiones independientes (1 a 10, 12, 13, 15 a 19, 21 a 23, 25 a 27, 29, 32, 34, 35, 36 y 38) y nueve tareas de redacción (11, 14, 20, 24, 28, 30, 31, 33 y 37). Las revisiones de solo lectura de la 1 a la 35 las hizo AGY sobre la rama `feat/boletin-catalogo-fcp`. La 25 tuvo una primera pasada de un subagente, porque AGY agotó su cuota; AGY la repitió el 2026-11-21. La 36 retocó imágenes del manual; el revisor de las 36 y 38 no está anotado (TODO: verificar). La 39 (lectura completa del manual maquetado) está en curso: la hace un subagente revisor, no AGY, porque AGY perdió su sesión (error de autenticación) al final del día. Los informes completos no están en el repo. Esta página deja constancia de cada una: veredicto, hallazgos relevantes, commit que los resolvió y lo que quedó sin aplicar. Estado de la rama al cierre: 45 commits, último `7bb554f`; sin commit, la sincronización de la wiki de hoy y las herramientas del manual.
 
 Gravedad: **bloqueante** impide abrir el PR · **alto** y **crítico** son de seguridad o privacidad · **importante** se arregla antes de producción · los menores se citan en una frase.
 
@@ -314,7 +314,7 @@ Lo que sigue pendiente, en dos listas: [pendiente de decisión o de acceso al se
 
 ---
 
-## 40 a 44. Revisiones del 2026-11-22 (manual por tipo y arreglos)
+## 40 a 45. Revisiones del 2026-11-22 y 2026-11-23 (manual por tipo y arreglos)
 
 La 40 (AGY, manual y sus herramientas) se aplicó en `dc49c39` y `98c8c05`. Las siguientes siguen el trabajo del manual general y los 10 manuales por tipo.
 
@@ -346,6 +346,13 @@ La 40 (AGY, manual y sus herramientas) se aplicó en `dc49c39` y `98c8c05`. Las 
 - **Commit:** ninguno. Ajustes finales de PDF en curso.
 - **Descartado:** tilde de «vídeo» (ver 42).
 
+### 45. Verificación final de los PDF (AGY, 2026-11-23)
+- **Ángulo:** lectura visual de los 11 PDF regenerados con `5cb941e`: 195 páginas (manual general 64 y 10 manuales por tipo 131).
+- **Veredicto:** sin hallazgos de severidad alta ni media.
+- **Resueltos de la 44:** B3, B4 y N1 a N4 (retrato en la lista mensual, paso de `lamina-04`, círculo huérfano de `lamina-05`, tablas cortas, ayuda de SVG de `lamina-19` y franja con paso de lista).
+- **Hallazgos:** baja, cosmética: en `manual-subcuentas` (p07-p08) la tabla de problemas frecuentes arranca con una fila al pie. No requiere cambio.
+- **Commit:** ninguno. `c75b944` (espaciado y estética de los PDF) llegó después de esta revisión (TODO: verificar si necesita revisión propia).
+
 ---
 
 ## Pendiente de decisión o de acceso al servidor
@@ -368,7 +375,7 @@ Solo lo puede hacer William, o el Fondo en su caso. Nada de esto se resuelve en 
 - Segundo factor para la cuenta del editor externo o revocación de sus sesiones; entrega de la clave por otro canal (R7).
 - `WP_ADMIN_USER` distinto de `admin` en producción y en CI (R7).
 - Cerrar `wp-cron.php` con `DISABLE_WP_CRON` y un disparador externo (R7).
-- Pasar CSP a modo activo tras confirmar cero violaciones en staging con Plyr/YouTube (R7, R9).
+- Pasar CSP a modo activo tras confirmar cero violaciones en staging o producción con Plyr/YouTube (R7, R9). Dev salió limpio el 2026-11-23 (`cf74458`), incluido el video de YouTube.
 - Fijar imágenes Docker por digest (hoy `mariadb:11.8` y `wordpress:7.1.3-php8.3-apache` por etiqueta) (R7, R9).
 - Cambiar el propietario del código en el contenedor a `root:www-data` (R7).
 - Integración de The SEO Framework (`autodescription` 5.2.1): visto bueno a `og:locale` `es_CO` (forzado en `inc/seo-tsf.php`) y a `og:title` sin sufijo (valor de fábrica, según [seo-plugin](seo-plugin.md)). La traducción `es_CO` ya va horneada en el `Dockerfile` (`2f13b6b`) (R16).
@@ -412,7 +419,7 @@ El orden y los pasos para ejecutarlo todo en una sesión están en el [guion de 
 
 Lo que no se puede verificar en local con la imagen actual.
 
-- **Política de contenido:** consola sin violaciones de `Content-Security-Policy-Report-Only` en `/`, `/proyectos-destacados/` (un video de Plyr de YouTube y un audio), `/productores/`, `/historias/` y `/boletin/`. En dev (2026-11-23), 9 rutas en 360 y 1440 px salieron limpias tras añadir `'wasm-unsafe-eval'` (router de la Interactivity API en el catálogo); falta confirmar con un video de YouTube reproduciéndose.
+- **Política de contenido:** consola sin violaciones de `Content-Security-Policy-Report-Only` en `/`, `/proyectos-destacados/` (un video de Plyr de YouTube y un audio), `/productores/`, `/historias/` y `/boletin/`. En dev (2026-11-23, `cf74458`), 9 rutas en 360 y 1440 px dan 0 violaciones tras añadir `'wasm-unsafe-eval'` (router de la Interactivity API en el catálogo), incluido `/proyectos-destacados/` con un video de YouTube reproduciéndose en Plyr. Falta repetirlo en staging o producción antes de pasar a modo activo.
 - **Cabeceras de Apache con la imagen reconstruida:** HSTS solo por HTTPS (`max-age=31536000`, ausente en HTTP interno); sin `X-Powered-By`; sin listado de directorios; 403 en `readme.html`, `license.txt`, `wp-config-sample.php`, `debug.log` y `xmlrpc.php`, y en `/wp-content/languages/plugins/autodescription-es_CO.{l10n.php,mo}` (R26).
 - **Caché de página real (WP Super Cache):**
   - `/productores/` limpio, servido desde caché;

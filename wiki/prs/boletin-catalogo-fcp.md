@@ -37,7 +37,7 @@ El Fondo Colombia en Paz entregó dos piezas como HTML estático con tipografía
 - **Cierre de API REST sin sesión:** puede mostrar aviso en *Salud del sitio*; validar en staging junto con el Editor del sitio y The SEO Framework.
 - **Cambio de sitemap:** `/wp-sitemap.xml` redirige (301) a `/sitemap.xml`; reenviar `/sitemap.xml` en Search Console tras desplegar.
 - **Plugin fijado en la imagen:** actualizar The SEO Framework exige subir `TSF_VERSION`/`TSF_SHA256` en `Dockerfile` y la traducción `es_CO` en `apps/wp-fse/docker/languages/plugins/`.
-- **CSP:** entra en `Content-Security-Policy-Report-Only`; no pasar a modo activo sin confirmar consola limpia en `/proyectos-destacados/` (Plyr/YouTube).
+- **CSP:** entra en `Content-Security-Policy-Report-Only`. En dev (2026-11-23, `cf74458`) la consola sale sin violaciones en 9 rutas, incluido `/proyectos-destacados/` con Plyr/YouTube. Pasar a modo activo sigue siendo decisión de William; conviene confirmarlo en staging o producción antes.
 - **Historial de la rama:** commits anteriores a `ff6445d` contenían datos de operación ya retirados del árbol; hacer **squash merge** a `main` (el squash no borra datos que ya existían en commits previos de `main`: cerrar puerto del panel, activar HTTPS y rotar claves).
 
 ## Después del merge

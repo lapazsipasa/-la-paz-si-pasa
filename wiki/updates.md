@@ -1,5 +1,19 @@
 # Updates
 
+## 2026-11-23 · dev probado y CSP sin violaciones
+
+**Estado:** rama `feat/boletin-catalogo-fcp`, [PR #2](https://github.com/lapazsipasa/-la-paz-si-pasa/pull/2) abierto contra `frontend`. Dev corre `cf74458`. Sin merge ni deploy a producción.
+
+**Hecho hoy:**
+- CSP: `'wasm-unsafe-eval'` en `script-src` (`cf74458`). Era la única violación en dev, por el router de la Interactivity API en `/productores/`. Tras el cambio, 0 violaciones en 9 rutas a 360 y 1440 px, incluido un video de YouTube en Plyr.
+- Dev: `bin/check` en verde; recorrido de rutas, cabeceras y archivos sensibles; suites de solo lectura en verde (125 comprobaciones).
+- Revisión 45 (AGY, 11 PDF): sin hallazgos altos ni medios. `c75b944` llegó después de esa revisión (TODO: verificar si hace falta revisarlo).
+- Wiki: CSP y dev al día en despliegue, PR, revisiones, changelog e índice.
+
+**Siguiente paso:** repetir en local, sobre `cf74458`, las 13 suites que escriben con wp-cli.
+
+**Bloqueo:** ninguno técnico. Decisiones de William: pasar CSP a modo activo (tras confirmarlo en staging o producción), merge del PR y aprobación de staging.
+
 ## 2026-11-21 · PR abierto
 
 **Estado:** rama subida y [PR #2](https://github.com/lapazsipasa/-la-paz-si-pasa/pull/2) abierto contra `main`, con los 49 commits (sin aplastar, por decisión de William, para que la historia documente el trabajo). Antes de subir, la rama se reaplicó sobre `main` y los datos de operación que llevaban cuatro commits antiguos se cambiaron por marcadores en cada commit; ninguno los contiene. `main` ya los tenía en su historia anterior: se mitigan en el servidor.

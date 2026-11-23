@@ -70,7 +70,7 @@ Al importar la base, los usuarios del headless pasan tal cual: se entra a `/wp-a
 - **Dokploy:** proyecto «La Paz Si Pasa», entorno `dev`, compose «FSE dev» (`apps/wp-fse/compose.yaml`, rama `feat/boletin-catalogo-fcp`, sin despliegue automático: se despliega a mano).
 - **Variables:** las de `.env.example` con claves propias; `WORDPRESS_URL=https://dev.lapazsipasa.com`, `WP_ENVIRONMENT_TYPE=staging` (todo el sitio con `noindex`), `WP_CACHE=true`. Claves fuera del repo.
 - **Contenido:** instalación nueva con `lapaz-setup --seed` (contenido de ejemplo: 316 productores, Edición 02, Asocafé). No lleva la base de producción.
-- **Dominio:** `dev.lapazsipasa.com` con HTTPS de Let's Encrypt, más una dirección provisional de Dokploy. Falta el registro DNS: en el proveedor DNS del dominio hay que crear `dev`, tipo A, con la misma IP que `lapazsipasa.com`. Mientras no exista, el sitio redirige a `dev.lapazsipasa.com` y no abre.
+- **Dominio:** `dev.lapazsipasa.com` resuelve y responde por HTTPS con Let's Encrypt (comprobado el 2026-11-23). Antes faltaba el registro DNS `dev` (tipo A, con la misma IP que `lapazsipasa.com`). TODO: verificar si la dirección provisional de Dokploy sigue activa.
 - **Actualizar:** desplegar «FSE dev» en Dokploy tras subir commits a la rama.
 
 ## 1. Servicio en Dokploy
@@ -209,7 +209,7 @@ Pendientes de decisión, servidor y staging: [revisiones independientes](specs/b
     ```
 12. **Rutas:** HTTP 200 en `/`, `/proyectos-destacados/`, `/productores/`, `/historias/`, `/historias/asocafe/`, `/boletin/` y `/boletin/edicion-02/`; HTTP 404 en `/paissana/` y `/guia-de-estilos/`.
 13. **API y archivos sensibles:** HTTP 401 sin sesión en `/wp-json/wp/v2/users` y `/wp-json/wp/v2/productor`; HTTP 403 en `/xmlrpc.php`, `/readme.html`, `/wp-content/debug.log` y sin listado en `/wp-content/uploads/`.
-14. **Cabeceras y consola:** sin `X-Powered-By`; `Strict-Transport-Security` solo en HTTPS; `Content-Security-Policy-Report-Only` en frontend y ausente en `/wp-login.php`; consola sin violaciones CSP en `/`, `/proyectos-destacados/` (reproduciendo video de YouTube y audio) y `/productores/` (TODO: confirmar en staging antes de pasar a modo activo).
+14. **Cabeceras y consola:** sin `X-Powered-By`; `Strict-Transport-Security` solo en HTTPS; `Content-Security-Policy-Report-Only` en frontend y ausente en `/wp-login.php`; consola sin violaciones CSP en `/`, `/proyectos-destacados/` (reproduciendo video de YouTube y audio) y `/productores/`. En dev salió limpio el 2026-11-23 (desplegado con `cf74458`, en 360 y 1440 px), con el video de YouTube de Plyr reproduciéndose. TODO: confirmar en staging o producción antes de pasar a modo activo.
 15. **Visual y navegación:** `/` y `/proyectos-destacados/` muestran tarjetas de boletín, historia y banner del catálogo; el menú Principal incluye «Boletín» y marca estado activo.
 16. **Caché:** `/productores/` limpio servido desde caché; `/productores/?buscar=cafe` y `/sitemap.xml` sin cachear; editar un productor de prueba vacía la caché.
 17. **SEO y sitemap (The SEO Framework):**
