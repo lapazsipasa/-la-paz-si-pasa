@@ -70,7 +70,7 @@ Al importar la base, los usuarios del headless pasan tal cual: se entra a `/wp-a
 - **Dokploy:** proyecto «La Paz Si Pasa», entorno `dev`, compose «FSE dev» (`apps/wp-fse/compose.yaml`, rama `feat/boletin-catalogo-fcp`, sin despliegue automático: se despliega a mano).
 - **Variables:** las de `.env.example` con claves propias; `WORDPRESS_URL=https://dev.lapazsipasa.com`, `WP_ENVIRONMENT_TYPE=staging` (todo el sitio con `noindex`), `WP_CACHE=true`. Claves fuera del repo.
 - **Contenido:** instalación nueva con `lapaz-setup --seed` (contenido de ejemplo: 316 productores, Edición 02, Asocafé). No lleva la base de producción.
-- **Dominio:** `dev.lapazsipasa.com` con HTTPS de Let's Encrypt, más una dirección provisional de Dokploy. Falta el registro DNS: el DNS de `lapazsipasa.com` está en otra cuenta de Vercel; hay que crear `dev`, tipo A, con la misma IP que `lapazsipasa.com`. Mientras no exista, el sitio redirige a `dev.lapazsipasa.com` y no abre.
+- **Dominio:** `dev.lapazsipasa.com` con HTTPS de Let's Encrypt, más una dirección provisional de Dokploy. Falta el registro DNS: en el proveedor DNS del dominio hay que crear `dev`, tipo A, con la misma IP que `lapazsipasa.com`. Mientras no exista, el sitio redirige a `dev.lapazsipasa.com` y no abre.
 - **Actualizar:** desplegar «FSE dev» en Dokploy tras subir commits a la rama.
 
 ## 1. Servicio en Dokploy

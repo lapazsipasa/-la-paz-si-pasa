@@ -76,6 +76,10 @@ def cortes(im, n, umbral=0.006, minrun=16, forzar=False):
     # fila idéntica a la anterior (sin el margen izquierdo de los círculos): hueco aunque la crucen bordes de cajas,
     # siempre que no sea el interior de un recuadro de color (fr alto)
     vacia |= np.r_[False, np.abs(np.diff(a[:, a.shape[1] // 32:], axis=0)).mean(1) < 0.5] & (fr < 0.1)
+    # nunca cortar pegado a un círculo numerado (filas con muchos píxeles saturados en el margen izquierdo, más 12 px de holgura)
+    rgb = np.asarray(im.convert("RGB")).astype(int)[:, : im.width // 30]
+    circ = (rgb.max(2) - rgb.min(2) > 100).sum(1) > 25
+    vacia &= ~np.convolve(circ, np.ones(25), "same").astype(bool)
     res = []
     for i in range(1, n):
         ideal, ventana = int(H * i / n), int(H / n * 0.4)
@@ -408,8 +412,8 @@ figure { margin:0 0 12pt; text-align:center; break-inside:avoid }
 figure img { max-width:%sin; max-height:%sin; width:auto; height:auto } figure.peq img { max-width:var(--w) } figcaption { font-size:9pt; color:#555; margin-top:3pt }
 .l { font-weight:bold; font-size:10pt; margin:8pt 0 3pt; break-after:avoid; text-align:left }
 table { border-collapse:collapse; width:100%%; margin:6pt 0 10pt; font-size:10pt } th,td { border:1px solid #bbb; padding:3pt 5pt; vertical-align:top; text-align:left }
-th { background:#E3EAF3 } tr,section.rec { break-inside:avoid } thead { display:table-header-group } td.n { text-align:center; font-weight:bold; font-size:12pt; width:9%%; }
-p,li { orphans:3; widows:3 } p:has(+ ul), p:has(+ table) { break-after:avoid }
+th { background:#E3EAF3 } tr,section.rec,table.corta { break-inside:avoid } thead { display:table-header-group } td.n { text-align:center; font-weight:bold; font-size:12pt; width:9%%; }
+p,li { orphans:3; widows:3 } p:has(+ ul), p:has(+ table) { break-after:avoid } li.dp { break-after:avoid }
 .res { font-size:9.5pt; line-height:1.2 } .res h1 { margin-top:0 } .res h2 { font-size:12pt; margin:8pt 0 3pt } .res li { margin-bottom:1.5pt }
 """ % (ANCHO_IN, ALTO_IN)
 
@@ -454,7 +458,7 @@ def build_pdf(blocks, destino):
             _, nivel, marca, tx = b
             ap = '<ul>' if marca == "-" else '<ul class=n>'
             if abierta != ap: cierra(); o.append(ap); abierta = ap
-            o.append(f"<li{' style=margin-left:18pt' if nivel else ''}>{'' if marca == '-' else marca + ' '}{h(tx)}</li>")
+            o.append(f"<li{' style=margin-left:18pt' if nivel else ''}{' class=dp' if tx.rstrip().endswith(':') else ''}>{'' if marca == '-' else marca + ' '}{h(tx)}</li>")
         elif tipo == "img":
             _, ruta, w, hh, cap, lab, peq = b
             if lab: o.append(f'<div class=l>{lab}</div>')
@@ -462,7 +466,7 @@ def build_pdf(blocks, destino):
             o.append(f'{fig}<img src="{ruta.as_uri()}"><figcaption>{h(cap)}</figcaption></figure>')
         elif tipo == "table":
             rows = b[1]
-            o.append("<table><thead><tr>" + "".join(f"<th>{h(c)}</th>" for c in rows[0]) + "</tr></thead><tbody>")
+            o.append(f"<table{' class=corta' if len(rows) <= 8 else ''}><thead><tr>" + "".join(f"<th>{h(c)}</th>" for c in rows[0]) + "</tr></thead><tbody>")
             for r in rows[1:]:
                 o.append("<tr>" + "".join(f'<td class=n>{h(c)}</td>' if (len(r) == 3 and ci == 0) else f"<td>{h(c)}</td>" for ci, c in enumerate(r)) + "</tr>")
             o.append("</tbody></table>")

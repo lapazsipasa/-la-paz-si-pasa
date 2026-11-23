@@ -1,6 +1,6 @@
 # Revisiones independientes del boletín y el catálogo
 
-**Estado (2026-11-21):** veintinueve revisiones independientes (1 a 10, 12, 13, 15 a 19, 21 a 23, 25 a 27, 29, 32, 34, 35, 36 y 38) y nueve tareas de redacción (11, 14, 20, 24, 28, 30, 31, 33 y 37). Las revisiones de solo lectura de la 1 a la 35 las hizo AGY sobre la rama `feat/boletin-catalogo-fcp`. La 25 tuvo una primera pasada de un subagente, porque AGY agotó su cuota; AGY la repitió el 2026-11-21. La 36 retocó imágenes del manual; el revisor de las 36 y 38 no está anotado (TODO: verificar). La 39 (lectura completa del manual maquetado) está en curso: la hace un subagente revisor, no AGY, porque AGY perdió su sesión (error de autenticación) al final del día. Los informes completos no están en el repo. Esta página deja constancia de cada una: veredicto, hallazgos relevantes, commit que los resolvió y lo que quedó sin aplicar. Estado de la rama al cierre: 45 commits, último `7bb554f`; sin commit, la sincronización de la wiki de hoy y las herramientas del manual.
+**Estado (2026-11-22): revisiones hasta la 44 (ver 40 a 44).** Resumen del 2026-11-21: veintinueve revisiones independientes (1 a 10, 12, 13, 15 a 19, 21 a 23, 25 a 27, 29, 32, 34, 35, 36 y 38) y nueve tareas de redacción (11, 14, 20, 24, 28, 30, 31, 33 y 37). Las revisiones de solo lectura de la 1 a la 35 las hizo AGY sobre la rama `feat/boletin-catalogo-fcp`. La 25 tuvo una primera pasada de un subagente, porque AGY agotó su cuota; AGY la repitió el 2026-11-21. La 36 retocó imágenes del manual; el revisor de las 36 y 38 no está anotado (TODO: verificar). La 39 (lectura completa del manual maquetado) está en curso: la hace un subagente revisor, no AGY, porque AGY perdió su sesión (error de autenticación) al final del día. Los informes completos no están en el repo. Esta página deja constancia de cada una: veredicto, hallazgos relevantes, commit que los resolvió y lo que quedó sin aplicar. Estado de la rama al cierre: 45 commits, último `7bb554f`; sin commit, la sincronización de la wiki de hoy y las herramientas del manual.
 
 Gravedad: **bloqueante** impide abrir el PR · **alto** y **crítico** son de seguridad o privacidad · **importante** se arregla antes de producción · los menores se citan en una frase.
 
@@ -311,6 +311,40 @@ Lo que sigue pendiente, en dos listas: [pendiente de decisión o de acceso al se
 - **Estado:** en curso. Documento de 51 páginas: listo con 9 ajustes de orden, maquetación e imágenes, que se aplican en el documento y no en el repo.
 - **Revisor:** un subagente revisor independiente, no AGY. AGY perdió su sesión (error de autenticación) al final del día, igual que se anotó la primera pasada de la 25.
 - **Commit:** ninguno.
+
+---
+
+## 40 a 44. Revisiones del 2026-11-22 (manual por tipo y arreglos)
+
+La 40 (AGY, manual y sus herramientas) se aplicó en `dc49c39` y `98c8c05`. Las siguientes siguen el trabajo del manual general y los 10 manuales por tipo.
+
+### 41. General final (subagente independiente)
+- **Revisor:** subagente independiente, solo lectura; AGY no tenía panel.
+- **Ángulo:** código de la rama, seguridad y privacidad de lo versionado, manual frente al código y sitio local.
+- **Veredicto:** sin bloqueantes ni altos. Sitio local limpio (sin errores de PHP ni de consola, sin anclas rotas).
+- **Hallazgos:** medios: videos y ferias ignoraban «Fuente del video» y «Origen» (ganaba la URL de YouTube oculta); el manual y la ayuda pedían logo en SVG, que WordPress no deja subir. Bajos: renombrar o borrar un término no reindexaba el catálogo; la ayuda del MP4 decía 50 MB y el tope es 32 MB; una línea mal escrita en las regiones del mapa a veces se mostraba; el manual pedía texto alternativo en Retratos cuando el sitio usa la Descripción; «Imagen del hero» también aparece en `/boletin/` y `/historias/`; comentario de `generar-laminas.mjs` contradictorio.
+- **Commit:** `37b631e` (fuente de video, ayudas de SCF a PNG y 32 MB, reindexado por término, mapa). Los desajustes de texto del manual y el comentario de `generar-laminas.mjs` van en `604cbab`.
+
+### 42. PDF de los manuales (AGY)
+- **Ángulo:** lectura visual de las 219 páginas de los 11 PDF, contra el manual.
+- **Verificado sin hallazgos:** privacidad de las láminas, correspondencia tabla, WordPress y sitio, índices y pies.
+- **Hallazgos:** altos: portada rota en los 11 PDF; bloque de boletines colado en 9 manuales por tipo; remisiones a secciones inexistentes; SEO en 7 manuales sin caja SEO. Medios: resumen de una hoja en dos páginas y sin Productores, imágenes cortadas en mal punto, círculos tapando texto, contradicción MP4 y YouTube, secciones comunes sobrantes, páginas medio vacías, lista mensual incompleta. Bajos: recortes residuales y pies desactualizados.
+- **Commit:** `604cbab` (generador y manual).
+- **Descartado:** poner tilde a «vídeo». WordPress muestra «video», y el manual debe coincidir con lo que ve el editor.
+
+### 43. Arreglos de la 41 (AGY, solo lectura, sin Docker)
+- **Ángulo:** revisión estática de `37b631e`.
+- **Veredicto:** M2 y B2 resueltos; M1, B1 y B3 resueltos con casos límite.
+- **Hallazgos:** media: con MP4 elegido pero sin archivo resucitaba la URL de YouTube oculta; media: `wp_update_post()` en bucle al reindexar términos grandes; baja: `SUCRE:` sin número pintaba `00` y un nombre de solo espacios pasaba; baja: orden implícito en `shutdown` entre reindexado y vaciado de caché; baja: robustez de las pruebas nuevas.
+- **Commit:** `c0c05a4` (video sin caer a YouTube, mapa que exige número, reindexado con prioridad 5 en `shutdown`, pruebas). Pruebas: `catalogo.mjs` limpia los términos `Zzdepto*` de corridas previas, `paisana-ferias.mjs` busca la primera feria con videos, `paisana-mapa.mjs` cubre `NOMBRE:` sin número y líneas sin nombre, y `actualidad.mjs` cubre MP4 elegido sin archivo; `fuenteElegida()` ya fijaba la fuente por filtro.
+- **Descartado:** cambiar `wp_update_post()` por `$wpdb->update()`. El catálogo tiene 316 productores y saltarse los ganchos es peor que la lentitud de reindexar.
+
+### 44. Verificación de los PDF tras la 42 (AGY)
+- **Ángulo:** 196 páginas de los 11 PDF regenerados con `604cbab`.
+- **Veredicto:** A1 a A4 y M1 a M7 resueltos; B3 y B4 parciales. Los 10 manuales por tipo se sostienen solos y no hay datos internos.
+- **Hallazgos nuevos:** media: en `lamina-05` el círculo 5 queda huérfano al pie del primer corte. Bajas: tablas cortas partidas con una fila suelta; la captura de `lamina-19` aún muestra la ayuda vieja de SVG; «con Texto alternativo» sigue en la lista mensual de Retrato; franja y rozamientos de borde; un paso de lista separado de sus viñetas.
+- **Commit:** ninguno. Ajustes finales de PDF en curso.
+- **Descartado:** tilde de «vídeo» (ver 42).
 
 ---
 

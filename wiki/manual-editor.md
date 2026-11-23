@@ -159,7 +159,7 @@ Haz clic en la barra de una sección para abrirla. Los cuatro moldes (**Artícul
 | Nº | Campo en WordPress | Dónde aparece en el sitio |
 | --- | --- | --- |
 | ① | **Nombre de la sección** *(obligatorio)* | En la barra superior, en la tarjeta del índice y como título grande de la sección. |
-| ② | **Subtítulo de la sección** | Línea corta debajo del nombre en la cabecera de la sección. |
+| ② | **Subtítulo de la sección** | Línea corta junto al nombre en la cabecera de la sección. |
 | ③ | **Índice: título** | Título enlazado dentro de la tarjeta de «En esta edición». |
 | ④ | **Índice: imagen** | Foto horizontal de la tarjeta en «En esta edición» (recomendada 16:10). |
 | ⑤ | **Índice: resumen** | Texto breve de la tarjeta en «En esta edición». |
@@ -791,7 +791,7 @@ Imprime o revisa esta lista antes de pulsar **Publicar**:
 ### Antes de publicar otros contenidos
 
 - [ ] **Noticia:** titular, **URL externa** con `https://` y **Fecha de publicación** de la nota original.
-- [ ] **Retrato:** foto con **Texto alternativo**, descripción de menos de 500 caracteres, proyecto y lugar.
+- [ ] **Retrato:** foto, descripción de menos de 500 caracteres (es también el texto alternativo), proyecto y lugar.
 - [ ] **Video:** fuente correcta, URL de YouTube o MP4 de menos de 32 MB con miniatura, y 1 o 2 etiquetas.
 - [ ] **Relato sonoro:** MP3 de menos de 10 MB, duración en segundos y **Orden**.
 - [ ] **Feria:** descripción, hasta 6 fotos con texto alternativo, videos verticales sin filas vacías, **Orden** y **Abierta por defecto** en una sola feria.

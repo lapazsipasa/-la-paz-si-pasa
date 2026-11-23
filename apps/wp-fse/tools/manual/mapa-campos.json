@@ -23,7 +23,8 @@
         "url": "/wp-admin/post.php?post={ID_EDICION_02}&action=edit",
         "abrir": "pestaña «Edición» en la caja «Edición del boletín»",
         "recorte": "#acf-group_boletin_lapazsipasa",
-        "tab": "Edición"
+        "tab": "Edición",
+        "css": "#adminmenuwrap,#adminmenuback{display:none !important}"
       },
       "front": {
         "url": "/boletin/edicion-02/",
