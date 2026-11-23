@@ -43,7 +43,7 @@ function lapaz_youtube_id( string $url ): string {
 /**
  * Fuente reproducible de un video, como videoSource(): YouTube primero, luego el MP4 subido.
  * Si el editor eligió el MP4 y lo subió, manda: SCF no vacía la URL que oculta, así que puede traer un valor viejo.
- * SCF devuelve «youtube» (el valor por defecto) en datos viejos sin `fuente_video`; por eso el MP4 solo gana si se eligió.
+ * SCF devuelve «youtube» (el valor por defecto) en datos viejos sin `fuente_video`; por eso el MP4 solo gana si se eligió. Con el MP4 elegido y sin archivo no se cae a YouTube: quedó oculto.
  *
  * @param string $youtube_url URL de YouTube del campo SCF.
  * @param string $file_url    URL del MP4 del campo SCF.
@@ -52,7 +52,7 @@ function lapaz_youtube_id( string $url ): string {
  */
 function lapaz_video_source( string $youtube_url, string $file_url, string $fuente = '' ): array {
 	// Las opciones son «youtube» y la del MP4: cualquier otra elegida es el MP4.
-	if ( '' !== $fuente && 'youtube' !== $fuente && '' !== $file_url ) {
+	if ( '' !== $fuente && 'youtube' !== $fuente ) {
 		$youtube_url = '';
 	}
 	$id = lapaz_youtube_id( $youtube_url );

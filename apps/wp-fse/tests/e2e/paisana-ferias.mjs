@@ -86,7 +86,7 @@ await runPaisana(
 		// Los filtros viven solo en este proceso de wp-cli; no cambian la base.
 		const origen = JSON.parse(
 			wp(
-				'foreach(["field_feria_fuente_video"=>"wordpress","field_feria_video_youtube"=>"https://www.youtube.com/watch?v=dQw4w9WgXcQ"] as $k=>$v) add_filter("acf/load_value/key=$k", static fn()=>$v); add_filter("acf/format_value/key=field_feria_video_file", static fn()=>["url"=>"https://example.test/nuevo.mp4"]); $f=get_posts(["post_type"=>"feria","posts_per_page"=>1]); echo wp_json_encode(array_map(static fn($r)=>[$r["fuente"],$r["url"]], lapaz_feria_videos($f[0]->ID,"x")));'
+				'foreach(["field_feria_fuente_video"=>"wordpress","field_feria_video_youtube"=>"https://www.youtube.com/watch?v=dQw4w9WgXcQ"] as $k=>$v) add_filter("acf/load_value/key=$k", static fn()=>$v); add_filter("acf/format_value/key=field_feria_video_file", static fn()=>["url"=>"https://example.test/nuevo.mp4"]); $o=[]; foreach(get_posts(["post_type"=>"feria","posts_per_page"=>-1]) as $f){ $o=array_map(static fn($r)=>[$r["fuente"],$r["url"]], lapaz_feria_videos($f->ID,"x")); if($o) break; } echo wp_json_encode($o);'
 			)
 		);
 		tests.check(

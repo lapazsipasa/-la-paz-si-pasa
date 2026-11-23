@@ -27,7 +27,7 @@ await runPaisana(
 			fields[ `region_${ region }_total` ] = i === 0 ? 0 : 1000 + i;
 			fields[
 				`region_${ region }_deptos`
-			] = `PRUEBA ${ region.toUpperCase() }: 9\nOTRA REGIÓN: 2\nSIN PUNTOS 17`;
+			] = `PRUEBA ${ region.toUpperCase() }: 9\nOTRA REGIÓN: 2\nSIN PUNTOS 17\nSUCRE VACIO:\n : 17`;
 		} );
 		await withProjectFields( fields, tests, async () => {
 			const edited = await tests.openPage( tests.url, width );
@@ -49,7 +49,10 @@ await runPaisana(
 							text.includes( 'OTRA REGIÓN' ) &&
 							text.includes( '02' ) &&
 							// Una línea sin los dos puntos no se muestra.
-							! text.includes( 'SIN PUNTOS' ),
+							! text.includes( 'SIN PUNTOS' ) &&
+							// Sin número tras los dos puntos, o sin nombre, tampoco.
+							! text.includes( 'SUCRE VACIO' ) &&
+							! text.includes( '17' ),
 						text
 					);
 				}

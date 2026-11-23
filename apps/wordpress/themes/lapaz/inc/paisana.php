@@ -110,7 +110,7 @@ function lapaz_paisana_regiones(): array {
 /**
  * Convierte «NOMBRE: número» (una línea por departamento) en una lista. Ignora líneas
  * vacías o mal escritas, también las que no tienen los dos puntos («SUCRE 17»); el número
- * puede faltar tras los dos puntos (cuenta como 0).
+ * el número es obligatorio («SUCRE:» se ignora).
  *
  * @param string $texto Texto del campo.
  * @return list<array{nombre: string, valor: int}>
@@ -119,7 +119,7 @@ function lapaz_parse_deptos( string $texto ): array {
 	$deptos = array();
 	$lineas = preg_split( '/\r\n|\r|\n/', $texto );
 	foreach ( false === $lineas ? array() : $lineas as $linea ) {
-		if ( '' === trim( $linea ) || 1 !== preg_match( '/^\s*([^:]+?)\s*:\s*(\d*)\s*$/u', $linea, $m ) ) {
+		if ( 1 !== preg_match( '/^([^:]+?)\s*:\s*(\d+)$/u', trim( $linea ), $m ) ) {
 			continue;
 		}
 		$deptos[] = array(

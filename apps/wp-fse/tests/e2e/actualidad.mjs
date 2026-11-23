@@ -188,6 +188,17 @@ function fuenteElegida() {
 			fuente[ 1 ] === 'https://example.test/nuevo.mp4',
 		JSON.stringify( fuente )
 	);
+	// MP4 elegido pero sin archivo: no resucita el YouTube oculto.
+	const sinArchivo = JSON.parse(
+		wp(
+			'foreach(["field_video_fuente"=>"wordpress","field_video_youtube_url"=>"https://www.youtube.com/watch?v=dQw4w9WgXcQ","field_video_file"=>""] as $k=>$v) add_filter("acf/load_value/key=$k", static fn()=>$v); echo wp_json_encode(array_map(static fn($v)=>$v["fuente"]??"", lapaz_get_videos()));'
+		)
+	);
+	check(
+		'Fuente «Archivo MP4» sin archivo no cae a YouTube',
+		! sinArchivo.includes( 'youtube' ),
+		JSON.stringify( sinArchivo )
+	);
 }
 
 try {

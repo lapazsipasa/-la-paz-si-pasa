@@ -96,7 +96,7 @@ function lapaz_catalogo_cola( int $post_id = 0, bool $quitar = false ): array {
 		unset( $cola[ $post_id ] );
 	} elseif ( $post_id > 0 ) {
 		if ( array() === $cola ) {
-			add_action( 'shutdown', 'lapaz_catalogo_vaciar_cola' );
+			add_action( 'shutdown', 'lapaz_catalogo_vaciar_cola', 5 );
 		}
 		$cola[ $post_id ] = true;
 	}
