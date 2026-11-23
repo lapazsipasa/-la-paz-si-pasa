@@ -418,7 +418,7 @@ figure img { max-width:%sin; max-height:%sin; width:auto; height:auto } figure.p
 figure + .l { margin-top:8pt }
 table { border-collapse:collapse; width:100%%; margin:8pt 0 10pt; font-size:10pt; line-height:1.3 } th,td { border:1px solid #bbb; padding:3pt 5pt; vertical-align:top; text-align:left }
 th { background:#E3EAF3 } tr,tbody.g,section.rec,table.corta { break-inside:avoid } thead { display:table-header-group } td.n { text-align:center; font-weight:bold; font-size:12pt; width:9%%; }
-p,li { orphans:2; widows:2 } p:has(+ ul), p:has(+ table) { break-after:avoid } li.dp { break-after:avoid }
+p,li { orphans:2; widows:2 } figure + p { break-inside:avoid } p:has(+ ul), p:has(+ table) { break-after:avoid } li.dp { break-after:avoid }
 .res { font-size:9.5pt; line-height:1.2 } .res h1 { margin-top:0 } .res h2 { font-size:12pt; margin:8pt 0 3pt } .res li { margin-bottom:1.5pt }
 """ % (ANCHO_IN, ALTO_IN)
 

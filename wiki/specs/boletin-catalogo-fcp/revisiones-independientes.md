@@ -346,6 +346,10 @@ La 40 (AGY, manual y sus herramientas) se aplicó en `dc49c39` y `98c8c05`. Las 
 - **Commit:** ninguno. Ajustes finales de PDF en curso.
 - **Descartado:** tilde de «vídeo» (ver 42).
 
+### 47. Confirmación de los retoques de la 46 (AGY, 2026-11-23)
+- **Veredicto:** los 4 retoques de `de250b8`, resueltos; sin altos ni medios.
+- **Bajo, aplicado:** con `widows: 2`, un párrafo de 3 líneas tras una figura se partía 2 + 1 (retratos y ferias, p02–p03). Ahora `figure + p` no se parte.
+
 ### 46. PDF tras el pulido final (AGY, 2026-11-23)
 - **Ángulo:** los 11 PDF de `c75b944` (194 páginas).
 - **Veredicto:** sin hallazgos altos ni medios. Resueltos el roce de `lamina-05` y las tablas con una fila sola.
