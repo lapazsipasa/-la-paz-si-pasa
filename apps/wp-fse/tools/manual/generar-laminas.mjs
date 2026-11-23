@@ -2,7 +2,7 @@
 //      ... --solo=01,05,13    -> solo esas láminas (prefijo del id); --front / --admin para un solo lado
 //      ... --limpiar          -> borra el usuario editora-manual. Lee mapa-campos.json (junto a este archivo).
 // Las láminas (PNG) quedan en raw/manual-editor/capturas/ (carpeta fuera de git), o en --salida=<carpeta>.
-// Requiere el sitio local en http://localhost:8090 (docker compose en apps/wp-fse) y Chrome. No guarda ni publica nada.
+// Requiere el sitio local en http://localhost:8090 (docker compose en apps/wp-fse) y Chrome. Crea un Editor y borradores temporales y los borra al salir; solo contra el sitio local.
 import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
@@ -104,10 +104,12 @@ const MARCAR = `window.__marcar=(items,colores)=>{
     o.style.cssText='position:absolute;pointer-events:none;box-sizing:border-box;border:2px solid '+c+';border-radius:3px;box-shadow:0 0 0 1.5px rgba(255,255,255,.9),inset 0 0 0 1px rgba(255,255,255,.9);z-index:2147483000;left:'+x+'px;top:'+y+'px;width:'+b.width+'px;height:'+b.height+'px';
     if(it.caja!==false)document.body.append(o); // caja:false = solo el número (texto girado que la caja tacharía)
     // circ: [dx,dy] desde la esquina, o 'derecha' / 'izquierda' (fuera de la caja, centrado en alto) / 'dentro' (esquina superior derecha, dentro)
-    const cm=typeof it.circ==='string'?{derecha:[b.width+4,(b.height-S)/2],izquierda:[-S-4,(b.height-S)/2],dentro:[b.width-S-6,6]}[it.circ]:it.circ;
+    // / 'fuera' (a la izquierda sin pisar la caja; si no cabe, encima): no tapa la primera letra.
+    const cm=typeof it.circ==='string'?{derecha:[b.width+4,(b.height-S)/2],izquierda:[-S-4,(b.height-S)/2],dentro:[b.width-S-6,6],fuera:x>=S+2?[-S-2,-S/3]:[-x,-S-4]}[it.circ]:it.circ;
     let bx=x+(cm?cm[0]:-S*2/3),by=y+(cm?cm[1]:-S*2/3);
+    const auto=!it.circ||it.circ==='fuera';
     if(!it.circ&&pos.some(q=>Math.abs(q[0]-bx)<S+2&&Math.abs(q[1]-by)<S+2)){bx=x+b.width-S/3;}
-    while(!it.circ&&pos.some(q=>Math.abs(q[0]-bx)<S+2&&Math.abs(q[1]-by)<S+2))by+=S+4;
+    while(auto&&pos.some(q=>Math.abs(q[0]-bx)<S+2&&Math.abs(q[1]-by)<S+2))by+=S+4;
     pos.push([bx,by]);
     const d=document.createElement('div');d.className='__lam';d.textContent=it.n;
     d.style.cssText='position:absolute;pointer-events:none;z-index:2147483001;width:'+S+'px;height:'+S+'px;border-radius:50%;box-sizing:border-box;background:'+c+';color:#fff;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.25);font:700 '+(S/2)+'px/'+(S-4)+'px Arial,sans-serif;text-align:center;left:'+bx+'px;top:'+by+'px';
@@ -135,8 +137,9 @@ function apilar(pngs, destino) {
 const partir = (s) => s.split(/,\s*(?![^()\[\]]*[)\]])/).map((x) => x.trim()).filter(Boolean);
 
 // Marca los pares en la página actual; devuelve los resultados y avisos.
-async function marcarPares(p, pares, lado, hechos) {
-  const items = pares.filter((q) => !hechos.has(q.n)).map((q) => ({ n: q.n, sel: q[lado + '_selector'], texto: q[lado + '_texto'], circ: q[lado + '_circ'] || q.circ, pad: lado === 'front' ? 3 : 0, caja: q[lado + '_caja'] }));
+// circ por defecto de la lámina: front.circ / admin.circ (p. ej. 'fuera'); el de cada par manda.
+async function marcarPares(p, pares, lado, hechos, circ) {
+  const items = pares.filter((q) => !hechos.has(q.n)).map((q) => ({ n: q.n, sel: q[lado + '_selector'], texto: q[lado + '_texto'], circ: q[lado + '_circ'] || q.circ || circ, pad: lado === 'front' ? 3 : 0, caja: q[lado + '_caja'] }));
   for (const it of items) if (lado === 'admin') await expandir(p, it.sel);
   await sleep(400);
   if (lado === 'admin') await p.evaluate(`(()=>{const R=(v)=>v.replace(/http:\\/\\/localhost:8090/g,'https://lapazsipasa.com').replace(/localhost:8090/g,'lapazsipasa.com');document.querySelectorAll('input,textarea').forEach(e=>{if(e.placeholder)e.placeholder=R(e.placeholder);if(e.type==='text'||e.type==='url')e.value=R(e.value)});const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode())if(n.data.includes('localhost:8090'))n.data=R(n.data);1})()`);
@@ -171,7 +174,7 @@ async function lamina(l, cookies) {
         if (v) vis.push(q);
       }
       if (!vis.length) continue;
-      const r = await marcarPares(p, vis, 'admin', hechos);
+      const r = await marcarPares(p, vis, 'admin', hechos, a.circ);
       const buenos = r.filter((x) => !x.error);
       for (const x of r) if (x.error) avisos.push(`admin n${x.n}: ${x.error}`); else hechos.add(x.n);
       const rec = partir(a.recorte);
@@ -195,7 +198,7 @@ async function lamina(l, cookies) {
     const p = await abrir(res(url), { w, css: LIMPIA_FRONT + (f.css || ''), cookies: f.sesion ? cookies : null, alto: f.alto, js: f.js });
     // la lámina espera un pequeño margen para animaciones de entrada
     await p.css('*{animation:none !important;transition:none !important} .reveal,[data-reveal]{opacity:1 !important;transform:none !important}');
-    const r = await marcarPares(p, l.pares, 'front', new Set());
+    const r = await marcarPares(p, l.pares, 'front', new Set(), f.circ);
     for (const x of r) if (x.error) avisos.push(`front n${x.n}: ${x.error}`);
     const docW = await p.evaluate('document.documentElement.clientWidth');
     const bandas = partir(f.recorte);
@@ -203,7 +206,8 @@ async function lamina(l, cookies) {
     for (const s of bandas) {
       const b = await rectDoc(p, s);
       if (!b) { avisos.push(`front recorte sin coincidencia: ${s}`); continue; }
-      let cr = bandas.length > 1 ? { x: 0, y: b.y - 6, w: docW, h: b.h + 12 } : { x: b.x - M, y: b.y - M, w: b.w + 2 * M, h: b.h + 2 * M };
+      const mb = f.margen ?? 6; // margen de cada banda; 0 si asoma lo de al lado
+      let cr = bandas.length > 1 ? { x: 0, y: b.y - mb, w: docW, h: b.h + 2 * mb } : { x: b.x - M, y: b.y - M, w: b.w + 2 * M, h: b.h + 2 * M };
       // incluye los números que caigan dentro de esta banda
       const dentro = r.filter((q) => !q.error && q.y + q.h > cr.y && q.y < cr.y + cr.h);
       if (dentro.length) { const z = union([cr, ...dentro.map((q) => ({ x: q.x - 2, y: q.y - 2, w: q.w + 4, h: q.h + 4 }))]); cr = bandas.length > 1 ? { ...cr, y: z.y, h: z.h } : z; }

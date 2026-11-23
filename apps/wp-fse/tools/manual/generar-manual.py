@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Regenera los manuales del editor (.docx + .pdf + imagenes/) desde wiki/manual-editor.md y las láminas PNG:
 # el manual general y un manual por tipo de contenido (raw/manual-editor/por-tipo/).
-# Uso (desde la raíz del repo): python3 apps/wp-fse/tools/manual/generar-manual.py [texto.md] [carpeta-capturas] [--tipo=noticias,ferias | --solo-general]
+# Uso (desde la raíz del repo): python3 apps/wp-fse/tools/manual/generar-manual.py [texto.md] [carpeta-capturas] [--tipo=noticias,ferias | --solo-general] [--salida=carpeta]
 # Requiere python-docx, Pillow, numpy y Google Chrome (el PDF se imprime con Chrome headless).
 # Por defecto: texto wiki/manual-editor.md, láminas raw/manual-editor/capturas/, salidas en raw/manual-editor/ (fuera de git).
 import argparse, html, math, os, re, shutil, subprocess, sys, tempfile, unicodedata
@@ -22,26 +22,43 @@ ap.add_argument("texto", nargs="?", default=REPO / "wiki" / "manual-editor.md")
 ap.add_argument("capturas", nargs="?", default=SALIDA / "capturas")
 ap.add_argument("--tipo", help="solo estos manuales por tipo, separados por coma (sin el general)")
 ap.add_argument("--solo-general", action="store_true", help="solo el manual general")
+ap.add_argument("--salida", help="carpeta de salida (por defecto raw/manual-editor/), útil para pruebas")
 ARGS = ap.parse_args()
+SALIDA = Path(ARGS.salida) if ARGS.salida else SALIDA
 MD, CAP = Path(ARGS.texto), Path(ARGS.capturas)
 OUT = SALIDA / "imagenes"  # compartida: una lámina se llama igual y sale igual en todos los manuales
 SUFIJO = "La Paz Si Pasa"
-# slug -> (nombre, [títulos de las secciones del tipo, sin el número])
+# slug -> (nombre, descripción de portada, [títulos de las secciones del tipo, sin el número], comunes opcionales)
+# Comunes opcionales: "fotos" (Escribir bien y preparar fotos: texto largo o fotos editoriales) y "seo" (tipos con caja Ajustes de SEO).
 TIPOS = {
-    "boletin": ("Boletín", ["Publicar una edición del boletín, paso a paso"]),
-    "historia": ("Historia del mes", ["Publicar la historia del mes (PaisSano destacado)"]),
-    "productores": ("Catálogo de productores", ["Mantener el catálogo de productores PaisSana"]),
-    "noticias": ("Noticias", ["Publicar una noticia"]),
-    "retratos": ("Retratos de la Paz", ["Publicar un retrato (Retratos de la Paz)"]),
-    "videos": ("Videos", ["Publicar un video (Actualidad)"]),
-    "relatos-sonoros": ("Relatos sonoros", ["Publicar un relato sonoro (El corazón del campo)"]),
-    "ferias": ("Ferias", ["Publicar una feria (PaisSana en ferias)"]),
-    "subcuentas": ("Subcuentas", ["Mantener las subcuentas"]),
-    "paginas": ("Páginas Inicio y Proyectos destacados", ["Editar las páginas Inicio y Proyectos destacados"]),
+    "boletin": ("Boletín", "Cómo armar y publicar cada edición mensual del boletín.",
+                ["Publicar una edición del boletín, paso a paso"], {"fotos", "seo"}),
+    "historia": ("Historia del mes", "Cómo publicar la historia PaisSana del mes: presentación, portada, video, crónica y galería.",
+                 ["Publicar la historia del mes (PaisSano destacado)"], {"fotos", "seo"}),
+    "productores": ("Catálogo de productores", "Cómo agregar, editar y retirar productores del catálogo PaisSana.",
+                    ["Mantener el catálogo de productores PaisSana"], set()),
+    "noticias": ("Noticias", "Cómo publicar las noticias que aparecen en Inicio.",
+                 ["Publicar una noticia"], set()),
+    "retratos": ("Retratos de la Paz", "Cómo publicar los retratos del carrusel Retratos de la Paz.",
+                 ["Publicar un retrato (Retratos de la Paz)"], {"fotos"}),
+    "videos": ("Videos", "Cómo publicar los videos de la sección Actualidad.",
+               ["Publicar un video (Actualidad)"], set()),
+    "relatos-sonoros": ("Relatos sonoros", "Cómo publicar los audios de El corazón del campo.",
+                        ["Publicar un relato sonoro (El corazón del campo)"], set()),
+    "ferias": ("Ferias", "Cómo publicar las ferias de PaisSana en ferias, con fotos y videos.",
+               ["Publicar una feria (PaisSana en ferias)"], {"fotos"}),
+    "subcuentas": ("Subcuentas", "Cómo mantener los logos de Conoce las subcuentas.",
+                   ["Mantener las subcuentas"], set()),
+    "paginas": ("Páginas Inicio y Proyectos destacados", "Cómo cambiar los campos de las páginas Inicio y Proyectos destacados.",
+                ["Editar las páginas Inicio y Proyectos destacados"], {"fotos", "seo"}),
 }
-ANTES = ["Entrar al administrador y orientarte"]
-DESPUES = ["Escribir bien y preparar fotos", "Revisar y publicar", "Lo que NO debes tocar (y por qué)",
-           "Problemas frecuentes y qué hacer", "Buscadores y redes (SEO) y a quién acudir"]
+
+def secciones(titulos, extra):
+    """Secciones de un manual por tipo, en el orden del manual general."""
+    return (["Entrar al administrador y orientarte"] + titulos
+            + ["Escribir bien y preparar fotos"] * ("fotos" in extra)
+            + ["Revisar y publicar", "Lo que NO debes tocar (y por qué)", "Problemas frecuentes y qué hacer"]
+            + ["Buscadores y redes (SEO)"] * ("seo" in extra) + ["A quién acudir"])
 CHROME = os.environ.get("CHROME_BIN") or os.environ.get("CHROME") or next((c for c in ("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", shutil.which("google-chrome"), shutil.which("chromium"), shutil.which("chrome")) if c and Path(c).exists()), "")
 MAXW, SPLIT, TRAMO = 1600, 1.5, 1.0   # ancho máx. px; ratio alto/ancho desde el que se parte; ratio objetivo por tramo
 ANCHO_IN, ALTO_IN = 6.9, 5.2          # caja útil de imagen en la página (pulgadas)
@@ -49,11 +66,16 @@ PEQ = {"captura-01": 3.0, "captura-02": 1.4, "captura-08": 3.8}  # capturas pequ
 
 # ---------- imágenes ----------
 def cortes(im, n, umbral=0.006, minrun=16, forzar=False):
-    """Cortes en franjas uniformes (sin texto) cerca de H*i/n; si no hay, corte con solape de 40 px."""
+    """Cortes en franjas uniformes (sin texto) cerca de H*i/n; si no hay, corte con solape de 40 px.
+    Entre varias franjas gana la más ancha (hueco entre campos, no entre rótulo y campo), penalizada por la distancia al ideal."""
     H = im.height
     a = np.asarray(im.convert("L")).astype(int)
     med = np.median(a, axis=1, keepdims=True)
-    vacia = (np.abs(a - med) > 14).mean(1) < umbral  # fila sin texto, foto ni número (admite bordes verticales finos)
+    fr = (np.abs(a - med) > 14).mean(1)
+    vacia = fr < umbral  # fila sin texto, foto ni número (admite bordes verticales finos)
+    # fila idéntica a la anterior (sin el margen izquierdo de los círculos): hueco aunque la crucen bordes de cajas,
+    # siempre que no sea el interior de un recuadro de color (fr alto)
+    vacia |= np.r_[False, np.abs(np.diff(a[:, a.shape[1] // 32:], axis=0)).mean(1) < 0.5] & (fr < 0.1)
     res = []
     for i in range(1, n):
         ideal, ventana = int(H * i / n), int(H / n * 0.4)
@@ -66,10 +88,11 @@ def cortes(im, n, umbral=0.006, minrun=16, forzar=False):
                 run = None
             if run and run[1] - run[0] >= minrun:
                 c = (run[0] + run[1]) // 2
-                if mejor is None or abs(c - ideal) < abs(mejor - ideal):
-                    mejor = c
+                p = (run[1] - run[0]) * (1 - abs(c - ideal) / ventana / 2)
+                if mejor is None or p > mejor[1]:
+                    mejor = (c, p)
         if mejor:
-            res.append((mejor, mejor, True))
+            res.append((mejor[0], mejor[0], True))
         elif forzar:
             res.append((ideal - 20, ideal + 20, False))
         else:
@@ -152,11 +175,16 @@ def runs(t, b=False, i=False, c=False):
         out.append((t[pos:], b, i, c))
     return out
 
+def portada(blocks):
+    """Párrafos entre el título y la primera sección (##), y el índice del bloque siguiente."""
+    k = next(j for j, b in enumerate(blocks) if b[0] == "h1")
+    return [b[1] for b in blocks[1:k] if b[0] == "p"], k
+
 def es_resumen(t):
     return re.sub(r"^\d+\. ", "", t) == "Resumen en una hoja"
 
-def recortar(md, nombre, titulos):
-    """Texto del manual de un tipo: portada con su subtítulo, índice propio, 'Cómo leer…' y solo las secciones pedidas, renumeradas."""
+def recortar(md, nombre, desc, titulos):
+    """Texto del manual de un tipo: portada con su subtítulo y descripción, índice propio, 'Cómo leer…' y solo las secciones pedidas, renumeradas."""
     L = md.split("\n=====")[0].split("\n")
     ini = next(j for j, x in enumerate(L) if x.startswith("# "))
     sec = [j for j, x in enumerate(L) if x.startswith("## ") and j > ini]
@@ -171,8 +199,8 @@ def recortar(md, nombre, titulos):
     if not leer:
         sys.exit(f"Manual «{nombre}»: no encuentro el párrafo «Cómo leer las láminas…» en {MD}")
     cab = L[ini:sec[0]]
-    k = next(j for j in range(1, len(cab)) if cab[j].strip())  # primera línea con texto tras el título = subtítulo
-    cab[k] = f"**{nombre}**"
+    k = [j for j in range(1, len(cab)) if cab[j].strip()]  # líneas con texto tras el título: subtítulo, descripción, versión…
+    cab[k[0]], cab[k[1]] = f"**{nombre}**", desc
     out = cab + ["## Índice", ""] + [f"{n}. {t}" for n, t in enumerate(titulos, 1)] + ["", leer, "", "---", ""]
     for n, t in enumerate(titulos, 1):
         out += [f"## {n}. {t}"] + por[t]
@@ -296,15 +324,11 @@ def build_docx(blocks, destino):
     t = blocks[0][1]
     d.add_paragraph().paragraph_format.space_after = Pt(150)
     d.add_paragraph(t, style="Title")
-    cover = []
-    k = 1
-    while blocks[k][0] == "p":
-        cover.append(blocks[k][1]); k += 1
-        if len(cover) == 3: break
+    cover, k = portada(blocks)
     p = d.add_paragraph(style="Subtitle"); add_runs(p, cover[0], 14)
     fmt_par(p, space_before=Pt(24))
-    add_runs(fmt_par(d.add_paragraph(), space_before=Pt(60)), cover[1], 12)
-    add_runs(d.add_paragraph(), cover[2], 12, True)
+    for j, c in enumerate(cover[1:]):  # descripción, versión… y el aviso final en negrita
+        add_runs(fmt_par(d.add_paragraph(), space_before=Pt(60 if j == 0 else 0)), c, 12, j == len(cover) - 2)
     d.add_page_break()
     for b in blocks[k:]:
         tipo = b[0]
@@ -384,7 +408,9 @@ figure { margin:0 0 12pt; text-align:center; break-inside:avoid }
 figure img { max-width:%sin; max-height:%sin; width:auto; height:auto } figure.peq img { max-width:var(--w) } figcaption { font-size:9pt; color:#555; margin-top:3pt }
 .l { font-weight:bold; font-size:10pt; margin:8pt 0 3pt; break-after:avoid; text-align:left }
 table { border-collapse:collapse; width:100%%; margin:6pt 0 10pt; font-size:10pt } th,td { border:1px solid #bbb; padding:3pt 5pt; vertical-align:top; text-align:left }
-th { background:#E3EAF3 } tr,table,section.rec { break-inside:avoid } thead { display:table-header-group } td.n { text-align:center; font-weight:bold; font-size:12pt; width:9%%; }
+th { background:#E3EAF3 } tr,section.rec { break-inside:avoid } thead { display:table-header-group } td.n { text-align:center; font-weight:bold; font-size:12pt; width:9%%; }
+p,li { orphans:3; widows:3 } p:has(+ ul), p:has(+ table) { break-after:avoid }
+.res { font-size:9.5pt; line-height:1.2 } .res h1 { margin-top:0 } .res h2 { font-size:12pt; margin:8pt 0 3pt } .res li { margin-bottom:1.5pt }
 """ % (ANCHO_IN, ALTO_IN)
 
 def h(t):
@@ -400,9 +426,13 @@ def h(t):
 def build_pdf(blocks, destino):
     o, k = [f"<!doctype html><meta charset=utf-8><title>{destino.name}</title><style>{CSS}</style><body>"], 1
     o.append(f'<div class=t>{h(blocks[0][1])}</div>')
-    cover = [b[1] for b in blocks[1:4]]
-    o.append(f'<div class=s>{h(cover[0])}</div><div class=c style="margin-top:60pt">{h(cover[1])}</div><div class=c><b>{h(cover[2])}</b></div><div style="break-after:page"></div>')
-    k, abierta, rec, en_resumen = 4, None, False, False
+    cover, k = portada(blocks)
+    o.append(f'<div class=s>{h(cover[0])}</div>')
+    for j, c in enumerate(cover[1:]):  # descripción, versión… y el aviso final en negrita
+        st = ' style="margin-top:60pt"' if j == 0 else ' style="margin-top:6pt"'
+        o.append(f'<div class=c{st}>{f"<b>{h(c)}</b>" if j == len(cover) - 2 else h(c)}</div>')
+    o.append('<div style="break-after:page"></div>')
+    abierta, rec, en_resumen = None, False, False
     def cierra():
         nonlocal abierta
         if abierta: o.append("</ul>"); abierta = None
@@ -413,8 +443,10 @@ def build_pdf(blocks, destino):
             tg = "h1" if tipo == "h1" else "h2"
             cls = ' class=pb' if (tipo == "h1" and es_resumen(b[1])) else ""
             if rec: o.append("</section>"); rec = False
+            if tipo == "h1" and en_resumen: o.append("</div>")
             if tipo == "h2" and en_resumen: o.append("<section class=rec>"); rec = True
             en_resumen = es_resumen(b[1]) if tipo == "h1" else en_resumen
+            if tipo == "h1" and en_resumen: o.append("<div class=res>")  # estilo compacto: cabe en una hoja
             o.append(f"<{tg}{cls}>{h(b[1])}</{tg}>")
         elif tipo == "p":
             o.append(f"<p>{h(b[1])}</p>")
@@ -436,6 +468,7 @@ def build_pdf(blocks, destino):
             o.append("</tbody></table>")
     cierra()
     if rec: o.append("</section>")
+    if en_resumen: o.append("</div>")
     # listas numeradas: se escriben como "N." manual (ul.n) para no depender del contador del navegador
     tmp = Path(tempfile.mkdtemp()) / "manual.html"
     tmp.write_text("".join(o), encoding="utf-8")
@@ -453,8 +486,8 @@ if __name__ == "__main__":
         sys.exit(f"Tipo desconocido {desconocidos}; los válidos son {list(TIPOS)}")
     trabajos = [] if ARGS.tipo else [(SALIDA / f"Manual general - {SUFIJO}", md)]
     for t in sel:  # se recortan todos antes de generar: si falta una sección, no sale ningún manual a medias
-        nombre, titulos = TIPOS[t]
-        trabajos.append((SALIDA / "por-tipo" / f"Manual - {plano(nombre)} - {SUFIJO}", recortar(md, nombre, ANTES + titulos + DESPUES)))
+        nombre, desc, titulos, extra = TIPOS[t]
+        trabajos.append((SALIDA / "por-tipo" / f"Manual - {plano(nombre)} - {SUFIJO}", recortar(md, nombre, desc, secciones(titulos, extra))))
     shutil.rmtree(OUT, ignore_errors=True)  # quita imágenes de ediciones anteriores
     (SALIDA / "por-tipo").mkdir(parents=True, exist_ok=True)
     for viejo in SALIDA.glob("Manual del editor - La Paz Si Pasa.*"):

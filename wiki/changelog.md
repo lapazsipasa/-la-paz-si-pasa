@@ -3,6 +3,8 @@
 Qué cambió, con fecha y PR. Lo reciente arriba.
 
 - **2026-11-22** · manual general y manuales por tipo de contenido · en la rama `feat/boletin-catalogo-fcp`
+  - Revisión 42 (AGY, PDF): portada completa, secciones comunes por tipo (SEO solo en boletín, historia y páginas), «A quién acudir» separado de SEO, resumen en una página, mejores cortes de imagen y saltos de página, y círculos de las láminas 01-10, 12, 16 y 18 fuera del texto.
+  - Revisión 41 (general): la fuente de video elegida manda en videos y ferias, renombrar un término reindexa el catálogo y el mapa ignora líneas sin dos puntos (`37b631e`). Prueba final previa: `bin/check` y 18 suites, 965 comprobaciones en verde.
   - `wiki/manual-editor.md` pasa a manual general (18 secciones): noticias, retratos, videos, relatos sonoros, ferias, subcuentas y páginas Inicio y Proyectos destacados, con las láminas 14 a 21.
   - `generar-manual.py` genera el manual general y 10 manuales por tipo (`raw/manual-editor/por-tipo/`). Ver [README de las herramientas](../apps/wp-fse/tools/manual/README.md).
   - Las láminas 14 a 21 se corrigieron: marcadores sin solaparse ni tapar texto y recortes ajustados. `generar-laminas.mjs` acepta posición del número por lado, `caja:false` y CSS propio por lámina.

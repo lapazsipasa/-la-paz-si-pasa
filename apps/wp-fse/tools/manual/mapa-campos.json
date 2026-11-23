@@ -29,7 +29,9 @@
         "url": "/boletin/edicion-02/",
         "recorte": ".wp-block-lapaz-boletin .franja, .wp-block-lapaz-boletin .indice .indice-intro, .wp-block-lapaz-boletin .pie",
         "ancho": 1000,
-        "nota": "Los cinco campos de esta pestaña se reparten en tres bandas de la página (franja superior, introducción del índice y pie). Conviene componer esas tres bandas apiladas en una sola imagen de vista pública."
+        "nota": "Los cinco campos de esta pestaña se reparten en tres bandas de la página (franja superior, introducción del índice y pie). Conviene componer esas tres bandas apiladas en una sola imagen de vista pública.",
+        "margen": 0,
+        "css": ".wp-block-lapaz-boletin .franja{padding-top:56px !important}"
       },
       "pares": [
         {
@@ -40,7 +42,11 @@
           "admin_selector": ".acf-field[data-name=\"numero\"]",
           "front_selector": ".wp-block-lapaz-boletin .franja .meta",
           "nota": "Se formatea como «Edición 02» junto al periodo. También aparece en .wp-block-lapaz-boletin .pie .pie-datos p:first-child, en la tarjeta de Inicio (.wp-block-lapaz-boletin-destacado .dest-cont .lugar) y en el <title> de la página.",
-          "front_texto": "Edición 02"
+          "front_texto": "Edición 02",
+          "front_circ": [
+            0,
+            -48
+          ]
         },
         {
           "n": 2,
@@ -50,7 +56,15 @@
           "admin_selector": ".acf-field[data-name=\"periodo\"]",
           "front_selector": ".wp-block-lapaz-boletin .franja .meta",
           "nota": "Se concatena tras «·» con el número de edición. También aparece en .wp-block-lapaz-boletin .pie .pie-datos p:first-child, en .wp-block-lapaz-boletin .anteriores li span y en .wp-block-lapaz-boletin-destacado .dest-cont .lugar.",
-          "front_texto": "Octubre – Noviembre 2026"
+          "front_texto": "Octubre – Noviembre 2026",
+          "front_circ": [
+            0,
+            -48
+          ],
+          "admin_circ": [
+            -22,
+            60
+          ]
         },
         {
           "n": 3,
@@ -59,7 +73,8 @@
           "clave": "field_boletin_rotulo",
           "admin_selector": ".acf-field[data-name=\"rotulo\"]",
           "front_selector": ".wp-block-lapaz-boletin .franja .rotulo",
-          "nota": "Trae un texto por defecto; si se borra, solo se muestra el número y el periodo."
+          "nota": "Trae un texto por defecto; si se borra, solo se muestra el número y el periodo.",
+          "front_circ": "derecha"
         },
         {
           "n": 4,
@@ -68,7 +83,8 @@
           "clave": "field_boletin_indice_intro",
           "admin_selector": ".acf-field[data-name=\"indice_intro\"]",
           "front_selector": ".wp-block-lapaz-boletin .indice .indice-intro p",
-          "nota": "Párrafo introductorio debajo del encabezado «En esta edición»."
+          "nota": "Párrafo introductorio debajo del encabezado «En esta edición».",
+          "front_circ": "derecha"
         },
         {
           "n": 5,
@@ -77,7 +93,8 @@
           "clave": "field_boletin_creditos_foto",
           "admin_selector": ".acf-field[data-name=\"creditos_foto\"]",
           "front_selector": ".wp-block-lapaz-boletin .pie .creditos",
-          "nota": "Cada línea no vacía se imprime separada por <br> bajo el rótulo automático «Fotografía»."
+          "nota": "Cada línea no vacía se imprime separada por <br> bajo el rótulo automático «Fotografía».",
+          "front_circ": "izquierda"
         }
       ],
       "no_visibles": []
@@ -94,7 +111,8 @@
       "front": {
         "url": "/boletin/edicion-02/",
         "recorte": ".wp-block-lapaz-boletin .portada",
-        "ancho": 1280
+        "ancho": 1280,
+        "circ": "fuera"
       },
       "pares": [
         {
@@ -104,7 +122,8 @@
           "clave": "field_boletin_portada_titular",
           "admin_selector": ".acf-field[data-name=\"portada_titular\"]",
           "front_selector": ".wp-block-lapaz-boletin .portada h1.titular",
-          "nota": "Si se deja vacío, respalda con el título de WordPress. También se reutiliza en Inicio (.wp-block-lapaz-boletin-destacado .dest-cont h3) y como alt de la imagen social."
+          "nota": "Si se deja vacío, respalda con el título de WordPress. También se reutiliza en Inicio (.wp-block-lapaz-boletin-destacado .dest-cont h3) y como alt de la imagen social.",
+          "front_circ": "dentro"
         },
         {
           "n": 2,
@@ -113,7 +132,8 @@
           "clave": "field_boletin_portada_sumario",
           "admin_selector": ".acf-field[data-name=\"portada_sumario\"]",
           "front_selector": ".wp-block-lapaz-boletin .portada p.sumario",
-          "nota": "También se reutiliza recortado a 30 palabras en Inicio y como meta descripción SEO por defecto."
+          "nota": "También se reutiliza recortado a 30 palabras en Inicio y como meta descripción SEO por defecto.",
+          "front_circ": "derecha"
         },
         {
           "n": 3,
@@ -122,7 +142,8 @@
           "clave": "field_boletin_portada_firma_nombre",
           "admin_selector": ".acf-field[data-name=\"portada_firma_nombre\"]",
           "front_selector": ".wp-block-lapaz-boletin .portada .firma .rol strong",
-          "nota": "Solo aparece en la portada del boletín."
+          "nota": "Solo aparece en la portada del boletín.",
+          "front_circ": "derecha"
         },
         {
           "n": 4,
@@ -132,7 +153,8 @@
           "admin_selector": ".acf-field[data-name=\"portada_firma_cargo\"]",
           "front_selector": ".wp-block-lapaz-boletin .portada .firma .rol",
           "nota": "Aparece en el mismo bloque .rol, debajo del nombre en negrita.",
-          "front_texto": "Exconsejero presidencial para la estabilización y la consolidación"
+          "front_texto": "Exconsejero presidencial para la estabilización y la consolidación",
+          "front_circ": "derecha"
         },
         {
           "n": 5,
@@ -168,7 +190,8 @@
         "url": "/",
         "recorte": ".wp-block-lapaz-boletin-destacado .destacado",
         "ancho": 1280,
-        "nota": "Esta tarjeta siempre toma la edición publicada más reciente. La línea «Edición 02 · periodo» (.dest-cont .lugar) se toma automáticamente de Número de edición y Periodo (pestaña «Edición»)."
+        "nota": "Esta tarjeta siempre toma la edición publicada más reciente. La línea «Edición 02 · periodo» (.dest-cont .lugar) se toma automáticamente de Número de edición y Periodo (pestaña «Edición»).",
+        "circ": "fuera"
       },
       "pares": [
         {
@@ -233,7 +256,8 @@
         "url": "/boletin/edicion-02/",
         "recorte": ".wp-block-lapaz-boletin .nav, .wp-block-lapaz-boletin .indice, .wp-block-lapaz-boletin #seccion-1 .sec-head",
         "ancho": 1280,
-        "nota": "Muestra la barra fija de secciones (.nav), la primera tarjeta del índice (.indice .tema:first-child) y la cabecera de la sección (#seccion-1 .sec-head). Los cinco campos existen con el mismo nombre en los cuatro moldes (Artículo, Cifras, Tarjetas y Agenda)."
+        "nota": "Muestra la barra fija de secciones (.nav), la primera tarjeta del índice (.indice .tema:first-child) y la cabecera de la sección (#seccion-1 .sec-head). Los cinco campos existen con el mismo nombre en los cuatro moldes (Artículo, Cifras, Tarjetas y Agenda).",
+        "circ": "fuera"
       },
       "pares": [
         {
@@ -252,7 +276,8 @@
           "clave": "field_boletin_articulo_antetitulo",
           "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout:first-child .acf-field[data-name=\"antetitulo\"]",
           "front_selector": ".wp-block-lapaz-boletin #seccion-1 .sec-head .sec-kicker",
-          "nota": "Aparece en la cabecera de la sección, no en la tarjeta del índice."
+          "nota": "Aparece en la cabecera de la sección, no en la tarjeta del índice.",
+          "front_circ": "dentro"
         },
         {
           "n": 3,
@@ -270,7 +295,11 @@
           "clave": "field_boletin_articulo_indice_imagen",
           "admin_selector": ".acf-field[data-name=\"secciones\"] .values > .layout:first-child .acf-field[data-name=\"indice_imagen\"]",
           "front_selector": ".wp-block-lapaz-boletin .indice .tema:first-child .thumb img",
-          "nota": "Si se deja vacía, el código toma la primera foto de «Fotos» y, si no hay, la «Foto de apertura»."
+          "nota": "Si se deja vacía, el código toma la primera foto de «Fotos» y, si no hay, la «Foto de apertura».",
+          "front_circ": [
+            8,
+            8
+          ]
         },
         {
           "n": 5,
@@ -387,7 +416,8 @@
       "front": {
         "url": "/boletin/edicion-02/#seccion-2",
         "recorte": ".wp-block-lapaz-boletin #seccion-2",
-        "ancho": 1280
+        "ancho": 1280,
+        "circ": "fuera"
       },
       "pares": [
         {
@@ -427,12 +457,14 @@
         "url": "/wp-admin/post.php?post={ID_EDICION_02}&action=edit",
         "abrir": "pestaña «Secciones», desplegar la fila 6 («Alianzas», molde Tarjetas) y abrir la primera fila del repetidor «Tarjetas»",
         "recorte": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"tarjetas\"] .acf-field[data-name=\"tarjetas\"] .acf-row:not(.acf-clone):first-child",
-        "tab": "Secciones"
+        "tab": "Secciones",
+        "css": ".acf-field[data-name=\"tarjetas\"] > .acf-label{visibility:hidden}"
       },
       "front": {
         "url": "/boletin/edicion-02/#seccion-6",
         "recorte": ".wp-block-lapaz-boletin #seccion-6",
-        "ancho": 1280
+        "ancho": 1280,
+        "circ": "fuera"
       },
       "pares": [
         {
@@ -499,12 +531,14 @@
         "url": "/wp-admin/post.php?post={ID_EDICION_02}&action=edit",
         "abrir": "pestaña «Secciones», desplegar la fila 8 («La agenda», molde Agenda) y abrir la primera fila del repetidor «Hitos»",
         "recorte": ".acf-field[data-name=\"secciones\"] .values > .layout[data-layout=\"agenda\"] .acf-field[data-name=\"hitos\"] .acf-row:not(.acf-clone):first-child",
-        "tab": "Secciones"
+        "tab": "Secciones",
+        "css": ".acf-field[data-name=\"hitos\"] > .acf-label{visibility:hidden}"
       },
       "front": {
         "url": "/boletin/edicion-02/#seccion-8",
         "recorte": ".wp-block-lapaz-boletin #seccion-8",
-        "ancho": 1280
+        "ancho": 1280,
+        "circ": "fuera"
       },
       "pares": [
         {
@@ -551,7 +585,8 @@
         "url": "/productores/",
         "recorte": ".wp-block-lapaz-historia-destacada .destacado",
         "ancho": 1280,
-        "nota": "La misma tarjeta (bloque lapaz/historia-destacada) se pinta en Inicio (/), Proyectos destacados (/proyectos-destacados/) y el catálogo (/productores/), siempre con la historia publicada más reciente."
+        "nota": "La misma tarjeta (bloque lapaz/historia-destacada) se pinta en Inicio (/), Proyectos destacados (/proyectos-destacados/) y el catálogo (/productores/), siempre con la historia publicada más reciente.",
+        "circ": "fuera"
       },
       "pares": [
         {
@@ -583,7 +618,8 @@
           "circ": [
             -20,
             10
-          ]
+          ],
+          "front_circ": "dentro"
         },
         {
           "n": 4,
@@ -642,7 +678,8 @@
         "recorte": ".wp-block-lapaz-historia .port-prod, .wp-block-lapaz-historia .seccion-ficha, .wp-block-lapaz-historia .seccion-video",
         "ancho": 1280,
         "nota": "La línea superior .port-prod .et reutiliza el campo «Lugar» de la pestaña Presentación junto al texto fijo «PaisSano destacado ·».",
-        "sesion": true
+        "sesion": true,
+        "circ": "fuera"
       },
       "pares": [
         {
@@ -715,7 +752,8 @@
           "clave": "field_historia_video_antetitulo",
           "admin_selector": ".acf-field[data-name=\"video_antetitulo\"]",
           "front_selector": ".wp-block-lapaz-historia .seccion-video .sec-head .sec-kicker",
-          "nota": ""
+          "nota": "",
+          "front_circ": "dentro"
         }
       ],
       "no_visibles": [],
@@ -829,7 +867,7 @@
         "url": "/wp-admin/post.php?post={ID_PRODUCTOR}&action=edit",
         "abrir": "pantalla completa de edición del productor «Asociacion de Productores de Especies Menores del Sur del Tolima» (título, caja «Datos del productor» y cajas de taxonomías a la derecha)",
         "recorte": "#post-body",
-        "css": "#adminmenumain,#adminmenuback,#adminmenuwrap{display:none !important} #wpcontent{margin-left:0 !important;padding-left:50px !important}"
+        "css": "#adminmenumain,#adminmenuback,#adminmenuwrap{display:none !important} #wpcontent{margin-left:0 !important;padding-left:50px !important} .wrap > h1,.wrap > .page-title-action{visibility:hidden !important}"
       },
       "front": {
         "url": "/productores/?buscar=Especies%20Menores%20del%20Sur%20del%20Tolima#explorar",
@@ -904,6 +942,10 @@
           "circ": [
             75,
             -8
+          ],
+          "admin_circ": [
+            120,
+            8
           ]
         },
         {
@@ -1100,20 +1142,23 @@
         "url": "/",
         "recorte": ".wp-block-lapaz-actualidad .actualidad__destacado",
         "ancho": 1280,
-        "nota": "El video publicado más reciente es el destacado; con la etiqueta PaisSana también sale en Proyectos destacados."
+        "nota": "El video publicado más reciente es el destacado; con la etiqueta PaisSana también sale en Proyectos destacados.",
+        "circ": "fuera"
       },
       "pares": [
         {
           "n": 1,
           "etiqueta": "Título del video",
           "admin_selector": "#titlediv #title",
-          "front_selector": ".actualidad__info-titulo"
+          "front_selector": ".actualidad__info-titulo",
+          "front_circ": "dentro"
         },
         {
           "n": 2,
           "etiqueta": "Descripción",
           "admin_selector": ".acf-field[data-name=\"descripcion\"]",
-          "front_selector": ".actualidad__descripcion"
+          "front_selector": ".actualidad__descripcion",
+          "front_circ": "dentro"
         },
         {
           "n": 3,
@@ -1127,15 +1172,16 @@
           "admin_selector": ".acf-field[data-name=\"thumbnail\"]",
           "front_selector": ".actualidad__player",
           "front_circ": [
-            12,
-            12
+            345,
+            6
           ]
         },
         {
           "n": 5,
           "etiqueta": "Etiquetas",
           "admin_selector": ".acf-field[data-name=\"tags\"]",
-          "front_selector": ".actualidad__etiquetas"
+          "front_selector": ".actualidad__etiquetas",
+          "front_circ": "dentro"
         }
       ],
       "no_visibles": []
@@ -1213,7 +1259,9 @@
       "front": {
         "url": "/proyectos-destacados/",
         "recorte": ".ferias-acordeon-list > details[open]",
-        "ancho": 1280
+        "ancho": 1280,
+        "circ": "fuera",
+        "css": ".wp-block-lapaz-paisana-ferias .ferias-landscape-banner{visibility:hidden}"
       },
       "pares": [
         {

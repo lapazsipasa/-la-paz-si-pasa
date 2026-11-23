@@ -21,10 +21,11 @@ node apps/wp-fse/tools/manual/generar-laminas.mjs            # láminas -> raw/m
 python3 apps/wp-fse/tools/manual/generar-manual.py           # manual general (raw/manual-editor/) y uno por tipo (raw/manual-editor/por-tipo/), .docx y .pdf
 python3 apps/wp-fse/tools/manual/generar-manual.py --tipo=noticias,ferias  # solo esos tipos (boletin, historia, productores, noticias, retratos, videos, relatos-sonoros, ferias, subcuentas, paginas)
 python3 apps/wp-fse/tools/manual/generar-manual.py --solo-general          # solo el manual general
+python3 apps/wp-fse/tools/manual/generar-manual.py otro-texto.md --salida=/tmp/prueba  # otro texto y otra carpeta de salida (pruebas; no toca raw/manual-editor/)
 node apps/wp-fse/tools/manual/generar-laminas.mjs --limpiar  # por si acaso: el script ya borra el usuario temporal y los borradores al salir, incluso con Ctrl+C
 ```
 
-Los manuales por tipo se arman con las secciones del tipo y las comunes de `wiki/manual-editor.md`, emparejadas por título (sin el número); si falta alguna, el script se detiene y no genera nada. Requiere `python-docx`, `Pillow`, `numpy` y Chrome; un venv sirve: `python3 -m venv raw/.venv-manual && raw/.venv-manual/bin/pip install python-docx Pillow numpy PyMuPDF`.
+Los manuales por tipo se arman con las secciones del tipo y las comunes de `wiki/manual-editor.md`, emparejadas por título (sin el número); qué comunes lleva cada tipo («Escribir bien y preparar fotos», «Buscadores y redes (SEO)») y su descripción de portada se configuran en `TIPOS`; si falta alguna, el script se detiene y no genera nada. Requiere `python-docx`, `Pillow`, `numpy` y Chrome; un venv sirve: `python3 -m venv raw/.venv-manual && raw/.venv-manual/bin/pip install python-docx Pillow numpy PyMuPDF`.
 
 `--solo=01,05` regenera solo esas láminas. Las capturas sueltas (`captura-*.png`) no las genera el script: se toman a mano, con sesión de administrador en el sitio local, y se guardan en `raw/manual-editor/capturas/`. Sin ellas `generar-manual.py` no puede armar el manual.
 

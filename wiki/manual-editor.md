@@ -30,8 +30,9 @@ Las claves de acceso se entregan por otro canal.
 14. Lo que NO debes tocar (y por qué)
 15. Problemas frecuentes y qué hacer
 16. Lista de comprobación mensual
-17. Buscadores y redes (SEO) y a quién acudir
-18. Resumen en una hoja
+17. Buscadores y redes (SEO)
+18. A quién acudir
+19. Resumen en una hoja
 
 **Cómo leer las láminas de este manual:** cada formulario se explica con tres piezas seguidas: primero **En WordPress** (la pantalla donde escribes), después **En el sitio** (dónde aparece lo que escribiste en la página pública) y por último una **tabla** que dice qué campo es cada número. El círculo con un número lleva el mismo número en las dos imágenes y en la tabla: el ① de WordPress es el ① del sitio. Los números empiezan de nuevo en cada lámina. Los círculos son naranjas y azules por turnos solo para distinguir cuadros vecinos; el color no significa nada. Si una imagen es muy larga, sigue en la página siguiente y su pie lo indica («1 de 3», «2 de 3»…).
 
@@ -51,7 +52,7 @@ Si alguna vez olvidas tu contraseña, haz clic en **¿Olvidaste tu contraseña?*
 
 ### Qué menú vas a usar
 
-Al entrar verás una barra oscura a la izquierda. Con tu cuenta de **Editor** puedes crear, editar y publicar contenido y subir fotos. No necesitas entrar a ajustes ni instalar complementos (eso solo lo hace un Administrador). Cada entrada del menú alimenta una parte concreta del sitio; este manual explica todas.
+Al entrar verás una barra oscura a la izquierda. Con tu cuenta de **Editor** puedes crear, editar y publicar contenido y subir fotos. No necesitas entrar a ajustes ni instalar complementos (eso solo lo hace un Administrador). Cada entrada del menú alimenta una parte concreta del sitio; el manual general las explica todas.
 
 | Menú lateral | Para qué sirve | Dónde aparece en el sitio |
 | --- | --- | --- |
@@ -64,10 +65,10 @@ Al entrar verás una barra oscura a la izquierda. Con tu cuenta de **Editor** pu
 | **Subcuentas** | Mantener los logos de las subcuentas del Fondo. | En el carrusel **Conoce las subcuentas** de **Inicio**. |
 | **Relatos sonoros** | Publicar audios grabados con productores. | En el reproductor **El corazón del campo** de **Proyectos destacados**. |
 | **Ferias** | Publicar las ferias con fotos y videos verticales. | En el acordeón **PaisSana en ferias** de **Proyectos destacados**. |
-| **Páginas** | Cambiar los campos de **Inicio** y **Proyectos destacados** (foto de portada, banner, cifras y mapa). | En esas dos páginas (ver *Editar las páginas Inicio y Proyectos destacados*). |
+| **Páginas** | Cambiar los campos de **Inicio** y **Proyectos destacados** (foto de portada, banner, cifras y mapa). | En esas dos páginas (lo explica el manual de páginas o el manual general). |
 | **Medios** | Ver o subir fotos, audios y archivos de video a la biblioteca. | En cualquier contenido donde los elijas. |
 
-> **Imagen** `captura-02-menu-lateral.png`: Menú lateral de WordPress con las secciones Boletines, Historias PaisSana, Productores y Medios.
+> **Imagen** `captura-02-menu-lateral.png`: Menú lateral de WordPress con las secciones de contenido y Medios.
 
 ---
 
@@ -239,6 +240,15 @@ Usa este molde para listar hitos, fases o próximos eventos en forma de línea d
 
 **Consejo:** usa rótulos cortos en ① (como `Fases II y III` o `En implementación`) y una o dos frases en ③.
 
+### Qué cambia en el sitio al publicar un boletín
+
+En cuanto publicas:
+
+- `/boletin/` pasa a mostrar la edición nueva de forma automática (siempre muestra la edición publicada con fecha más reciente).
+- La edición anterior sigue en su propia dirección web y aparece al final en **Otras ediciones**.
+- La tarjeta **Último boletín** en **Inicio** se actualiza sola con el nuevo titular, número, periodo, sumario y foto de portada.
+- La copia guardada de las páginas se renueva automáticamente.
+
 ---
 
 ## 3. Escribir bien y preparar fotos
@@ -286,14 +296,7 @@ Cada vez que subas o elijas una foto en la biblioteca de medios, llena el campo 
 
 > **Imagen** `captura-08-panel-publicar.png`: Panel lateral Publicar con Solo guardar, Vista previa, programación y el botón Publicar.
 
-### Qué cambia en el sitio al publicar un boletín
-
-En cuanto publicas:
-
-- `/boletin/` pasa a mostrar la edición nueva de forma automática (siempre muestra la edición publicada con fecha más reciente).
-- La edición anterior sigue en su propia dirección web y aparece al final en **Otras ediciones**.
-- La tarjeta **Último boletín** en **Inicio** se actualiza sola con el nuevo titular, número, periodo, sumario y foto de portada.
-- La copia guardada de las páginas se renueva automáticamente.
+**En las páginas Inicio y Proyectos destacados** el editor es otro y no tiene este panel: los botones **Vista previa** y **Actualizar** están arriba a la derecha. Los cambios se guardan y se ven en el sitio al pulsar **Actualizar** (lo explica el manual de páginas o el manual general).
 
 ---
 
@@ -393,7 +396,7 @@ El catálogo en `/productores/` se actualiza solo con las entradas de **Producto
 
 Haz clic en **Productores** y luego en **Añadir productor**. Completa el título, la caja **Datos del productor** y las cajas de clasificación de la columna derecha (el ejemplo de las imágenes corresponde a la organización *Asociacion de Productores de Especies Menores del Sur del Tolima*).
 
-> **Imagen** `lamina-12-productor-tarjeta-wordpress.png`: Formulario de un productor en WordPress con sus datos y cajas de clasificación (1 a 7).
+> **Imagen** `lamina-12-productor-tarjeta-wordpress.png`: Formulario de un productor en WordPress con sus datos y cajas de clasificación (1 a 7). En tu pantalla, Etnias, Poblaciones y Tiempos de operación están en la columna derecha; aquí se agruparon abajo para que se lean mejor.
 
 > **Imagen** `lamina-12-productor-tarjeta-sitio.png`: Buscador y tarjeta del productor en /productores/ con los elementos 1 a 7.
 
@@ -449,7 +452,7 @@ En el menú lateral, **Noticias**. Ahí ves la lista de todas las noticias.
 
 - La línea de tiempo **Noticias** de **Inicio** se ordena sola, de la más reciente a la más antigua, y agrupa por año (el año más reciente arriba).
 - Se muestran **como máximo 3 noticias por año**: las 3 más recientes de ese año. Si publicas una cuarta del mismo año, la más antigua de ese año deja de verse (sigue guardada en WordPress).
-- Debajo de la línea de tiempo está el banner **Más noticias del fondo**; su destino se cambia en la página **Inicio** (ver *Editar las páginas Inicio y Proyectos destacados*).
+- Debajo de la línea de tiempo está el banner **Más noticias del fondo**; su destino se cambia en la página **Inicio** (lo explica el manual de páginas o el manual general).
 
 ### Errores típicos
 
@@ -484,7 +487,7 @@ En el menú lateral, **Retratos**.
 | ③ | **Proyecto** *(obligatorio)* | Debajo del rótulo **Proyecto:**. Eliges una opción: *Colombia Sostenible*, *PaisSana*, *PDET* o *Programa Piloto de Inversiones Prioritarias en Municipios PDET*. |
 | ④ | **Lugar** *(obligatorio)* | Debajo del rótulo **Lugar:**. Máximo 120 caracteres. |
 
-**Consejos:** en ① sube una foto de buena calidad y llena su **Texto alternativo** en la biblioteca. En ④ usa el formato `Municipio, departamento`.
+**Consejos:** en ① sube una foto de buena calidad. La **Descripción** de ② también es la que leen en voz alta los lectores de pantalla, así que describe bien a la persona. En ④ usa el formato `Municipio, departamento`.
 
 ### Qué cambia en el sitio al publicar un retrato
 
@@ -660,7 +663,7 @@ En el menú lateral, **Subcuentas**.
 | ① | **Logo** *(obligatorio)* | Logo dentro del carrusel. |
 | ② | **Orden** *(caja Atributos de entrada)* | Posición del logo en el carrusel. |
 
-**Consejos:** en ① usa un SVG o un PNG con fondo transparente. En ② el número menor va primero; deja saltos (`10`, `20`, `30`…) para poder meter una subcuenta en medio sin renumerar todas. En **Plantilla** deja **Plantilla por defecto**.
+**Consejos:** en ① usa un PNG con fondo transparente (WordPress no admite SVG). En ② el número menor va primero; deja saltos (`10`, `20`, `30`…) para poder meter una subcuenta en medio sin renumerar todas. En **Plantilla** deja **Plantilla por defecto**.
 
 ### Qué cambia en el sitio al publicar una subcuenta
 
@@ -669,7 +672,7 @@ En el menú lateral, **Subcuentas**.
 
 ### Errores típicos
 
-- **El logo se ve con un recuadro blanco:** el archivo no tiene fondo transparente. Pide el logo en SVG o en PNG transparente.
+- **El logo se ve con un recuadro blanco:** el archivo no tiene fondo transparente. Pide el logo en PNG con fondo transparente.
 - **Dos logos cambiaron de lugar:** tienen el mismo **Orden**. Dale a cada uno un número distinto.
 
 ---
@@ -697,7 +700,7 @@ Los campos están en la caja **Configuración de la home**.
 
 | Nº | Campo en WordPress | Dónde aparece en el sitio |
 | --- | --- | --- |
-| ① | **Imagen del hero** | Foto de fondo de la portada, detrás del logo. También se usa arriba en **Proyectos destacados** y en **Productores**. |
+| ① | **Imagen del hero** | Foto de fondo de la portada, detrás del logo. También se usa arriba en **Proyectos destacados**, **Productores**, **Boletín** e **Historias**. |
 | ② | **URL del banner «Más noticias del fondo»** | Destino del banner al final de la sección de noticias (se abre en una pestaña nueva). |
 
 **Consejos:** en ① sube una foto horizontal de 1500 px de ancho y comprimida; si es más ancha, WordPress la reduce a 1500 px al subirla. El logo no se cambia aquí. Si dejas ① vacía, el sitio usa su foto de fábrica; si dejas ② vacía, el banner lleva a la sala de prensa del Fondo.
@@ -721,7 +724,7 @@ Los campos están en la caja **Proyectos destacados · PaisSana**, en dos pesta�
 | ⑦ | **Caribe · productores** | Número grande sobre **PRODUCTORES** al elegir la región Caribe en el mapa. |
 | ⑧ | **Caribe · departamentos** | Lista de departamentos con su número, debajo del total de la región. |
 
-**Consejos:** en ①, ③ y ⑤ escribe el número tal como debe leerse, con punto de miles (`3.402`); caben hasta 12 caracteres. En ⑧ escribe **un departamento por línea**, con el formato `NOMBRE: número` (por ejemplo `SUCRE: 17`); una línea mal escrita no se muestra. Si dejas un campo vacío, el sitio usa el valor que tenía de fábrica.
+**Consejos:** en ①, ③ y ⑤ escribe el número tal como debe leerse, con punto de miles (`3.402`); caben hasta 12 caracteres. En ⑧ escribe **un departamento por línea**, con el formato `NOMBRE: número` (por ejemplo `SUCRE: 17`); una línea sin los dos puntos no se muestra. Si dejas un campo vacío, el sitio usa el valor que tenía de fábrica.
 
 **El mapa tiene cinco regiones.** La lámina numera solo Caribe, pero la pestaña **Regiones del mapa** tiene el mismo par de campos para **Pacífica**, **Andina**, **Orinoquía** y **Amazonía** (*Región · productores* y *Región · departamentos*). Se llenan igual que ⑦ y ⑧. Los nombres, colores y dibujos de las regiones no se editan.
 
@@ -745,11 +748,11 @@ Tu cuenta de **Editor** puede ver la sección **Páginas**, pero hay tres págin
 - **Proyectos destacados** (`/proyectos-destacados/`): contiene la presentación de PaisSana. Si le cambias la dirección web, la página pierde su diseño y desaparece su caja de campos (cifras y mapa).
 - **Productores PaisSana** (`/productores/`): es la página que muestra el catálogo completo. Si le cambias la dirección web, el catálogo y los botones que llevan a él dejarán de funcionar.
 
-**Sí puedes** abrir **Inicio** y **Proyectos destacados** para cambiar sus campos en **Cajas meta** (foto de portada, banner, cifras y mapa), como explica *Editar las páginas Inicio y Proyectos destacados*. Lo que no cambia es su estructura: el orden y el diseño de sus secciones están en el tema del sitio, y lo que escribas en el área de bloques de esas páginas no se muestra. No pierdas tiempo añadiendo, moviendo o borrando bloques ahí.
+**Sí puedes** abrir **Inicio** y **Proyectos destacados** para cambiar sus campos en **Cajas meta** (foto de portada, banner, cifras y mapa); lo explica el manual de páginas o el manual general. Lo que no cambia es su estructura: el orden y el diseño de sus secciones están en el tema del sitio, y lo que escribas en el área de bloques de esas páginas no se muestra. No pierdas tiempo añadiendo, moviendo o borrando bloques ahí.
 
 Tampoco modifiques plantillas, estilos, el menú principal ni complementos o usuarios (si necesitas cambiar el menú principal o crear un usuario, pídelo al equipo administrador).
 
-> **Imagen** `captura-12-paginas-protegidas.png`: Lista de Páginas con Inicio, Proyectos destacados y Productores PaisSana, las tres páginas base que no debes tocar.
+> **Imagen** `captura-12-paginas-protegidas.png`: Lista de Páginas con Inicio, Proyectos destacados y Productores PaisSana, las tres páginas base que no debes borrar ni cambiar de dirección web.
 
 ---
 
@@ -761,7 +764,7 @@ Tampoco modifiques plantillas, estilos, el menú principal ni complementos o usu
 | **Publiqué o edité algo y no lo veo en el sitio** | El sitio guarda copias rápidas de las páginas, pero las renueva solas al publicar, editar o borrar un boletín, historia, productor, noticia, retrato, video, relato sonoro, feria, subcuenta, página, menú o al renombrar un departamento o categoría. Haz una recarga forzada manteniendo **`Ctrl + F5`** (Windows) o **`Cmd + Shift + R`** (Mac), o abre la página en una ventana de incógnito. Si pasados unos minutos sigue sin cambiar, avisa al equipo técnico. |
 | **Una foto sale recortada o cortó una cara** | Se subió una foto vertical en un espacio horizontal (portada, tarjeta o apertura). Reemplázala por una foto horizontal o recórtala en horizontal antes de subirla. |
 | **Una cita se ve rara** | Probablemente quedó en un solo párrafo o en tres. Abre el texto, deja la frase en el primer párrafo de la cita, pulsa **Enter** y pon solo el autor en el segundo párrafo. |
-| **Subí un video MP4 y no carga o tarda demasiado** | El archivo es muy pesado (el límite es 32 MB y lo ideal es menos de 20 MB). Súbelo a YouTube y en la pestaña **Video** cambia **Origen del video** a **YouTube**. |
+| **Subí un video MP4 y no carga o tarda demasiado** | El archivo es muy pesado (el límite es 32 MB y lo ideal es menos de 20 MB). Súbelo a YouTube y cambia el campo de origen a **YouTube**: en una historia, pestaña **Video** → **Origen del video**; en un video, **Fuente del video**; en una feria, **Origen** en la fila del video. Luego pega la **URL de YouTube**. |
 | **Publiqué por error antes de tiempo** | Abre la entrada, en el panel derecho busca **Estado: Publicada**, haz clic en **Editar**, cámbialo a **Borrador**, pulsa **Aceptar** y luego **Actualizar**. Desaparece del sitio al instante. |
 | **Una noticia publicada no aparece en Inicio** | Se muestran como máximo 3 noticias por año, las más recientes según su **Fecha de publicación**. Revisa esa fecha y que la noticia tenga **URL externa**. |
 | **El carrusel, el reproductor o el acordeón salen en otro orden** | Retratos y videos se ordenan por fecha de publicación (el más nuevo primero). Subcuentas, relatos sonoros y ferias se ordenan por su campo **Orden** (el número menor primero). Revisa ese campo. |
@@ -792,7 +795,9 @@ Imprime o revisa esta lista antes de pulsar **Publicar**:
 - [ ] **Video:** fuente correcta, URL de YouTube o MP4 de menos de 32 MB con miniatura, y 1 o 2 etiquetas.
 - [ ] **Relato sonoro:** MP3 de menos de 10 MB, duración en segundos y **Orden**.
 - [ ] **Feria:** descripción, hasta 6 fotos con texto alternativo, videos verticales sin filas vacías, **Orden** y **Abierta por defecto** en una sola feria.
-- [ ] **Subcuenta:** logo SVG o PNG transparente y **Orden** sin repetir.
+- [ ] **Subcuenta:** logo PNG con fondo transparente y **Orden** sin repetir.
+- [ ] **Productor:** nombre, **Municipio**, un producto por línea, 1 departamento y sus categorías marcadas.
+- [ ] **Páginas (Inicio / Proyectos destacados):** cambios hechos solo en **Cajas meta**; cifras con punto de miles y departamentos como `NOMBRE: número`.
 - [ ] Tras publicar: revisa la sección de **Inicio** o **Proyectos destacados** donde aparece.
 
 ### Antes de publicar la historia del mes
@@ -808,7 +813,7 @@ Imprime o revisa esta lista antes de pulsar **Publicar**:
 
 ---
 
-## 17. Buscadores y redes (SEO) y a quién acudir
+## 17. Buscadores y redes (SEO)
 
 ### Título, descripción e imagen para buscadores y redes
 
@@ -826,48 +831,43 @@ El sitio completa solos estos datos a partir del contenido que llenas, pero pued
 
 **Consejos:** si dejas ①, ② o ③ vacíos, el sitio usa los valores automáticos de la portada. Si el contador de **Descripción meta** marca un aviso en naranja como `166 – Demasiado largo`, acorta el texto hasta que el contador quede en verde. Deja sin marcar **¿Eliminar el título del sitio?** salvo que quieras omitir «| La Paz Sí Pasa». **No se muestra al editor:** la pestaña de visibilidad y los campos separados por red social están ocultos para mantener la caja simple. Al terminar, haz clic en **Actualizar** o **Publicar**.
 
-### A quién acudir
+---
+
+## 18. A quién acudir
 
 Si encuentras un error que no está en *Problemas frecuentes y qué hacer*, necesitas cambiar el menú principal o un cambio no aparece tras recargar, escribe al equipo técnico responsable del sitio indicando:
 
 1. La dirección web donde ves el problema.
-2. Qué estabas intentando hacer (por ejemplo: «publicar la Edición 03»).
+2. Qué estabas intentando hacer (por ejemplo: «publicar un contenido nuevo» o «cambiar una foto»).
 3. Una captura de pantalla del mensaje o de cómo se ve.
 
 ---
 
-## 18. Resumen en una hoja
+## 19. Resumen en una hoja
 
-### Publicar el boletín del mes
+Entra a la dirección del sitio seguida de `/wp-admin`. Pega siempre los textos sin formato (`Ctrl/Cmd + Shift + V`) y llena el **Texto alternativo** de cada foto.
 
-1. Entra a la dirección del sitio seguida de `/wp-admin` → **Boletines** → **Añadir edición**.
-2. Escribe el título corto (`Edición XX`), que define la dirección `/boletin/edicion-XX/`.
-3. En **Edición**, llena **Número de edición**, **Periodo**, texto del índice y **Créditos de fotografía** (un nombre por línea).
-4. En **Portada**, llena **Titular**, **Sumario**, foto horizontal (con **Texto alternativo**) y **Crédito de la foto**.
-5. En **Secciones**, llena las filas que vas a usar y borra con **−** las que no necesites.
-6. Pega los textos sin formato (`Ctrl/Cmd + Shift + V`), aplica **Título 3** con `Shift + Alt + 3` (`Control + Option + 3` en Mac) y usa **Cita** en dos párrafos.
-7. Haz clic en **Solo guardar** y revisa **Vista previa**.
-8. Haz clic en **Publicar** (o programa fecha y hora).
-9. Comprueba `/boletin/` y la tarjeta **Último boletín** en **Inicio**.
+### Boletín del mes
 
-### Publicar la historia del mes
+1. **Boletines** → **Añadir edición** → título corto `Edición XX` (define `/boletin/edicion-XX/`).
+2. **Edición:** **Número de edición**, **Periodo**, texto del índice y **Créditos de fotografía** (un nombre por línea).
+3. **Portada:** **Titular**, **Sumario**, foto horizontal y **Crédito de la foto**.
+4. **Secciones:** llena las que usas y borra con **−** las demás. Subtítulos en **Título 3**, **Cita** en dos párrafos.
+5. **Solo guardar** → **Vista previa** → **Publicar**. Comprueba `/boletin/` y **Último boletín** en **Inicio**.
 
-1. Entra a la dirección del sitio seguida de `/wp-admin` → **Historias PaisSana** → **Añadir historia**.
-2. Escribe el nombre de la organización en el título (define `/historias/<nombre>/`).
-3. En **Presentación**, llena **Lugar**, **Subtítulo en el catálogo**, **Resumen**, **Foto de la tarjeta** y hasta 3 **Cifras**.
-4. En **Portada**, sube la **Foto de portada**, escribe **Título de la historia** y agrega las filas de **Ficha**.
-5. En **Video**, elige **YouTube**, **Archivo MP4** (< 20 MB), **Enlace externo** (`https://`) o **Sin video**.
-6. En **Crónica**, pega el texto sin formato (**Título 3** con atajo y **Cita** en dos párrafos) y añade fotos o recuadro de datos si aplica.
-7. En **Galería**, pulsa **Add to gallery** (Añadir a la galería), sube las fotos y llena **Texto alternativo**, **Leyenda de la imagen** (pie) y **Descripción** (fotógrafo) en cada una.
-8. Haz clic en **Solo guardar** y revisa **Vista previa**.
-9. Haz clic en **Publicar** y comprueba `/historias/` y la sección **PaisSano destacado** en **Inicio**, **Proyectos destacados** y `/productores/`.
+### Historia del mes
 
-### Publicar otros contenidos
+1. **Historias PaisSana** → **Añadir historia** → nombre de la organización (define `/historias/<nombre>/`).
+2. **Presentación**, **Portada**, **Video** (YouTube, MP4 < 20 MB, enlace o **Sin video**), **Crónica** y **Galería** (pie y fotógrafo en cada foto).
+3. **Solo guardar** → **Vista previa** → **Publicar**. Comprueba `/historias/` y **PaisSano destacado**.
 
-1. **Noticia:** **Noticias** → **Añadir noticia** → titular, **URL externa** y **Fecha de publicación** → **Publicar**. Se ve en **Noticias** de **Inicio** (máximo 3 por año).
-2. **Retrato:** **Retratos** → **Añadir retrato** → **Foto**, **Descripción**, **Proyecto** y **Lugar** → **Publicar**. El más nuevo abre el carrusel **Retratos de la Paz**.
-3. **Video:** **Videos** → **Añadir video** → título, **Descripción**, **Fuente del video**, URL o MP4, **Miniatura** y **Etiquetas** → **Publicar**. El más nuevo es el destacado de **Actualidad**.
-4. **Relato sonoro:** **Relatos sonoros** → **Añadir relato sonoro** → productor, marca, lugar, audio, duración y **Orden** → **Publicar**. Suena en **El corazón del campo** de **Proyectos destacados**.
-5. **Feria:** **Ferias** → **Añadir feria** → **Descripción**, **Galería** (hasta 6), **Videos verticales**, **Orden** y **Abierta por defecto** → **Publicar**. Sale en **PaisSana en ferias**.
-6. **Subcuenta:** **Subcuentas** → **Añadir subcuenta** → **Logo** y **Orden** → **Publicar**. Sale en **Conoce las subcuentas** de **Inicio**.
-7. **Páginas:** **Páginas** → **Inicio** o **Proyectos destacados** → **Cajas meta** → cambia los campos → **Actualizar**. No toques los bloques.
+### Otros contenidos (luego **Publicar** o **Actualizar**)
+
+- **Productor:** **Productores** → **Añadir productor** → nombre, **Municipio**, productos y cajas de la derecha. Sale en `/productores/`.
+- **Noticia:** titular, **URL externa** y **Fecha de publicación**. Sale en **Noticias** de **Inicio** (máximo 3 por año).
+- **Retrato:** **Foto**, **Descripción**, **Proyecto** y **Lugar**. Abre el carrusel **Retratos de la Paz**.
+- **Video:** título, **Descripción**, **Fuente del video**, URL o MP4 con **Miniatura**, y **Etiquetas**. Destacado en **Actualidad**.
+- **Relato sonoro:** productor, marca, lugar, audio, duración y **Orden**. Suena en **El corazón del campo**.
+- **Feria:** **Descripción**, **Galería** (hasta 6), **Videos verticales**, **Orden** y **Abierta por defecto**.
+- **Subcuenta:** **Logo** y **Orden**. Sale en **Conoce las subcuentas** de **Inicio**.
+- **Páginas:** **Inicio** o **Proyectos destacados** → **Cajas meta** → **Actualizar**. No toques los bloques.
