@@ -8,8 +8,8 @@ Sitio público de La Paz Sí Pasa (https://lapazsipasa.com/). Muestra retratos d
 
 - **Producción (desde 2026-11-09):** sitio WordPress FSE, con el tema de bloques `lapaz` (`apps/wordpress/themes/lapaz/`). WordPress pinta todas las páginas; no hay Astro en el camino. Código de despliegue en `apps/wp-fse/`. Detalle en [despliegue-fse.md](despliegue-fse.md).
 - **Respaldo:** headless (WordPress + API REST) con frontend en Astro. Sigue en el servidor viejo, sin tráfico, hasta la limpieza final.
-- **En curso:** [boletín y catálogo PaisSana](specs/boletin-catalogo-fcp.md), en la rama `feat/boletin-catalogo-fcp`. Sin push, PR ni deploy.
-  - Estado (2026-11-22): manual general y 10 manuales por tipo; revisiones independientes hasta la 44; la prueba final (`bin/check` y suites e2e) está pendiente de repetir sobre el último commit.
+- **En curso:** [boletín y catálogo PaisSana](specs/boletin-catalogo-fcp.md), en la rama `feat/boletin-catalogo-fcp`, con PR #2 abierto y desplegada en el entorno `dev` de Dokploy (`dev.lapazsipasa.com`). Sin merge ni deploy a producción.
+  - Estado (2026-11-23): manual general y 10 manuales por tipo; revisiones independientes hasta la 45 (sin hallazgos altos ni medios); dev probado (recorrido del sitemap, suites de solo lectura y consola CSP). Las suites que escriben con wp-cli están pendientes de repetir en local sobre el último commit.
 
 ## Stack
 

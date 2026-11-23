@@ -412,7 +412,7 @@ El orden y los pasos para ejecutarlo todo en una sesión están en el [guion de 
 
 Lo que no se puede verificar en local con la imagen actual.
 
-- **Política de contenido:** consola sin violaciones de `Content-Security-Policy-Report-Only` en `/`, `/proyectos-destacados/` (un video de Plyr de YouTube y un audio), `/productores/`, `/historias/` y `/boletin/`.
+- **Política de contenido:** consola sin violaciones de `Content-Security-Policy-Report-Only` en `/`, `/proyectos-destacados/` (un video de Plyr de YouTube y un audio), `/productores/`, `/historias/` y `/boletin/`. En dev (2026-11-23), 9 rutas en 360 y 1440 px salieron limpias tras añadir `'wasm-unsafe-eval'` (router de la Interactivity API en el catálogo); falta confirmar con un video de YouTube reproduciéndose.
 - **Cabeceras de Apache con la imagen reconstruida:** HSTS solo por HTTPS (`max-age=31536000`, ausente en HTTP interno); sin `X-Powered-By`; sin listado de directorios; 403 en `readme.html`, `license.txt`, `wp-config-sample.php`, `debug.log` y `xmlrpc.php`, y en `/wp-content/languages/plugins/autodescription-es_CO.{l10n.php,mo}` (R26).
 - **Caché de página real (WP Super Cache):**
   - `/productores/` limpio, servido desde caché;
