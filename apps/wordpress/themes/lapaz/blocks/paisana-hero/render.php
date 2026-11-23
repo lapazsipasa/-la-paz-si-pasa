@@ -22,9 +22,9 @@ $lapaz_wrapper = get_block_wrapper_attributes( array( 'class' => 'paisana-header
 <div <?php echo $lapaz_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() ya escapa. ?>>
 	<nav class="proyectos-nav" aria-label="<?php esc_attr_e( 'Navegación de proyectos', 'lapaz' ); ?>">
 		<ul class="nav-list">
-			<li><a href="#" class="btn-project btn-blue"><?php esc_html_e( 'PAISSANA', 'lapaz' ); ?></a></li>
-			<li><a href="#" class="btn-project btn-green"><?php esc_html_e( 'PROGRAMA COLOMBIA SOSTENIBLE', 'lapaz' ); ?></a></li>
-			<li><a href="#" class="btn-project btn-orange"><?php esc_html_e( 'PROGRAMA PILOTO DE INVERSIONES PRIORITARIAS', 'lapaz' ); ?></a></li>
+			<li><a href="<?php echo esc_url( lapaz_catalogo_total() > 0 ? lapaz_url_catalogo_base() : '#' ); // Sin productores, como antes del catálogo. ?>" class="btn-project btn-blue"><?php esc_html_e( 'PAISSANA', 'lapaz' ); ?></a></li>
+			<li><span class="btn-project btn-green btn-disabled"><?php esc_html_e( 'PROGRAMA COLOMBIA SOSTENIBLE', 'lapaz' ); ?> <span class="screen-reader-text"><?php esc_html_e( '(próximamente)', 'lapaz' ); ?></span></span></li>
+			<li><span class="btn-project btn-orange btn-disabled"><?php esc_html_e( 'PROGRAMA PILOTO DE INVERSIONES PRIORITARIAS', 'lapaz' ); ?> <span class="screen-reader-text"><?php esc_html_e( '(próximamente)', 'lapaz' ); ?></span></span></li>
 		</ul>
 	</nav>
 
@@ -91,8 +91,8 @@ $lapaz_wrapper = get_block_wrapper_attributes( array( 'class' => 'paisana-header
 		<nav class="hero-nav" aria-label="<?php esc_attr_e( 'Navegación de secciones PaisSana', 'lapaz' ); ?>">
 			<ul class="hero-nav__list">
 				<li><a href="#escucha-el-corazon-del-campo"><?php esc_html_e( 'ESCUCHA EL CORAZÓN DEL CAMPO', 'lapaz' ); ?></a></li>
-				<li><a href="#paissana-en-ferias"><?php esc_html_e( 'PAISSANA EN FERIAS', 'lapaz' ); ?></a></li>
 				<li><a href="#productores-paissana"><?php esc_html_e( 'PRODUCTORES PAISSANA', 'lapaz' ); ?></a></li>
+				<li><a href="#paissana-en-ferias"><?php esc_html_e( 'PAISSANA EN FERIAS', 'lapaz' ); ?></a></li>
 			</ul>
 		</nav>
 	</section>

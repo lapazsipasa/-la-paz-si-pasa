@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lapaz/catalogo-portada",
+	"title": "PaisSana · Portada del catálogo",
+	"category": "theme",
+	"icon": "cover-image",
+	"description": "Hero del catálogo PaisSana con el número de productores, departamentos y categorías.",
+	"textdomain": "lapaz",
+	"supports": {
+		"autoRegister": true,
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"render": "file:./render.php",
+	"style": [ "lapaz-editorial", "file:./style.css" ]
+}

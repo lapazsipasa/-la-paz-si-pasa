@@ -1,0 +1,1128 @@
+{
+  "key": "group_boletin_lapazsipasa",
+  "title": "Edición del boletín",
+  "fields": [
+    {
+      "key": "field_boletin_tab_edicion",
+      "label": "Edición",
+      "name": "",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top",
+      "endpoint": 0,
+      "selected": 0
+    },
+    {
+      "key": "field_boletin_numero",
+      "label": "Número de edición",
+      "name": "numero",
+      "aria-label": "",
+      "type": "number",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "25",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "min": 1,
+      "max": "",
+      "step": 1,
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_boletin_periodo",
+      "label": "Periodo",
+      "name": "periodo",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Ej.: «Octubre – Noviembre 2026».",
+      "required": 1,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "35",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_boletin_rotulo",
+      "label": "Texto de la franja superior",
+      "name": "rotulo",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Aparece arriba del boletín. Puedes dejar el texto por defecto.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "40",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "Boletín · Jefatura de Relacionamiento Estratégico y Comunicaciones",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_boletin_indice_intro",
+      "label": "Texto de «En esta edición»",
+      "name": "indice_intro",
+      "aria-label": "",
+      "type": "textarea",
+      "instructions": "Párrafo que presenta el índice.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "rows": 2,
+      "placeholder": "",
+      "new_lines": ""
+    },
+    {
+      "key": "field_boletin_creditos_foto",
+      "label": "Créditos de fotografía",
+      "name": "creditos_foto",
+      "aria-label": "",
+      "type": "textarea",
+      "instructions": "Un nombre por línea, sin escribir «Fotografía:». Se muestran en el pie.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "rows": 2,
+      "placeholder": "",
+      "new_lines": ""
+    },
+    {
+      "key": "field_boletin_tab_portada",
+      "label": "Portada",
+      "name": "",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top",
+      "endpoint": 0,
+      "selected": 0
+    },
+    {
+      "key": "field_boletin_portada_titular",
+      "label": "Titular",
+      "name": "portada_titular",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_boletin_portada_sumario",
+      "label": "Sumario",
+      "name": "portada_sumario",
+      "aria-label": "",
+      "type": "textarea",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "rows": 3,
+      "placeholder": "",
+      "new_lines": ""
+    },
+    {
+      "key": "field_boletin_portada_firma_nombre",
+      "label": "Protagonista o autor",
+      "name": "portada_firma_nombre",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Aparece debajo del sumario, en la portada. Ej.: «Emilio Archila».",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "50",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_boletin_portada_firma_cargo",
+      "label": "Cargo o descripción",
+      "name": "portada_firma_cargo",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Aparece debajo del nombre. Ej.: «Consejero presidencial».",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "50",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_boletin_portada_foto",
+      "label": "Foto de portada",
+      "name": "portada_foto",
+      "aria-label": "",
+      "type": "image",
+      "instructions": "",
+      "required": 1,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "50",
+        "class": "",
+        "id": ""
+      },
+      "return_format": "id",
+      "library": "all",
+      "preview_size": "medium",
+      "min_width": "",
+      "min_height": "",
+      "min_size": "",
+      "max_width": "",
+      "max_height": "",
+      "max_size": "",
+      "mime_types": "jpg, jpeg, png, webp"
+    },
+    {
+      "key": "field_boletin_portada_credito",
+      "label": "Crédito de la foto",
+      "name": "portada_credito",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Ej.: Fotografía: Fernando López Ríos",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "50",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_boletin_tab_secciones",
+      "label": "Secciones",
+      "name": "",
+      "aria-label": "",
+      "type": "tab",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "placement": "top",
+      "endpoint": 0,
+      "selected": 0
+    },
+    {
+      "key": "field_boletin_secciones",
+      "label": "Secciones",
+      "name": "secciones",
+      "aria-label": "",
+      "type": "flexible_content",
+      "instructions": "Una fila por sección, en el orden en que se publican. La numeración, el índice y la barra de secciones se generan solos.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "layouts": {
+        "layout_boletin_articulo": {
+          "key": "layout_boletin_articulo",
+          "name": "articulo",
+          "label": "Artículo",
+          "display": "block",
+          "sub_fields": [
+            {
+              "key": "field_boletin_articulo_nombre",
+              "label": "Nombre de la sección",
+              "name": "nombre",
+              "aria-label": "",
+              "type": "text",
+              "instructions": "Ej.: «Historias que transforman».",
+              "required": 1,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "placeholder": "",
+              "prepend": "",
+              "append": ""
+            },
+            {
+              "key": "field_boletin_articulo_antetitulo",
+              "label": "Subtítulo de la sección",
+              "name": "antetitulo",
+              "aria-label": "",
+              "type": "text",
+              "instructions": "Línea corta debajo del nombre de la sección.",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "placeholder": "",
+              "prepend": "",
+              "append": ""
+            },
+            {
+              "key": "field_boletin_articulo_indice_titulo",
+              "label": "Índice: título",
+              "name": "indice_titulo",
+              "aria-label": "",
+              "type": "text",
+              "instructions": "Opcional. Título corto de la tarjeta en «En esta edición». Si lo dejas vacío, se usa el título del artículo.",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "placeholder": "",
+              "prepend": "",
+              "append": ""
+            },
+            {
+              "key": "field_boletin_articulo_indice_imagen",
+              "label": "Índice: imagen",
+              "name": "indice_imagen",
+              "aria-label": "",
+              "type": "image",
+              "instructions": "Opcional. Foto horizontal para la tarjeta del índice (recomendada 16:10). Si la dejas vacía, se usa la primera foto del artículo.",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+              },
+              "return_format": "id",
+              "library": "all",
+              "preview_size": "medium",
+              "min_width": "",
+              "min_height": "",
+              "min_size": "",
+              "max_width": "",
+              "max_height": "",
+              "max_size": "",
+              "mime_types": "jpg, jpeg, png, webp"
+            },
+            {
+              "key": "field_boletin_articulo_indice_resumen",
+              "label": "Índice: resumen",
+              "name": "indice_resumen",
+              "aria-label": "",
+              "type": "textarea",
+              "instructions": "Una o dos líneas para la tarjeta del índice.",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "rows": 2,
+              "placeholder": "",
+              "new_lines": ""
+            },
+            {
+              "key": "field_boletin_articulo_clon",
+              "label": "Artículo",
+              "name": "articulo",
+              "aria-label": "",
+              "type": "clone",
+              "instructions": "",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+              },
+              "clone": [
+                "group_articulo_lapazsipasa"
+              ],
+              "display": "seamless",
+              "layout": "block",
+              "prefix_label": 0,
+              "prefix_name": 0
+            }
+          ],
+          "min": "",
+          "max": ""
+        },
+        "layout_boletin_cifras": {
+          "key": "layout_boletin_cifras",
+          "name": "cifras",
+          "label": "Cifras",
+          "display": "block",
+          "sub_fields": [
+            {
+              "key": "field_boletin_cifras_nombre",
+              "label": "Nombre de la sección",
+              "name": "nombre",
+              "aria-label": "",
+              "type": "text",
+              "instructions": "Ej.: «El Fondo en cifras».",
+              "required": 1,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "placeholder": "",
+              "prepend": "",
+              "append": ""
+            },
+            {
+              "key": "field_boletin_cifras_antetitulo",
+              "label": "Subtítulo de la sección",
+              "name": "antetitulo",
+              "aria-label": "",
+              "type": "text",
+              "instructions": "Línea corta debajo del nombre de la sección.",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "placeholder": "",
+              "prepend": "",
+              "append": ""
+            },
+            {
+              "key": "field_boletin_cifras_indice_titulo",
+              "label": "Índice: título",
+              "name": "indice_titulo",
+              "aria-label": "",
+              "type": "text",
+              "instructions": "Título corto de la tarjeta en «En esta edición».",
+              "required": 1,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "placeholder": "",
+              "prepend": "",
+              "append": ""
+            },
+            {
+              "key": "field_boletin_cifras_indice_imagen",
+              "label": "Índice: imagen",
+              "name": "indice_imagen",
+              "aria-label": "",
+              "type": "image",
+              "instructions": "Opcional. Foto horizontal para la tarjeta del índice (recomendada 16:10).",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+              },
+              "return_format": "id",
+              "library": "all",
+              "preview_size": "medium",
+              "min_width": "",
+              "min_height": "",
+              "min_size": "",
+              "max_width": "",
+              "max_height": "",
+              "max_size": "",
+              "mime_types": "jpg, jpeg, png, webp"
+            },
+            {
+              "key": "field_boletin_cifras_indice_resumen",
+              "label": "Índice: resumen",
+              "name": "indice_resumen",
+              "aria-label": "",
+              "type": "textarea",
+              "instructions": "Una o dos líneas para la tarjeta del índice.",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "rows": 2,
+              "placeholder": "",
+              "new_lines": ""
+            },
+            {
+              "key": "field_boletin_cifras_lista",
+              "label": "Cifras",
+              "name": "cifras",
+              "aria-label": "",
+              "type": "repeater",
+              "instructions": "La primera cifra se muestra destacada.",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+              },
+              "layout": "table",
+              "pagination": 0,
+              "min": 0,
+              "max": 0,
+              "collapsed": "",
+              "button_label": "Añadir cifra",
+              "rows_per_page": 20,
+              "sub_fields": [
+                {
+                  "key": "field_boletin_cifra_numero",
+                  "label": "Número",
+                  "name": "numero",
+                  "aria-label": "",
+                  "type": "text",
+                  "instructions": "Ej.: «US$100», «36.428».",
+                  "required": 1,
+                  "conditional_logic": false,
+                  "wrapper": {
+                    "width": "30",
+                    "class": "",
+                    "id": ""
+                  },
+                  "default_value": "",
+                  "maxlength": "",
+                  "placeholder": "",
+                  "prepend": "",
+                  "append": ""
+                },
+                {
+                  "key": "field_boletin_cifra_texto",
+                  "label": "Texto",
+                  "name": "texto",
+                  "aria-label": "",
+                  "type": "text",
+                  "instructions": "Qué mide la cifra. Ej.: «invertidos en obras».",
+                  "required": 1,
+                  "conditional_logic": false,
+                  "wrapper": {
+                    "width": "70",
+                    "class": "",
+                    "id": ""
+                  },
+                  "default_value": "",
+                  "maxlength": "",
+                  "placeholder": "",
+                  "prepend": "",
+                  "append": ""
+                }
+              ]
+            },
+            {
+              "key": "field_boletin_cifras_nota",
+              "label": "Nota",
+              "name": "nota",
+              "aria-label": "",
+              "type": "textarea",
+              "instructions": "Párrafo bajo las cifras.",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "rows": 3,
+              "placeholder": "",
+              "new_lines": ""
+            }
+          ],
+          "min": "",
+          "max": ""
+        },
+        "layout_boletin_tarjetas": {
+          "key": "layout_boletin_tarjetas",
+          "name": "tarjetas",
+          "label": "Tarjetas",
+          "display": "block",
+          "sub_fields": [
+            {
+              "key": "field_boletin_tarjetas_nombre",
+              "label": "Nombre de la sección",
+              "name": "nombre",
+              "aria-label": "",
+              "type": "text",
+              "instructions": "Ej.: «Alianzas».",
+              "required": 1,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "placeholder": "",
+              "prepend": "",
+              "append": ""
+            },
+            {
+              "key": "field_boletin_tarjetas_antetitulo",
+              "label": "Subtítulo de la sección",
+              "name": "antetitulo",
+              "aria-label": "",
+              "type": "text",
+              "instructions": "Línea corta debajo del nombre de la sección.",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "placeholder": "",
+              "prepend": "",
+              "append": ""
+            },
+            {
+              "key": "field_boletin_tarjetas_indice_titulo",
+              "label": "Índice: título",
+              "name": "indice_titulo",
+              "aria-label": "",
+              "type": "text",
+              "instructions": "Título corto de la tarjeta en «En esta edición».",
+              "required": 1,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "placeholder": "",
+              "prepend": "",
+              "append": ""
+            },
+            {
+              "key": "field_boletin_tarjetas_indice_imagen",
+              "label": "Índice: imagen",
+              "name": "indice_imagen",
+              "aria-label": "",
+              "type": "image",
+              "instructions": "Opcional. Foto horizontal para la tarjeta del índice (recomendada 16:10).",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+              },
+              "return_format": "id",
+              "library": "all",
+              "preview_size": "medium",
+              "min_width": "",
+              "min_height": "",
+              "min_size": "",
+              "max_width": "",
+              "max_height": "",
+              "max_size": "",
+              "mime_types": "jpg, jpeg, png, webp"
+            },
+            {
+              "key": "field_boletin_tarjetas_indice_resumen",
+              "label": "Índice: resumen",
+              "name": "indice_resumen",
+              "aria-label": "",
+              "type": "textarea",
+              "instructions": "Una o dos líneas para la tarjeta del índice.",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "rows": 2,
+              "placeholder": "",
+              "new_lines": ""
+            },
+            {
+              "key": "field_boletin_tarjetas_lista",
+              "label": "Tarjetas",
+              "name": "tarjetas",
+              "aria-label": "",
+              "type": "repeater",
+              "instructions": "Cada fila es una tarjeta.",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+              },
+              "layout": "block",
+              "pagination": 0,
+              "min": 0,
+              "max": 0,
+              "collapsed": "field_boletin_tarjeta_titulo",
+              "button_label": "Añadir tarjeta",
+              "rows_per_page": 20,
+              "sub_fields": [
+                {
+                  "key": "field_boletin_tarjeta_etiqueta",
+                  "label": "Etiqueta",
+                  "name": "etiqueta",
+                  "aria-label": "",
+                  "type": "text",
+                  "instructions": "Ej.: «KfW · Alemania».",
+                  "required": 0,
+                  "conditional_logic": false,
+                  "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                  },
+                  "default_value": "",
+                  "maxlength": "",
+                  "placeholder": "",
+                  "prepend": "",
+                  "append": ""
+                },
+                {
+                  "key": "field_boletin_tarjeta_color",
+                  "label": "Color",
+                  "name": "color",
+                  "aria-label": "",
+                  "type": "select",
+                  "instructions": "Color del filete de arriba de la tarjeta.",
+                  "required": 0,
+                  "conditional_logic": false,
+                  "wrapper": {
+                    "width": "50",
+                    "class": "",
+                    "id": ""
+                  },
+                  "choices": {
+                    "azul": "Azul",
+                    "naranja": "Naranja",
+                    "verde": "Verde"
+                  },
+                  "default_value": "azul",
+                  "allow_null": 0,
+                  "multiple": 0,
+                  "ui": 0,
+                  "return_format": "value",
+                  "ajax": 0,
+                  "placeholder": "",
+                  "create_options": 0,
+                  "save_options": 0
+                },
+                {
+                  "key": "field_boletin_tarjeta_titulo",
+                  "label": "Título",
+                  "name": "titulo",
+                  "aria-label": "",
+                  "type": "text",
+                  "instructions": "",
+                  "required": 1,
+                  "conditional_logic": false,
+                  "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                  },
+                  "default_value": "",
+                  "maxlength": "",
+                  "placeholder": "",
+                  "prepend": "",
+                  "append": ""
+                },
+                {
+                  "key": "field_boletin_tarjeta_texto",
+                  "label": "Texto",
+                  "name": "texto",
+                  "aria-label": "",
+                  "type": "textarea",
+                  "instructions": "Un párrafo por línea.",
+                  "required": 0,
+                  "conditional_logic": false,
+                  "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                  },
+                  "default_value": "",
+                  "maxlength": "",
+                  "rows": 5,
+                  "placeholder": "",
+                  "new_lines": ""
+                },
+                {
+                  "key": "field_boletin_tarjeta_monto",
+                  "label": "Monto",
+                  "name": "monto",
+                  "aria-label": "",
+                  "type": "text",
+                  "instructions": "Opcional. Ej.: «€31.250.000».",
+                  "required": 0,
+                  "conditional_logic": false,
+                  "wrapper": {
+                    "width": "35",
+                    "class": "",
+                    "id": ""
+                  },
+                  "default_value": "",
+                  "maxlength": "",
+                  "placeholder": "",
+                  "prepend": "",
+                  "append": ""
+                },
+                {
+                  "key": "field_boletin_tarjeta_monto_nota",
+                  "label": "Nota del monto",
+                  "name": "monto_nota",
+                  "aria-label": "",
+                  "type": "text",
+                  "instructions": "",
+                  "required": 0,
+                  "conditional_logic": false,
+                  "wrapper": {
+                    "width": "65",
+                    "class": "",
+                    "id": ""
+                  },
+                  "default_value": "",
+                  "maxlength": "",
+                  "placeholder": "",
+                  "prepend": "",
+                  "append": ""
+                }
+              ]
+            }
+          ],
+          "min": "",
+          "max": ""
+        },
+        "layout_boletin_agenda": {
+          "key": "layout_boletin_agenda",
+          "name": "agenda",
+          "label": "Agenda",
+          "display": "block",
+          "sub_fields": [
+            {
+              "key": "field_boletin_agenda_nombre",
+              "label": "Nombre de la sección",
+              "name": "nombre",
+              "aria-label": "",
+              "type": "text",
+              "instructions": "Ej.: «La agenda».",
+              "required": 1,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "placeholder": "",
+              "prepend": "",
+              "append": ""
+            },
+            {
+              "key": "field_boletin_agenda_antetitulo",
+              "label": "Subtítulo de la sección",
+              "name": "antetitulo",
+              "aria-label": "",
+              "type": "text",
+              "instructions": "Línea corta debajo del nombre de la sección.",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "placeholder": "",
+              "prepend": "",
+              "append": ""
+            },
+            {
+              "key": "field_boletin_agenda_indice_titulo",
+              "label": "Índice: título",
+              "name": "indice_titulo",
+              "aria-label": "",
+              "type": "text",
+              "instructions": "Título corto de la tarjeta en «En esta edición».",
+              "required": 1,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "placeholder": "",
+              "prepend": "",
+              "append": ""
+            },
+            {
+              "key": "field_boletin_agenda_indice_imagen",
+              "label": "Índice: imagen",
+              "name": "indice_imagen",
+              "aria-label": "",
+              "type": "image",
+              "instructions": "Opcional. Foto horizontal para la tarjeta del índice (recomendada 16:10).",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+              },
+              "return_format": "id",
+              "library": "all",
+              "preview_size": "medium",
+              "min_width": "",
+              "min_height": "",
+              "min_size": "",
+              "max_width": "",
+              "max_height": "",
+              "max_size": "",
+              "mime_types": "jpg, jpeg, png, webp"
+            },
+            {
+              "key": "field_boletin_agenda_indice_resumen",
+              "label": "Índice: resumen",
+              "name": "indice_resumen",
+              "aria-label": "",
+              "type": "textarea",
+              "instructions": "Una o dos líneas para la tarjeta del índice.",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+              },
+              "default_value": "",
+              "maxlength": "",
+              "rows": 2,
+              "placeholder": "",
+              "new_lines": ""
+            },
+            {
+              "key": "field_boletin_agenda_hitos",
+              "label": "Hitos",
+              "name": "hitos",
+              "aria-label": "",
+              "type": "repeater",
+              "instructions": "",
+              "required": 0,
+              "conditional_logic": false,
+              "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+              },
+              "layout": "block",
+              "pagination": 0,
+              "min": 0,
+              "max": 0,
+              "collapsed": "field_boletin_hito_titulo",
+              "button_label": "Añadir hito",
+              "rows_per_page": 20,
+              "sub_fields": [
+                {
+                  "key": "field_boletin_hito_cuando",
+                  "label": "Cuándo",
+                  "name": "cuando",
+                  "aria-label": "",
+                  "type": "text",
+                  "instructions": "Fecha o etapa: «Fases II y III», «En implementación».",
+                  "required": 0,
+                  "conditional_logic": false,
+                  "wrapper": {
+                    "width": "35",
+                    "class": "",
+                    "id": ""
+                  },
+                  "default_value": "",
+                  "maxlength": "",
+                  "placeholder": "",
+                  "prepend": "",
+                  "append": ""
+                },
+                {
+                  "key": "field_boletin_hito_titulo",
+                  "label": "Título",
+                  "name": "titulo",
+                  "aria-label": "",
+                  "type": "text",
+                  "instructions": "",
+                  "required": 1,
+                  "conditional_logic": false,
+                  "wrapper": {
+                    "width": "65",
+                    "class": "",
+                    "id": ""
+                  },
+                  "default_value": "",
+                  "maxlength": "",
+                  "placeholder": "",
+                  "prepend": "",
+                  "append": ""
+                },
+                {
+                  "key": "field_boletin_hito_texto",
+                  "label": "Texto",
+                  "name": "texto",
+                  "aria-label": "",
+                  "type": "textarea",
+                  "instructions": "Opcional. Una o dos frases.",
+                  "required": 0,
+                  "conditional_logic": false,
+                  "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                  },
+                  "default_value": "",
+                  "maxlength": "",
+                  "rows": 2,
+                  "placeholder": "",
+                  "new_lines": ""
+                }
+              ]
+            }
+          ],
+          "min": "",
+          "max": ""
+        }
+      },
+      "min": "",
+      "max": "",
+      "button_label": "Añadir sección"
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "boletin"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": [],
+  "active": true,
+  "description": "Una edición del boletín Caminos de Transformación. La pinta el bloque lapaz/boletin.",
+  "show_in_rest": 0
+}

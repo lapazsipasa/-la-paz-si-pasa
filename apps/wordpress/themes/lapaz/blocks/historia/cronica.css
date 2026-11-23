@@ -1,0 +1,67 @@
+/*
+ * Bloque lapaz/historia: crónica (columna de texto y aside).
+ * Fondo papel y cuerpo editorial (.texto): assets/css/editorial.css.
+ */
+.wp-block-lapaz-historia .seccion-cronica.papel {
+	padding: var(--space-8) var(--space-4);
+	border-radius: var(--radius-card);
+}
+
+.wp-block-lapaz-historia .cronica {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-8);
+}
+
+.wp-block-lapaz-historia .cronica .fuente {
+	padding-top: var(--space-4);
+	border-top: 1px solid var(--color-nav-text);
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-light);
+	font-size: var(--font-size-rotulo);
+	line-height: 1.5;
+	color: var(--color-nav-text);
+}
+
+.wp-block-lapaz-historia .cronica aside {
+	display: grid;
+	align-content: start;
+	gap: var(--space-6);
+	min-width: 0;
+}
+
+.wp-block-lapaz-historia .cronica aside figure {
+	display: grid;
+	gap: var(--space-2);
+	margin: 0;
+}
+
+.wp-block-lapaz-historia .cronica aside img {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: var(--radius-card);
+}
+
+.wp-block-lapaz-historia .ficha-tec.una-columna {
+	grid-template-columns: 1fr;
+	padding: var(--space-6) var(--space-4);
+	background: var(--color-surface);
+}
+
+@media (min-width: 850px) {
+
+	.wp-block-lapaz-historia .seccion-cronica.papel {
+		padding: var(--space-12) var(--space-10);
+	}
+
+	.wp-block-lapaz-historia .cronica {
+		grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+		gap: var(--space-12);
+	}
+
+	.wp-block-lapaz-historia .cronica aside {
+		position: sticky;
+		top: var(--space-6);
+	}
+}

@@ -18,3 +18,11 @@ README.md
 .env
 .env.*
 !.env.example
+
+# fuente, documentación, pruebas y dependencias de desarrollo: ninguna imagen las copia
+raw/
+wiki/
+apps/wp-fse/vendor/
+apps/wp-fse/tests/
+# credenciales locales (también ignoradas por git): nunca al contexto de build
+credenciales*.txt

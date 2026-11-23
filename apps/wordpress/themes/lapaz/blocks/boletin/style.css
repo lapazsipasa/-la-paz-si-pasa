@@ -1,0 +1,316 @@
+/*
+ * Bloque lapaz/boletin: base, franja, portada, barra de secciones e índice.
+ * Contenedor, cabeceras, rótulos, botones, crédito y cuerpo: assets/css/editorial.css.
+ * Panel protagonista (portada) en azul con texto blanco y celeste de acento.
+ */
+.wp-block-lapaz-boletin {
+	width: 100%;
+	overflow-x: clip;
+	color: var(--color-nav-text);
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-light);
+	font-size: 1rem;
+	line-height: 1.6;
+}
+
+.wp-block-lapaz-boletin .wrap {
+	padding-inline: clamp(1rem, 3vw, 1.5rem);
+}
+
+.wp-block-lapaz-boletin img {
+	display: block;
+	max-width: 100%;
+}
+
+.wp-block-lapaz-boletin .sin-edicion {
+	padding: var(--space-16) var(--space-4);
+	text-align: center;
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-regular);
+}
+
+/* Franja institucional */
+.wp-block-lapaz-boletin .franja {
+	background: var(--color-azul-noche);
+	color: var(--color-surface);
+}
+
+.wp-block-lapaz-boletin .franja .wrap {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-1) var(--space-4);
+	padding-block: var(--space-3);
+	font-family: var(--font-monique-regular);
+	font-weight: var(--font-weight-komet-regular);
+	font-size: var(--font-size-rotulo);
+	letter-spacing: var(--tracking-rotulo);
+	text-transform: uppercase;
+}
+
+/* Portada */
+.wp-block-lapaz-boletin .portada {
+	background: var(--color-nav-text);
+	color: var(--color-surface);
+}
+
+.wp-block-lapaz-boletin .portada .wrap {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--space-8);
+	align-items: center;
+	padding-block: var(--space-8) var(--space-10);
+}
+
+.wp-block-lapaz-boletin .portada .wrap > div {
+	display: grid;
+	justify-items: start;
+	gap: var(--space-4);
+	min-width: 0;
+}
+
+.wp-block-lapaz-boletin .cabecera-boletin {
+	color: var(--color-nav-bg-active);
+}
+
+.wp-block-lapaz-boletin .titular {
+	font-size: clamp(2rem, 5vw, 3.75rem);
+	color: var(--color-surface);
+}
+
+.wp-block-lapaz-boletin .sumario {
+	margin: 0;
+	max-width: 46ch;
+	font-weight: var(--font-weight-komet-regular);
+	font-size: clamp(1rem, 2vw, 1.25rem);
+	line-height: 1.5;
+}
+
+.wp-block-lapaz-boletin .firma {
+	max-width: 46ch;
+	padding-top: var(--space-3);
+	border-top: 1px solid var(--color-nav-bg-active);
+	font-size: var(--font-size-nota);
+}
+
+.wp-block-lapaz-boletin .firma strong {
+	display: block;
+	font-weight: var(--font-weight-komet-heavy);
+}
+
+.wp-block-lapaz-boletin .portada figure {
+	margin: 0;
+	min-width: 0;
+}
+
+.wp-block-lapaz-boletin .portada img {
+	width: 100%;
+	height: auto;
+	max-height: 34rem;
+	object-fit: cover;
+	object-position: center top;
+	border-radius: var(--radius-card);
+	box-shadow: var(--shadow-soft);
+}
+
+/* Sobre el azul, el gris de los créditos no llega a 4,5:1: celeste (5,97:1). */
+.wp-block-lapaz-boletin .portada .credito {
+	margin-top: var(--space-2);
+	color: var(--color-nav-bg-active);
+}
+
+/* Barra de secciones */
+.wp-block-lapaz-boletin .nav {
+	background: var(--color-surface);
+	border-bottom: 1px solid var(--color-nav-text);
+}
+
+.wp-block-lapaz-boletin .nav .wrap {
+	display: flex;
+	gap: var(--space-1);
+	overflow-x: auto;
+	scrollbar-width: thin;
+}
+
+.wp-block-lapaz-boletin .nav a {
+	flex: none;
+	padding: var(--space-3);
+	border-bottom: 3px solid transparent;
+	font-family: var(--font-monique-regular);
+	font-weight: var(--font-weight-komet-regular);
+	font-size: var(--font-size-rotulo);
+	letter-spacing: var(--tracking-rotulo);
+	text-transform: uppercase;
+	text-decoration: none;
+	white-space: nowrap;
+	color: var(--color-nav-text);
+}
+
+.wp-block-lapaz-boletin .nav a:is(:hover, :focus-visible) {
+	border-bottom-color: var(--color-nav-text);
+}
+
+.wp-block-lapaz-boletin :is(.indice, .seccion) {
+	padding-block: var(--space-12);
+	scroll-margin-top: var(--space-16);
+}
+
+/* Índice */
+.wp-block-lapaz-boletin .indice-intro {
+	max-width: 46rem;
+	margin-bottom: var(--space-8);
+}
+
+.wp-block-lapaz-boletin .indice-intro h2 {
+	margin: 0 0 var(--space-2);
+	font-family: var(--font-monique-regular);
+	font-weight: var(--font-weight-komet-regular);
+	font-size: var(--font-size-seccion);
+	line-height: 1.15;
+	letter-spacing: var(--tracking-rotulo);
+	text-transform: uppercase;
+	color: var(--color-nav-text);
+}
+
+.wp-block-lapaz-boletin .indice-intro p {
+	margin: 0;
+	font-weight: var(--font-weight-komet-regular);
+	font-size: 1.0625rem;
+}
+
+.wp-block-lapaz-boletin .indice-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--space-6);
+}
+
+.wp-block-lapaz-boletin .tema {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	overflow: hidden;
+	background: var(--color-surface);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-card);
+	text-decoration: none;
+	color: var(--color-nav-text);
+	transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.wp-block-lapaz-boletin .tema:is(:hover, :has(a:focus-visible)) {
+	border-color: var(--color-nav-text);
+	box-shadow: var(--shadow-soft);
+}
+
+/* El enlace del título se estira sobre toda la tarjeta; el foco se dibuja en la tarjeta. */
+.wp-block-lapaz-boletin .tema h3 a:any-link {
+	color: inherit;
+	text-decoration: none;
+}
+
+.wp-block-lapaz-boletin .tema h3 a::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+}
+
+/* Sin :has() el enlace conserva su propio foco. */
+@supports selector(:has(*)) {
+
+	.wp-block-lapaz-boletin .tema h3 a:focus-visible {
+		outline: none;
+	}
+
+	.wp-block-lapaz-boletin .tema:has(a:focus-visible) {
+		outline: 2px solid currentcolor;
+		outline-offset: 3px;
+	}
+}
+
+.wp-block-lapaz-boletin .thumb {
+	position: relative;
+	aspect-ratio: 16 / 10;
+	overflow: hidden;
+	background: var(--color-nav-bg-active);
+}
+
+.wp-block-lapaz-boletin .thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.wp-block-lapaz-boletin .num {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	padding: var(--space-1) var(--space-3);
+	background: var(--color-nav-text);
+	font-family: var(--font-monique-regular);
+	font-weight: var(--font-weight-komet-regular);
+	font-size: var(--font-size-rotulo);
+	letter-spacing: var(--tracking-rotulo);
+	color: var(--color-nav-bg-active);
+}
+
+.wp-block-lapaz-boletin .cont {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: var(--space-2);
+	padding: var(--space-4);
+}
+
+.wp-block-lapaz-boletin .tema h3 {
+	font-size: 1.25rem;
+}
+
+.wp-block-lapaz-boletin .tema p {
+	margin: 0;
+	font-size: var(--font-size-nota);
+	line-height: 1.5;
+}
+
+.wp-block-lapaz-boletin .ir {
+	margin-top: auto;
+	pointer-events: none;
+	padding-top: var(--space-3);
+}
+
+.wp-block-lapaz-boletin .tema:is(:hover, :has(a:focus-visible)) .flecha {
+	display: inline-block;
+	transform: translateX(4px);
+}
+
+@media (min-width: 850px) {
+
+	.wp-block-lapaz-boletin .portada .wrap {
+		grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+		gap: var(--space-12);
+		padding-block: var(--space-12);
+	}
+
+	.wp-block-lapaz-boletin .indice-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 1200px) {
+
+	.wp-block-lapaz-boletin .indice-grid {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.wp-block-lapaz-boletin .tema {
+		transition: none;
+	}
+
+	.wp-block-lapaz-boletin .tema:is(:hover, :has(a:focus-visible)) .flecha {
+		transform: none;
+	}
+}

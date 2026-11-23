@@ -47,9 +47,11 @@ import selectorParser from "postcss-selector-parser";
 
 const blocks = "../wordpress/themes/lapaz/blocks";
 for (const block of fs.existsSync(blocks) ? fs.readdirSync(blocks, { withFileTypes: true }) : []) {
-    const file = path.join(blocks, block.name, "style.css");
-    if (!block.isDirectory() || !fs.existsSync(file)) continue;
+    if (!block.isDirectory()) continue;
     const prefix = `wp-block-lapaz-${block.name}`;
+    // Todas las hojas del bloque, no solo style.css: un bloque puede repartir su CSS en varias.
+    for (const css of fs.readdirSync(path.join(blocks, block.name)).filter(name => name.endsWith(".css"))) {
+    const file = path.join(blocks, block.name, css);
     postcss.parse(fs.readFileSync(file, "utf8"), { from: file }).walkRules(rule => {
         // Las at-rules y su contenido quedan fuera de esta regla de prefijos.
         for (let parent = rule.parent; parent; parent = parent.parent) {
@@ -64,6 +66,7 @@ for (const block of fs.existsSync(blocks) ? fs.readdirSync(blocks, { withFileTyp
             }
         })).processSync(rule.selector);
     });
+    }
 }
 JS'
 paso "ESLint" en_node "npm run -s lint:js -- --ignore-pattern 'assets/vendor/**'"

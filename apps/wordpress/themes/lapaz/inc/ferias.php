@@ -86,7 +86,7 @@ function lapaz_feria_videos( int $post_id, string $titulo ): array {
 		if ( '' === $yt && '' === $file ) {
 			continue;
 		}
-		$source = lapaz_video_source( $yt, $file );
+		$source = lapaz_video_source( $yt, $file, is_string( $fila['fuente_video'] ?? null ) ? $fila['fuente_video'] : '' );
 		if ( 'no-disponible' === $source['estado'] ) {
 			continue;
 		}

@@ -8,7 +8,7 @@
       "name": "icono",
       "aria-label": "",
       "type": "image",
-      "instructions": "Logo de la subcuenta. Preferiblemente SVG o PNG con fondo transparente.",
+      "instructions": "Logo de la subcuenta. PNG con fondo transparente (WordPress no deja subir SVG).",
       "required": 1,
       "conditional_logic": false,
       "wrapper": { "width": "", "class": "", "id": "" },

@@ -8,7 +8,7 @@
       "name": "hero_imagen",
       "aria-label": "",
       "type": "image",
-      "instructions": "Foto de fondo de la portada. Súbela ya redimensionada (ancho recomendado 1920 px) y comprimida. El logo no se edita aquí.",
+      "instructions": "Foto de fondo de la portada. Súbela de 1500 px de ancho y comprimida (WordPress reduce a 1500 px las más anchas). El logo no se edita aquí.",
       "required": 0,
       "conditional_logic": false,
       "wrapper": { "width": "", "class": "", "id": "" },

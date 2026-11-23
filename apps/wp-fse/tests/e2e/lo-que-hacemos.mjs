@@ -1,7 +1,8 @@
 // node tests/e2e/lo-que-hacemos.mjs [--visual | --baseline http://127.0.0.1:4321]
-import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import { createBrowserTests } from './lib.mjs';
+import { wp } from './paisana-lib.mjs';
+import { borrarNoticiasEjemplo, sembrarNoticiasEjemplo } from './fcp-lib.mjs';
 
 const expectedLogos = JSON.parse(
 	fs.readFileSync(
@@ -15,29 +16,6 @@ const { baselineFrom, visual, site, check, openPage, compare, finish } =
 	createBrowserTests();
 const base = baselineFrom ?? site;
 let wordpress = false;
-
-function wp( code ) {
-	return execFileSync(
-		'docker',
-		[
-			'compose',
-			'exec',
-			'-T',
-			'-u',
-			'www-data',
-			'cms',
-			'wp',
-			'--path=/var/www/html',
-			'eval',
-			code,
-		],
-		{
-			cwd: new URL( '../..', import.meta.url ),
-			encoding: 'utf8',
-			timeout: 30000,
-		}
-	).trim();
-}
 
 async function scrollLogos( page, dir ) {
 	return page.evaluate( `(async () => {
@@ -265,7 +243,10 @@ async function emptyContent() {
 	}
 }
 
+const local = ! baselineFrom && [ 'http://localhost:8090', 'http://127.0.0.1:8090' ].includes( new URL( site ).origin );
 try {
+	// Las seis noticias de ejemplo del CI: se siembran las que falten y se borran al final.
+	if ( local ) sembrarNoticiasEjemplo();
 	for ( const width of baselineFrom || visual
 		? [ 360, 850, 1440 ]
 		: [ 360, 1440 ] ) {
@@ -282,5 +263,6 @@ try {
 		await emptyContent();
 	}
 } finally {
+	if ( local ) borrarNoticiasEjemplo();
 	await finish();
 }

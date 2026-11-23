@@ -1,0 +1,438 @@
+{
+  "key": "group_articulo_lapazsipasa",
+  "title": "Molde · Artículo",
+  "fields": [
+    {
+      "key": "field_articulo_rotulo",
+      "label": "Etiqueta superior",
+      "name": "rotulo",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Palabra corta sobre el título. Ej.: «Entrevista», «Perfil», «Caquetá · Cooperación alemana».",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "60",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_articulo_rotulo_color",
+      "label": "Color de la etiqueta",
+      "name": "rotulo_color",
+      "aria-label": "",
+      "type": "select",
+      "instructions": "",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "40",
+        "class": "",
+        "id": ""
+      },
+      "choices": {
+        "azul": "Azul",
+        "verde": "Verde"
+      },
+      "default_value": "azul",
+      "allow_null": 0,
+      "multiple": 0,
+      "ui": 0,
+      "return_format": "value",
+      "ajax": 0,
+      "placeholder": "",
+      "create_options": 0,
+      "save_options": 0
+    },
+    {
+      "key": "field_articulo_titulo",
+      "label": "Título",
+      "name": "titulo",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Titular del artículo.",
+      "required": 1,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_articulo_bajada",
+      "label": "Resumen bajo el título",
+      "name": "bajada",
+      "aria-label": "",
+      "type": "textarea",
+      "instructions": "Dos o tres líneas en negrita, justo debajo del título.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "rows": 3,
+      "placeholder": "",
+      "new_lines": ""
+    },
+    {
+      "key": "field_articulo_entradilla",
+      "label": "Primer párrafo destacado",
+      "name": "entradilla",
+      "aria-label": "",
+      "type": "textarea",
+      "instructions": "Opcional. Abre el texto con letra más grande.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "rows": 4,
+      "placeholder": "",
+      "new_lines": ""
+    },
+    {
+      "key": "field_articulo_cuerpo",
+      "label": "Texto del artículo",
+      "name": "cuerpo",
+      "aria-label": "",
+      "type": "wysiwyg",
+      "instructions": "Escribe los párrafos. Para un subtítulo usa «Título 3». Para una cita usa el botón de cita: en la primera línea la frase y en la segunda, quién la dice. Pega siempre sin formato (Ctrl+Shift+V).",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "tabs": "visual",
+      "toolbar": "basic",
+      "media_upload": 0,
+      "delay": 0
+    },
+    {
+      "key": "field_articulo_apertura",
+      "label": "Foto de apertura",
+      "name": "apertura",
+      "aria-label": "",
+      "type": "image",
+      "instructions": "Opcional. Foto horizontal, a todo el ancho, encima del artículo.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "60",
+        "class": "",
+        "id": ""
+      },
+      "return_format": "id",
+      "library": "all",
+      "preview_size": "medium",
+      "min_width": "",
+      "min_height": "",
+      "min_size": "",
+      "max_width": "",
+      "max_height": "",
+      "max_size": "",
+      "mime_types": "jpg, jpeg, png, webp"
+    },
+    {
+      "key": "field_articulo_apertura_credito",
+      "label": "Crédito de la foto de apertura",
+      "name": "apertura_credito",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Ej.: «Fotografía: Fernando López Ríos».",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "40",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_articulo_fotos",
+      "label": "Fotos",
+      "name": "fotos",
+      "aria-label": "",
+      "type": "repeater",
+      "instructions": "De una a tres fotos al lado del texto. La primera va arriba.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "layout": "table",
+      "pagination": 0,
+      "min": 0,
+      "max": 3,
+      "collapsed": "",
+      "button_label": "Añadir foto",
+      "rows_per_page": 20,
+      "sub_fields": [
+        {
+          "key": "field_articulo_foto_imagen",
+          "label": "Imagen",
+          "name": "imagen",
+          "aria-label": "",
+          "type": "image",
+          "instructions": "",
+          "required": 1,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "40",
+            "class": "",
+            "id": ""
+          },
+          "return_format": "id",
+          "library": "all",
+          "preview_size": "medium",
+          "min_width": "",
+          "min_height": "",
+          "min_size": "",
+          "max_width": "",
+          "max_height": "",
+          "max_size": "",
+          "mime_types": "jpg, jpeg, png, webp"
+        },
+        {
+          "key": "field_articulo_foto_formato",
+          "label": "Formato",
+          "name": "formato",
+          "aria-label": "",
+          "type": "select",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "20",
+            "class": "",
+            "id": ""
+          },
+          "choices": {
+            "alto": "Vertical",
+            "panorama": "Panorámica"
+          },
+          "default_value": "alto",
+          "allow_null": 0,
+          "multiple": 0,
+          "ui": 0,
+          "return_format": "value",
+          "ajax": 0,
+          "placeholder": "",
+          "create_options": 0,
+          "save_options": 0
+        },
+        {
+          "key": "field_articulo_foto_credito",
+          "label": "Crédito",
+          "name": "credito",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "Ej.: «Fotografía: Camila Galindo Muñoz».",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "40",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "maxlength": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": ""
+        }
+      ]
+    },
+    {
+      "key": "field_articulo_ficha_titulo",
+      "label": "Ficha: título",
+      "name": "ficha_titulo",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Opcional. Título del recuadro de datos que va al lado del texto. Si lo dejas vacío, el recuadro no se muestra.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_articulo_ficha_texto",
+      "label": "Ficha: texto",
+      "name": "ficha_texto",
+      "aria-label": "",
+      "type": "textarea",
+      "instructions": "Frase corta que acompaña al título del recuadro.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "rows": 2,
+      "placeholder": "",
+      "new_lines": ""
+    },
+    {
+      "key": "field_articulo_ficha_datos",
+      "label": "Ficha: datos",
+      "name": "ficha_datos",
+      "aria-label": "",
+      "type": "repeater",
+      "instructions": "Cada fila es un dato del recuadro: arriba va la cifra en negrita y abajo su explicación.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "layout": "table",
+      "pagination": 0,
+      "min": 0,
+      "max": 0,
+      "collapsed": "",
+      "button_label": "Añadir dato",
+      "rows_per_page": 20,
+      "sub_fields": [
+        {
+          "key": "field_articulo_ficha_dato_cifra",
+          "label": "Cifra o dato",
+          "name": "cifra",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "Va en negrita. Ej.: «179 obras».",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "35",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "maxlength": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": ""
+        },
+        {
+          "key": "field_articulo_ficha_dato_texto",
+          "label": "Descripción",
+          "name": "texto",
+          "aria-label": "",
+          "type": "text",
+          "instructions": "",
+          "required": 0,
+          "conditional_logic": false,
+          "wrapper": {
+            "width": "65",
+            "class": "",
+            "id": ""
+          },
+          "default_value": "",
+          "maxlength": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": ""
+        }
+      ]
+    },
+    {
+      "key": "field_articulo_ficha_clara",
+      "label": "Ficha con fondo claro",
+      "name": "ficha_clara",
+      "aria-label": "",
+      "type": "true_false",
+      "instructions": "Actívalo para fondo blanco con borde. Apagado, el recuadro lleva fondo celeste.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "message": "",
+      "default_value": 0,
+      "ui": 1,
+      "ui_on_text": "",
+      "ui_off_text": ""
+    },
+    {
+      "key": "field_articulo_fotos_izquierda",
+      "label": "Fotos a la izquierda",
+      "name": "fotos_izquierda",
+      "aria-label": "",
+      "type": "true_false",
+      "instructions": "Por defecto las fotos van a la derecha del texto.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "message": "",
+      "default_value": 0,
+      "ui": 1,
+      "ui_on_text": "",
+      "ui_off_text": ""
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "lapaz_molde"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": [],
+  "active": true,
+  "description": "Molde compartido: lo clonan las secciones «Artículo» del boletín y la crónica de las historias PaisSana. No se asigna a ninguna pantalla.",
+  "show_in_rest": 1
+}

@@ -1,6 +1,6 @@
 # Entorno de desarrollo
 
-Cómo se trabaja en La Paz Sí Pasa: máquina, servicios locales, agentes, herramientas y calidad. Vigente desde el 2026-11-08 (migración FSE en `feat/wordpress-fse`).
+Cómo se trabaja en La Paz Sí Pasa: máquina, servicios locales, agentes, herramientas y calidad. Sitio FSE en producción desde el 2026-11-09; entregas actuales en `feat/boletin-catalogo-fcp`.
 
 ## Máquina y herramientas base
 
@@ -11,9 +11,8 @@ Cómo se trabaja en La Paz Sí Pasa: máquina, servicios locales, agentes, herra
 | Node | 24 en la máquina; 22.23.4 en contenedores y CI | Astro, Stylelint, ESLint, TypeScript y las pruebas E2E |
 | Google Chrome | estable | pruebas E2E y visuales vía CDP (headless) |
 | Orca | 1.4 | terminales, worktrees y paneles de agentes |
-| Claude Code | 2.1 | agente principal: desarrolla, coordina y hace commit |
-| Codex CLI | 0.166 | pruebas, bases visuales, `bin/check` y CI |
-| AGY (Antigravity CLI) | 1.5 | agente de apoyo para tareas acotadas |
+| Claude Code | 2.1 | agente principal (orquesta, integra y hace commit) y subagentes Sonnet/Opus (desarrollo y pruebas) |
+| AGY (Antigravity CLI) | 1.5 | revisiones independientes de solo lectura y redacción |
 
 PHP, Composer, wp-cli y los linters no se instalan en la máquina: van en imágenes Docker con versión fija.
 
@@ -21,9 +20,9 @@ PHP, Composer, wp-cli y los linters no se instalan en la máquina: van en imáge
 
 | Servicio | URL | Cómo se levanta | Para qué |
 |---|---|---|---|
-| WordPress FSE (tema `lapaz`) | http://localhost:8090 | `cd apps/wp-fse && docker compose up -d --build` | la migración en curso |
-| WordPress headless (actual) | http://localhost:8080 | `docker compose up -d cms db` (raíz) | el CMS de producción hoy; no se toca durante la prueba |
-| Astro (actual) | http://localhost:4321 | `cd apps/frontend && npm ci && npx astro dev --port 4321` | referencia visual; sin WordPress usa los mocks |
+| WordPress FSE (tema `lapaz`) | http://localhost:8090 | `cd apps/wp-fse && docker compose up -d --build` | desarrollo del sitio en producción |
+| WordPress headless (respaldo) | http://localhost:8080 | `docker compose up -d cms db` (raíz) | respaldo sin tráfico; referencia histórica |
+| Astro (respaldo) | http://localhost:4321 | `cd apps/frontend && npm ci && npx astro dev --port 4321` | referencia visual; sin WordPress usa los mocks |
 
 Los dos WordPress son proyectos de compose separados (`lapaz-fse` y el de la raíz), con volúmenes, bases y puertos propios. Pueden correr a la vez.
 
@@ -66,13 +65,17 @@ docker compose down -v                           # borrar también la base y upl
 ## Calidad: el criterio de "hecho"
 
 ```bash
-apps/wp-fse/bin/check                              # 13 capas de análisis estático, todo en Docker
+apps/wp-fse/bin/check                              # 17 pasos de análisis estático, todo en Docker
 cd apps/wp-fse && node tests/e2e/navbar.mjs        # comportamiento (con el stack en :8090)
 cd apps/wp-fse && node tests/e2e/navbar.mjs --visual   # y comparación de píxeles con Astro
 ```
 
+Suites e2e del sitio FSE (en `apps/wp-fse/tests/e2e/`): `navbar`, `retratos`, `layout`, `lo-que-hacemos`, `actualidad`, las cinco de `paisana-*`, `boletin`, `catalogo`, `historia`, `navegacion`, `seo`, `seguridad`, `rest` (sin Chrome) y `admin` (sin Chrome: abre las pantallas de edición con sesión de Editor y falla ante cualquier error fatal de PHP).
+
+- **No ejecutar dos suites e2e a la vez** contra `:8090`: varias (`boletin`, `catalogo`, `historia`, `lo-que-hacemos`) crean, editan y borran entradas de prueba en la misma base local y chocan si corren en paralelo.
 - Sin `bin/check` en verde no se cierra una etapa ni se abre un PR.
-- La CI (`.github/workflows/wp-fse.yml`) repite el chequeo y las pruebas de comportamiento.
+- **Manual del editor (Word y PDF):** se regenera con `apps/wp-fse/tools/manual/` desde `wiki/manual-editor.md` y el sitio local; salidas en `raw/manual-editor/` (fuera de git). Comandos en su `README.md`.
+- La CI (`.github/workflows/wp-fse.yml`) corre `bin/check` y todas las suites e2e en secuencia.
 - Las reglas se endurecen; nunca se relajan para que pase un cambio.
 - Detalle de cada capa: [etapa 1.5](specs/wordpress-fse/etapa-1-5-calidad.md).
 
@@ -84,22 +87,14 @@ node tests/e2e/navbar.mjs --baseline http://127.0.0.1:4321
 
 ## Agentes
 
-**Claude desarrolla; los otros agentes prueban.** Claude tiene más cuota y lleva el contexto del proyecto, así que se dedica a construir. Desde la etapa 3, Codex se encarga de pruebas, bases visuales, `bin/check` y CI, y reporta los fallos del código del tema con archivo:línea para que Claude los arregle. AGY hace revisiones independientes de lectura. Claude corre a lo sumo un smoke rápido (que la página cargue).
+**Reparto vigente (desde el 2026-11-19):** el Claude principal orquesta (plan, contrato, briefs, integración y commits). El desarrollo y las pruebas van a subagentes Sonnet y Opus de Claude Code; las revisiones independientes de solo lectura y tareas acotadas de redacción van a AGY. Codex y Grok ya no se usan.
 
-Cómo se delega, siempre en la misma ventana de Orca para ver a todos trabajar:
+Cómo se delega, siempre en la misma ventana de Orca:
 
-1. Se escribe el brief en un archivo: objetivo, archivos asignados sin solaparse, contrato con las otras piezas, y la regla de no hacer commit, push ni correr docker.
-2. Se abre el agente en un **panel dividido del mismo worktree**:
-
-   ```bash
-   orca terminal split --terminal <panel-de-claude> --direction vertical \
-     --command "codex --sandbox workspace-write --ask-for-approval on-request \"\$(cat brief.md)\""
-   orca terminal split --terminal <panel> --direction horizontal \
-     --command "agy --mode accept-edits -i \"\$(cat brief.md)\""
-   orca terminal set-pane-title --terminal <handle> --title "CODEX · infra"
-   ```
-3. Claude sigue el avance con `orca terminal read --terminal <handle> --screen`, integra lo que reportan y hace commit cuando Codex confirma `bin/check` en verde. Solo Claude hace commit.
-4. **Un solo agente corre `bin/check` a la vez** (Codex). Dos en paralelo chocan en `node_modules` y dan falsos rojos.
+1. Se escribe el brief en un archivo del scratchpad: objetivo, archivos asignados sin solaparse, contrato con las otras piezas, y la regla de no hacer commit, push ni levantar/bajar Docker.
+2. Para AGY (solo lectura del repo), se abre o reutiliza un panel dividido en Orca y se coordina con `orca orchestration` (TODO: verificar el comando).
+3. Solo el Claude principal integra y hace commit cuando `bin/check` y las suites están en verde.
+4. **Un solo proceso corre `bin/check` o suites e2e a la vez:** dos `bin/check` en paralelo chocan en `node_modules`, y dos suites e2e chocan en la base local.
 
 No se usan otras pestañas ni worktrees para delegar, salvo que se pida.
 
@@ -126,7 +121,7 @@ npx skills add WordPress/agent-skills --skill wp-block-development wp-block-them
 
 ## Despliegue
 
-[despliegue-fse.md](despliegue-fse.md): servidores, servicio en Dokploy, primer arranque, migración del contenido real y cambio a producción. MCP `dokploy-lapaz` (servidor nuevo, key en el Llavero).
+[despliegue-fse.md](despliegue-fse.md): servidores, servicio en Dokploy, primer arranque, migración del contenido real y cambio a producción. MCP propio del proyecto (key en el llavero del equipo).
 
 ## Documentación
 

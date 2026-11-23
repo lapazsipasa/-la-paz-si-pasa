@@ -1,0 +1,40 @@
+/* Muestras de componentes compartidos: solo la rejilla; el aspecto lo pone lapaz-editorial. */
+.wp-block-lapaz-guia-estilos .guia__comps {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+	gap: var(--space-4);
+}
+
+.wp-block-lapaz-guia-estilos .guia__comp {
+	display: grid;
+	gap: var(--space-4);
+	align-content: start;
+	justify-items: start;
+	min-width: 0;
+	padding: var(--space-6);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-card);
+}
+
+.wp-block-lapaz-guia-estilos .guia__comp--ancho {
+	grid-column: 1 / -1;
+}
+
+.wp-block-lapaz-guia-estilos .guia__comp--azul {
+	background: var(--color-nav-text);
+	color: var(--color-surface);
+}
+
+.wp-block-lapaz-guia-estilos .guia__comp--azul .titular {
+	color: var(--color-surface);
+}
+
+.wp-block-lapaz-guia-estilos .guia__comp--azul .portada {
+	display: grid;
+	gap: var(--space-4);
+	justify-items: start;
+}
+
+.wp-block-lapaz-guia-estilos .guia__comp > * {
+	max-width: 100%;
+}

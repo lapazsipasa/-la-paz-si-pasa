@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: La Paz Sí Pasa · Seguridad
- * Description: Evita enumerar usuarios (REST y archivos de autor). El resto del endurecimiento
+ * Description: Evita enumerar usuarios (login, REST y archivos de autor), exige sesión para la API REST, desactiva las contraseñas de aplicación y mantiene los productores fuera de la API REST. El resto del endurecimiento
  *              vive en la imagen (Apache, PHP, wp-config) para que aplique antes de WordPress.
  * Version: 0.1.0
  * Author: William Moreno
@@ -45,3 +45,67 @@ function lapaz_sin_archivos_de_autor(): void {
 	}
 }
 add_action( 'template_redirect', 'lapaz_sin_archivos_de_autor', 1 );
+
+/**
+ * Productores y sus taxonomías (incluida «poblacion») nunca van por REST: el sitio decidió no
+ * mostrar esos datos y la API los entregaría completos. Aplica aunque un grupo, tipo o taxonomía
+ * se importe desde el panel de SCF con show_in_rest activo.
+ *
+ * @param array<string, mixed> $args Argumentos de registro.
+ * @param string               $nombre Slug del tipo o la taxonomía.
+ * @return array<string, mixed>
+ */
+function lapaz_sin_rest_productores( array $args, string $nombre ): array {
+	if ( in_array( $nombre, array( 'productor', 'departamento', 'categoria_productor', 'tiempo_operacion', 'etnia', 'poblacion' ), true ) ) {
+		$args['show_in_rest'] = false;
+	}
+
+	return $args;
+}
+add_filter( 'register_post_type_args', 'lapaz_sin_rest_productores', 10, 2 );
+add_filter( 'register_taxonomy_args', 'lapaz_sin_rest_productores', 10, 2 );
+
+/**
+ * La API REST solo para usuarios con sesión. El sitio público no la consume (el catálogo navega con
+ * el router de la Interactivity API, que pide HTML) y anónima entregaba medios, tipos y autores.
+ * Prioridad 101: después de rest_cookie_check_errors (100), que descarta al usuario de una cookie
+ * sin nonce; así una cookie sin nonce tampoco pasa. El editor y el Editor del sitio envían nonce.
+ *
+ * @param mixed $resultado Resultado previo de la autenticación REST.
+ * @return mixed
+ */
+function lapaz_rest_requiere_sesion( $resultado ) {
+	// El filtro de cookies de WordPress devuelve true también para anónimos: se mira la sesión, no ese valor.
+	if ( is_wp_error( $resultado ) || is_user_logged_in() ) {
+		return $resultado;
+	}
+
+	return new WP_Error(
+		'lapaz_rest_requiere_sesion',
+		__( 'La API REST requiere sesión.', 'lapaz' ),
+		array( 'status' => 401 )
+	);
+}
+add_filter( 'rest_authentication_errors', 'lapaz_rest_requiere_sesion', 101 );
+
+/**
+ * Respuesta oEmbed sin nombre ni enlace del autor (la ruta ya exige sesión; esto cubre cualquier otro camino).
+ *
+ * @param array<string, mixed> $datos Respuesta oEmbed.
+ * @return array<string, mixed>
+ */
+function lapaz_oembed_sin_autor( array $datos ): array {
+	unset( $datos['author_name'], $datos['author_url'] );
+
+	return $datos;
+}
+add_filter( 'oembed_response_data', 'lapaz_oembed_sin_autor' );
+
+// Mismo mensaje con usuario inexistente que con contraseña errónea: no revela qué usuarios existen.
+add_filter(
+	'login_errors',
+	static fn (): string => __( 'Credenciales incorrectas.', 'lapaz' )
+);
+
+// Sin contraseñas de aplicación: ningún cliente externo usa la API y serían acceso persistente.
+add_filter( 'wp_is_application_passwords_available', '__return_false' );

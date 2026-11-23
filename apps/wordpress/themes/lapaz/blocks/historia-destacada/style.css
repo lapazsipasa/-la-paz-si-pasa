@@ -1,0 +1,11 @@
+/*
+ * Bloque lapaz/historia-destacada: lo propio de la tarjeta «PaisSano destacado».
+ * El patrón de tarjeta, la cabecera, el botón y las etiquetas: assets/css/editorial.css.
+ */
+
+/* Segundo enlace (al catálogo): contorno celeste sobre el panel azul. */
+.wp-block-lapaz-historia-destacada .dest-card .btn.btn-sec {
+	background: transparent;
+	box-shadow: inset 0 0 0 2px var(--color-nav-bg-active);
+	color: var(--color-surface);
+}

@@ -19,6 +19,16 @@ for origen in /opt/wp-content/themes/* /opt/wp-content/plugins/*; do
     [ -d "$origen" ] || continue
     sincronizar "$origen" "/var/www/html/wp-content/${origen#/opt/wp-content/}"
 done
+# Idiomas de plugins horneados: se copian archivo a archivo (la carpeta del volumen guarda además las
+# traducciones que WordPress descargó). Nunca debe impedir el arranque: sin archivos, no se hace nada.
+if [ -d /opt/wp-content/languages/plugins ]; then
+    mkdir -p /var/www/html/wp-content/languages/plugins
+    chown www-data:www-data /var/www/html/wp-content/languages /var/www/html/wp-content/languages/plugins
+    for archivo in /opt/wp-content/languages/plugins/*; do
+        [ -f "$archivo" ] || continue
+        install -o www-data -g www-data -m 0644 "$archivo" "/var/www/html/wp-content/languages/plugins/${archivo##*/}" || true
+    done
+fi
 for carpeta in mu-plugins scf-json scf-json-lapaz; do
     [ -d "/opt/wp-content/$carpeta" ] && sincronizar "/opt/wp-content/$carpeta" "/var/www/html/wp-content/$carpeta"
 done

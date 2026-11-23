@@ -38,11 +38,36 @@ RUN curl -fsSL "https://downloads.wordpress.org/plugin/wp-super-cache.${WPSC_VER
     && php -r '$z = new ZipArchive(); $z->open("/tmp/wpsc.zip") === true || exit(1); $z->extractTo("/opt/wp-content/plugins"); $z->close();' \
     && rm /tmp/wpsc.zip
 
+# The SEO Framework con versión fija: SEO editable por entrada (título, descripción, imagen para compartir).
+ARG TSF_VERSION=5.2.1
+ARG TSF_SHA256=9e18a34a4437ddf7ec5a6e1dea6d1e59408db6e59944b8fc672250b80fdbd3fa
+# hadolint ignore=SC2016
+RUN curl -fsSL "https://downloads.wordpress.org/plugin/autodescription.${TSF_VERSION}.zip" -o /tmp/tsf.zip \
+    && echo "${TSF_SHA256}  /tmp/tsf.zip" | sha256sum -c - \
+    && php -r '$z = new ZipArchive(); $z->open("/tmp/tsf.zip") === true || exit(1); $z->extractTo("/opt/wp-content/plugins"); $z->close();' \
+    && rm /tmp/tsf.zip
+
+# Traducción es_CO de The SEO Framework, guardada en el repo (ver LEEME.md): con DISALLOW_FILE_MODS WordPress
+# no la baja solo y la construcción no debe depender de wordpress.org. El entrypoint la copia a wp-content/languages/plugins.
+COPY apps/wp-fse/docker/languages/plugins/autodescription-es_CO.l10n.php apps/wp-fse/docker/languages/plugins/autodescription-es_CO.mo /opt/wp-content/languages/plugins/
+
 COPY apps/wordpress/php/zz-opcache-overrides.ini /usr/local/etc/php/conf.d/
 COPY apps/wp-fse/docker/apache/zz-lapaz-seguridad.conf /etc/apache2/conf-enabled/
-# Sin cabecera X-Powered-By con la versión de PHP.
+# Sin cabecera X-Powered-By con la versión de PHP. Límites para uso editorial: fotos y MP4 livianos
+# (el formulario de historias admite hasta 20 MB) dentro de los 512 MB del contenedor.
+# WordPress no usa sesiones de PHP; las dos últimas líneas son defensa en profundidad.
 RUN a2enmod headers \
-    && echo 'expose_php = Off' > /usr/local/etc/php/conf.d/zz-lapaz-seguridad.ini
+    && printf '%s\n' \
+        'expose_php = Off' \
+        'display_errors = Off' \
+        'log_errors = On' \
+        'upload_max_filesize = 32M' \
+        'post_max_size = 40M' \
+        'memory_limit = 128M' \
+        'max_execution_time = 60' \
+        'session.cookie_httponly = 1' \
+        'session.use_strict_mode = 1' \
+        > /usr/local/etc/php/conf.d/zz-lapaz-seguridad.ini
 # /var/www/html es un volumen: el entrypoint lleva el tema a su destino en cada arranque.
 COPY apps/wordpress/themes/lapaz /opt/wp-content/themes/lapaz
 COPY apps/wp-fse/mu-plugins /opt/wp-content/mu-plugins

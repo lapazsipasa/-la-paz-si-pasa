@@ -1,0 +1,114 @@
+/*
+ * Bloque lapaz/catalogo-portada: hero del catálogo PaisSana. Panel azul del sitio
+ * (como el banner verde de "Lo que hacemos") con logo, título, texto y tres cifras.
+ * Titular en Komet: assets/css/editorial.css.
+ */
+.wp-block-lapaz-catalogo-portada {
+	width: 100%;
+	color: var(--color-surface);
+	font-family: var(--font-komet);
+}
+
+.wp-block-lapaz-catalogo-portada .hero {
+	background: var(--color-nav-text);
+	overflow: hidden;
+}
+
+.wp-block-lapaz-catalogo-portada .wrap {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-8);
+	align-items: center;
+	padding: var(--space-8) var(--space-6);
+}
+
+.wp-block-lapaz-catalogo-portada .ps-grande {
+	width: min(100%, 260px);
+	height: auto;
+	margin-bottom: var(--space-6);
+}
+
+.wp-block-lapaz-catalogo-portada .hero h1 {
+	margin-bottom: var(--space-4);
+	color: var(--color-surface);
+	font-size: clamp(2.2rem, 4vw, 3.5rem);
+}
+
+.wp-block-lapaz-catalogo-portada .lead {
+	max-width: 52ch;
+	margin: 0 0 var(--space-6);
+	color: var(--color-surface);
+	font-weight: var(--font-weight-komet-light);
+	line-height: 1.6;
+}
+
+.wp-block-lapaz-catalogo-portada .tiles {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--space-4);
+	max-width: 34rem;
+}
+
+.wp-block-lapaz-catalogo-portada .tile {
+	padding: var(--space-4);
+	background: var(--color-nav-bg-active);
+	color: var(--color-nav-text);
+}
+
+.wp-block-lapaz-catalogo-portada .tile .n {
+	font-family: var(--font-monique-regular);
+	font-size: clamp(1.75rem, 5vw, 2.5rem);
+	font-weight: var(--font-weight-komet-regular);
+	line-height: 1;
+	font-variant-numeric: tabular-nums;
+}
+
+.wp-block-lapaz-catalogo-portada .tile .l {
+	margin-top: var(--space-2);
+	font-size: 0.8125rem;
+	font-weight: var(--font-weight-komet-regular);
+	line-height: 1.3;
+	overflow-wrap: break-word;
+	hyphens: auto;
+}
+
+.wp-block-lapaz-catalogo-portada figure {
+	margin: 0;
+}
+
+.wp-block-lapaz-catalogo-portada figure img {
+	width: 100%;
+	height: clamp(220px, 40vw, 380px);
+	object-fit: cover;
+}
+
+@media (min-width: 850px) {
+
+	.wp-block-lapaz-catalogo-portada .wrap {
+		grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+		gap: var(--space-12);
+		padding: var(--space-12);
+	}
+}
+
+@media (max-width: 480px) {
+
+	.wp-block-lapaz-catalogo-portada .tiles {
+		gap: var(--space-2);
+	}
+
+	.wp-block-lapaz-catalogo-portada .tile {
+		padding: var(--space-3) var(--space-2);
+	}
+
+	.wp-block-lapaz-catalogo-portada .tile .l {
+		font-size: 0.6875rem;
+	}
+}
+
+@media (max-width: 360px) {
+
+	.wp-block-lapaz-catalogo-portada .wrap {
+		padding: var(--space-6) var(--space-4);
+	}
+}

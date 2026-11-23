@@ -1,0 +1,84 @@
+{
+  "key": "group_productor_lapazsipasa",
+  "title": "Datos del productor",
+  "fields": [
+    {
+      "key": "field_productor_municipio",
+      "label": "Municipio",
+      "name": "municipio",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Municipio donde opera.",
+      "required": 1,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    },
+    {
+      "key": "field_productor_productos",
+      "label": "Productos",
+      "name": "productos",
+      "aria-label": "",
+      "type": "textarea",
+      "instructions": "Un producto por línea, sin guiones ni viñetas al inicio.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "rows": 4,
+      "placeholder": "",
+      "new_lines": ""
+    },
+    {
+      "key": "field_productor_enlace",
+      "label": "Enlace o red social",
+      "name": "enlace",
+      "aria-label": "",
+      "type": "text",
+      "instructions": "Web o usuario de redes. Por ahora no se muestra en el sitio.",
+      "required": 0,
+      "conditional_logic": false,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "default_value": "",
+      "maxlength": "",
+      "placeholder": "",
+      "prepend": "",
+      "append": ""
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "productor"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": [],
+  "active": true,
+  "description": "Productor del catálogo PaisSana. Departamento, categorías, tiempo, etnia y población son taxonomías.",
+  "show_in_rest": 0
+}

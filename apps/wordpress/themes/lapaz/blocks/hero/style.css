@@ -43,3 +43,24 @@
 		padding-inline: 16px;
 	}
 }
+
+/* Estilo «Compacto»: franja de unos 160 px en las páginas interiores; en móvil la barra superior ya muestra la marca. */
+.wp-block-lapaz-hero.is-style-compacto {
+	min-height: 160px;
+}
+
+.wp-block-lapaz-hero.is-style-compacto .hero__logo-link {
+	width: auto;
+}
+
+.wp-block-lapaz-hero.is-style-compacto .hero__logo {
+	width: auto;
+	height: 100px;
+}
+
+@media (max-width: 849px) {
+
+	.wp-block-lapaz-hero.is-style-compacto {
+		display: none;
+	}
+}

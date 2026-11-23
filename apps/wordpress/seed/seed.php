@@ -167,4 +167,97 @@ if ($toca('audio_relatos')) foreach ($datos['audio_relatos'] as $a) {
     ]);
 }
 
-aviso('listo: ' . ($solo ?: 'contenido completo'));
+/** IDs de los términos (los crea si faltan); '' o [] no dan términos. */
+function terminos($taxonomia, $nombres)
+{
+    $ids = [];
+    foreach ((array) $nombres as $nombre) {
+        if ($nombre === '') {
+            continue;
+        }
+        $t = term_exists($nombre, $taxonomia) ?: wp_insert_term($nombre, $taxonomia);
+        // term_exists ignora tildes y mayúsculas: si ya había uno con otra grafía, se corrige el nombre.
+        if (!is_wp_error($t) && get_term((int) $t['term_id'], $taxonomia)->name !== $nombre) {
+            $t = wp_update_term((int) $t['term_id'], $taxonomia, ['name' => $nombre]);
+        }
+        if (is_wp_error($t)) {
+            aviso("término «$nombre» ($taxonomia): {$t->get_error_message()}", true);
+            continue;
+        }
+        $ids[] = (int) $t['term_id'];
+    }
+    return $ids;
+}
+
+// Catálogo PaisSana: 316 productores con sus taxonomías.
+if ($toca('productores')) {
+    wp_defer_term_counting(true);
+    $lista = json_decode(file_get_contents(__DIR__ . '/productores.json'), true);
+    foreach ($lista as $i => $p) {
+        $id = upsert('productor', $p['nombre'], [
+            'municipio' => $p['municipio'],
+            'productos' => implode("\n", $p['productos']),
+            'enlace' => $p['enlace'],
+        ]);
+        if (!$id) {
+            continue;
+        }
+        wp_set_object_terms($id, terminos('departamento', $p['departamento']), 'departamento');
+        wp_set_object_terms($id, terminos('categoria_productor', $p['categorias']), 'categoria_productor');
+        wp_set_object_terms($id, terminos('tiempo_operacion', $p['tiempo']), 'tiempo_operacion');
+        wp_set_object_terms($id, terminos('etnia', $p['etnia']), 'etnia');
+        wp_set_object_terms($id, terminos('poblacion', $p['poblaciones']), 'poblacion');
+        // Lo escribe el mu-plugin lapaz-catalogo: genera el texto de búsqueda.
+        if (function_exists('lapaz_catalogo_indexar')) {
+            lapaz_catalogo_indexar($id);
+        }
+        if (($i + 1) % 50 === 0) {
+            aviso('productores: ' . ($i + 1) . '/' . count($lista));
+        }
+    }
+    wp_defer_term_counting(false);
+}
+
+/**
+ * Cambia cada {archivo, alt, pie, credito} del JSON por el ID del adjunto, a
+ * cualquier profundidad (filas de secciones, repetidores, galería).
+ * El alt va en el meta del adjunto; el pie en la leyenda y el crédito en la descripción.
+ */
+function adjuntos($valor)
+{
+    if (!is_array($valor)) {
+        return $valor;
+    }
+    if (isset($valor['archivo'])) {
+        $id = medio($valor['archivo']);
+        if ($id) {
+            if (($valor['alt'] ?? '') !== '') {
+                update_post_meta($id, '_wp_attachment_image_alt', $valor['alt']);
+            }
+            if (isset($valor['pie']) || isset($valor['credito'])) {
+                wp_update_post(['ID' => $id, 'post_excerpt' => $valor['pie'] ?? '', 'post_content' => $valor['credito'] ?? '']);
+            }
+        }
+        return $id;
+    }
+    return array_map('adjuntos', $valor);
+}
+
+/** Carga un JSON de una sola entrada: el título es la clave, el resto son campos. */
+function entrada_json($post_type, $archivo)
+{
+    $campos = json_decode(file_get_contents(__DIR__ . '/' . $archivo), true);
+    $titulo = $campos['titulo'];
+    unset($campos['titulo']);
+    return upsert($post_type, $titulo, adjuntos($campos));
+}
+
+if ($toca('boletines')) {
+    entrada_json('boletin', 'boletin-02.json');
+}
+
+if ($toca('historias')) {
+    entrada_json('historia', 'historia-asocafe.json');
+}
+
+aviso('listo: ' .($solo ?: 'contenido completo'));

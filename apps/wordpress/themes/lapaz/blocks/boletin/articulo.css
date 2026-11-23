@@ -1,0 +1,122 @@
+/*
+ * Bloque lapaz/boletin: molde artículo (texto a un lado, fotos y ficha al otro).
+ * Titular, ficha y rótulos: assets/css/editorial.css; cuerpo (.cuerpo): assets/css/lectura.css.
+ */
+.wp-block-lapaz-boletin .apertura {
+	margin: 0 0 var(--space-8);
+}
+
+.wp-block-lapaz-boletin .apertura img {
+	width: 100%;
+	height: clamp(13rem, 36vw, 28rem);
+	object-fit: cover;
+	object-position: center 30%;
+	border-radius: var(--radius-card);
+}
+
+.wp-block-lapaz-boletin .articulo {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--space-8);
+	align-items: start;
+}
+
+/* Rótulo azul por defecto; solo «Verde» cambia (6,55:1 sobre blanco), por la regla de pocos colores. */
+.wp-block-lapaz-boletin .rotulo-seccion {
+	color: var(--color-nav-text);
+}
+
+.wp-block-lapaz-boletin .rotulo-seccion.verde {
+	color: var(--color-verde-texto);
+}
+
+.wp-block-lapaz-boletin .titulo-art {
+	margin-top: var(--space-2);
+	font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+	color: var(--color-nav-text);
+}
+
+/* Columna de medios */
+.wp-block-lapaz-boletin .media {
+	display: grid;
+	align-content: start;
+	gap: var(--space-6);
+	min-width: 0;
+}
+
+.wp-block-lapaz-boletin .media figure {
+	margin: 0;
+}
+
+.wp-block-lapaz-boletin .media img {
+	width: 100%;
+	object-fit: cover;
+	border-radius: var(--radius-card);
+}
+
+.wp-block-lapaz-boletin .media .alto {
+	height: clamp(18rem, 70vw, 28rem);
+}
+
+.wp-block-lapaz-boletin .media .panorama {
+	height: clamp(11rem, 40vw, 17rem);
+}
+
+/* Ficha de datos (caja y título en editorial.css) */
+.wp-block-lapaz-boletin .ficha.clara {
+	background: var(--color-surface);
+	border: 1px solid var(--border-subtle);
+}
+
+.wp-block-lapaz-boletin .ficha h3 {
+	font-size: 1.125rem;
+}
+
+.wp-block-lapaz-boletin .ficha p {
+	margin: 0;
+	font-size: var(--font-size-nota);
+	line-height: 1.5;
+}
+
+.wp-block-lapaz-boletin .ficha ul {
+	display: grid;
+	gap: var(--space-3);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.wp-block-lapaz-boletin .ficha li {
+	font-size: var(--font-size-nota);
+	line-height: 1.4;
+}
+
+.wp-block-lapaz-boletin .ficha b {
+	margin-right: var(--space-1);
+	font-weight: var(--font-weight-komet-heavy);
+	font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 850px) {
+
+	.wp-block-lapaz-boletin .articulo {
+		grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+		gap: var(--space-12);
+	}
+
+	.wp-block-lapaz-boletin .articulo.invertido {
+		grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+	}
+
+	.wp-block-lapaz-boletin .articulo.invertido .cuerpo {
+		order: 2;
+	}
+
+	.wp-block-lapaz-boletin .articulo.invertido .media {
+		order: 1;
+	}
+
+	.wp-block-lapaz-boletin .papel .articulo {
+		padding-inline: 0;
+	}
+}

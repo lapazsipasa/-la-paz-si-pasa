@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { createBrowserTests } from './lib.mjs';
+import { createBrowserTests, prepararPintado } from './lib.mjs';
 
 export function wp( code ) {
 	return execFileSync(
@@ -59,6 +59,7 @@ export async function withProjectFields( values, tests, action ) {
 }
 
 async function capture( page, name, selector, tests ) {
+	await prepararPintado( page );
 	const ready = await page.evaluate( `(async () => {
 		const section=document.querySelector(${ JSON.stringify( selector ) });
 		if(!section) return false;

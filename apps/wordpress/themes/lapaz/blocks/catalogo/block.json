@@ -1,0 +1,20 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lapaz/catalogo",
+	"title": "PaisSana · Catálogo",
+	"category": "theme",
+	"icon": "search",
+	"description": "Buscador y filtros del catálogo de productores PaisSana, resultados y barras de distribución. Los productores se editan en el menú Productores.",
+	"textdomain": "lapaz",
+	"supports": {
+		"autoRegister": true,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"interactivity": true
+	},
+	"render": "file:./render.php",
+	"style": [ "lapaz-editorial", "file:./style.css" ],
+	"viewScriptModule": "file:./view.js"
+}

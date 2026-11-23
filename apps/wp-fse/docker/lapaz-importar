@@ -19,8 +19,10 @@ wp=(wp --path=/var/www/html)
 [ -f "$dump" ] || { echo "No existe $dump" >&2; exit 1; }
 [ -z "$uploads" ] || [ -f "$uploads" ] || { echo "No existe $uploads" >&2; exit 1; }
 
+# El respaldo trae hashes de contraseñas y sesiones: solo legible por quien lo crea (umask solo aquí,
+# para no restringir los uploads ni los archivos que crea lapaz-setup).
 respaldo="/tmp/antes-de-importar-$(date +%Y%m%d-%H%M%S).sql"
-"${wp[@]}" db export "$respaldo" --quiet
+( umask 077; "${wp[@]}" db export "$respaldo" --quiet )
 echo "Respaldo de la base actual: $respaldo"
 
 if [[ "$dump" == *.gz ]]; then
@@ -40,7 +42,7 @@ if [ "$origen" != "$WORDPRESS_URL" ]; then
 fi
 
 if [ -n "$uploads" ]; then
-    tar -xzf "$uploads" -C /var/www/html/wp-content/uploads
+    tar --no-same-owner --no-same-permissions -xzf "$uploads" -C /var/www/html/wp-content/uploads
     echo "Uploads extraídos en wp-content/uploads"
 fi
 
@@ -48,3 +50,4 @@ lapaz-setup
 "${wp[@]}" cache flush
 "${wp[@]}" rewrite flush --hard
 echo "Importación lista. Si algo salió mal: wp db import $respaldo"
+echo "Cuando compruebes el resultado, borra el respaldo (contiene hashes de contraseñas): rm $respaldo"

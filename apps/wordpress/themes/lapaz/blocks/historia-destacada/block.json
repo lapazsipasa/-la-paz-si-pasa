@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "lapaz/historia-destacada",
+	"title": "PaisSana · Historia destacada",
+	"category": "theme",
+	"icon": "format-quote",
+	"description": "Tarjeta «PaisSano destacado» con la historia publicada más reciente. Las historias se editan en el menú Historias PaisSana.",
+	"textdomain": "lapaz",
+	"attributes": {
+		"enlaceCatalogo": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"autoRegister": true,
+		"html": false,
+		"multiple": false,
+		"reusable": false
+	},
+	"style": [ "lapaz-editorial", "file:./style.css" ],
+	"render": "file:./render.php"
+}

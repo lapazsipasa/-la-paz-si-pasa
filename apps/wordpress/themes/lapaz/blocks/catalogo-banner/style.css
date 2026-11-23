@@ -1,0 +1,138 @@
+/*
+ * Bloque lapaz/catalogo-banner: panel azul que lleva al catálogo. Rótulos, titular y botón:
+ * assets/css/editorial.css; aquí solo la disposición, las cifras y el buscador.
+ */
+.wp-block-lapaz-catalogo-banner {
+	width: 100%;
+	font-family: var(--font-komet);
+}
+
+.wp-block-lapaz-catalogo-banner .cat-banner {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-8);
+	padding: var(--space-8) var(--space-4);
+	background: var(--color-nav-text);
+	border-radius: var(--radius-card);
+	color: var(--color-surface);
+}
+
+.wp-block-lapaz-catalogo-banner :is(.cat-texto, .cat-accion) {
+	display: grid;
+	align-content: center;
+	justify-items: start;
+	gap: var(--space-4);
+	min-width: 0;
+}
+
+.wp-block-lapaz-catalogo-banner .cat-logo {
+	width: 9rem;
+	height: auto;
+}
+
+.wp-block-lapaz-catalogo-banner .eyebrow {
+	color: var(--color-nav-bg-active);
+}
+
+.wp-block-lapaz-catalogo-banner .titular {
+	font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+	color: var(--color-surface);
+}
+
+.wp-block-lapaz-catalogo-banner .apoyo {
+	margin: 0;
+	font-weight: var(--font-weight-komet-light);
+	font-size: var(--font-size-cuerpo);
+	line-height: 1.6;
+	letter-spacing: -0.02em;
+	color: var(--color-surface);
+}
+
+.wp-block-lapaz-catalogo-banner .cat-cifras {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, auto));
+	gap: var(--space-4) var(--space-6);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.wp-block-lapaz-catalogo-banner .cat-cifras li {
+	display: grid;
+	gap: var(--space-1);
+	color: var(--color-surface);
+}
+
+.wp-block-lapaz-catalogo-banner .n {
+	font-family: var(--font-monique-regular);
+	font-size: clamp(1.75rem, 3vw, 2.25rem);
+	line-height: 1;
+	color: var(--color-nav-bg-active);
+}
+
+.wp-block-lapaz-catalogo-banner .l {
+	font-weight: var(--font-weight-komet-regular);
+	font-size: var(--font-size-rotulo);
+	line-height: 1.3;
+}
+
+/* Buscador: campo blanco con texto azul, botón celeste. */
+.wp-block-lapaz-catalogo-banner .filtros {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-3);
+	width: 100%;
+}
+
+.wp-block-lapaz-catalogo-banner .busca {
+	display: flex;
+	flex: 1 1 14rem;
+	align-items: center;
+	gap: var(--space-2);
+	min-height: 48px;
+	padding: 0 var(--space-4);
+	background: var(--color-surface);
+	color: var(--color-nav-text);
+}
+
+.wp-block-lapaz-catalogo-banner .busca:focus-within {
+	outline: 3px solid var(--color-nav-bg-active);
+	outline-offset: 2px;
+}
+
+.wp-block-lapaz-catalogo-banner .busca input {
+	flex: 1;
+	min-width: 0;
+	min-height: 44px;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	color: var(--color-nav-text);
+	font: inherit;
+	font-weight: var(--font-weight-komet-regular);
+}
+
+.wp-block-lapaz-catalogo-banner .busca input::placeholder {
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* El botón ocupa el ancho cuando baja de línea. */
+.wp-block-lapaz-catalogo-banner .filtros .btn {
+	flex: 1 1 auto;
+}
+
+/* Segundo botón: contorno celeste sobre el panel azul. */
+.wp-block-lapaz-catalogo-banner .btn.btn-sec {
+	background: transparent;
+	box-shadow: inset 0 0 0 2px var(--color-nav-bg-active);
+	color: var(--color-surface);
+}
+
+@media (min-width: 850px) {
+
+	.wp-block-lapaz-catalogo-banner .cat-banner {
+		grid-template-columns: 3fr 2fr;
+		gap: var(--space-10);
+		padding: var(--space-10) var(--space-8);
+	}
+}

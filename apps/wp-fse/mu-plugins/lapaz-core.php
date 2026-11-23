@@ -99,3 +99,80 @@ function lapaz_grupos_por_pagina( mixed $result, mixed $rule, mixed $screen, mix
 	return 'proyectos-destacados' === get_post_field( 'post_name', $post_id );
 }
 add_filter( 'acf/location/match_rule', 'lapaz_grupos_por_pagina', 10, 4 );
+
+/**
+ * Contenido que alimenta tarjetas y cifras de otras páginas (Inicio, Proyectos destacados, el
+ * catálogo): al publicarlo, cambiarlo o borrarlo hay que vaciar la caché de página.
+ */
+const LAPAZ_TIPOS_EN_CACHE = array( 'productor', 'boletin', 'historia', 'page', 'wp_navigation', ...LAPAZ_CPTS );
+
+/**
+ * Taxonomías del catálogo: renombrar o borrar un término cambia barras y nombres de las tarjetas.
+ */
+const LAPAZ_TAXONOMIAS_EN_CACHE = array( 'departamento', 'categoria_productor', 'tiempo_operacion', 'etnia' );
+
+/**
+ * Pide vaciar la caché de página al terminar la petición. Se vacía UNA vez por petición,
+ * aunque se guarden muchas entradas (el seed de 316 productores).
+ *
+ * @param string $post_type Tipo de contenido que cambió.
+ */
+function lapaz_cache_marcar( string $post_type ): void {
+	static $marcado = false;
+	if ( ! $marcado && in_array( $post_type, LAPAZ_TIPOS_EN_CACHE, true ) ) {
+		$marcado = true;
+		add_action( 'shutdown', 'lapaz_cache_vaciar' );
+	}
+}
+
+/**
+ * Vacía la caché de WP Super Cache, solo si está activo.
+ */
+function lapaz_cache_vaciar(): void {
+	if ( function_exists( 'wp_cache_clear_cache' ) ) {
+		wp_cache_clear_cache();
+	}
+}
+
+/**
+ * Publicar, actualizar, despublicar o enviar a la papelera (WordPress lanza esta acción en cada guardado).
+ *
+ * @param string  $nuevo   Estado nuevo.
+ * @param string  $antes   Estado anterior.
+ * @param WP_Post $entrada Entrada.
+ */
+function lapaz_cache_al_cambiar_estado( string $nuevo, string $antes, WP_Post $entrada ): void {
+	if ( 'publish' === $nuevo || 'publish' === $antes ) {
+		lapaz_cache_marcar( $entrada->post_type );
+	}
+}
+add_action( 'transition_post_status', 'lapaz_cache_al_cambiar_estado', 10, 3 );
+
+/**
+ * Borrado definitivo de una entrada publicada.
+ *
+ * @param int     $post_id Entrada.
+ * @param WP_Post $entrada Entrada borrada.
+ */
+function lapaz_cache_al_borrar( int $post_id, WP_Post $entrada ): void {
+	if ( 'publish' === $entrada->post_status ) {
+		lapaz_cache_marcar( $entrada->post_type );
+	}
+}
+add_action( 'deleted_post', 'lapaz_cache_al_borrar', 10, 2 );
+
+/**
+ * Crear, editar o borrar un término de las taxonomías del catálogo.
+ *
+ * @param int    $term_id  Término.
+ * @param int    $tt_id    Término en la taxonomía.
+ * @param string $taxonomy Taxonomía.
+ */
+function lapaz_cache_al_cambiar_termino( int $term_id, int $tt_id, string $taxonomy ): void {
+	if ( in_array( $taxonomy, LAPAZ_TAXONOMIAS_EN_CACHE, true ) ) {
+		lapaz_cache_marcar( 'productor' );
+	}
+}
+add_action( 'created_term', 'lapaz_cache_al_cambiar_termino', 10, 3 );
+add_action( 'edited_term', 'lapaz_cache_al_cambiar_termino', 10, 3 );
+add_action( 'delete_term', 'lapaz_cache_al_cambiar_termino', 10, 3 );

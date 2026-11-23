@@ -133,3 +133,19 @@ function lapaz_sin_presets_core( WP_Theme_JSON_Data $datos ): WP_Theme_JSON_Data
 	return $datos->update_with( $vacio );
 }
 add_filter( 'wp_theme_json_data_default', 'lapaz_sin_presets_core' );
+
+/**
+ * Con The SEO Framework el sitemap es /sitemap.xml: /wp-sitemap.xml (con o sin barra final) y los
+ * sub-sitemaps /wp-sitemap-*.xml del core, que producción sirvió desde el lanzamiento, vuelven a él
+ * con 301 en vez de dar 404. Va en `init` porque los mu-plugins cargan antes que los plugins y
+ * todavía no saben si el plugin está activo.
+ */
+function lapaz_sitemap_antiguo(): void {
+	$pide = is_string( $_SERVER['REQUEST_URI'] ?? null ) ? (string) wp_parse_url( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), PHP_URL_PATH ) : '';
+	$base = (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH );
+	if ( defined( 'THE_SEO_FRAMEWORK_PRESENT' ) && 1 === preg_match( '#^' . preg_quote( $base, '#' ) . 'wp-sitemap(?:-[a-z0-9-]+)?\.xml/?$#', $pide ) ) {
+		wp_safe_redirect( home_url( '/sitemap.xml' ), 301 );
+		exit;
+	}
+}
+add_action( 'init', 'lapaz_sitemap_antiguo' );

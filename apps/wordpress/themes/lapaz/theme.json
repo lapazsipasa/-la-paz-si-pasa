@@ -65,6 +65,26 @@
 					"color": "#008861"
 				},
 				{
+					"slug": "verde-texto",
+					"name": "Verde texto",
+					"color": "#006b4c"
+				},
+				{
+					"slug": "naranja",
+					"name": "Naranja",
+					"color": "#eb7b00"
+				},
+				{
+					"slug": "azul-noche",
+					"name": "Azul noche",
+					"color": "#23386e"
+				},
+				{
+					"slug": "papel",
+					"name": "Papel",
+					"color": "#edf7fd"
+				},
+				{
 					"slug": "actualidad-bg",
 					"name": "Rosa",
 					"color": "#d49ec7"
@@ -137,6 +157,28 @@
 		},
 		"typography": {
 			"defaultFontSizes": false,
+			"fontSizes": [
+				{
+					"slug": "rotulo",
+					"name": "Rótulo",
+					"size": "0.875rem"
+				},
+				{
+					"slug": "nota",
+					"name": "Nota",
+					"size": "0.9375rem"
+				},
+				{
+					"slug": "cuerpo",
+					"name": "Cuerpo",
+					"size": "clamp(1rem, 2vw, 1.125rem)"
+				},
+				{
+					"slug": "seccion",
+					"name": "Título de sección",
+					"size": "clamp(1.5rem, 4vw, 2.2rem)"
+				}
+			],
 			"fontFamilies": [
 				{
 					"slug": "komet",
@@ -241,10 +283,18 @@
 		"custom": {
 			"radius": {
 				"card": "8px",
-				"control": "6px"
+				"control": "6px",
+				"pill": "999px"
+			},
+			"border": {
+				"subtle": "color-mix(in srgb, var(--wp--preset--color--nav-text) 28%, var(--wp--preset--color--surface))"
 			},
 			"shadow": {
-				"soft": "0 20px 60px rgb(28 25 23 / 10%)"
+				"soft": "0 20px 60px rgb(28 25 23 / 10%)",
+				"strong": "0 4px 15px rgb(0 0 0 / 30%)"
+			},
+			"letter-spacing": {
+				"rotulo": "0.5px"
 			},
 			"font-weight": {
 				"light": "300",

@@ -2,6 +2,61 @@
 
 Qué cambió, con fecha y PR. Lo reciente arriba.
 
+- **2026-11-23** · prueba de dev y CSP · en la rama `feat/boletin-catalogo-fcp` (PR #2)
+  - Revisión 45 (AGY, 11 PDF de `5cb941e`): sin hallazgos altos ni medios; resueltos los hallazgos de la 44.
+  - Revisión 46 (AGY, PDF de `c75b944`): sin hallazgos altos ni medios. Los 4 bajos quedaron aplicados: «(N de M)» sin partirse, `orphans`/`widows` en 2, `code` sin partir y margen en la lámina 11 para no rozar los pies de foto.
+  - CSP: la única violación en dev era el router de la Interactivity API en `/productores/` (compila WebAssembly). `script-src` suma `'wasm-unsafe-eval'` (`cf74458`), que no habilita `eval` de JavaScript. Tras el cambio, 0 violaciones en 9 rutas a 360 y 1440 px, incluido un video de YouTube en Plyr.
+  - Dev (`dev.lapazsipasa.com`, desplegado con `cf74458`): `bin/check` en verde; sitemap y 292 recursos propios responden 200; 404 en `/paissana/`, 301 en `/wp-sitemap.xml`, 403 en `/xmlrpc.php` y `/readme.html`, 401 sin sesión en `/wp-json/wp/v2/users`. Cabeceras de seguridad presentes, sin `X-Powered-By`; `noindex` en todo el sitio.
+  - Suites e2e de solo lectura contra dev: layout, navbar, retratos, paisana-audios y paisana-productores (125 comprobaciones en verde). Las 13 que escriben con wp-cli solo valen en local y no se corrieron en dev.
+- **2026-11-22** · manual general y manuales por tipo de contenido · en la rama `feat/boletin-catalogo-fcp`
+  - Revisión 42 (AGY, PDF): portada completa, secciones comunes por tipo (SEO solo en boletín, historia y páginas), «A quién acudir» separado de SEO, resumen en una página, mejores cortes de imagen y saltos de página, y círculos de las láminas 01-10, 12, 16 y 18 fuera del texto.
+  - Revisión 43 (AGY, código de `37b631e`): con MP4 elegido y sin archivo no se cae a YouTube, `SUCRE:` sin número se ignora y la reindexación corre antes del vaciado de caché (`c0c05a4`).
+  - Revisión 44 (AGY, PDF tras la 42): sin pendientes altos; ajustes finales de PDF en curso (círculo de `lamina-05`, tablas cortas, ayuda de SVG en `lamina-19`).
+  - Revisión 41 (general): la fuente de video elegida manda en videos y ferias, renombrar un término reindexa el catálogo y el mapa ignora líneas sin dos puntos (`37b631e`). Prueba final previa: `bin/check` y 18 suites, 965 comprobaciones en verde.
+  - `wiki/manual-editor.md` pasa a manual general (18 secciones): noticias, retratos, videos, relatos sonoros, ferias, subcuentas y páginas Inicio y Proyectos destacados, con las láminas 14 a 21.
+  - `generar-manual.py` genera el manual general y 10 manuales por tipo (`raw/manual-editor/por-tipo/`). Ver [README de las herramientas](../apps/wp-fse/tools/manual/README.md).
+  - Las láminas 14 a 21 se corrigieron: marcadores sin solaparse ni tapar texto y recortes ajustados. `generar-laminas.mjs` acepta posición del número por lado, `caja:false` y CSS propio por lámina.
+  - SCF: «Subtítulos» del relato sonoro queda desactivado y opcional (el sitio no lo muestra; el valor guardado se conserva). La instrucción de la imagen del hero dice 1500 px, que es el tope real de subida.
+  - Retratos sin la caja «Imagen destacada» (ni el sitio ni el headless la usan) y sin la ayuda «Puedes cambiar este límite… en SCF», que el Editor no puede seguir.
+- **2026-11-21** · cierre de la rama para PR · **en la rama `feat/boletin-catalogo-fcp` (45 commits sobre `lapazsipasa/main`), sin push, PR ni deploy** · [revisiones](specs/boletin-catalogo-fcp/revisiones-independientes.md)
+  - Manual del editor con una lámina emparejada por formulario (pantalla de WordPress y componente del sitio, mismos números): 13 láminas y 5 capturas (`0a529d3`, `7bb554f`).
+  - Suite `admin.mjs` reforzada a 20 comprobaciones, con guardado HTTP de un boletín borrador como Editor (`2eeeb72`).
+  - Corrida final sobre `7bb554f` con la imagen reconstruida: `bin/check` 17 pasos; 18 suites e2e, 965 comprobaciones, salida 0.
+  - Revisiones 36 y 38 (control visual del manual, con retoques) y 39 en curso (lectura completa del manual maquetado, hecha por un subagente revisor porque AGY perdió su sesión).
+  - Pruebas: la canónica de una entrada se exige en producción y no en local, en `boletin.mjs` e `historia.mjs`; PHPCS corregido en `inc/boletin.php` (`1d4e1b2`).
+  - Seguridad, revisión 26: bloqueo de la visibilidad de TSF al Editor, `wp-content/languages` sin acceso HTTP y esquema `https` en la imagen social (`1546852`).
+  - Guion de pruebas de staging y wiki contrastada con el código (`d957a80`).
+  - Fallo de las pantallas de edición con el plugin de SEO (`TypeError` en `lapaz_tsf_imagen()`): corregido y cubierto con la suite nueva `admin.mjs` (`c3f7c11`).
+  - Veredicto del revisor (revisión 35): lista para abrir el PR, sin bloqueantes.
+- **2026-11-20** · entrega de la rama: URL nuevas, endurecimiento, accesibilidad, formularios del admin, pruebas, revisiones independientes y SEO editable · **en la rama `feat/boletin-catalogo-fcp` (38 commits sobre `lapazsipasa/main`), sin push, PR ni deploy** · [revisiones](specs/boletin-catalogo-fcp/revisiones-independientes.md)
+  - Catálogo en `/productores/` (plantilla `page-productores.html`) e historias en `/historias/<slug>/`, con archivo en `/historias/`. `/paissana/` deja de existir; `lapaz-setup` migra la página conservando su ID (`1e799ea`).
+  - Menú: «Proyectos destacados» queda activo también en `/productores/` y `/historias/` (`1e799ea`).
+  - Formularios del admin en lenguaje llano. La crónica de la historia deja de clonar el molde Artículo y el «Título» obligatorio (`a0c2b63`).
+  - API REST cerrada sin sesión: productores, taxonomías, boletines e historias fuera de REST. `categoria[]` admite 20 valores como máximo. El video de una historia exige adjunto de video o enlace https (`3b2941d`).
+  - Decisión ratificada: los datos del seed quedan como los entregó el Fondo (`3b2941d`; [decisiones](decisions/boletin-catalogo-fcp.md)).
+  - Endurecimiento: un solo mensaje de error al iniciar sesión; contraseñas de aplicación desactivadas; oEmbed sin autor; Apache sin listado y con archivos sensibles bloqueados; HSTS y CSP en modo informe; límites de PHP; contenedores sin escalada de privilegios; acciones de CI fijadas por SHA. La wiki deja de publicar direcciones de servidores y paneles (`ff6445d`).
+  - Accesibilidad AA: indicador de menú activo, contraste de barras, lightbox como `<dialog>`, foco en «Ver más», enlaces de 44 px (`239dcc9`).
+  - Rendimiento: galería de 25 a 4 consultas, miniaturas y logo a su tamaño, caché de página vaciada al publicar un productor, boletín o historia (`239dcc9`).
+  - Pruebas: arnés `lib.mjs` sin procesos Chrome huérfanos, constantes de ruta en `fcp-lib.mjs`, suites `boletin`, `catalogo`, `historia`, `navegacion` y `rest` (sin Chrome) en CI, y bases visuales actualizadas (`9bb6c80`).
+  - Documentación: registro de revisiones independientes, rutas nuevas, guía de despliegue y borrador inicial del manual del editor (`3e08f05`).
+  - Correcciones de la revisión 9: `/historias/` vacío con `<h1>` y aviso, archivo sin paginación, `lapaz_url_catalogo_base()` exige publicación, `lapaz-setup` avisa si conviven `paissana` y `productores`, `memory_limit = 128M`, CSP-Report-Only con YouTube/noembed y MariaDB `11.8` (`f0f5f67`).
+  - Correcciones de la revisión 10: listener `close` y bloqueo de scroll en el `<dialog>` del lightbox, vaciado de caché ampliado a menú (`wp_navigation`), páginas, los 6 CPT previos y taxonomías del catálogo, división de `assets/css/editorial.css` en `editorial.css` + `lectura.css`, y tarjetas del índice como `<article>` con enlace estirado (`1d87a5b`).
+  - Correcciones de la revisión 12 en pruebas: `catalogo.mjs` prueba el indexado automático del MU-plugin, `rest.mjs` añade `exigirLocal()` y endurece la aserción de oEmbed, `seguro()` compartido en `fcp-lib.mjs`, fecha determinista y `PENULTIMA` dinámica (`e78e2f1`).
+  - Correcciones de la revisión 17: foco de tarjetas del índice protegido con `@supports selector(:has(*))`, espera completa al cerrar el lightbox con Escape en `historia.mjs`, y respaldo al nombre de sección en `indice.php` (`35b50b3`).
+  - Seed: `historia-asocafe.json` limpiado a los campos del formulario de crónica (`384db0d`).
+  - Documentación: wiki al día con revisiones 10–20, checklist y marcha atrás de despliegue, manual del editor v2, nota para el Fondo y borrador de PR (`2b7fe49`).
+  - Commit `2f13b6b` (integración de SEO y `lapaz-setup`): The SEO Framework (`autodescription` 5.2.1) en `Dockerfile` con traducción `es_CO` en `apps/wp-fse/docker/languages/plugins/` y copia en `entrypoint.sh`; guardas de `--seed`/`--forzar-seed`, opciones desconocidas, aviso de plantillas, vaciado de caché y configuración inicial única de SEO en `lapaz-setup`; integración en `inc/seo-tsf.php` con respaldo intacto en `inc/seo.php` e `inc/guia-estilos.php`; redirección 301 `/wp-sitemap*.xml` → `/sitemap.xml` en `lapaz-limpieza.php`; `seo.mjs` y `navegacion.mjs` actualizados (corrida final pendiente).
+- **2026-11-19 a 2026-11-20** · feat: boletín y catálogo PaisSana · **en la rama `feat/boletin-catalogo-fcp`, sin push, PR ni deploy** · [spec](specs/boletin-catalogo-fcp.md)
+  - Modelo: tipos `boletin`, `productor` (5 taxonomías) e `historia`, en `apps/wp-fse/scf-json/` (`87fa755`).
+  - Boletín: bloque `lapaz/boletin`, edición nueva con 8 secciones precargadas, `/boletin/` y `editorial.css` (`40af34e`, `1fc1301`).
+  - Catálogo: `lapaz/catalogo` con buscador y filtros en el servidor, página de productores en `/paissana/` (hoy `/productores/`), mu-plugin `lapaz-catalogo.php` (`854b66a`).
+  - Historia del mes: `lapaz/historia` y tarjeta `lapaz/historia-destacada` (`d423dc1`).
+  - Seed: 316 productores, edición 02 e historia de Asocafé (`69ae2a0`).
+  - Estilo: tokens en `theme.json`, Komet Heavy en titulares (`1fc1301`, `00c7eaf`); guía de estilos viva solo en local, `lapaz/guia-estilos` (`f0de368`).
+  - Menú: «Boletín», orden nuevo, estado activo por sección y los dos botones de programa en gris (`2d5d049`); hero compacto en catálogo, historias y boletín (`0f25dc8`).
+  - Accesos: boletín e historia en Inicio y Proyectos destacados (`872a85a`); banner `lapaz/catalogo-banner` (`8347916`).
+  - Pruebas: suites e2e `boletin`, `catalogo`, `historia` y `navegacion`; CI (`c710ccf`, `cd68174`). Correcciones de tres revisiones de AGY (`667cf01`, `e6eb811`, `e152e69`); responsive (`afa96b4`); documentación de SEO y navegación (`dcd0a81`).
+- **2026-11-09** · deploy: producción pasa al sitio FSE en el servidor nuevo (compose `MonoRepo`, `apps/wp-fse/compose.yaml`, `main` `v2.0.0`); DNS de `lapazsipasa.com`, `www` y `st` al servidor nuevo · [despliegue](despliegue-fse.md#producción-desde-2026-11-09)
 - **2026-11-08** · feat(lapaz): etapa 7.5, operación: SMTP con Resend (`lapaz-smtp.php`), `lapaz-setup --seed`, `lapaz-importar` (base y uploads del headless) y guía de despliegue en Dokploy · rama `feat/wordpress-fse`, sin commit todavía · [guía de despliegue](despliegue-fse.md)
 - **2026-11-08** · feat(lapaz): etapa 7, SEO (`inc/seo.php`: título, descripción desde el extracto, OG y Twitter, favicon, sitemap solo con páginas, `noindex` fuera de producción), limpieza de WordPress (global-styles, `<head>`, feeds, comentarios, XML-RPC en 403) y revisión de seguridad (7 hallazgos corregidos) · rama `feat/wordpress-fse`, sin commit todavía · [etapa 7](specs/wordpress-fse/etapa-7-seo-rendimiento.md)
 - **2026-11-08** · feat(lapaz): etapa 6, Proyectos destacados en 5 bloques (`paisana-hero`, `paisana-mapa`, `paisana-audios`, `paisana-productores`, `paisana-ferias`); cifras y regiones editables en `group_proyectos`; Plyr 3.7.8 servido desde el tema · rama `feat/wordpress-fse`, sin commit todavía · [etapa 6](specs/wordpress-fse/etapa-6-paisana.md)

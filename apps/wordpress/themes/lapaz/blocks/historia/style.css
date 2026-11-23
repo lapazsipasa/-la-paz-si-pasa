@@ -1,0 +1,326 @@
+/*
+ * Bloque lapaz/historia: página de una historia PaisSana.
+ * Contenedor, cabeceras, rótulos, etiqueta, ficha y crédito: assets/css/editorial.css.
+ */
+.wp-block-lapaz-historia {
+	display: grid;
+	gap: var(--space-12);
+	padding-block: var(--space-6) var(--space-16);
+	font-family: var(--font-komet);
+	color: var(--color-nav-text);
+}
+
+.wp-block-lapaz-historia :is(.volver-top, .seccion-ficha, .seccion-video, .seccion-cronica, .seccion-galeria) {
+	min-width: 0;
+}
+
+.wp-block-lapaz-historia .volver-top a {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	text-decoration: none;
+	color: var(--color-nav-text);
+}
+
+.wp-block-lapaz-historia .volver-top a:hover {
+	text-decoration: underline;
+	text-underline-offset: 4px;
+}
+
+/* Portada: foto con el título superpuesto */
+.wp-block-lapaz-historia .port-prod {
+	position: relative;
+	display: grid;
+	min-height: 22rem;
+	overflow: hidden;
+	background: var(--color-nav-text);
+	border-radius: var(--radius-card);
+}
+
+.wp-block-lapaz-historia .port-prod > img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.wp-block-lapaz-historia .sobre {
+	position: relative;
+	display: flex;
+	align-items: flex-end;
+	padding: var(--space-16) var(--space-4) var(--space-6);
+	background: linear-gradient(to top, color-mix(in srgb, var(--color-nav-text) 92%, transparent) 0%, color-mix(in srgb, var(--color-nav-text) 55%, transparent) 55%, transparent 100%);
+	color: var(--color-surface);
+}
+
+.wp-block-lapaz-historia .sobre .wrap {
+	display: grid;
+	gap: var(--space-3);
+}
+
+.wp-block-lapaz-historia .sobre h1 {
+	max-width: 22ch;
+	font-size: clamp(2rem, 5vw, 4rem);
+	color: var(--color-surface);
+}
+
+.wp-block-lapaz-historia .sub {
+	margin: 0;
+	max-width: 48rem;
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-regular);
+	font-size: var(--font-size-cuerpo);
+	line-height: 1.5;
+	color: var(--color-surface);
+}
+
+/* Ficha técnica */
+.wp-block-lapaz-historia .ficha-tec {
+	grid-template-columns: 1fr;
+	gap: var(--space-4);
+}
+
+.wp-block-lapaz-historia .ficha-tec > div {
+	display: grid;
+	align-content: start;
+	gap: var(--space-1);
+	min-width: 0;
+}
+
+.wp-block-lapaz-historia .ficha-tec dd {
+	margin: 0;
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-bold);
+	font-size: 1rem;
+	line-height: 1.4;
+	overflow-wrap: anywhere;
+	color: var(--color-nav-text);
+}
+
+/* Video */
+.wp-block-lapaz-historia .video-wrap {
+	position: relative;
+	display: grid;
+	place-items: center;
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
+	background: var(--color-nav-text);
+	border-radius: var(--radius-card);
+	box-shadow: var(--shadow-soft);
+}
+
+.wp-block-lapaz-historia .video-wrap :is(.poster, iframe, video) {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	border: 0;
+	object-fit: cover;
+}
+
+.wp-block-lapaz-historia .video-wrap video {
+	object-fit: contain;
+	background: var(--wp--preset--color--text);
+}
+
+.wp-block-lapaz-historia .play {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-3);
+	padding: 0;
+	background: none;
+	border: 0;
+	text-decoration: none;
+	color: var(--color-surface);
+	cursor: pointer;
+}
+
+.wp-block-lapaz-historia .play .circ {
+	display: grid;
+	place-items: center;
+	width: 72px;
+	height: 72px;
+	padding-left: 4px;
+	background: var(--color-nav-bg-active);
+	border-radius: 50%;
+	box-shadow: var(--shadow-strong);
+	color: var(--color-nav-text);
+	font-size: 1.5rem;
+	transition: transform 0.2s ease;
+}
+
+.wp-block-lapaz-historia .play .txt {
+	padding: var(--space-1) var(--space-3);
+	background: color-mix(in srgb, var(--color-nav-text) 85%, transparent);
+	border-radius: var(--radius-control);
+}
+
+.wp-block-lapaz-historia .play:hover .circ {
+	transform: scale(1.1);
+}
+
+.wp-block-lapaz-historia .play:focus-visible {
+	outline-color: var(--color-surface);
+}
+
+/* Galería y lightbox */
+.wp-block-lapaz-historia .galeria {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-6);
+}
+
+.wp-block-lapaz-historia .galeria figure {
+	display: grid;
+	align-content: start;
+	gap: var(--space-2);
+	margin: 0;
+	min-width: 0;
+}
+
+.wp-block-lapaz-historia .galeria button {
+	display: block;
+	padding: 0;
+	overflow: hidden;
+	background: none;
+	border: 0;
+	border-radius: var(--radius-card);
+	cursor: zoom-in;
+}
+
+.wp-block-lapaz-historia .lightbox img {
+	max-width: 100%;
+	min-height: 0;
+	max-height: calc(100dvh - 10rem);
+	object-fit: contain;
+	border-radius: var(--radius-control);
+}
+
+.wp-block-lapaz-historia .galeria img {
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 3 / 2;
+	object-fit: cover;
+	transition: transform 0.3s ease;
+}
+
+.wp-block-lapaz-historia .galeria button:hover img {
+	transform: scale(1.03);
+}
+
+.wp-block-lapaz-historia .galeria figcaption {
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-light);
+	font-size: var(--font-size-rotulo);
+	line-height: 1.4;
+	color: var(--color-nav-text);
+}
+
+.wp-block-lapaz-historia .lightbox {
+	position: fixed;
+	inset: 0;
+	display: none;
+	width: 100%;
+	max-width: none;
+	height: 100%;
+	max-height: none;
+	margin: 0;
+	border: 0;
+	overscroll-behavior: contain;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: var(--space-4);
+	padding: var(--space-12) var(--space-4) var(--space-6);
+	background: color-mix(in srgb, var(--color-nav-text) 85%, var(--wp--preset--color--text));
+}
+
+.wp-block-lapaz-historia .lightbox.on {
+	display: flex;
+}
+
+.wp-block-lapaz-historia .lightbox p {
+	margin: 0;
+	max-width: 48rem;
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-regular);
+	font-size: var(--font-size-nota);
+	line-height: 1.4;
+	text-align: center;
+	color: var(--color-surface);
+}
+
+.wp-block-lapaz-historia .cerrar {
+	position: absolute;
+	top: var(--space-3);
+	right: var(--space-3);
+	display: grid;
+	place-items: center;
+	width: 48px;
+	height: 48px;
+	padding: 0;
+	background: var(--color-surface);
+	border: 0;
+	border-radius: 50%;
+	font-family: var(--font-komet);
+	font-size: 1.75rem;
+	line-height: 1;
+	color: var(--color-nav-text);
+	cursor: pointer;
+}
+
+.wp-block-lapaz-historia .cerrar:hover {
+	background: var(--color-nav-bg-active);
+}
+
+.wp-block-lapaz-historia .lightbox :is(.cerrar):focus-visible {
+	outline-color: var(--color-surface);
+}
+
+@media (min-width: 480px) {
+
+	.wp-block-lapaz-historia .galeria {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (min-width: 850px) {
+
+	.wp-block-lapaz-historia {
+		padding-top: var(--space-8);
+	}
+
+	.wp-block-lapaz-historia .port-prod {
+		min-height: 32rem;
+	}
+
+	.wp-block-lapaz-historia .sobre {
+		padding: var(--space-16) var(--space-10) var(--space-10);
+	}
+
+	.wp-block-lapaz-historia .ficha-tec {
+		grid-template-columns: repeat(3, 1fr);
+		gap: var(--space-6) var(--space-8);
+		padding: var(--space-8);
+	}
+
+	.wp-block-lapaz-historia .galeria {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.wp-block-lapaz-historia .play .circ,
+	.wp-block-lapaz-historia .galeria img {
+		transition: none;
+	}
+
+	.wp-block-lapaz-historia .play:hover .circ,
+	.wp-block-lapaz-historia .galeria button:hover img {
+		transform: none;
+	}
+}

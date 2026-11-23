@@ -1,0 +1,344 @@
+/*
+ * Bloque lapaz/catalogo: filtros, rejilla de productores y distribución.
+ * Mismo lenguaje que el sitio: azul sobre blanco, rótulos Monique en mayúsculas,
+ * panel azul claro como el de noticias. Cabecera de sección y botones: assets/css/editorial.css.
+ */
+.wp-block-lapaz-catalogo {
+	width: 100%;
+	color: var(--color-nav-text);
+	font-family: var(--font-komet);
+	font-weight: var(--font-weight-komet-light);
+}
+
+.wp-block-lapaz-catalogo section {
+	padding-block: var(--space-8);
+	scroll-margin-top: var(--space-8);
+}
+
+.wp-block-lapaz-catalogo .btn.mas {
+	display: flex;
+	width: fit-content;
+	margin: var(--space-8) auto 0;
+}
+
+/* Formulario */
+.wp-block-lapaz-catalogo .filtros {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-3);
+	align-items: stretch;
+}
+
+.wp-block-lapaz-catalogo .busca {
+	display: flex;
+	flex: 1 1 260px;
+	align-items: center;
+	gap: var(--space-2);
+	min-height: 48px;
+	padding: 0 var(--space-4);
+	border: 1px solid var(--color-nav-text);
+	background: var(--color-surface);
+}
+
+.wp-block-lapaz-catalogo .busca:focus-within {
+	outline: 3px solid var(--color-nav-text);
+	outline-offset: 2px;
+}
+
+.wp-block-lapaz-catalogo .busca input {
+	flex: 1;
+	min-width: 0;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	color: var(--color-nav-text);
+	font: inherit;
+	font-weight: var(--font-weight-komet-regular);
+}
+
+.wp-block-lapaz-catalogo .busca input::placeholder {
+	color: var(--wp--preset--color--text-muted);
+}
+
+.wp-block-lapaz-catalogo select {
+	flex: 1 1 200px;
+	min-height: 48px;
+	padding: 0 var(--space-4);
+	border: 1px solid var(--color-nav-text);
+	border-radius: 0;
+	background: var(--color-surface);
+	color: var(--color-nav-text);
+	font: inherit;
+	font-weight: var(--font-weight-komet-regular);
+}
+
+.wp-block-lapaz-catalogo select:focus-visible {
+	outline: 3px solid var(--color-nav-text);
+	outline-offset: 2px;
+}
+
+.wp-block-lapaz-catalogo.js-activo .btn.buscar {
+	display: none;
+}
+
+/* Chips de categoría: el input queda oculto pero enfocable */
+.wp-block-lapaz-catalogo .chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+	margin-top: var(--space-4);
+}
+
+.wp-block-lapaz-catalogo .chip {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	padding: 0 var(--space-4);
+	border: 1px solid var(--color-nav-text);
+	border-radius: var(--radius-pill);
+	background: var(--color-surface);
+	color: var(--color-nav-text);
+	font-family: var(--font-monique-regular);
+	font-size: 0.8125rem;
+	letter-spacing: var(--tracking-rotulo);
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: background-color 0.2s, color 0.2s;
+}
+
+.wp-block-lapaz-catalogo .chip input {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.wp-block-lapaz-catalogo .chip:hover {
+	background: var(--color-nav-bg-active);
+}
+
+.wp-block-lapaz-catalogo .chip:has(input:checked) {
+	background: var(--color-nav-text);
+	color: var(--color-surface);
+}
+
+.wp-block-lapaz-catalogo .chip:has(input:focus-visible) {
+	outline: 3px solid var(--color-nav-text);
+	outline-offset: 2px;
+}
+
+/* Resultados */
+.wp-block-lapaz-catalogo .resultados {
+	margin-top: var(--space-6);
+	transition: opacity 0.2s;
+}
+
+.wp-block-lapaz-catalogo .resultados.cargando {
+	opacity: 0.45;
+}
+
+.wp-block-lapaz-catalogo .conteo {
+	margin: 0 0 var(--space-4);
+}
+
+.wp-block-lapaz-catalogo .conteo b {
+	font-weight: var(--font-weight-komet-heavy);
+	font-variant-numeric: tabular-nums;
+}
+
+.wp-block-lapaz-catalogo .grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+	gap: var(--space-4);
+}
+
+.wp-block-lapaz-catalogo .card {
+	display: flex;
+	flex-direction: column;
+	padding: var(--space-4);
+	border: 1px solid var(--border-subtle);
+	border-top: 4px solid var(--color-nav-text);
+	border-radius: var(--radius-card);
+	background: var(--color-surface);
+}
+
+.wp-block-lapaz-catalogo .card h3 {
+	margin-bottom: var(--space-1);
+	font-size: 1.0625rem;
+	overflow-wrap: anywhere;
+}
+
+.wp-block-lapaz-catalogo .card .ubic {
+	margin-bottom: var(--space-3);
+	font-family: var(--font-monique-regular);
+	font-size: 0.75rem;
+	letter-spacing: var(--tracking-rotulo);
+	text-transform: uppercase;
+}
+
+.wp-block-lapaz-catalogo .card ul {
+	margin: 0 0 var(--space-3);
+	padding-left: 1.2rem;
+	list-style: disc;
+}
+
+.wp-block-lapaz-catalogo .card li {
+	font-size: var(--font-size-nota);
+}
+
+.wp-block-lapaz-catalogo .card .tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+	margin-top: auto;
+	padding-top: var(--space-3);
+	border-top: 1px solid var(--border-subtle);
+}
+
+.wp-block-lapaz-catalogo .tag {
+	padding: 2px var(--space-2);
+	background: var(--color-nav-bg-active);
+	font-family: var(--font-monique-regular);
+	font-size: 0.6875rem;
+	letter-spacing: var(--tracking-rotulo);
+	text-transform: uppercase;
+}
+
+/* Verde de texto: blanco sobre el verde de marca se queda en 4,47:1. */
+.wp-block-lapaz-catalogo .tag.et {
+	background: var(--color-verde-texto);
+	color: var(--color-surface);
+}
+
+.wp-block-lapaz-catalogo .vacio {
+	padding: var(--space-12) var(--space-4);
+	border: 1px dashed var(--color-nav-text);
+	text-align: center;
+	font-weight: var(--font-weight-komet-regular);
+}
+
+/* Distribución: panel azul claro como el de noticias */
+.wp-block-lapaz-catalogo .distribucion {
+	margin-top: var(--space-8);
+	background: var(--color-nav-bg-active);
+}
+
+.wp-block-lapaz-catalogo .distribucion .wrap {
+	padding-inline: var(--space-4);
+}
+
+.wp-block-lapaz-catalogo .dist {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-8);
+}
+
+.wp-block-lapaz-catalogo .dist h3 {
+	margin: 0 0 var(--space-1);
+	font-family: var(--font-monique-regular);
+	font-size: 1.25rem;
+	font-weight: var(--font-weight-komet-regular);
+	text-transform: uppercase;
+}
+
+.wp-block-lapaz-catalogo .nota {
+	margin: 0 0 var(--space-4);
+	font-size: var(--font-size-rotulo);
+}
+
+.wp-block-lapaz-catalogo .barras {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-1);
+}
+
+.wp-block-lapaz-catalogo .barra {
+	display: grid;
+	grid-template-columns: minmax(90px, 9.5rem) minmax(0, 1fr) 3rem;
+	align-items: center;
+	gap: var(--space-3);
+	padding: var(--space-1) var(--space-2);
+	color: var(--color-nav-text);
+	font-size: var(--font-size-rotulo);
+	text-decoration: none;
+}
+
+.wp-block-lapaz-catalogo .barra:focus-visible {
+	outline: 3px solid var(--color-nav-text);
+	outline-offset: 2px;
+}
+
+.wp-block-lapaz-catalogo .barra .nm {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.wp-block-lapaz-catalogo .barra .pista {
+	display: block;
+	height: 12px;
+	background: var(--color-surface);
+
+	/* Borde azul: la pista blanca sobre celeste no llega a 3:1 (WCAG 1.4.11); el borde sí, también en :hover. */
+	box-shadow: inset 0 0 0 1px var(--color-nav-text);
+}
+
+.wp-block-lapaz-catalogo .barra .fill {
+	display: block;
+	height: 100%;
+	background: var(--color-nav-text);
+	transition: background-color 0.2s;
+}
+
+.wp-block-lapaz-catalogo .barra .v {
+	font-variant-numeric: tabular-nums;
+	text-align: right;
+}
+
+.wp-block-lapaz-catalogo .barra:hover {
+	background: var(--color-surface);
+}
+
+.wp-block-lapaz-catalogo .barra.on {
+	font-weight: var(--font-weight-komet-heavy);
+}
+
+.wp-block-lapaz-catalogo .barra.on .fill {
+	background: var(--color-verde-texto);
+}
+
+@media (max-width: 849px) {
+
+	.wp-block-lapaz-catalogo .barra {
+		min-height: 44px;
+	}
+}
+
+@media (min-width: 850px) {
+
+	.wp-block-lapaz-catalogo .dist {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--space-12);
+	}
+}
+
+@media (max-width: 360px) {
+
+	.wp-block-lapaz-catalogo .barra {
+		grid-template-columns: minmax(70px, 7rem) minmax(0, 1fr) 2.5rem;
+		gap: var(--space-2);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.wp-block-lapaz-catalogo .resultados,
+	.wp-block-lapaz-catalogo .chip,
+	.wp-block-lapaz-catalogo .barra .fill {
+		transition: none;
+	}
+}

@@ -1,7 +1,7 @@
 <?php
 /**
  * SEO y rendimiento del <head> (port de BaseLayout.astro): título, descripción, Open Graph,
- * Twitter, íconos; sitemap solo con páginas; WebP al subir; sin script de emojis.
+ * Twitter, íconos; sitemap con páginas, boletín e historias; WebP al subir; sin script de emojis.
  *
  * La descripción de cada página es su extracto (se edita en la página). Sin extracto,
  * se usan los textos de Astro. canonical y robots los imprime el core.
@@ -19,7 +19,20 @@ defined( 'ABSPATH' ) || exit;
 function lapaz_page_excerpt(): void {
 	add_post_type_support( 'page', 'excerpt' );
 }
-add_action( 'init', 'lapaz_page_excerpt' );
+
+/**
+ * Si la página es una edición del boletín o el archivo /boletin/ (que pinta la más reciente).
+ */
+function lapaz_es_boletin(): bool {
+	return is_singular( 'boletin' ) || is_post_type_archive( 'boletin' );
+}
+
+/**
+ * Si la página es una historia o el archivo /historias/ (que pinta la más reciente).
+ */
+function lapaz_es_historia(): bool {
+	return is_singular( 'historia' ) || is_post_type_archive( 'historia' );
+}
 
 /**
  * Título del documento: «Página | La Paz Sí Pasa»; en la portada,
@@ -39,12 +52,15 @@ function lapaz_document_title_parts( array $partes ): array {
 		$partes['title'] = __( 'Página no encontrada', 'lapaz' );
 	} elseif ( is_page( 'proyectos-destacados' ) ) {
 		$partes['title'] = __( 'PaisSana, proyectos destacados', 'lapaz' );
+	} elseif ( lapaz_es_boletin() ) {
+		$partes['title'] = lapaz_boletin_titulo( lapaz_boletin_mostrado() );
+	} elseif ( is_post_type_archive( 'historia' ) && lapaz_historia_mostrada() > 0 ) {
+		$partes['title'] = get_the_title( lapaz_historia_mostrada() );
 	}
 	unset( $partes['tagline'] );
 
 	return $partes;
 }
-add_filter( 'document_title_parts', 'lapaz_document_title_parts' );
 
 /**
  * Separador «|» del título, como en Astro.
@@ -52,7 +68,6 @@ add_filter( 'document_title_parts', 'lapaz_document_title_parts' );
 function lapaz_document_title_separator(): string {
 	return '|';
 }
-add_filter( 'document_title_separator', 'lapaz_document_title_separator' );
 
 /**
  * Descripción de la página: su extracto o el texto por defecto de Astro según la página.
@@ -60,6 +75,18 @@ add_filter( 'document_title_separator', 'lapaz_document_title_separator' );
 function lapaz_meta_description(): string {
 	if ( is_singular() && has_excerpt() ) {
 		return wp_strip_all_tags( get_the_excerpt() );
+	}
+	if ( lapaz_es_boletin() && lapaz_boletin_mostrado() > 0 ) {
+		$sumario = lapaz_field_text( 'portada_sumario', lapaz_boletin_mostrado() );
+		if ( '' !== $sumario ) {
+			return wp_strip_all_tags( $sumario );
+		}
+	}
+	if ( lapaz_es_historia() ) {
+		$resumen = lapaz_field_text( 'resumen', lapaz_historia_mostrada() );
+		if ( '' !== $resumen ) {
+			return wp_strip_all_tags( $resumen );
+		}
 	}
 	if ( is_page( 'proyectos-destacados' ) ) {
 		return __( 'PaisSana reúne a las familias productoras de los territorios PDET: mapas por región, relatos en audio, ferias y videos del café, el cacao y las artesanías.', 'lapaz' );
@@ -72,25 +99,49 @@ function lapaz_meta_description(): string {
 }
 
 /**
- * Meta description, Open Graph, Twitter e íconos (si no hay ícono del sitio en Ajustes).
+ * Meta description, Open Graph y Twitter (respaldo: con The SEO Framework los imprime el plugin).
  */
 function lapaz_print_meta(): void {
 	$titulo      = wp_get_document_title();
 	$descripcion = lapaz_meta_description();
 	$url         = is_singular() ? (string) get_permalink() : home_url( '/' );
 	$imagen      = get_theme_file_uri( 'assets/img/seo/og.jpg' );
-	$meta        = array(
+	$ancho       = 1200;
+	$alto        = 630;
+	$alt         = __( 'La Paz Sí Pasa, pasa en los territorios', 'lapaz' );
+	$edicion     = lapaz_es_boletin() ? lapaz_boletin_mostrado() : 0;
+	if ( $edicion > 0 ) {
+		$url  = (string) get_permalink( $edicion );
+		$foto = wp_get_attachment_image_src( lapaz_field_image_id( 'portada_foto', $edicion ), 'large' );
+		if ( is_array( $foto ) ) {
+			list( $imagen, $ancho, $alto ) = $foto;
+			$alt                           = lapaz_field_text( 'portada_titular', $edicion );
+		}
+	}
+	$tipo     = 'website';
+	$historia = lapaz_es_historia() ? lapaz_historia_mostrada() : 0;
+	if ( $historia > 0 ) {
+		$tipo    = 'article';
+		$url     = (string) get_permalink( $historia );
+		$portada = lapaz_field_image_id( 'portada_foto', $historia );
+		$foto    = wp_get_attachment_image_src( $portada > 0 ? $portada : lapaz_field_image_id( 'foto', $historia ), 'large' );
+		if ( is_array( $foto ) ) {
+			list( $imagen, $ancho, $alto ) = $foto;
+			$alt                           = get_the_title( $historia );
+		}
+	}
+	$meta = array(
 		array( 'name', 'description', $descripcion ),
-		array( 'property', 'og:type', 'website' ),
+		array( 'property', 'og:type', $tipo ),
 		array( 'property', 'og:site_name', 'La Paz Sí Pasa' ),
 		array( 'property', 'og:locale', 'es_CO' ),
 		array( 'property', 'og:url', $url ),
 		array( 'property', 'og:title', $titulo ),
 		array( 'property', 'og:description', $descripcion ),
 		array( 'property', 'og:image', $imagen ),
-		array( 'property', 'og:image:width', '1200' ),
-		array( 'property', 'og:image:height', '630' ),
-		array( 'property', 'og:image:alt', __( 'La Paz Sí Pasa, pasa en los territorios', 'lapaz' ) ),
+		array( 'property', 'og:image:width', (string) $ancho ),
+		array( 'property', 'og:image:height', (string) $alto ),
+		array( 'property', 'og:image:alt', $alt ),
 		array( 'name', 'twitter:card', 'summary_large_image' ),
 		array( 'name', 'twitter:title', $titulo ),
 		array( 'name', 'twitter:description', $descripcion ),
@@ -99,23 +150,46 @@ function lapaz_print_meta(): void {
 	foreach ( $meta as list( $atributo, $nombre, $valor ) ) {
 		printf( '<meta %s="%s" content="%s" />' . "\n", esc_attr( $atributo ), esc_attr( $nombre ), esc_attr( $valor ) );
 	}
+}
+
+/**
+ * Íconos del sitio (si no hay ícono en Ajustes): no los imprime ningún plugin de SEO.
+ */
+function lapaz_print_icons(): void {
 	if ( ! has_site_icon() ) {
 		printf( '<link rel="icon" href="%s" type="image/svg+xml" />' . "\n", esc_url( get_theme_file_uri( 'assets/img/seo/favicon.svg' ) ) );
 		printf( '<link rel="apple-touch-icon" href="%s" />' . "\n", esc_url( get_theme_file_uri( 'assets/img/seo/apple-touch-icon.png' ) ) );
 	}
 }
-add_action( 'wp_head', 'lapaz_print_meta', 2 );
 
 /**
- * Sitemap solo con páginas: no hay blog, y los CPT no tienen URL propia.
+ * /boletin/ y /historias/ declaran como canónica la URL de la edición o la historia que muestran
+ * (el core ya lo hace en cada una).
+ */
+function lapaz_archivo_canonical(): void {
+	$edicion = is_post_type_archive( 'boletin' ) ? lapaz_boletin_mostrado() : 0;
+	$edicion = is_post_type_archive( 'historia' ) ? lapaz_historia_mostrada() : $edicion;
+	if ( $edicion > 0 ) {
+		printf( '<link rel="canonical" href="%s" />' . "\n", esc_url( (string) get_permalink( $edicion ) ) );
+	}
+}
+
+/**
+ * Sitemap con páginas, ediciones del boletín e historias: el resto de los CPT no tiene URL propia.
  *
  * @param array<string, WP_Post_Type> $tipos Tipos de contenido del sitemap.
  * @return array<string, WP_Post_Type>
  */
 function lapaz_sitemap_post_types( array $tipos ): array {
-	return array_intersect_key( $tipos, array( 'page' => true ) );
+	return array_intersect_key(
+		$tipos,
+		array(
+			'page'     => true,
+			'boletin'  => true,
+			'historia' => true,
+		)
+	);
 }
-add_filter( 'wp_sitemaps_post_types', 'lapaz_sitemap_post_types' );
 
 /**
  * Sin sitemaps de usuarios ni de taxonomías: el sitio no tiene esas páginas.
@@ -127,7 +201,6 @@ add_filter( 'wp_sitemaps_post_types', 'lapaz_sitemap_post_types' );
 function lapaz_sitemap_providers( mixed $provider, string $name ): mixed {
 	return in_array( $name, array( 'users', 'taxonomies' ), true ) ? false : $provider;
 }
-add_filter( 'wp_sitemaps_add_provider', 'lapaz_sitemap_providers', 10, 2 );
 
 /**
  * Las imágenes JPEG que se suben generan sus tamaños en WebP (más livianos, mismo aspecto).
@@ -167,4 +240,20 @@ function lapaz_noindex_fuera_de_produccion( array $robots ): array {
 
 	return $robots;
 }
-add_filter( 'wp_robots', 'lapaz_noindex_fuera_de_produccion' );
+
+/*
+ * Respaldo: el SEO propio del tema solo corre sin The SEO Framework (inc/seo-tsf.php). Los plugins
+ * cargan antes que el tema, así que la constante ya existe aquí si el plugin está activo.
+ * Los íconos, el WebP y los emojis no los cubre el plugin: van siempre.
+ */
+if ( ! defined( 'THE_SEO_FRAMEWORK_PRESENT' ) ) {
+	add_action( 'init', 'lapaz_page_excerpt' );
+	add_filter( 'document_title_parts', 'lapaz_document_title_parts' );
+	add_filter( 'document_title_separator', 'lapaz_document_title_separator' );
+	add_action( 'wp_head', 'lapaz_print_meta', 2 );
+	add_action( 'wp_head', 'lapaz_archivo_canonical', 3 );
+	add_filter( 'wp_sitemaps_post_types', 'lapaz_sitemap_post_types' );
+	add_filter( 'wp_sitemaps_add_provider', 'lapaz_sitemap_providers', 10, 2 );
+	add_filter( 'wp_robots', 'lapaz_noindex_fuera_de_produccion' );
+}
+add_action( 'wp_head', 'lapaz_print_icons', 2 );
