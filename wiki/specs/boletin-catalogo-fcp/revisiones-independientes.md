@@ -1,6 +1,6 @@
 # Revisiones independientes del boletín y el catálogo
 
-**Estado (2026-11-23): revisiones hasta la 45 (ver 40 a 45).** Resumen del 2026-11-21: veintinueve revisiones independientes (1 a 10, 12, 13, 15 a 19, 21 a 23, 25 a 27, 29, 32, 34, 35, 36 y 38) y nueve tareas de redacción (11, 14, 20, 24, 28, 30, 31, 33 y 37). Las revisiones de solo lectura de la 1 a la 35 las hizo AGY sobre la rama `feat/boletin-catalogo-fcp`. La 25 tuvo una primera pasada de un subagente, porque AGY agotó su cuota; AGY la repitió el 2026-11-21. La 36 retocó imágenes del manual; el revisor de las 36 y 38 no está anotado (TODO: verificar). La 39 (lectura completa del manual maquetado) está en curso: la hace un subagente revisor, no AGY, porque AGY perdió su sesión (error de autenticación) al final del día. Los informes completos no están en el repo. Esta página deja constancia de cada una: veredicto, hallazgos relevantes, commit que los resolvió y lo que quedó sin aplicar. Estado de la rama al cierre: 45 commits, último `7bb554f`; sin commit, la sincronización de la wiki de hoy y las herramientas del manual.
+**Estado (2026-11-23): revisiones hasta la 45 (ver 40 a 45); boletín e historia en producción desde hoy (PR #2, `a0c3802`), con lo comprobado marcado en «Pendiente de probar en staging».** Resumen del 2026-11-21: veintinueve revisiones independientes (1 a 10, 12, 13, 15 a 19, 21 a 23, 25 a 27, 29, 32, 34, 35, 36 y 38) y nueve tareas de redacción (11, 14, 20, 24, 28, 30, 31, 33 y 37). Las revisiones de solo lectura de la 1 a la 35 las hizo AGY sobre la rama `feat/boletin-catalogo-fcp`. La 25 tuvo una primera pasada de un subagente, porque AGY agotó su cuota; AGY la repitió el 2026-11-21. La 36 retocó imágenes del manual; el revisor de las 36 y 38 no está anotado (TODO: verificar). La 39 (lectura completa del manual maquetado) está en curso: la hace un subagente revisor, no AGY, porque AGY perdió su sesión (error de autenticación) al final del día. Los informes completos no están en el repo. Esta página deja constancia de cada una: veredicto, hallazgos relevantes, commit que los resolvió y lo que quedó sin aplicar. Estado de la rama al cierre: 45 commits, último `7bb554f`; sin commit, la sincronización de la wiki de hoy y las herramientas del manual.
 
 Gravedad: **bloqueante** impide abrir el PR · **alto** y **crítico** son de seguridad o privacidad · **importante** se arregla antes de producción · los menores se citan en una frase.
 
@@ -380,11 +380,11 @@ Solo lo puede hacer William, o el Fondo en su caso. Nada de esto se resuelve en 
 - Alertas de seguridad (Wordfence, Patchstack o similar) para `secure-custom-fields`, `wp-super-cache` y `autodescription`, las tres fijadas en la imagen (R26).
 
 **Decisiones de William:**
-- Aprobación de push (aplastando el historial anterior a `ff6445d` antes de subir a un remoto público, R13/R17), PR y deploy.
+- **Hecho el 2026-11-23:** aprobación de PR y deploy (PR #2 fusionado con squash, `a0c3802`). Push: hecho, pero TODO: verificar si se aplastó el historial anterior a `ff6445d` antes de subir a un remoto público (R13/R17); el 2026-11-21 la rama se subió con 49 commits sin aplastar.
 - Segundo factor para la cuenta del editor externo o revocación de sus sesiones; entrega de la clave por otro canal (R7).
 - `WP_ADMIN_USER` distinto de `admin` en producción y en CI (R7).
 - Cerrar `wp-cron.php` con `DISABLE_WP_CRON` y un disparador externo (R7).
-- Pasar CSP a modo activo tras confirmar cero violaciones en staging o producción con Plyr/YouTube (R7, R9). Dev salió limpio el 2026-11-23 (`cf74458`), incluido el video de YouTube.
+- Pasar CSP a modo activo tras confirmar cero violaciones en staging o producción con Plyr/YouTube (R7, R9). Dev salió limpio el 2026-11-23 (`cf74458`), incluido el video de YouTube; producción también, en 7 rutas el 2026-11-23.
 - Fijar imágenes Docker por digest (hoy `mariadb:11.8` y `wordpress:7.1.3-php8.3-apache` por etiqueta) (R7, R9).
 - Cambiar el propietario del código en el contenedor a `root:www-data` (R7).
 - Integración de The SEO Framework (`autodescription` 5.2.1): visto bueno a `og:locale` `es_CO` (forzado en `inc/seo-tsf.php`) y a `og:title` sin sufijo (valor de fábrica, según [seo-plugin](seo-plugin.md)). La traducción `es_CO` ya va horneada en el `Dockerfile` (`2f13b6b`) (R16).
@@ -428,25 +428,25 @@ El orden y los pasos para ejecutarlo todo en una sesión están en el [guion de 
 
 Lo que no se puede verificar en local con la imagen actual.
 
-- **Política de contenido:** consola sin violaciones de `Content-Security-Policy-Report-Only` en `/`, `/proyectos-destacados/` (un video de Plyr de YouTube y un audio), `/productores/`, `/historias/` y `/boletin/`. En dev (2026-11-23, `cf74458`), 9 rutas en 360 y 1440 px dan 0 violaciones tras añadir `'wasm-unsafe-eval'` (router de la Interactivity API en el catálogo), incluido `/proyectos-destacados/` con un video de YouTube reproduciéndose en Plyr. Falta repetirlo en staging o producción antes de pasar a modo activo.
-- **Cabeceras de Apache con la imagen reconstruida:** HSTS solo por HTTPS (`max-age=31536000`, ausente en HTTP interno); sin `X-Powered-By`; sin listado de directorios; 403 en `readme.html`, `license.txt`, `wp-config-sample.php`, `debug.log` y `xmlrpc.php`, y en `/wp-content/languages/plugins/autodescription-es_CO.{l10n.php,mo}` (R26).
+- **Política de contenido:** consola sin violaciones de `Content-Security-Policy-Report-Only` en `/`, `/proyectos-destacados/` (un video de Plyr de YouTube y un audio), `/productores/`, `/historias/` y `/boletin/`. En dev (2026-11-23, `cf74458`), 9 rutas en 360 y 1440 px dan 0 violaciones tras añadir `'wasm-unsafe-eval'` (router de la Interactivity API en el catálogo), incluido `/proyectos-destacados/` con un video de YouTube reproduciéndose en Plyr. **Hecho en producción (2026-11-23):** 0 violaciones en 7 rutas a 360 y 1440 px, con Plyr reproduciendo YouTube. Pasar a modo activo: decisión de William.
+- **Cabeceras de Apache con la imagen reconstruida:** hecho en producción (2026-11-23): sin `X-Powered-By`, sin listado en `uploads` y 403 en `readme.html`, `debug.log` y `xmlrpc.php`. Sin comprobar (TODO: verificar): HSTS, `license.txt`, `wp-config-sample.php` y `wp-content/languages`. Criterio original: HSTS solo por HTTPS (`max-age=31536000`, ausente en HTTP interno); sin `X-Powered-By`; sin listado de directorios; 403 en `readme.html`, `license.txt`, `wp-config-sample.php`, `debug.log` y `xmlrpc.php`, y en `/wp-content/languages/plugins/autodescription-es_CO.{l10n.php,mo}` (R26).
 - **Caché de página real (WP Super Cache):**
   - `/productores/` limpio, servido desde caché;
   - `/productores/?buscar=…` y `/productores/?x=1` fuera de caché;
   - publicar, editar o borrar un productor, un boletín o una historia vacía la caché;
   - `/sitemap.xml` no queda en caché de página.
-- **API REST:** 401 sin sesión en `/wp-json/wp/v2/users` y en los tipos cerrados; el editor de bloques, el Editor del sitio y Salud del sitio funcionan sin aviso de REST.
+- **API REST:** hecho en producción (2026-11-23): 401 sin sesión en `/wp-json/wp/v2/users` y `/wp-json/wp/v2/productor`. Pendiente (TODO: verificar): que el editor de bloques, el Editor del sitio y Salud del sitio funcionen sin aviso de REST.
 - **Subidas grandes:** MP4 de unos 20 MB y JPEG grande, con `memory_limit = 128M` y `upload_max_filesize = 32M` detrás de Traefik (R9, R15).
 - **HSTS y Traefik:** la cabecera llega solo cuando el visitante entra por HTTPS.
-- **Migración de `lapaz-setup`:** `paissana` pasa a `productores` con el mismo ID; el menú migra solo si es el de fábrica; el caso de las dos páginas a la vez.
-- **Seed por secciones:** `productores`, `boletines` e `historias`, en ese orden; 316 productores, una edición y una historia; correrlo dos veces no duplica.
-- **Grupos SCF:** aparecen en *Historias PaisSana*, *Boletines* y *Productores* sin importación manual.
+- **Migración de `lapaz-setup`:** hecho en producción (2026-11-23): creó `productores` y migró el menú Principal (era el de fábrica). Sin ejercitar: el paso de `paissana` a `productores` con el mismo ID (producción no tenía `paissana`) y el caso de las dos páginas a la vez.
+- **Seed por secciones:** hecho en producción (2026-11-23) para `boletines` (Edición 02) e `historias` (Asocafé). Pendiente: `productores` (espera la autorización del Fondo) y comprobar que correrlo dos veces no duplica (TODO: verificar).
+- **Grupos SCF:** hecho el 2026-11-23 en producción: aparecen en *Historias PaisSana*, *Boletines* y *Productores* sin importación manual.
 - **Permisos del Editor:** edita boletines, historias y productores; no instala plugins ni cambia ajustes. La caja de SEO le muestra solo General e imagen social; probar con un usuario Editor real, no de prueba. Enviando a mano `redirect`, `_genesis_noindex` o `_genesis_canonical_uri`, el Editor no los guarda (R26).
 - **SEO en producción:** `robots` sin `noindex` con `WP_ENVIRONMENT_TYPE=production`; en staging, `WP_ENVIRONMENT_TYPE=staging` (sin esa variable, staging queda indexable).
-- **Rutas:** `/productores/`, `/historias/` y `/boletin/` responden 200; `/paissana/` responde 404.
-- **Sitemap:** `/sitemap.xml` (un solo `urlset`, con The SEO Framework); `/wp-sitemap.xml` debe dar 301 a esa ruta. Debe incluir `boletin` e `historia` y excluir `productor` y `guia-de-estilos` (R9, R15). Tras desplegar, reenviar `/sitemap.xml` en Search Console para reemplazar `/wp-sitemap.xml`.
+- **Rutas:** hecho en producción (2026-11-23): 200 en `/boletin/`, `/boletin/edicion-02/`, `/historias/` e `/historias/asocafe/`; 404 en `/paissana/`. Pendiente: `/productores/` da 404 mientras la página esté en borrador (ver [publicar el catálogo](../../despliegue-fse.md#publicar-el-catálogo-cuando-el-fondo-autorice)).
+- **Sitemap:** hecho en producción (2026-11-23): 4 URL en `/sitemap.xml` y 301 desde `/wp-sitemap.xml`. Pendiente: reenviar en Search Console. Criterio: `/sitemap.xml` (un solo `urlset`, con The SEO Framework); `/wp-sitemap.xml` debe dar 301 a esa ruta. Debe incluir `boletin` e `historia` y excluir `productor` y `guia-de-estilos` (R9, R15). Tras desplegar, reenviar `/sitemap.xml` en Search Console para reemplazar `/wp-sitemap.xml`.
 - **Accesibilidad con lector de pantalla (VoiceOver / NVDA):** cierre del `<dialog>` con Escape y retorno de foco; que enfocar `.conteo` al agotar «Ver más» no duplique el anuncio; aviso «(abre en una pestaña nueva)» en el video de enlace externo (R10, R17).
-- **CI:** las acciones fijadas por SHA corren; `navegacion.mjs` y `rest.mjs` entran en el flujo; las suites pasan en la primera ejecución real.
+- **CI:** hecho el 2026-11-23: el check del PR y las 18 suites e2e en verde sobre `97aee53` (mismo contenido que `a0c3802`).
 - **Rendimiento:** Lighthouse de `/productores/` con el hero compacto. TODO: confirmar que se mide.
 
 ### 40 · Manual maquetado final y herramientas del manual (2026-11-21)

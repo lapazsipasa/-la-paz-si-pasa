@@ -2,14 +2,15 @@
 
 ## Qué es
 
-Sitio público de La Paz Sí Pasa (https://lapazsipasa.com/). Muestra retratos de los territorios, las subcuentas y noticias del fondo, la galería de actualidad, la página de proyectos destacados (PaisSana: mapa, audios, ferias y productores) y, en la rama en curso, el boletín *Caminos de Transformación*, el catálogo de productores y la historia del mes. El equipo edita el contenido en WordPress.
+Sitio público de La Paz Sí Pasa (https://lapazsipasa.com/). Muestra retratos de los territorios, las subcuentas y noticias del fondo, la galería de actualidad, la página de proyectos destacados (PaisSana: mapa, audios, ferias y productores), el boletín *Caminos de Transformación* y la historia del mes (en producción desde 2026-11-23). El catálogo de productores está listo pero oculto hasta que el Fondo lo autorice. El equipo edita el contenido en WordPress.
 
 ## Estado: producción
 
 - **Producción (desde 2026-11-09):** sitio WordPress FSE, con el tema de bloques `lapaz` (`apps/wordpress/themes/lapaz/`). WordPress pinta todas las páginas; no hay Astro en el camino. Código de despliegue en `apps/wp-fse/`. Detalle en [despliegue-fse.md](despliegue-fse.md).
 - **Respaldo:** headless (WordPress + API REST) con frontend en Astro. Sigue en el servidor viejo, sin tráfico, hasta la limpieza final.
-- **En curso:** [boletín y catálogo PaisSana](specs/boletin-catalogo-fcp.md), en la rama `feat/boletin-catalogo-fcp`, con PR #2 abierto y desplegada en el entorno `dev` de Dokploy (`dev.lapazsipasa.com`). Sin merge ni deploy a producción.
-  - Estado (2026-11-23): manual general y 10 manuales por tipo; revisiones independientes hasta la 45 (sin hallazgos altos ni medios); dev probado con `cf74458` (`bin/check` en verde, recorrido, suites de solo lectura y consola CSP sin violaciones). Las suites que escriben con wp-cli están pendientes de repetir en local sobre el último commit.
+- **Boletín e historia del mes:** [boletín y catálogo PaisSana](specs/boletin-catalogo-fcp.md), en producción desde 2026-11-23 (PR #2, squash `a0c3802` en `main`). Boletín en `/boletin/` (Edición 02) e historia en `/historias/` (Asocafé). Detalle en [despliegue-fse.md](despliegue-fse.md#despliegue-de-boletín-y-catálogo-paissana).
+- **Catálogo PaisSana (`/productores/`):** listo pero oculto. La página está en borrador, sin productores cargados, y no sale en el sitemap. Se publica cuando el Fondo autorice a las 12 personas con nombre propio y corrija las erratas de origen ([procedimiento](despliegue-fse.md#publicar-el-catálogo-cuando-el-fondo-autorice)).
+  - Estado (2026-11-23): manual general y 10 manuales por tipo; revisiones independientes hasta la 45 (sin hallazgos altos ni medios); producción probada con el recorrido, el sitemap, las cabeceras, la API y la consola CSP sin violaciones (7 rutas). Las suites que escriben con wp-cli no se corrieron en producción (TODO: verificar qué se corrió en staging).
 
 ## Stack
 
@@ -43,7 +44,7 @@ Componente Astro (props tipadas)
 ## Especificaciones y guías
 
 - [Migración FSE: spec, etapas e inventario](specs/wordpress-fse.md) (etapas construidas; producción desde 2026-11-09)
-- [Boletín y catálogo PaisSana](specs/boletin-catalogo-fcp.md): [contrato entre piezas](specs/boletin-catalogo-fcp/contrato.md), [boletín](specs/boletin-catalogo-fcp/boletin-estructura.md), [catálogo e historia](specs/boletin-catalogo-fcp/paissana-catalogo.md), [accesos](specs/boletin-catalogo-fcp/accesos-paginas-existentes.md), [revisiones independientes y pendientes](specs/boletin-catalogo-fcp/revisiones-independientes.md), [nota para el Fondo](specs/boletin-catalogo-fcp/nota-para-el-fondo.md), [integración de SEO](specs/boletin-catalogo-fcp/seo-plugin.md) y [borrador de PR](prs/boletin-catalogo-fcp.md)
+- [Boletín y catálogo PaisSana](specs/boletin-catalogo-fcp.md): [contrato entre piezas](specs/boletin-catalogo-fcp/contrato.md), [boletín](specs/boletin-catalogo-fcp/boletin-estructura.md), [catálogo e historia](specs/boletin-catalogo-fcp/paissana-catalogo.md), [accesos](specs/boletin-catalogo-fcp/accesos-paginas-existentes.md), [revisiones independientes y pendientes](specs/boletin-catalogo-fcp/revisiones-independientes.md), [nota para el Fondo](specs/boletin-catalogo-fcp/nota-para-el-fondo.md), [integración de SEO](specs/boletin-catalogo-fcp/seo-plugin.md) y [PR #2](prs/boletin-catalogo-fcp.md)
 - [Guion de pruebas de staging](specs/boletin-catalogo-fcp/plan-staging.md): 11 bloques con pasos, resultado esperado y criterio de salida a producción
 - [Manual del editor](manual-editor.md): guía paso a paso para publicar boletines, historias y productores en WordPress
 - [Navegación del sitio](navegacion.md): mapa, problemas y decisiones de William (2026-11-19)

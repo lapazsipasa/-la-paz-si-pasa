@@ -1,5 +1,7 @@
 # Boletín *Caminos de Transformación*, catálogo PaisSana e historia del mes
 
+**Estado (2026-11-23): fusionado.** PR #2 con squash en `main` como `a0c3802`, desplegado en producción. El catálogo queda oculto hasta que el Fondo lo autorice.
+
 Rama `feat/boletin-catalogo-fcp` → `main` (45 commits) · [Spec](wiki/specs/boletin-catalogo-fcp.md) · [Decisiones](wiki/decisions/boletin-catalogo-fcp.md) · [Revisiones independientes](wiki/specs/boletin-catalogo-fcp/revisiones-independientes.md)
 
 ## Problema
@@ -41,6 +43,8 @@ El Fondo Colombia en Paz entregó dos piezas como HTML estático con tipografía
 - **Historial de la rama:** commits anteriores a `ff6445d` contenían datos de operación ya retirados del árbol; hacer **squash merge** a `main` (el squash no borra datos que ya existían en commits previos de `main`: cerrar puerto del panel, activar HTTPS y rotar claves).
 
 ## Después del merge
+
+**Hecho el 2026-11-23** ([despliegue](../despliegue-fse.md#despliegue-de-boletín-y-catálogo-paissana)): pasos 1 a 4, salvo `productores` (espera al Fondo). Paso 5 (usuario Editor): TODO: verificar. Paso 6: hecho, salvo `/productores/` y el reenvío del sitemap en Search Console.
 
 Ejecutar primero en staging siguiendo el [guion de pruebas de staging](wiki/specs/boletin-catalogo-fcp/plan-staging.md) y luego en producción según [wiki/despliegue-fse.md](wiki/despliegue-fse.md#despliegue-de-boletín-y-catálogo-paissana):
 1. Respaldar la base de datos antes del despliegue.

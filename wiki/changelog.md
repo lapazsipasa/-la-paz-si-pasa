@@ -2,6 +2,12 @@
 
 Qué cambió, con fecha y PR. Lo reciente arriba.
 
+- **2026-11-23** · salida a producción: boletín e historia del mes; catálogo oculto · PR #2, squash `a0c3802` en `main` · [despliegue](despliegue-fse.md#despliegue-de-boletín-y-catálogo-paissana)
+  - Producción: `lapaz-setup` sin `--seed` (activa The SEO Framework, crea la página `productores`, migra el menú Principal); seed por secciones de boletín (Edición 02) e historia (Asocafé); página `productores` en borrador; caché vaciada. Antes, respaldo de la base y de `uploads`, y se confirmó que producción no tenía plantillas ni grupos SCF propios ni `paissana`.
+  - Catálogo: sin productores cargados (`SEED_SOLO=productores` no se corrió). `97aee53`: sin productores publicados, el botón PAISSANA apunta a `#` y la historia no muestra «Volver al catálogo».
+  - Verificado en producción: rutas, sitemap con 4 URL, cabeceras, API (401 y 403), CSP con 0 violaciones en 7 rutas a 360 y 1440 px, y suites de solo lectura en verde (layout 49, navbar 9, retratos 43, paisana-audios 14). CI del PR en verde sobre `97aee53`.
+  - Ensayo en staging con una copia de la base de producción, con la misma secuencia. Sin incidencias.
+  - MariaDB ya era 11.8.9: fijar `mariadb:11.8` no baja la versión. No hacen falta variables de entorno nuevas.
 - **2026-11-23** · prueba de dev y CSP · en la rama `feat/boletin-catalogo-fcp` (PR #2)
   - Revisión 45 (AGY, 11 PDF de `5cb941e`): sin hallazgos altos ni medios; resueltos los hallazgos de la 44.
   - Revisión 46 (AGY, PDF de `c75b944`): sin hallazgos altos ni medios. Los 4 bajos quedaron aplicados: «(N de M)» sin partirse, `orphans`/`widows` en 2, `code` sin partir y margen en la lámina 11 para no rozar los pies de foto.

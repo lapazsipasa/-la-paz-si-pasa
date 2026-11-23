@@ -1,5 +1,22 @@
 # Updates
 
+## 2026-11-23 · salida a producción: boletín e historia; catálogo oculto
+
+**Estado:** en producción el boletín (`/boletin/`, Edición 02) y la historia del mes (`/historias/`, Asocafé). Origen: [PR #2](https://github.com/lapazsipasa/-la-paz-si-pasa/pull/2), fusionado con squash en `main` como `a0c3802`. El catálogo `/productores/` está listo pero oculto: la página está en borrador, sin productores y fuera del sitemap. Detalle: [changelog](changelog.md) y [despliegue](despliegue-fse.md#despliegue-de-boletín-y-catálogo-paissana).
+
+**Hecho hoy:**
+- Respaldo previo de la base y de `uploads` en el host, con permisos 600, dos veces (al empezar y antes del merge). Producción no tenía plantillas personalizadas, grupos SCF en la base ni página `paissana`.
+- Ensayo en staging con una copia de la base de producción: misma secuencia, sin incidencias.
+- Producción: redeploy con imagen reconstruida; `lapaz-setup` sin `--seed` (activa The SEO Framework, crea `productores` y migra el menú); seed por secciones de boletín e historia; caché vaciada. Conteos iguales a los de antes; `boletin` 1, `historia` 1, `productor` 0.
+- Decisión de William: el catálogo sale vacío hasta que el Fondo autorice a las 12 personas con nombre propio y corrija las erratas. `97aee53` oculta los enlaces que apuntaban al catálogo (botón PAISSANA a `#`, sin «Volver al catálogo»).
+- Verificado en producción sin sesión: 200 en las rutas públicas; 404 en `/productores/`, `/paissana/` y `/guia-de-estilos/`; 401 y 403 en API y archivos sensibles; sitemap con 4 URL; `robots` indexable; `www` con 301; recorrido de 287 recursos propios sin fallos; CSP sin violaciones en 7 rutas a 360 y 1440 px, con Plyr reproduciendo YouTube.
+- Suites de solo lectura en verde: layout 49, navbar 9, retratos 43, paisana-audios 14. CI del PR en verde sobre `97aee53`, con el contenido de `a0c3802`.
+- Herramientas de recorrido y de CSP fuera de git (existen en el equipo).
+
+**Siguiente paso:** cuando el Fondo autorice, publicar el catálogo con [el procedimiento de la wiki](despliegue-fse.md#publicar-el-catálogo-cuando-el-fondo-autorice). Antes, comprobar en producción que el Editor puede editar (TODO: verificar; el usuario Editor no consta como creado).
+
+**Bloqueo:** del Fondo, la autorización de las 12 personas con nombre propio y la corrección de erratas de origen. De William, decidir si CSP pasa a modo activo y el resto de pendientes del servidor. Lista en [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor).
+
 ## 2026-11-23 · dev probado y CSP sin violaciones
 
 **Estado:** rama `feat/boletin-catalogo-fcp`, [PR #2](https://github.com/lapazsipasa/-la-paz-si-pasa/pull/2) abierto contra `frontend`. Dev corre `cf74458`. Sin merge ni deploy a producción.
