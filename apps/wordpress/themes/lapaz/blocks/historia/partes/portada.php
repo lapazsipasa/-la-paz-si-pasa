@@ -21,9 +21,11 @@ defined( 'ABSPATH' ) || exit;
 $lapaz_portada = lapaz_field_image_id( 'portada_foto', $lapaz_id );
 $lapaz_sub     = lapaz_field_text( 'portada_subtitulo', $lapaz_id );
 ?>
+<?php if ( lapaz_catalogo_total() > 0 ) : // Sin productores publicados no hay catálogo al que volver. ?>
 <div class="volver-top">
 	<div class="wrap"><a href="<?php echo esc_url( lapaz_url_catalogo_base() ); ?>"><span aria-hidden="true">←</span> <?php esc_html_e( 'Volver al catálogo', 'lapaz' ); ?></a></div>
 </div>
+<?php endif; ?>
 
 <div class="port-prod">
 	<?php
