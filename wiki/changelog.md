@@ -7,6 +7,7 @@ Qué cambió, con fecha y PR. Lo reciente arriba.
   - `generar-manual.py` genera el manual general y 10 manuales por tipo (`raw/manual-editor/por-tipo/`). Ver [README de las herramientas](../apps/wp-fse/tools/manual/README.md).
   - Las láminas 14 a 21 se corrigieron: marcadores sin solaparse ni tapar texto y recortes ajustados. `generar-laminas.mjs` acepta posición del número por lado, `caja:false` y CSS propio por lámina.
   - SCF: «Subtítulos» del relato sonoro queda desactivado y opcional (el sitio no lo muestra; el valor guardado se conserva). La instrucción de la imagen del hero dice 1500 px, que es el tope real de subida.
+  - Retratos sin la caja «Imagen destacada» (ni el sitio ni el headless la usan).
 - **2026-11-21** · cierre de la rama para PR · **en la rama `feat/boletin-catalogo-fcp` (45 commits sobre `lapazsipasa/main`), sin push, PR ni deploy** · [revisiones](specs/boletin-catalogo-fcp/revisiones-independientes.md)
   - Manual del editor con una lámina emparejada por formulario (pantalla de WordPress y componente del sitio, mismos números): 13 láminas y 5 capturas (`0a529d3`, `7bb554f`).
   - Suite `admin.mjs` reforzada a 20 comprobaciones, con guardado HTTP de un boletín borrador como Editor (`2eeeb72`).

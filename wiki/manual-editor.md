@@ -484,7 +484,7 @@ En el menú lateral, **Retratos**.
 | ③ | **Proyecto** *(obligatorio)* | Debajo del rótulo **Proyecto:**. Eliges una opción: *Colombia Sostenible*, *PaisSana*, *PDET* o *Programa Piloto de Inversiones Prioritarias en Municipios PDET*. |
 | ④ | **Lugar** *(obligatorio)* | Debajo del rótulo **Lugar:**. Máximo 120 caracteres. |
 
-**Consejos:** en ① sube una foto de buena calidad y llena su **Texto alternativo** en la biblioteca. En ④ usa el formato `Municipio, departamento`. En el panel lateral verás una caja **Imagen destacada**: déjala vacía, el sitio solo usa la **Foto** de ①.
+**Consejos:** en ① sube una foto de buena calidad y llena su **Texto alternativo** en la biblioteca. En ④ usa el formato `Municipio, departamento`.
 
 ### Qué cambia en el sitio al publicar un retrato
 
