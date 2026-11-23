@@ -1,5 +1,13 @@
 # Updates
 
+## 2026-11-23 · catálogo en producción con 300 productores
+
+**Hecho:** a pedido de William se cargaron los 316 productores (`SEED_SOLO=productores`, con respaldo previo de la base). Pasaron a borrador 16 fichas: las 12 con nombre de persona natural y las 4 con erratas (municipio numérico en *Llaneridad Gourmet* y *Cafe Artesanal Tamara…*, nota interna en *Asociacion de Familias Unidas de Cascajo…*, «Caf+E» en *Cafetos Frescos…*). Después se publicó la página `productores` y se vació la caché.
+
+**Verificado:** `/productores/` 200 con «300 productores registrados»; ninguna de las 16 aparece en el buscador; el buscador sale en la portada y en Proyectos destacados; el botón PAISSANA y «Volver al catálogo» llevan al catálogo; el sitemap incluye `/productores/`; `/productores/?buscar=…` no se cachea.
+
+**Siguiente paso:** cuando el Fondo responda, publicar o corregir esas 16 fichas en WordPress (filtrar *Productores* por *Borrador*).
+
 ## 2026-11-23 · salida a producción: boletín e historia; catálogo oculto
 
 **Estado:** en producción el boletín (`/boletin/`, Edición 02) y la historia del mes (`/historias/`, Asocafé). Origen: [PR #2](https://github.com/lapazsipasa/-la-paz-si-pasa/pull/2), fusionado con squash en `main` como `a0c3802`. El catálogo `/productores/` está listo pero oculto: la página está en borrador, sin productores y fuera del sitemap. Detalle: [changelog](changelog.md) y [despliegue](despliegue-fse.md#despliegue-de-boletín-y-catálogo-paissana).

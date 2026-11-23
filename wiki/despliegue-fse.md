@@ -241,6 +241,9 @@ Pasos para marcha atrás completa (código + base de datos):
 
 ### Publicar el catálogo cuando el Fondo autorice
 
+**Hecho el 2026-11-23** con 300 productores. Las 16 fichas observadas quedaron en borrador (12 con nombre de persona natural y 4 con erratas). Para publicarlas cuando el Fondo autorice o corrija: en WordPress, *Productores → Borradores*, corregir si hace falta y *Publicar*. La caché se vacía sola. Los pasos de abajo quedan como referencia para una carga completa desde cero.
+
+
 Estado al 2026-11-23: la página `productores` está en **borrador** (`/productores/` da 404 y no sale en el sitemap), no hay productores cargados y el botón PAISSANA de Proyectos destacados apunta a `#`. Hacerlo solo con la autorización del Fondo (personas con nombre propio y erratas, ver [pendientes del Fondo](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor)). Como `www-data` en la terminal de `cms`:
 
 1. **Respaldo** de la base, como el paso 1 de «Antes del despliegue», con copia fuera del servidor.
