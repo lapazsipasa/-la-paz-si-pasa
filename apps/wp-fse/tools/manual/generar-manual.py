@@ -1,19 +1,13 @@
 #!/usr/bin/env python3
-# Regenera los manuales del editor (.docx + .pdf + imagenes/) desde wiki/manual-editor.md y las láminas PNG:
+# Regenera los manuales del editor (.pdf + imagenes/) desde wiki/manual-editor.md y las láminas PNG:
 # el manual general y un manual por tipo de contenido (raw/manual-editor/por-tipo/).
 # Uso (desde la raíz del repo): python3 apps/wp-fse/tools/manual/generar-manual.py [texto.md] [carpeta-capturas] [--tipo=noticias,ferias | --solo-general] [--salida=carpeta]
-# Requiere python-docx, Pillow, numpy y Google Chrome (el PDF se imprime con Chrome headless).
+# Requiere Pillow, numpy y Google Chrome (el PDF se imprime con Chrome headless).
 # Por defecto: texto wiki/manual-editor.md, láminas raw/manual-editor/capturas/, salidas en raw/manual-editor/ (fuera de git).
 import argparse, html, math, os, re, shutil, subprocess, sys, tempfile, unicodedata
 from pathlib import Path
 import numpy as np
 from PIL import Image
-from docx import Document
-from docx.enum.table import WD_TABLE_ALIGNMENT
-from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.oxml import OxmlElement
-from docx.oxml.ns import qn
-from docx.shared import Cm, Inches, Pt, RGBColor
 
 REPO = Path(__file__).resolve().parents[4]
 SALIDA = REPO / "raw" / "manual-editor"
@@ -28,29 +22,21 @@ SALIDA = Path(ARGS.salida) if ARGS.salida else SALIDA
 MD, CAP = Path(ARGS.texto), Path(ARGS.capturas)
 OUT = SALIDA / "imagenes"  # compartida: una lámina se llama igual y sale igual en todos los manuales
 SUFIJO = "La Paz Si Pasa"
-# slug -> (nombre, descripción de portada, [títulos de las secciones del tipo, sin el número], comunes opcionales)
+# slug -> ([títulos de las secciones del tipo, sin el número], comunes opcionales). Todo el texto sale de wiki/manual-editor.md:
+# el nombre del manual es lo que va antes de «:» en el título de su primera sección y la descripción de portada,
+# el primer párrafo de su «Qué es y dónde aparece».
 # Comunes opcionales: "fotos" (Escribir bien y preparar fotos: texto largo o fotos editoriales) y "seo" (tipos con caja Ajustes de SEO).
 TIPOS = {
-    "boletin": ("Boletín", "Cómo armar y publicar cada edición mensual del boletín.",
-                ["Publicar una edición del boletín, paso a paso"], {"fotos", "seo"}),
-    "historia": ("Historia del mes", "Cómo publicar la historia PaisSana del mes: presentación, portada, video, crónica y galería.",
-                 ["Publicar la historia del mes (PaisSano destacado)"], {"fotos", "seo"}),
-    "productores": ("Catálogo de productores", "Cómo agregar, editar y retirar productores del catálogo PaisSana.",
-                    ["Mantener el catálogo de productores PaisSana"], set()),
-    "noticias": ("Noticias", "Cómo publicar las noticias que aparecen en Inicio.",
-                 ["Publicar una noticia"], set()),
-    "retratos": ("Retratos de la Paz", "Cómo publicar los retratos del carrusel Retratos de la Paz.",
-                 ["Publicar un retrato (Retratos de la Paz)"], {"fotos"}),
-    "videos": ("Videos", "Cómo publicar los videos de la sección Actualidad.",
-               ["Publicar un video (Actualidad)"], set()),
-    "relatos-sonoros": ("Relatos sonoros", "Cómo publicar los audios de El corazón del campo.",
-                        ["Publicar un relato sonoro (El corazón del campo)"], set()),
-    "ferias": ("Ferias", "Cómo publicar las ferias de PaisSana en ferias, con fotos y videos.",
-               ["Publicar una feria (PaisSana en ferias)"], {"fotos"}),
-    "subcuentas": ("Subcuentas", "Cómo mantener los logos de Conoce las subcuentas.",
-                   ["Mantener las subcuentas"], set()),
-    "paginas": ("Páginas Inicio y Proyectos destacados", "Cómo cambiar los campos de las páginas Inicio y Proyectos destacados.",
-                ["Editar las páginas Inicio y Proyectos destacados"], {"fotos", "seo"}),
+    "boletin": (["Boletín: publicar una edición, paso a paso"], {"fotos", "seo"}),
+    "historia": (["Historia del mes: publicar la historia (PaisSano destacado)"], {"fotos", "seo"}),
+    "productores": (["Catálogo de productores: agregar, editar y retirar productores"], set()),
+    "noticias": (["Noticias: publicar una noticia"], set()),
+    "retratos": (["Retratos de la Paz: publicar un retrato"], {"fotos"}),
+    "videos": (["Videos: publicar un video (Actualidad)"], set()),
+    "relatos-sonoros": (["Relatos sonoros: publicar un relato (El corazón del campo)"], set()),
+    "ferias": (["Ferias: publicar una feria (PaisSana en ferias)"], {"fotos"}),
+    "subcuentas": (["Subcuentas: mantener los logos"], set()),
+    "paginas": (["Páginas Inicio y Proyectos destacados: editar sus campos"], {"fotos", "seo"}),
 }
 
 def secciones(titulos, extra):
@@ -188,8 +174,9 @@ def portada(blocks):
 def es_resumen(t):
     return re.sub(r"^\d+\. ", "", t) == "Resumen en una hoja"
 
-def recortar(md, nombre, desc, titulos):
-    """Texto del manual de un tipo: portada con su subtítulo y descripción, índice propio, 'Cómo leer…' y solo las secciones pedidas, renumeradas."""
+def recortar(md, nombre, titulos):
+    """Texto del manual de un tipo: portada propia, índice propio, 'Cómo leer…' y solo las secciones pedidas, renumeradas.
+    La descripción de portada es el primer párrafo de «Qué es y dónde aparece» de la sección propia del tipo."""
     L = md.split("\n=====")[0].split("\n")
     ini = next(j for j, x in enumerate(L) if x.startswith("# "))
     sec = [j for j, x in enumerate(L) if x.startswith("## ") and j > ini]
@@ -203,9 +190,16 @@ def recortar(md, nombre, desc, titulos):
     leer = next((x for x in L if x.startswith("**Cómo leer las láminas")), None)
     if not leer:
         sys.exit(f"Manual «{nombre}»: no encuentro el párrafo «Cómo leer las láminas…» en {MD}")
+    propia = next(t for t in titulos if t.startswith(nombre + ": "))
+    sub = por[propia]
+    q = next((j for j, x in enumerate(sub) if x.strip() == "### Qué es y dónde aparece"), None)
+    desc = next((x for x in sub[q + 1:] if x.strip()), "#") if q is not None else "#"
+    if desc.startswith("#"):
+        sys.exit(f"Manual «{nombre}»: falta el párrafo de «### Qué es y dónde aparece» en «{propia}» ({MD})")
     cab = L[ini:sec[0]]
-    k = [j for j in range(1, len(cab)) if cab[j].strip()]  # líneas con texto tras el título: subtítulo, descripción, versión…
-    cab[k[0]], cab[k[1]] = f"**{nombre}**", desc
+    k = [j for j in range(1, len(cab)) if cab[j].strip()]  # líneas con texto tras el título: subtítulo, descripción, versión, aviso
+    marca = cab[0].split(" — ")[-1]  # «La Paz Sí Pasa», del título del manual general
+    cab[0], cab[k[0]], cab[k[1]] = f"# {nombre}", f"**Manual del editor · {marca}**", desc
     out = cab + ["## Índice", ""] + [f"{n}. {t}" for n, t in enumerate(titulos, 1)] + ["", leer, "", "---", ""]
     for n, t in enumerate(titulos, 1):
         out += [f"## {n}. {t}"] + por[t]
@@ -256,151 +250,6 @@ def parse(md):
             blocks.append(("p", s)); i += 1
     return blocks, usadas
 
-# ---------- docx ----------
-def fuente(st, tam=None, color=None, bold=None):
-    st.font.name = "Arial"
-    rf = st.element.get_or_add_rPr().get_or_add_rFonts()
-    for a in ("asciiTheme", "hAnsiTheme", "eastAsiaTheme", "cstheme"):
-        rf.attrib.pop(qn("w:" + a), None)
-    for a in ("ascii", "hAnsi", "eastAsia", "cs"):
-        rf.set(qn("w:" + a), "Arial")
-    if tam: st.font.size = Pt(tam)
-    if color: st.font.color.rgb = RGBColor.from_string(color)
-    if bold is not None: st.font.bold = bold
-
-def campo(par, instr):
-    for t, txt in (("begin", None), (None, instr), ("separate", None), (None, "1"), ("end", None)):
-        r = par.add_run()
-        if t:
-            e = OxmlElement("w:fldChar"); e.set(qn("w:fldCharType"), t)
-        elif txt == instr:
-            e = OxmlElement("w:instrText"); e.set(qn("xml:space"), "preserve"); e.text = instr
-        else:
-            e = OxmlElement("w:t"); e.text = txt
-        r._r.append(e)
-
-def add_runs(par, t, tam=None, bold=False):
-    for tx, b, i, c in runs(t):
-        r = par.add_run(tx)
-        r.bold = b or bold or None
-        r.italic = i or None
-        if c:
-            r.font.name = "Courier New"
-            r.font.size = Pt((tam or 11) - 1)
-        elif tam:
-            r.font.size = Pt(tam)
-
-def sombrear(cell, color):
-    tcPr = cell._tc.get_or_add_tcPr()
-    s = OxmlElement("w:shd"); s.set(qn("w:val"), "clear"); s.set(qn("w:color"), "auto"); s.set(qn("w:fill"), color)
-    tcPr.append(s)
-
-def fmt_par(p, **kw):
-    f = p.paragraph_format
-    for k, v in kw.items():
-        setattr(f, k, v)
-    return p
-
-def build_docx(blocks, destino):
-    d = Document()
-    sec = d.sections[0]
-    sec.page_width, sec.page_height = Inches(8.5), Inches(11)
-    sec.left_margin = sec.right_margin = sec.top_margin = sec.bottom_margin = Cm(1.7)
-    sec.different_first_page_header_footer = True
-    campo(sec.footer.paragraphs[0], "PAGE")
-    sec.footer.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.CENTER
-    S = d.styles
-    fuente(S["Normal"], 11)
-    S["Normal"].paragraph_format.space_after = Pt(6)
-    S["Normal"].paragraph_format.line_spacing = 1.15
-    fuente(S["Title"], 28, "1F3A5F", True)
-    fuente(S["Subtitle"], 14, "444444", False)
-    for n, tam, antes in (("Heading 1", 19, 20), ("Heading 2", 13.5, 14), ("Heading 3", 12, 10)):
-        fuente(S[n], tam, "1F3A5F", True)
-        S[n].paragraph_format.space_before, S[n].paragraph_format.space_after = Pt(antes), Pt(6)
-        S[n].paragraph_format.keep_with_next = True
-    fuente(S["Caption"], 9, "555555", False)
-    S["Caption"].font.italic = False
-    for n in ("List Bullet", "List Bullet 2"):
-        fuente(S[n], 11)
-        S[n].paragraph_format.space_after = Pt(3)
-
-    # portada: título, subtítulo (negrita), versión, aviso
-    t = blocks[0][1]
-    d.add_paragraph().paragraph_format.space_after = Pt(150)
-    d.add_paragraph(t, style="Title")
-    cover, k = portada(blocks)
-    p = d.add_paragraph(style="Subtitle"); add_runs(p, cover[0], 14)
-    fmt_par(p, space_before=Pt(24))
-    for j, c in enumerate(cover[1:]):  # descripción, versión… y el aviso final en negrita
-        add_runs(fmt_par(d.add_paragraph(), space_before=Pt(60 if j == 0 else 0)), c, 12, j == len(cover) - 2)
-    d.add_page_break()
-    for b in blocks[k:]:
-        tipo = b[0]
-        if tipo in ("h1", "h2"):
-            p = d.add_paragraph(style="Heading 1" if tipo == "h1" else "Heading 2")
-            p.add_run(b[1])
-            if tipo == "h1" and es_resumen(b[1]):
-                p.paragraph_format.page_break_before = True
-        elif tipo == "p":
-            add_runs(d.add_paragraph(), b[1])
-        elif tipo == "li":
-            _, nivel, marca, tx = b
-            if marca == "-":
-                p = d.add_paragraph(style="List Bullet 2" if nivel else "List Bullet")
-            else:
-                p = d.add_paragraph()
-                fmt_par(p, left_indent=Cm(0.9 + 0.8 * nivel), first_line_indent=Cm(-0.6), space_after=Pt(3))
-                p.add_run(marca + "\t")
-                p.paragraph_format.tab_stops.add_tab_stop(Cm(0.9 + 0.8 * nivel))
-            add_runs(p, tx)
-        elif tipo == "img":
-            _, ruta, w, h, cap, lab, peq = b
-            if lab:
-                p = fmt_par(d.add_paragraph(), keep_with_next=True, space_before=Pt(12), space_after=Pt(4))
-                add_runs(p, lab, 9, True)
-                for r in p.runs:  # mismo rótulo que el PDF: versalitas azules
-                    r.font.all_caps, r.font.color.rgb = True, RGBColor.from_string("1F3A5F")
-            ancho = Inches(min(peq or ANCHO_IN, ALTO_IN * w / h))
-            p = fmt_par(d.add_paragraph(), keep_with_next=True, alignment=WD_ALIGN_PARAGRAPH.CENTER, space_after=Pt(2))
-            p.add_run().add_picture(str(ruta), width=ancho)
-            add_runs(fmt_par(d.add_paragraph(style="Caption"), space_after=Pt(10)), cap, 9)
-        elif tipo == "table":
-            rows = b[1]
-            nc = len(rows[0])
-            anchos = [0.6, 2.5, 3.8] if nc == 3 else [2.2, 4.7]
-            tb = d.add_table(rows=len(rows), cols=nc)
-            tb.style = "Table Grid"
-            tb.alignment = WD_TABLE_ALIGNMENT.CENTER
-            tb.autofit = False
-            bd = OxmlElement("w:tblBorders")
-            for e in ("top", "left", "bottom", "right", "insideH", "insideV"):
-                x = OxmlElement("w:" + e)
-                for a, v in (("val", "single"), ("sz", "4"), ("space", "0"), ("color", "BBBBBB")):
-                    x.set(qn("w:" + a), v)
-                bd.append(x)
-            tb._tbl.tblPr.append(bd)
-            for ri, row in enumerate(rows):
-                tr = tb.rows[ri]
-                trPr = tr._tr.get_or_add_trPr()
-                trPr.append(OxmlElement("w:cantSplit"))
-                if ri == 0:
-                    trPr.append(OxmlElement("w:tblHeader"))
-                for ci, tx in enumerate(row):
-                    c = tr.cells[ci]
-                    c.width = Inches(anchos[ci])
-                    p = c.paragraphs[0]
-                    fmt_par(p, space_after=Pt(2), space_before=Pt(2), line_spacing=1.05)
-                    if nc == 3 and ci == 0 and ri > 0:
-                        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                        add_runs(p, tx, 12, True)
-                    else:
-                        add_runs(p, tx, 10, ri == 0)
-                    if ri == 0:
-                        sombrear(c, "E3EAF3")
-            d.add_paragraph().paragraph_format.space_after = Pt(4)
-    d.save(destino.with_name(destino.name + ".docx"))
-
 # ---------- html -> pdf ----------
 CSS = """
 @page { size: 8.5in 11in; margin: 1.7cm; @bottom-center { content: counter(page); font: 9pt Helvetica, Arial, sans-serif; color:#666 } }
@@ -408,17 +257,21 @@ CSS = """
 body { font: 10.5pt/1.35 Helvetica, Arial, sans-serif; color:#222; margin:0 }
 h1 { font-size:19pt; line-height:1.2; color:#1F3A5F; margin:20pt 0 7pt; break-after:avoid }
 h2 { font-size:13.5pt; line-height:1.25; color:#1F3A5F; margin:14pt 0 5pt; break-after:avoid }
-.t { font-size:28pt; font-weight:bold; color:#1F3A5F; margin-top:3.2in }
-.s { font-size:14pt; color:#444; margin-top:24pt } .c { font-size:12pt; margin-top:50pt } .c b { font-weight:bold }
-.pb { break-before:page } .t,.s,.c { break-after:avoid } p { margin:0 0 6pt } code { white-space:nowrap; font:9.5pt "Courier New",monospace; background:#f0f0f0; padding:0 2px }
-ul,ol { margin:0 0 6pt; padding-left:20pt } li { margin-bottom:3pt } ul.n { list-style:none; padding-left:0 } ul.n li { padding-left:16pt; text-indent:-16pt }
+.portada { height:9.3in; display:flex; flex-direction:column; break-after:page }
+.portada .t { font-size:30pt; line-height:1.15; font-weight:bold; color:#1F3A5F; margin-top:2.4in }
+.portada .t::before { content:""; display:block; width:1.1in; border-top:5pt solid #1F3A5F; margin-bottom:20pt }
+.portada .s { font-size:14pt; color:#444; margin-top:10pt } .portada .d { font-size:12.5pt; line-height:1.45; margin-top:36pt; max-width:5.4in }
+.portada .pie { margin-top:auto; font-size:10pt; color:#444 } .portada .pie p { margin:0 0 3pt } .portada .pie p:last-child { font-weight:bold; color:#222 }
+.pb { break-before:page } p { margin:0 0 6pt }
+code { white-space:nowrap; font-family:Menlo, "Courier New", monospace; font-size:.86em; background:#f0f0f0; padding:0 .15em; border-radius:2px }
+ul,ol { margin:0 0 6pt; padding-left:18pt } li { margin-bottom:3pt } li > ul, li > ol { margin:3pt 0 0 } ul.chk { list-style-type:"\\2610\\00a0\\00a0" }
 figure { margin:0 0 12pt; text-align:center; break-inside:avoid } .l + figure { margin-bottom:6pt }
 figure img { max-width:%sin; max-height:%sin; width:auto; height:auto } figure.peq img { max-width:var(--w) } figcaption { font-size:9pt; line-height:1.3; color:#555; margin:4pt auto 0; max-width:5.8in }
 .l { font-weight:bold; font-size:9pt; color:#1F3A5F; text-transform:uppercase; letter-spacing:.05em; margin:12pt 0 4pt; break-after:avoid; text-align:left }
 figure + .l { margin-top:8pt }
-table { border-collapse:collapse; width:100%%; margin:8pt 0 10pt; font-size:10pt; line-height:1.3 } th,td { border:1px solid #bbb; padding:3pt 5pt; vertical-align:top; text-align:left }
+table { border-collapse:collapse; width:100%%; margin:8pt 0 10pt; font-size:10pt; line-height:1.25 } th,td { border:1px solid #bbb; padding:2.5pt 5pt; vertical-align:top; text-align:left }
 th { background:#E3EAF3 } tr,tbody.g,section.rec,table.corta { break-inside:avoid } thead { display:table-header-group } td.n { text-align:center; font-weight:bold; font-size:12pt; width:9%%; }
-p,li { orphans:2; widows:2 } figure + p { break-inside:avoid } p:has(+ ul), p:has(+ table) { break-after:avoid } li.dp { break-after:avoid }
+p,li { orphans:2; widows:2 } figure + p { break-inside:avoid } p:has(+ ul), p:has(+ ol), p:has(+ table) { break-after:avoid } li.dp { break-after:avoid }
 .res { font-size:9.5pt; line-height:1.2 } .res h1 { margin-top:0 } .res h2 { font-size:12pt; margin:8pt 0 3pt } .res li { margin-bottom:1.5pt }
 """ % (ANCHO_IN, ALTO_IN)
 
@@ -432,19 +285,32 @@ def h(t):
         o += x
     return o
 
+def lista(items):
+    """Listas HTML nativas (la viñeta queda fuera del texto y las líneas largas se alinean); el nivel 1 va dentro del ítem anterior.
+    Las numeradas llevan value=N: el número es el del texto, no el del contador del navegador."""
+    tag = lambda m: "ol" if m[0].isdigit() else "ul class=chk" if m == "☐" else "ul"
+    o, i = "", 0
+    while i < len(items):
+        nivel, t = items[i][0], tag(items[i][1])
+        o += f"<{t}>"
+        while i < len(items) and items[i][0] == nivel and tag(items[i][1]) == t:
+            _, marca, tx = items[i]; i += 1
+            hijos = []
+            while i < len(items) and items[i][0] > nivel:
+                hijos.append(items[i]); i += 1
+            val = f" value={marca[:-1]}" if t == "ol" else ""
+            o += f"<li{val}{' class=dp' if tx.rstrip().endswith(':') else ''}>{h(tx)}{lista(hijos) if hijos else ''}</li>"
+        o += f"</{t.split()[0]}>"
+    return o
+
 def build_pdf(blocks, destino):
-    o, k = [f"<!doctype html><meta charset=utf-8><title>{destino.name}</title><style>{CSS}</style><body>"], 1
-    o.append(f'<div class=t>{h(blocks[0][1])}</div>')
-    cover, k = portada(blocks)
-    o.append(f'<div class=s>{h(cover[0])}</div>')
-    for j, c in enumerate(cover[1:]):  # descripción, versión… y el aviso final en negrita
-        st = ' style="margin-top:60pt"' if j == 0 else ' style="margin-top:6pt"'
-        o.append(f'<div class=c{st}>{f"<b>{h(c)}</b>" if j == len(cover) - 2 else h(c)}</div>')
-    o.append('<div style="break-after:page"></div>')
-    abierta, rec, en_resumen = None, False, False
+    o = [f"<!doctype html><meta charset=utf-8><title>{destino.name}</title><style>{CSS}</style><body>"]
+    cover, k = portada(blocks)  # subtítulo, descripción y al pie versión y aviso (el último, en negrita)
+    o.append(f'<div class=portada><div class=t>{h(blocks[0][1])}</div><div class=s>{h(cover[0])}</div><div class=d>{h(cover[1])}</div>'
+             f'<div class=pie>{"".join(f"<p>{h(c)}</p>" for c in cover[2:])}</div></div>')
+    items, rec, en_resumen = [], False, False
     def cierra():
-        nonlocal abierta
-        if abierta: o.append("</ul>"); abierta = None
+        if items: o.append(lista(items)); items.clear()
     for b in blocks[k:]:
         tipo = b[0]
         if tipo != "li": cierra()
@@ -460,10 +326,7 @@ def build_pdf(blocks, destino):
         elif tipo == "p":
             o.append(f"<p>{h(b[1])}</p>")
         elif tipo == "li":
-            _, nivel, marca, tx = b
-            ap = '<ul>' if marca == "-" else '<ul class=n>'
-            if abierta != ap: cierra(); o.append(ap); abierta = ap
-            o.append(f"<li{' style=margin-left:18pt' if nivel else ''}{' class=dp' if tx.rstrip().endswith(':') else ''}>{'' if marca == '-' else marca + ' '}{h(tx)}</li>")
+            items.append(b[1:])
         elif tipo == "img":
             _, ruta, w, hh, cap, lab, peq = b
             if lab: o.append(f'<div class=l>{lab}</div>')
@@ -481,7 +344,6 @@ def build_pdf(blocks, destino):
     cierra()
     if rec: o.append("</section>")
     if en_resumen: o.append("</div>")
-    # listas numeradas: se escriben como "N." manual (ul.n) para no depender del contador del navegador
     tmp = Path(tempfile.mkdtemp()) / "manual.html"
     tmp.write_text("".join(o), encoding="utf-8")
     subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--no-pdf-header-footer", "--generate-pdf-document-outline", f"--print-to-pdf={destino.with_name(destino.name + '.pdf')}", tmp.as_uri()],
@@ -498,8 +360,9 @@ if __name__ == "__main__":
         sys.exit(f"Tipo desconocido {desconocidos}; los válidos son {list(TIPOS)}")
     trabajos = [] if ARGS.tipo else [(SALIDA / f"Manual general - {SUFIJO}", md)]
     for t in sel:  # se recortan todos antes de generar: si falta una sección, no sale ningún manual a medias
-        nombre, desc, titulos, extra = TIPOS[t]
-        trabajos.append((SALIDA / "por-tipo" / f"Manual - {plano(nombre)} - {SUFIJO}", recortar(md, nombre, desc, secciones(titulos, extra))))
+        titulos, extra = TIPOS[t]
+        nombre = titulos[0].split(": ")[0]
+        trabajos.append((SALIDA / "por-tipo" / f"Manual - {plano(nombre)} - {SUFIJO}", recortar(md, nombre, secciones(titulos, extra))))
     shutil.rmtree(OUT, ignore_errors=True)  # quita imágenes de ediciones anteriores
     (SALIDA / "por-tipo").mkdir(parents=True, exist_ok=True)
     for viejo in SALIDA.glob("Manual del editor - La Paz Si Pasa.*"):
@@ -508,6 +371,5 @@ if __name__ == "__main__":
         blocks, usadas = parse(texto)
         faltan = [f for f in usadas if not (CAP / f).exists()]
         assert not faltan, faltan
-        build_docx(blocks, destino)
         build_pdf(blocks, destino)
         print(destino.name, "| imágenes citadas:", len(usadas), "| tramos:", sum(b[0] == "img" for b in blocks))

@@ -1,4 +1,4 @@
-> **Versión del 2026-11-22.** Manual general: cubre todos los contenidos que editas en el sitio. Cada formulario va con su lámina: la pantalla de WordPress y el componente del sitio que modifica, con los mismos números. Las imágenes no viven en el repo: van en el documento que se entrega al Fondo (Word y PDF, generados desde este texto). Las claves de acceso nunca van aquí. Si cambias este texto, regenera el Word y el PDF ([cómo regenerar el Word y el PDF](../apps/wp-fse/tools/manual/README.md)) y actualiza esta fecha.
+> **Versión del 2026-11-25.** Manual general: cubre todos los contenidos que editas en el sitio. Cada formulario va con su lámina: la pantalla de WordPress y el componente del sitio que modifica, con los mismos números. Las imágenes no viven en el repo: van en los PDF que se entregan al Fondo (el general y uno por tipo, generados desde este texto; la portada de cada manual por tipo toma el primer párrafo de su «Qué es y dónde aparece»). Las claves de acceso nunca van aquí. Si cambias este texto, regenera los PDF ([cómo regenerarlos](../apps/wp-fse/tools/manual/README.md)) y actualiza esta fecha.
 
 # Manual del editor — La Paz Sí Pasa
 
@@ -6,7 +6,7 @@
 
 Boletín, historias PaisSana, catálogo de productores, noticias, retratos, videos, relatos sonoros, ferias, subcuentas y las páginas Inicio y Proyectos destacados.
 
-Versión del 22 de noviembre de 2026
+Versión del 25 de noviembre de 2026
 
 Las claves de acceso se entregan por otro canal.
 
@@ -15,24 +15,23 @@ Las claves de acceso se entregan por otro canal.
 ## Índice
 
 1. Entrar al administrador y orientarte
-2. Publicar una edición del boletín, paso a paso
+2. Boletín: publicar una edición, paso a paso
 3. Escribir bien y preparar fotos
 4. Revisar y publicar
-5. Publicar la historia del mes (PaisSano destacado)
-6. Mantener el catálogo de productores PaisSana
-7. Publicar una noticia
-8. Publicar un retrato (Retratos de la Paz)
-9. Publicar un video (Actualidad)
-10. Publicar un relato sonoro (El corazón del campo)
-11. Publicar una feria (PaisSana en ferias)
-12. Mantener las subcuentas
-13. Editar las páginas Inicio y Proyectos destacados
+5. Historia del mes: publicar la historia (PaisSano destacado)
+6. Catálogo de productores: agregar, editar y retirar productores
+7. Noticias: publicar una noticia
+8. Retratos de la Paz: publicar un retrato
+9. Videos: publicar un video (Actualidad)
+10. Relatos sonoros: publicar un relato (El corazón del campo)
+11. Ferias: publicar una feria (PaisSana en ferias)
+12. Subcuentas: mantener los logos
+13. Páginas Inicio y Proyectos destacados: editar sus campos
 14. Lo que NO debes tocar (y por qué)
 15. Problemas frecuentes y qué hacer
-16. Lista de comprobación mensual
-17. Buscadores y redes (SEO)
-18. A quién acudir
-19. Resumen en una hoja
+16. Buscadores y redes (SEO)
+17. A quién acudir
+18. Resumen en una hoja
 
 **Cómo leer las láminas de este manual:** cada formulario se explica con tres piezas seguidas: primero **En WordPress** (la pantalla donde escribes), después **En el sitio** (dónde aparece lo que escribiste en la página pública) y por último una **tabla** que dice qué campo es cada número. El círculo con un número lleva el mismo número en las dos imágenes y en la tabla: el ① de WordPress es el ① del sitio. Los números empiezan de nuevo en cada lámina. Los círculos son naranjas y azules por turnos solo para distinguir cuadros vecinos; el color no significa nada. Si una imagen es muy larga, sigue en la página siguiente y su pie lo indica («1 de 3», «2 de 3»…).
 
@@ -72,9 +71,23 @@ Al entrar verás una barra oscura a la izquierda. Con tu cuenta de **Editor** pu
 
 ---
 
-## 2. Publicar una edición del boletín, paso a paso
+## 2. Boletín: publicar una edición, paso a paso
 
-Cada edición del boletín es una entrada independiente. El sitio arma solo las tarjetas del índice «En esta edición», la numeración de las secciones (`01`, `02`, `03`…), la barra superior de secciones y la lista de **Otras ediciones** al final.
+### Qué es y dónde aparece
+
+El boletín *Caminos de Transformación* sale una vez al mes y cada edición es una entrada propia. La más reciente se ve en `/boletin/` y en la tarjeta **Último boletín** de **Inicio**; las anteriores siguen en su dirección (`/boletin/edicion-XX/`) y en la lista **Otras ediciones**.
+
+Tú llenas los textos y las fotos. El sitio arma solo las tarjetas del índice «En esta edición», la numeración de las secciones (`01`, `02`, `03`…), la barra superior de secciones y la lista **Otras ediciones** al final.
+
+### Antes de publicar
+
+- [ ] Título corto correcto (`Edición XX`), con **Número de edición** y **Periodo** llenos.
+- [ ] **Portada** completa: titular, sumario, foto horizontal con texto alternativo y crédito.
+- [ ] Secciones que no usas **borradas** (si quedan vacías, sale «Validación fallida»).
+- [ ] Cada sección tiene **Nombre de la sección**, **Índice: título** (en Cifras, Tarjetas y Agenda) e imagen y resumen del índice.
+- [ ] Textos pegados sin formato, subtítulos en **Título 3** y citas en dos párrafos.
+- [ ] **Créditos de fotografía** del pie escritos uno por línea (sin «Fotografía:»).
+- [ ] Guardaste con **Solo guardar** y revisaste **Vista previa** en computador y celular.
 
 ### Paso 1: Crear la edición y ponerle título
 
@@ -245,7 +258,6 @@ Usa este molde para listar hitos, fases o próximos eventos en forma de línea d
 En cuanto publicas:
 
 - `/boletin/` pasa a mostrar la edición nueva de forma automática (siempre muestra la edición publicada con fecha más reciente).
-- La edición anterior sigue en su propia dirección web y aparece al final en **Otras ediciones**.
 - La tarjeta **Último boletín** en **Inicio** se actualiza sola con el nuevo titular, número, periodo, sumario y foto de portada.
 - La copia guardada de las páginas se renueva automáticamente.
 
@@ -300,9 +312,23 @@ Cada vez que subas o elijas una foto en la biblioteca de medios, llena el campo 
 
 ---
 
-## 5. Publicar la historia del mes (PaisSano destacado)
+## 5. Historia del mes: publicar la historia (PaisSano destacado)
 
-Cada mes se publica una historia nueva de una organización productora. Al publicarla, pasa a ocupar la sección **PaisSano destacado** con la tarjeta **Historia del mes** en todo el sitio y las anteriores siguen accesibles en **Otras historias**.
+### Qué es y dónde aparece
+
+Cada mes se publica la historia de una organización productora. La más reciente ocupa la sección **PaisSano destacado**: se lee completa en `/historias/` y sale como tarjeta **Historia del mes** en **Inicio**, **Proyectos destacados** y `/productores/`. Las anteriores siguen en su dirección (`/historias/<nombre>/`) y en **Otras historias**.
+
+### Antes de publicar
+
+- [ ] Título con el nombre de la organización (define `/historias/<nombre>/`).
+- [ ] **Presentación** completa: lugar, resumen corto, foto horizontal con texto alternativo y hasta 3 cifras.
+- [ ] **Portada** con el título de la historia y la ficha técnica revisada.
+- [ ] **Video** configurado: YouTube, MP4 de menos de 20 MB, enlace `https://` o **Sin video**.
+- [ ] **Crónica** pegada sin formato, con subtítulos en **Título 3** y citas en dos párrafos.
+- [ ] **Galería**: cada foto tiene **Texto alternativo**, **Leyenda de la imagen** (pie) y **Descripción** (fotógrafo).
+- [ ] Guardaste con **Solo guardar** y revisaste **Vista previa**.
+
+### Crear la historia
 
 1. En el menú lateral haz clic en **Historias PaisSana** y luego en **Añadir historia**.
 2. En el campo superior del título (*Nombre de la organización*), escribe el nombre de la organización (ejemplo: `Asocafé`). Ese título define la dirección web (`/historias/asocafe/`).
@@ -377,14 +403,23 @@ Aquí escribes el relato largo con fotos y recuadro de datos laterales, y subes 
 
 - `/historias/` pasa a mostrar la historia nueva y, debajo, la lista de **Otras historias**.
 - La sección **PaisSano destacado** y su tarjeta **Historia del mes** en **Inicio**, **Proyectos destacados** y `/productores/` se actualizan solas.
-- La historia anterior sigue publicada en su dirección propia (`/historias/<nombre>/`) y aparece en **Otras historias**.
 - Editar una historia antigua **no** la vuelve destacada (manda la fecha de publicación).
 
 ---
 
-## 6. Mantener el catálogo de productores PaisSana
+## 6. Catálogo de productores: agregar, editar y retirar productores
 
-El catálogo en `/productores/` se actualiza solo con las entradas de **Productores**.
+### Qué es y dónde aparece
+
+El catálogo de `/productores/` muestra las organizaciones productoras de PaisSana con su buscador, sus filtros y las barras por departamento y categoría. Cada productor es una entrada de **Productores**; el catálogo y sus cifras totales, que también salen en **Inicio** y **Proyectos destacados**, se actualizan solos.
+
+### Antes de publicar
+
+- [ ] Nombre de la organización en el título.
+- [ ] **Municipio** lleno y **1** departamento marcado.
+- [ ] **Productos** escritos uno por línea, sin guiones ni viñetas.
+- [ ] **1 o más** categorías marcadas.
+- [ ] **1** tiempo de operación marcado y una etnia solo si aplica.
 
 ### Buscar y editar un productor
 
@@ -421,9 +456,17 @@ En cuanto publicas, editas o retiras un productor —o cambias el nombre de un d
 
 ---
 
-## 7. Publicar una noticia
+## 7. Noticias: publicar una noticia
 
-Las noticias son enlaces a notas que ya salieron en otros medios. No tienen página propia en el sitio: aparecen en la línea de tiempo **Noticias** de **Inicio**, agrupadas por año.
+### Qué es y dónde aparece
+
+Las noticias son enlaces a notas que ya salieron en otros medios. No tienen página propia en el sitio: aparecen en la línea de tiempo **Noticias** de **Inicio**, agrupadas por año, y cada una abre la nota original en una pestaña nueva.
+
+### Antes de publicar
+
+- [ ] Titular escrito tal como debe leerse en **Inicio**.
+- [ ] **URL externa** completa, con `https://`.
+- [ ] **Fecha de publicación** igual a la de la nota original: decide el año en que se agrupa.
 
 ### Dónde está
 
@@ -461,9 +504,19 @@ En el menú lateral, **Noticias**. Ahí ves la lista de todas las noticias.
 
 ---
 
-## 8. Publicar un retrato (Retratos de la Paz)
+## 8. Retratos de la Paz: publicar un retrato
+
+### Qué es y dónde aparece
 
 Cada retrato es una foto con un texto corto, el proyecto y el lugar. Los retratos forman el carrusel **Retratos de la Paz** de **Inicio**.
+
+### Antes de publicar
+
+- [ ] Título interno que te sirva para encontrarlo (no se ve en el sitio).
+- [ ] **Foto** de buena calidad.
+- [ ] **Descripción** de menos de 500 caracteres que describa bien a la persona (es también su texto alternativo).
+- [ ] **Proyecto** elegido.
+- [ ] **Lugar** con el formato `Municipio, departamento`.
 
 ### Dónde está
 
@@ -501,9 +554,19 @@ En el menú lateral, **Retratos**.
 
 ---
 
-## 9. Publicar un video (Actualidad)
+## 9. Videos: publicar un video (Actualidad)
 
-Los videos forman la sección **Actualidad** de **Inicio**: un video destacado grande y, debajo, el carrusel **Ver más:** con los demás.
+### Qué es y dónde aparece
+
+Los videos forman la sección **Actualidad** de **Inicio**: el más reciente es el video destacado grande y, debajo, el carrusel **Ver más:** lleva los demás. Con la etiqueta **PaisSana**, el video también sale en **Productores PaisSana** de **Proyectos destacados**.
+
+### Antes de publicar
+
+- [ ] Título que verá el público y **Descripción** de menos de 500 caracteres.
+- [ ] **Fuente del video** correcta: **YouTube** o **Archivo MP4 subido a WordPress**.
+- [ ] Con YouTube: la dirección completa de un video público.
+- [ ] Con MP4: archivo de menos de 32 MB y su **Miniatura**.
+- [ ] 1 o 2 **Etiquetas**.
 
 ### Dónde está
 
@@ -535,7 +598,6 @@ En el menú lateral, **Videos**.
 ### Qué cambia en el sitio al publicar un video
 
 - El video publicado más reciente pasa a ser el **destacado** de **Actualidad**. Los demás quedan en el carrusel **Ver más:**; al hacer clic en uno, ocupa el lugar del destacado.
-- Con la etiqueta **PaisSana**, el video también aparece en la sección **Productores PaisSana** de **Proyectos destacados**.
 
 ### Errores típicos
 
@@ -544,9 +606,19 @@ En el menú lateral, **Videos**.
 
 ---
 
-## 10. Publicar un relato sonoro (El corazón del campo)
+## 10. Relatos sonoros: publicar un relato (El corazón del campo)
+
+### Qué es y dónde aparece
 
 Los relatos sonoros son audios grabados con productores. Se escuchan en el reproductor **El corazón del campo** de **Proyectos destacados**.
+
+### Antes de publicar
+
+- [ ] Título interno que te sirva para encontrarlo (no se ve en el sitio).
+- [ ] **Productor**, **Marca o producto** y **Lugar** (`Municipio, departamento`) llenos.
+- [ ] Audio en MP3 (o M4A u OGG) de menos de 10 MB.
+- [ ] **Duración en segundos** escrita como número (2 min 30 s es `150`) o vacía.
+- [ ] **Orden** distinto del de los demás relatos.
 
 ### Dónde está
 
@@ -586,9 +658,19 @@ En el menú lateral, **Relatos sonoros**.
 
 ---
 
-## 11. Publicar una feria (PaisSana en ferias)
+## 11. Ferias: publicar una feria (PaisSana en ferias)
+
+### Qué es y dónde aparece
 
 Cada feria es una fila del acordeón **PaisSana en ferias** de **Proyectos destacados**. Al abrirla se ven su texto, su galería de fotos y sus videos verticales.
+
+### Antes de publicar
+
+- [ ] Nombre de la feria como debe leerse y **Descripción** de menos de 800 caracteres.
+- [ ] Hasta 6 fotos en **Galería**, ya reducidas y con **Texto alternativo**.
+- [ ] Videos verticales (9:16) sin filas vacías; cada MP4 de menos de 32 MB y con su **Miniatura del video**.
+- [ ] **Orden** escrito.
+- [ ] **Abierta por defecto** marcada en una sola feria.
 
 ### Dónde está
 
@@ -638,9 +720,18 @@ Al cambiar el **Origen**, la fila muestra solo el campo que corresponde: la dire
 
 ---
 
-## 12. Mantener las subcuentas
+## 12. Subcuentas: mantener los logos
+
+### Qué es y dónde aparece
 
 Cada subcuenta del Fondo tiene su logo en el carrusel **Conoce las subcuentas** de **Inicio**.
+
+### Antes de publicar
+
+- [ ] Nombre completo de la subcuenta en el título (lo leen los lectores de pantalla).
+- [ ] **Logo** en PNG con fondo transparente.
+- [ ] **Orden** sin repetir (deja saltos: `10`, `20`, `30`…).
+- [ ] **Plantilla** en **Plantilla por defecto**.
 
 ### Dónde está
 
@@ -677,9 +768,19 @@ En el menú lateral, **Subcuentas**.
 
 ---
 
-## 13. Editar las páginas Inicio y Proyectos destacados
+## 13. Páginas Inicio y Proyectos destacados: editar sus campos
 
-**Inicio** y **Proyectos destacados** tienen un diseño fijo: sus secciones y su orden están en el tema del sitio. Lo que sí cambias son unos pocos campos: la foto de portada, el destino de un banner, las cifras y el mapa.
+### Qué es y dónde aparece
+
+**Inicio** y **Proyectos destacados** tienen un diseño fijo: sus secciones y su orden están en el tema del sitio. Lo que sí cambias son unos pocos campos: la foto de portada de **Inicio**, el destino del banner **Más noticias del fondo**, y las cifras **Datos relevantes** y el mapa de regiones de **Proyectos destacados**.
+
+### Antes de publicar
+
+- [ ] Cambios hechos solo en **Cajas meta** (el área de bloques no se ve en el sitio).
+- [ ] Foto de portada horizontal, de 1500 px de ancho y comprimida.
+- [ ] Cifras con punto de miles (`3.402`) y de hasta 12 caracteres.
+- [ ] Departamentos del mapa uno por línea, como `NOMBRE: número`.
+- [ ] La página sigue publicada y con su dirección web de siempre.
 
 ### Dónde están los campos
 
@@ -773,47 +874,7 @@ Tampoco modifiques plantillas, estilos, el menú principal ni complementos o usu
 
 ---
 
-## 16. Lista de comprobación mensual
-
-Imprime o revisa esta lista antes de pulsar **Publicar**:
-
-### Antes de publicar un boletín
-
-- [ ] Título corto correcto (`Edición XX`) y **Número de edición** y **Periodo** llenos.
-- [ ] **Portada** completa (titular, sumario, foto horizontal con texto alternativo y crédito).
-- [ ] Secciones que no se usan **borradas** (para evitar «Validación fallida»).
-- [ ] Todas las secciones tienen **Nombre de la sección**, **Índice: título** (en Cifras, Tarjetas y Agenda) e imagen/resumen del índice.
-- [ ] Textos pegados sin formato, subtítulos en **Título 3** y citas en dos párrafos.
-- [ ] **Créditos de fotografía** del pie escritos uno por línea (sin «Fotografía:»).
-- [ ] Guardaste borrador con **Solo guardar** y revisaste **Vista previa** en computador y celular.
-- [ ] Tras publicar: `/boletin/` muestra la edición nueva y **Inicio** actualizó la tarjeta **Último boletín**.
-
-### Antes de publicar otros contenidos
-
-- [ ] **Noticia:** titular, **URL externa** con `https://` y **Fecha de publicación** de la nota original.
-- [ ] **Retrato:** foto, descripción de menos de 500 caracteres (es también el texto alternativo), proyecto y lugar.
-- [ ] **Video:** fuente correcta, URL de YouTube o MP4 de menos de 32 MB con miniatura, y 1 o 2 etiquetas.
-- [ ] **Relato sonoro:** MP3 de menos de 10 MB, duración en segundos y **Orden**.
-- [ ] **Feria:** descripción, hasta 6 fotos con texto alternativo, videos verticales sin filas vacías, **Orden** y **Abierta por defecto** en una sola feria.
-- [ ] **Subcuenta:** logo PNG con fondo transparente y **Orden** sin repetir.
-- [ ] **Productor:** nombre, **Municipio**, un producto por línea, 1 departamento y sus categorías marcadas.
-- [ ] **Páginas (Inicio / Proyectos destacados):** cambios hechos solo en **Cajas meta**; cifras con punto de miles y departamentos como `NOMBRE: número`.
-- [ ] Tras publicar: revisa la sección de **Inicio** o **Proyectos destacados** donde aparece.
-
-### Antes de publicar la historia del mes
-
-- [ ] Título con el nombre de la organización (define `/historias/<nombre>/`).
-- [ ] **Presentación** completa (lugar, resumen corto, foto horizontal con texto alternativo y hasta 3 cifras).
-- [ ] **Portada** con título de la historia y ficha técnica revisada.
-- [ ] **Video** configurado (YouTube, MP4 < 20 MB, enlace `https://` o **Sin video**).
-- [ ] **Crónica** pegada sin formato, con subtítulos en **Título 3** y citas en dos párrafos.
-- [ ] **Galería**: cada foto tiene **Texto alternativo**, **Leyenda de la imagen** (pie) y **Descripción** (fotógrafo).
-- [ ] Guardaste borrador con **Solo guardar** y revisaste **Vista previa**.
-- [ ] Tras publicar: la nueva historia aparece en `/historias/` y en la sección **PaisSano destacado** (**Inicio**, **Proyectos destacados** y `/productores/`), y la anterior sigue en **Otras historias**.
-
----
-
-## 17. Buscadores y redes (SEO)
+## 16. Buscadores y redes (SEO)
 
 ### Título, descripción e imagen para buscadores y redes
 
@@ -833,7 +894,7 @@ El sitio completa solos estos datos a partir del contenido que llenas, pero pued
 
 ---
 
-## 18. A quién acudir
+## 17. A quién acudir
 
 Si encuentras un error que no está en *Problemas frecuentes y qué hacer*, necesitas cambiar el menú principal o un cambio no aparece tras recargar, escribe al equipo técnico responsable del sitio indicando:
 
@@ -843,7 +904,7 @@ Si encuentras un error que no está en *Problemas frecuentes y qué hacer*, nece
 
 ---
 
-## 19. Resumen en una hoja
+## 18. Resumen en una hoja
 
 Entra a la dirección del sitio seguida de `/wp-admin`. Pega siempre los textos sin formato (`Ctrl/Cmd + Shift + V`) y llena el **Texto alternativo** de cada foto.
 
