@@ -4,7 +4,7 @@
 # Uso (desde la raíz del repo): python3 apps/wp-fse/tools/manual/generar-manual.py [texto.md] [carpeta-capturas] [--tipo=noticias,ferias | --solo-general] [--salida=carpeta]
 # Requiere Pillow, numpy y Google Chrome (el PDF se imprime con Chrome headless).
 # Por defecto: texto wiki/manual-editor.md, láminas raw/manual-editor/capturas/, salidas en raw/manual-editor/ (fuera de git).
-import argparse, html, math, os, re, shutil, subprocess, sys, tempfile, unicodedata
+import argparse, html, json, math, os, re, shutil, subprocess, sys, tempfile, unicodedata
 from pathlib import Path
 import numpy as np
 from PIL import Image
@@ -38,6 +38,8 @@ TIPOS = {
     "subcuentas": (["Subcuentas: mantener los logos"], set()),
     "paginas": (["Páginas Inicio y Proyectos destacados: editar sus campos"], {"fotos", "seo"}),
 }
+
+MENU = json.loads((Path(__file__).with_name("mapa-campos.json")).read_text(encoding="utf-8"))["menu"]  # slug -> ítem del menú lateral
 
 def secciones(titulos, extra):
     """Secciones de un manual por tipo, en el orden del manual general."""
@@ -362,7 +364,10 @@ if __name__ == "__main__":
     for t in sel:  # se recortan todos antes de generar: si falta una sección, no sale ningún manual a medias
         titulos, extra = TIPOS[t]
         nombre = titulos[0].split(": ")[0]
-        trabajos.append((SALIDA / "por-tipo" / f"Manual - {plano(nombre)} - {SUFIJO}", recortar(md, nombre, secciones(titulos, extra))))
+        texto = recortar(md, nombre, secciones(titulos, extra))
+        if (CAP / f"captura-02-menu-lateral-{t}.png").exists():  # menú con el ítem del tipo resaltado (generar-laminas.mjs --menu)
+            texto = re.sub(r"^> \*\*Imagen\*\* `captura-02-menu-lateral\.png`: .*$", lambda _: f"> **Imagen** `captura-02-menu-lateral-{t}.png`: Menú lateral de WordPress; en azul, {MENU[t]}.", texto, flags=re.M)
+        trabajos.append((SALIDA / "por-tipo" / f"Manual - {plano(nombre)} - {SUFIJO}", texto))
     shutil.rmtree(OUT, ignore_errors=True)  # quita imágenes de ediciones anteriores
     (SALIDA / "por-tipo").mkdir(parents=True, exist_ok=True)
     for viejo in SALIDA.glob("Manual del editor - La Paz Si Pasa.*"):

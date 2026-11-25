@@ -5,7 +5,7 @@ Regeneran los manuales en PDF desde el texto de [`wiki/manual-editor.md`](../../
 | Archivo | Qué hace |
 | --- | --- |
 | `generar-laminas.mjs` | Abre el sitio local con un usuario Editor temporal (`@example.org`), marca los campos con círculos numerados y guarda cada lámina (PNG, lado WordPress y lado sitio). No guarda ni publica nada. |
-| `mapa-campos.json` | Qué campo de WordPress alimenta qué elemento del sitio, con los selectores de cada lámina. Es la fuente de las láminas. |
+| `mapa-campos.json` | Qué campo de WordPress alimenta qué elemento del sitio, con los selectores de cada lámina. Es la fuente de las láminas. En `menu`, el ítem del menú lateral de cada tipo. |
 | `generar-manual.py` | Lee la wiki y las láminas, recorta las imágenes largas y escribe los `.pdf` (Chrome headless). |
 
 ## Requisitos
@@ -22,17 +22,19 @@ python3 apps/wp-fse/tools/manual/generar-manual.py           # manual general (r
 python3 apps/wp-fse/tools/manual/generar-manual.py --tipo=noticias,ferias  # solo esos tipos (boletin, historia, productores, noticias, retratos, videos, relatos-sonoros, ferias, subcuentas, paginas)
 python3 apps/wp-fse/tools/manual/generar-manual.py --solo-general          # solo el manual general
 python3 apps/wp-fse/tools/manual/generar-manual.py otro-texto.md --salida=/tmp/prueba  # otro texto y otra carpeta de salida (pruebas; no toca raw/manual-editor/)
+node apps/wp-fse/tools/manual/generar-laminas.mjs --menu     # solo captura-02: menú lateral liso y uno por tipo con su ítem resaltado
 node apps/wp-fse/tools/manual/generar-laminas.mjs --limpiar  # por si acaso: el script ya borra el usuario temporal y los borradores al salir, incluso con Ctrl+C
 ```
 
 Los manuales por tipo se arman con las secciones del tipo y las comunes de `wiki/manual-editor.md`, emparejadas por título (sin el número); `TIPOS` solo dice qué sección es la del tipo y qué comunes lleva («Escribir bien y preparar fotos», «Buscadores y redes (SEO)»). Todo el texto sale del Markdown: el nombre del manual («Manual de Videos») es lo que va antes de «:» en el título de su sección y la descripción de portada, el primer párrafo de su «### Qué es y dónde aparece». Si falta una sección o ese párrafo, el script se detiene y no genera nada. Requiere `Pillow`, `numpy` y Chrome; un venv sirve: `python3 -m venv raw/.venv-manual && raw/.venv-manual/bin/pip install Pillow numpy PyMuPDF`.
 
-`--solo=01,05` regenera solo esas láminas. Las capturas sueltas (`captura-*.png`) no las genera el script: se toman a mano, con sesión de administrador en el sitio local, y se guardan en `raw/manual-editor/capturas/`. Sin ellas `generar-manual.py` no puede armar el manual.
+`--solo=01,05` regenera solo esas láminas. `--menu` genera `captura-02-menu-lateral.png` y `captura-02-menu-lateral-<tipo>.png` (Editor temporal en `/wp-admin/`, el ratón sobre el ítem del tipo: el azul lo pinta WordPress); el manual de cada tipo usa la suya si existe, con el pie «Menú lateral de WordPress; en azul, <ítem>.», y si no, la lisa. Las demás capturas sueltas (`captura-*.png`) no las genera el script: se toman a mano, con sesión de administrador en el sitio local, y se guardan en `raw/manual-editor/capturas/`. Sin ellas `generar-manual.py` no puede armar el manual.
 
 | Archivo | Pantalla (URL relativa) | Qué debe verse | Recorte |
 | --- | --- | --- | --- |
 | `captura-01-inicio-sesion.png` | `/wp-admin` (sin sesión) | Formulario de inicio de sesión de WordPress, vacío | Solo la caja del formulario |
-| `captura-02-menu-lateral.png` | `/wp-admin/` con sesión | Menú lateral con Boletines, Historias PaisSana, Productores y Medios | Solo la columna del menú |
+| `captura-02-menu-lateral.png` | `/wp-admin/` con sesión de Editor (`--menu`) | Menú lateral con Boletines, Historias PaisSana, Productores y Medios | Solo la columna del menú, a escala 4 |
+| `captura-02-menu-lateral-<tipo>.png` | La misma, con el ratón sobre el ítem del tipo (`--menu`) | El ítem del tipo en azul (`boletin`: Boletines, `paginas`: Páginas…) | Igual que la lisa |
 | `captura-07-biblioteca-medios-campos.png` | `/wp-admin/upload.php`, clic en una imagen | Panel derecho con Texto alternativo, Leyenda de la imagen y Descripción rellenos | Ventana de detalle de la imagen |
 | `captura-08-panel-publicar.png` | `/wp-admin/post-new.php?post_type=boletin` | Panel lateral Publicar con Solo guardar, Vista previa, programación y el botón Publicar | Solo el panel lateral |
 | `captura-12-paginas-protegidas.png` | `/wp-admin/edit.php?post_type=page` | Lista de Páginas con Inicio, Proyectos destacados y Productores PaisSana | Solo la tabla, sin barra de administración |
