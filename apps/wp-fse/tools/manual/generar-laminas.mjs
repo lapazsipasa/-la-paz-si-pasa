@@ -1,5 +1,6 @@
 // Uso: node apps/wp-fse/tools/manual/generar-laminas.mjs                 -> todas las láminas (usuario Editor temporal; se borra al terminar)
 //      ... --solo=01,05,13    -> solo esas láminas (prefijo del id); --front / --admin para un solo lado
+//      ... --menu             -> solo el menú lateral (captura-02): liso y uno por tipo con su ítem resaltado (ver "menu" en mapa-campos.json)
 //      ... --limpiar          -> borra el usuario editora-manual. Lee mapa-campos.json (junto a este archivo).
 // Las láminas (PNG) quedan en raw/manual-editor/capturas/ (carpeta fuera de git), o en --salida=<carpeta>.
 // Requiere el sitio local en http://localhost:8090 (docker compose en apps/wp-fse) y Chrome. Crea un Editor y borradores temporales y los borra al salir; solo contra el sitio local.
@@ -255,7 +256,32 @@ process.on('exit', () => {
   for (const id of BORRADORES) { try { wp(`post delete ${id} --force`); } catch {} }
   try { wp(`user delete ${USER} --yes`); } catch {}
 });
+// captura-02: menú lateral liso y, por tipo, con su ítem bajo el ratón (movimiento real: el resaltado lo pinta WordPress).
+async function menu(cookies) {
+  // Escritorio (página actual) sin su azul: solo el ítem del tipo queda resaltado; la lisa, sin ninguno.
+  const js = `document.querySelectorAll('#adminmenu .wp-has-current-submenu,#adminmenu .current,#adminmenu .wp-menu-open').forEach(e=>{e.classList.remove('wp-has-current-submenu','current','wp-menu-open');if(e.matches('.menu-top'))e.classList.add('wp-not-current-submenu')})`;
+  const p = await abrir('/wp-admin/', { cookies, css: LIMPIA_ADMIN, js });
+  const r = await rectDoc(p, '#adminmenuwrap');
+  const foto = async (f) => {
+    const s = await p.send('Page.captureScreenshot', { format: 'png', clip: { x: r.x, y: r.y, width: r.w, height: r.h, scale: 4 } });
+    fs.writeFileSync(path.join(OUT, f), Buffer.from(s.data, 'base64'));
+  };
+  await foto('captura-02-menu-lateral.png');
+  for (const [slug, texto] of Object.entries(MAPA.menu)) {
+    const c = await p.evaluate(`(()=>{const a=[...document.querySelectorAll('#adminmenu a.menu-top')].find(e=>e.querySelector('.wp-menu-name')?.textContent.trim()===${JSON.stringify(texto)});if(!a)return null;const b=a.getBoundingClientRect();return {x:b.x+b.width/2,y:b.y+b.height/2}})()`);
+    if (!c) { console.error(`generar-laminas: no encuentro «${texto}» en el menú lateral`); process.exit(1); }
+    await p.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: c.x, y: c.y });
+    await sleep(800);
+    await foto(`captura-02-menu-lateral-${slug}.png`);
+    await p.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 1000, y: 10 });
+    await sleep(800);
+  }
+  await p.close();
+  console.log(`menú: ${1 + Object.keys(MAPA.menu).length} capturas`);
+}
+
 const cookies = sesion();
+if (args.includes('--menu')) { await menu(cookies); await t.finish(); process.exit(0); }
 const lista = MAPA.laminas.filter((l) => !solo.length || solo.some((s) => l.id.startsWith(s)));
 for (const l of lista) await lamina(l, cookies);
 await t.finish();

@@ -56,6 +56,11 @@ const conTaxonomias = ( html ) => {
 	for ( const t of [ 'departamento', 'categoria_productor', 'tiempo_operacion', 'etnia', 'poblacion' ] )
 		assert.ok( html.includes( `id="${ t }div"` ), `Falta la caja de la taxonomía ${ t }.` );
 };
+// Caja lateral «Ayuda» con el manual del tipo y el general (lapaz-manuales.php).
+const conAyuda = ( slug ) => ( html ) => {
+	const caja = html.match( /<div id="lapaz-ayuda"[\s\S]*?Manual 00 · Manual general \(PDF\)/ )?.[ 0 ] ?? '';
+	assert.ok( caja.includes( `manual=${ slug }` ) && caja.includes( 'target="_blank"' ), `Falta la caja Ayuda con el manual ${ slug }.` );
+};
 const conGrupo = ( g, tabs = [] ) => ( html ) => {
 	assert.ok( html.includes( `id="${ grupo( g ) }"` ), `Falta la caja del grupo ${ g }.` );
 	for ( const t of tabs ) assert.ok( html.includes( `>${ t }</a>` ) || html.includes( `>${ t }<` ), `Falta la pestaña «${ t }».` );
@@ -78,12 +83,16 @@ try {
 	await pantalla( 'Editar Edición 02: grupo con pestañas y SEO', editar( boletin ), ( h ) => {
 		conGrupo( 'boletin', pestanas( 'boletin' ) )( h );
 		conSeo( h );
+		conAyuda( 'boletin' )( h );
 		// El título por defecto del tema (no solo el de la entrada) llega a la caja de SEO.
 		assert.ok( h.includes( '&quot;defaultTitle&quot;:&quot;Caminos de Transformación, Edición 02&quot;' ), 'La caja de SEO no usa el título por defecto del tema.' );
 	} );
 	await pantalla( 'Editar Asocafé: grupo con pestañas y SEO', editar( historia ), ( h ) => { conGrupo( 'historia', pestanas( 'historia' ) )( h ); conSeo( h ); } );
 	await pantalla( 'Editar un productor: su grupo, sus 5 taxonomías y sin SEO', editar( productor ), ( h ) => { conGrupo( 'productor' )( h ); conTaxonomias( h ); sinSeo( h ); } );
-	const editor = await pantalla( 'Editar la página Productores PaisSana (editor de bloques)', editar( pagina ), ( h ) => assert.ok( h.includes( 'block-editor' ), 'Sin editor de bloques.' ) );
+	const editor = await pantalla( 'Editar la página Productores PaisSana (editor de bloques), con la caja Ayuda', editar( pagina ), ( h ) => {
+		assert.ok( h.includes( 'block-editor' ), 'Sin editor de bloques.' );
+		conAyuda( 'paginas' )( h );
+	} );
 	const url = editor.match( /_wpMetaBoxUrl\s*=\s*"([^"]+)"/ )?.[ 1 ].replaceAll( '\\/', '/' );
 	assert.ok( url, 'No se encontró _wpMetaBoxUrl en el editor de bloques.' );
 	await pantalla( 'Cargador de cajas meta de esa página: caja de SEO con sus pestañas', new URL( url ).pathname + new URL( url ).search, conSeo );
@@ -91,6 +100,42 @@ try {
 		await pantalla( `Añadir ${ t }: grupo y SEO`, `/wp-admin/post-new.php?post_type=${ t }`, ( h ) => { conGrupo( t, pestanas( t ) )( h ); conSeo( h ); } );
 	await pantalla( 'Añadir productor: su grupo y sin SEO', '/wp-admin/post-new.php?post_type=productor', ( h ) => { conGrupo( 'productor' )( h ); sinSeo( h ); } );
 	for ( const t of [ 'boletin', 'historia', 'productor' ] ) await pantalla( `Listado de ${ t }`, `/wp-admin/edit.php?post_type=${ t }`, ( h ) => assert.ok( h.includes( 'wp-list-table' ) ) );
+	await pantalla( 'Listado de videos: aviso fijo con su manual', '/wp-admin/edit.php?post_type=video', ( h ) => {
+		const aviso = h.match( /<div class="notice notice-info lapaz-manual-aviso">[\s\S]*?<\/div>/ )?.[ 0 ] ?? '';
+		assert.ok( aviso.includes( '¿Dudas con los videos?' ) && aviso.includes( 'manual=videos' ) && aviso.includes( 'Manual 10 · Videos (PDF)' ), 'Falta el aviso del manual 10 de videos.' );
+		assert.ok( ! aviso.includes( 'is-dismissible' ), 'El aviso no debe poder cerrarse.' );
+	} );
+
+	// Manuales en PDF por admin-post.php: solo con sesión de editor y solo slugs de la lista.
+	const manual = ( slug, conSesion = true ) => fetch( new URL( `/wp-admin/admin-post.php?action=lapaz_manual&manual=${ encodeURIComponent( slug ) }`, site ), { redirect: 'manual', headers: conSesion ? { cookie } : {} } );
+	const esPdf = async ( r ) => ( await r.arrayBuffer() ).byteLength > 4 && r.headers.get( 'content-type' ) === 'application/pdf';
+	const pdf = await manual( 'boletin' );
+	const cabeceras = Object.fromEntries( [ 'content-type', 'content-disposition', 'cache-control', 'x-content-type-options' ].map( ( k ) => [ k, pdf.headers.get( k ) ?? '' ] ) );
+	const inicioPdf = Buffer.from( await pdf.arrayBuffer() ).subarray( 0, 5 ).toString();
+	await test( 'Manual del boletín: PDF en línea, privado y sin caché, para un editor', () => {
+		assert.equal( pdf.status, 200, `HTTP ${ pdf.status }` );
+		assert.equal( cabeceras[ 'content-type' ], 'application/pdf' );
+		assert.equal( inicioPdf, '%PDF-' );
+		assert.equal( cabeceras[ 'content-disposition' ], 'inline; filename="06 - Boletin - La Paz Si Pasa.pdf"' );
+		assert.match( cabeceras[ 'cache-control' ], /no-store/ );
+		assert.match( cabeceras[ 'cache-control' ], /private/ );
+		assert.equal( cabeceras[ 'x-content-type-options' ], 'nosniff' );
+	} );
+	for ( const slug of [ 'no-existe', '../../../../etc/passwd' ] ) {
+		const r = await manual( slug );
+		const servido = await esPdf( r );
+		await test( `Manual «${ slug }»: 404, sin PDF`, () => {
+			assert.equal( r.status, 404, `HTTP ${ r.status }` );
+			assert.ok( ! servido, 'Sirvió un PDF.' );
+		} );
+	}
+	const anonimo = await manual( 'general', false );
+	const anonimoPdf = await esPdf( anonimo );
+	await test( 'Manual sin sesión: al inicio de sesión, sin PDF', () => {
+		assert.equal( anonimo.status, 302, `HTTP ${ anonimo.status }` );
+		assert.match( anonimo.headers.get( 'location' ) ?? '', /wp-login\.php/ );
+		assert.ok( ! anonimoPdf, 'Sirvió un PDF sin sesión.' );
+	} );
 
 	// Un Editor tiene manage_categories: ve los términos del catálogo (no se espera negativa de WordPress).
 	await pantalla( 'Listado de páginas', '/wp-admin/edit.php?post_type=page', ( h ) => assert.ok( h.includes( 'wp-list-table' ) ) );

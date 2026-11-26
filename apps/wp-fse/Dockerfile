@@ -71,6 +71,8 @@ RUN a2enmod headers \
 # /var/www/html es un volumen: el entrypoint lleva el tema a su destino en cada arranque.
 COPY apps/wordpress/themes/lapaz /opt/wp-content/themes/lapaz
 COPY apps/wp-fse/mu-plugins /opt/wp-content/mu-plugins
+# Manuales del editor en PDF, fuera del docroot: solo los sirve lapaz-manuales.php a quien puede editar.
+COPY apps/wp-fse/manuales /opt/lapaz/manuales
 # CPT y campos: los mismos JSON del headless, sin cambios.
 COPY apps/wordpress/scf-json /opt/wp-content/scf-json
 # Grupos de campos propios del sitio FSE (no compartidos con el headless).

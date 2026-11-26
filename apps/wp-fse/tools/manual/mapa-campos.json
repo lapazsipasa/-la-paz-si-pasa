@@ -1,5 +1,17 @@
 {
   "version": "2026-11-22",
+  "menu": {
+    "boletin": "Boletines",
+    "historia": "Historias PaisSana",
+    "productores": "Productores",
+    "noticias": "Noticias",
+    "retratos": "Retratos",
+    "videos": "Videos",
+    "relatos-sonoros": "Relatos sonoros",
+    "ferias": "Ferias",
+    "subcuentas": "Subcuentas",
+    "paginas": "Páginas"
+  },
   "marcadores": {
     "ID_EDICION_02": "wp post list --post_type=boletin --name=edicion-02 --field=ID",
     "ID_ASOCAFE": "wp post list --post_type=historia --name=asocafe --field=ID",

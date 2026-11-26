@@ -139,9 +139,9 @@ El headless de producción y el sitio FSE tienen **el mismo modelo de contenido*
 
 ## Despliegue de boletín y catálogo PaisSana
 
-Estado: **sin probar en un servidor**. Está en la rama `feat/boletin-catalogo-fcp`, sin PR ni merge. Cada paso marcado «TODO: confirmar en staging» se comprueba antes de producción. Contexto: [spec](specs/boletin-catalogo-fcp.md#flujo-de-ramas-y-github).
+Estado: **desplegado en producción el 2026-11-23** (PR #2, squash `a0c3802` en `main`). Boletín e historia publicados; el catálogo está oculto hasta que el Fondo lo autorice ([publicarlo](#publicar-el-catálogo-cuando-el-fondo-autorice)). Lo que sigue como TODO no se ha comprobado. Contexto: [spec](specs/boletin-catalogo-fcp.md#flujo-de-ramas-y-github).
 
-Orden: primero staging (`st.lapazsipasa.com`, TODO: confirmar que está arriba), después producción. Todos los comandos se corren en la terminal del servicio `cms` en Dokploy como `www-data` (`su www-data -s /bin/bash -c '…'`).
+Orden: primero staging (`st.lapazsipasa.com`, TODO: confirmar que está arriba), después producción. El 2026-11-23 se ensayó la secuencia en staging con una copia de la base de producción y luego se hizo en producción. Todos los comandos se corren en la terminal del servicio `cms` en Dokploy como `www-data` (`su www-data -s /bin/bash -c '…'`).
 
 Pendientes de decisión, servidor y staging: [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor). Rutas nuevas: catálogo en `/productores/`, historias en `/historias/<slug>/` (con archivo en `/historias/`); `/paissana/` no existe ([decisión del 2026-11-20](navegacion.md#ajuste-del-2026-11-20-url-propias-para-productores-e-historias)).
 
@@ -167,7 +167,7 @@ Pendientes de decisión, servidor y staging: [revisiones independientes](specs/b
 
 ### Durante el despliegue
 
-5. **Merge y deploy.** Squash a `main` con `apps/wp-fse/bin/check` en verde y aprobación de William (no hacer `git push` de la rama sin aplastar el historial anterior a `ff6445d`). Dokploy despliega `main`. Hacer **Redeploy** confirmando rebuild de la imagen `cms` (trae Apache `zz-lapaz-seguridad.conf`, límites de PHP y MariaDB `11.8`; TODO: confirmar en Dokploy que Redeploy reconstruye la imagen). Esperar contenedor `healthy`.
+5. **Merge y deploy.** Squash a `main` con `apps/wp-fse/bin/check` en verde y aprobación de William (no hacer `git push` de la rama sin aplastar el historial anterior a `ff6445d`). Dokploy despliega `main`. Hacer **Redeploy** confirmando rebuild de la imagen `cms` (trae Apache `zz-lapaz-seguridad.conf`, límites de PHP y MariaDB `11.8`). Confirmado el 2026-11-23: Redeploy reconstruye la imagen. Esperar contenedor `healthy`.
 6. **Configuración (sin `--seed`):**
    ```bash
    su www-data -s /bin/bash -c 'lapaz-setup'
@@ -180,11 +180,11 @@ Pendientes de decisión, servidor y staging: [revisiones independientes](specs/b
    - aplica las reglas de enlaces (`rewrite structure --hard`);
    - con `WP_CACHE=true`, excluye de la caché `/productores/` con parámetros (`^/productores/.*\?`) y los sitemaps (`^/(wp-)?sitemap`), vacía los transitorios del sitemap del plugin y vacía la caché de página al terminar (`wp_cache_clear_cache()`);
    - avisa por `stderr` si existen plantillas personalizadas del tema `lapaz` (`wp_template`/`wp_template_part`) en la base que tapen los archivos del tema.
-7. **Grupos SCF.** `lapaz-setup` no los importa a la base: SCF los lee desde `scf-json-lapaz/` (`apps/wp-fse/mu-plugins/lapaz-core.php`). Comprobar en `/wp-admin/` que *Boletines*, *Historias PaisSana* y *Productores* muestran sus campos. Solo si no aparecieran (TODO: confirmar en staging), importarlos así:
+7. **Grupos SCF.** `lapaz-setup` no los importa a la base: SCF los lee desde `scf-json-lapaz/` (`apps/wp-fse/mu-plugins/lapaz-core.php`). Comprobar en `/wp-admin/` que *Boletines*, *Historias PaisSana* y *Productores* muestran sus campos. Solo si no aparecieran (el 2026-11-23 aparecieron sin importar, así que no hizo falta):
    ```bash
    su www-data -s /bin/bash -c 'wp --path=/var/www/html eval "foreach (glob(WP_CONTENT_DIR . \"/scf-json-lapaz/group_*.json\") as \$f) { acf_import_field_group(json_decode(file_get_contents(\$f), true)); }"'
    ```
-8. **Carga inicial por secciones.** Solo estas tres, en este orden (cada una es idempotente por título; no usar `lapaz-setup --seed` en producción):
+8. **Carga inicial por secciones.** Solo estas tres, en este orden (cada una es idempotente por título; no usar `lapaz-setup --seed` en producción). El 2026-11-23 se corrieron `boletines` e `historias`; `productores` se omite hasta que el Fondo autorice el catálogo:
    ```bash
    su www-data -s /bin/bash -c 'SEED_SOLO=productores wp --path=/var/www/html eval-file /opt/seed/seed.php'
    su www-data -s /bin/bash -c 'SEED_SOLO=boletines wp --path=/var/www/html eval-file /opt/seed/seed.php'
@@ -203,19 +203,19 @@ Pendientes de decisión, servidor y staging: [revisiones independientes](specs/b
 
 ### Después del despliegue (navegador sin sesión + consola DevTools)
 
-11. **Verificar conteos** (esperado: `productor: 316`, `boletin: 1`, `historia: 1`, y los conteos del paso 4 sin cambios):
+11. **Verificar conteos** (esperado: `productor: 316` cuando se cargue el catálogo, `boletin: 1`, `historia: 1`, y los conteos del paso 4 sin cambios). Resultado del 2026-11-23: `productor: 0`, el resto como se esperaba:
     ```bash
     su www-data -s /bin/bash -c 'for t in productor boletin historia retrato video feria audio_relato subcuenta noticia; do echo "$t: $(wp --path=/var/www/html post list --post_type=$t --post_status=publish --format=count)"; done'
     ```
-12. **Rutas:** HTTP 200 en `/`, `/proyectos-destacados/`, `/productores/`, `/historias/`, `/historias/asocafe/`, `/boletin/` y `/boletin/edicion-02/`; HTTP 404 en `/paissana/` y `/guia-de-estilos/`.
-13. **API y archivos sensibles:** HTTP 401 sin sesión en `/wp-json/wp/v2/users` y `/wp-json/wp/v2/productor`; HTTP 403 en `/xmlrpc.php`, `/readme.html`, `/wp-content/debug.log` y sin listado en `/wp-content/uploads/`.
-14. **Cabeceras y consola:** sin `X-Powered-By`; `Strict-Transport-Security` solo en HTTPS; `Content-Security-Policy-Report-Only` en frontend y ausente en `/wp-login.php`; consola sin violaciones CSP en `/`, `/proyectos-destacados/` (reproduciendo video de YouTube y audio) y `/productores/`. En dev salió limpio el 2026-11-23 (desplegado con `cf74458`, en 360 y 1440 px), con el video de YouTube de Plyr reproduciéndose. TODO: confirmar en staging o producción antes de pasar a modo activo.
+12. **Rutas:** HTTP 200 en `/`, `/proyectos-destacados/`, `/productores/`, `/historias/`, `/historias/asocafe/`, `/boletin/` y `/boletin/edicion-02/`; HTTP 404 en `/paissana/` y `/guia-de-estilos/`. Comprobado el 2026-11-23 en producción: todo igual, salvo `/productores/`, que da 404 mientras la página esté en borrador.
+13. **API y archivos sensibles:** HTTP 401 sin sesión en `/wp-json/wp/v2/users` y `/wp-json/wp/v2/productor`; HTTP 403 en `/xmlrpc.php`, `/readme.html`, `/wp-content/debug.log` y sin listado en `/wp-content/uploads/`. Comprobado el 2026-11-23 en producción.
+14. **Cabeceras y consola:** sin `X-Powered-By`; `Strict-Transport-Security` solo en HTTPS; `Content-Security-Policy-Report-Only` en frontend y ausente en `/wp-login.php`; consola sin violaciones CSP en `/`, `/proyectos-destacados/` (reproduciendo video de YouTube y audio) y `/productores/`. En dev salió limpio el 2026-11-23 (desplegado con `cf74458`, en 360 y 1440 px), con el video de YouTube de Plyr reproduciéndose. Comprobado en producción el 2026-11-23: 0 violaciones en 7 rutas a 360 y 1440 px, con Plyr reproduciendo YouTube. Pasar a modo activo sigue siendo decisión de William.
 15. **Visual y navegación:** `/` y `/proyectos-destacados/` muestran tarjetas de boletín, historia y banner del catálogo; el menú Principal incluye «Boletín» y marca estado activo.
 16. **Caché:** `/productores/` limpio servido desde caché; `/productores/?buscar=cafe` y `/sitemap.xml` sin cachear; editar un productor de prueba vacía la caché.
 17. **SEO y sitemap (The SEO Framework):**
     - plugin `autodescription` activo y caja **Ajustes de SEO** en español (`es_CO`) al editar una página, boletín o historia;
     - en `/` y rutas nuevas: exactamente **una** `<title>`, **una** `description`, **una** `canonical`, **una** `robots` (**sin `noindex`** en producción) y `og:locale` = `es_CO`;
-    - `/sitemap.xml` responde `200` con páginas, boletines e historias (sin `productor` ni `guia-de-estilos`); `/wp-sitemap.xml` responde `301` → `/sitemap.xml`;
+    - `/sitemap.xml` responde `200` con páginas, boletines e historias (sin `productor` ni `guia-de-estilos`); `/wp-sitemap.xml` responde `301` → `/sitemap.xml`. Comprobado el 2026-11-23: 4 URL (portada, proyectos destacados, historia y boletín), `robots` indexable y canónica correcta;
     - **Google Search Console:** reenviar `/sitemap.xml` para reemplazar `/wp-sitemap.xml`.
 18. **Editor y Salud del sitio:** entrar con el usuario Editor (edita boletines, historias, productores y solo *General* + imagen social en **Ajustes de SEO**; no instala plugins ni cambia ajustes ni menú) y revisar *Salud del sitio* (TODO: confirmar en staging si aparece aviso de REST; TODO: confirmar que el Editor no ve el menú *SEO*).
 19. **Limpieza:** tras 24–48 h estables, borrar `/tmp/pre-deploy-boletin-catalogo.sql` del contenedor (conservar la copia externa).
@@ -238,6 +238,27 @@ Pasos para marcha atrás completa (código + base de datos):
    su www-data -s /bin/bash -c 'wp --path=/var/www/html cache flush && wp --path=/var/www/html rewrite flush --hard && wp --path=/var/www/html eval "if (function_exists(\"wp_cache_clear_cache\")) wp_cache_clear_cache();"'
    ```
 4. Tras verificar el sitio, borrar `/tmp/pre-deploy-boletin-catalogo.sql` del contenedor.
+
+### Publicar el catálogo cuando el Fondo autorice
+
+**Hecho el 2026-11-23** con 300 productores. Las 16 fichas observadas quedaron en borrador (12 con nombre de persona natural y 4 con erratas). Para publicarlas cuando el Fondo autorice o corrija: en WordPress, *Productores → Borradores*, corregir si hace falta y *Publicar*. La caché se vacía sola. Los pasos de abajo quedan como referencia para una carga completa desde cero.
+
+
+Estado al 2026-11-23: la página `productores` está en **borrador** (`/productores/` da 404 y no sale en el sitemap), no hay productores cargados y el botón PAISSANA de Proyectos destacados apunta a `#`. Hacerlo solo con la autorización del Fondo (personas con nombre propio y erratas, ver [pendientes del Fondo](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor)). Como `www-data` en la terminal de `cms`:
+
+1. **Respaldo** de la base, como el paso 1 de «Antes del despliegue», con copia fuera del servidor.
+2. **Cargar los productores** (idempotente por título):
+   ```bash
+   su www-data -s /bin/bash -c 'SEED_SOLO=productores wp --path=/var/www/html eval-file /opt/seed/seed.php'
+   ```
+3. **Corregir o retirar** las fichas observadas por el Fondo, desde el admin. Si se retira una ficha, no volver a correr el seed sin revisar antes (TODO: verificar que no la recrea).
+4. **Publicar** la página `productores`:
+   ```bash
+   su www-data -s /bin/bash -c 'wp --path=/var/www/html post list --post_type=page --post_status=draft --fields=ID,post_name'
+   su www-data -s /bin/bash -c 'wp --path=/var/www/html post update <id> --post_status=publish'
+   ```
+5. **Vaciar la caché de página** (paso 9 de arriba).
+6. **Verificar:** `/productores/` responde 200 con los productores cargados; el botón PAISSANA de Proyectos destacados lleva a `/productores/`; el banner del catálogo aparece en Inicio y en Proyectos destacados; la historia muestra «Volver al catálogo»; `/sitemap.xml` incluye `/productores/` (sin las fichas, según el paso 17); y el conteo de `productor` coincide con lo cargado.
 
 ## Operación
 
