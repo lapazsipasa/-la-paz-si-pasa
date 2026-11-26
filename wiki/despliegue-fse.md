@@ -209,7 +209,7 @@ Pendientes de decisión, servidor y staging: [revisiones independientes](specs/b
     ```
 12. **Rutas:** HTTP 200 en `/`, `/proyectos-destacados/`, `/productores/`, `/historias/`, `/historias/asocafe/`, `/boletin/` y `/boletin/edicion-02/`; HTTP 404 en `/paissana/` y `/guia-de-estilos/`. Comprobado el 2026-11-23 en producción: todo igual, salvo `/productores/`, que da 404 mientras la página esté en borrador.
 13. **API y archivos sensibles:** HTTP 401 sin sesión en `/wp-json/wp/v2/users` y `/wp-json/wp/v2/productor`; HTTP 403 en `/xmlrpc.php`, `/readme.html`, `/wp-content/debug.log` y sin listado en `/wp-content/uploads/`. Comprobado el 2026-11-23 en producción.
-14. **Cabeceras y consola:** sin `X-Powered-By`; `Strict-Transport-Security` solo en HTTPS; `Content-Security-Policy-Report-Only` en frontend y ausente en `/wp-login.php`; consola sin violaciones CSP en `/`, `/proyectos-destacados/` (reproduciendo video de YouTube y audio) y `/productores/`. En dev salió limpio el 2026-11-23 (desplegado con `cf74458`, en 360 y 1440 px), con el video de YouTube de Plyr reproduciéndose. Comprobado en producción el 2026-11-23: 0 violaciones en 7 rutas a 360 y 1440 px, con Plyr reproduciendo YouTube. Pasar a modo activo sigue siendo decisión de William.
+14. **Cabeceras y consola:** sin `X-Powered-By`; `Strict-Transport-Security` solo en HTTPS; `Content-Security-Policy` completa en frontend y solo la mínima en `/wp-login.php` y `/wp-admin/` (ver [CSP](#csp-y-google-tag-manager)); consola sin violaciones CSP en `/`, `/proyectos-destacados/` (reproduciendo video de YouTube y audio) y `/productores/`. En dev salió limpio el 2026-11-23 (desplegado con `cf74458`, en 360 y 1440 px), con el video de YouTube de Plyr reproduciéndose. Comprobado en producción el 2026-11-23: 0 violaciones en 7 rutas a 360 y 1440 px, con Plyr reproduciendo YouTube. Desde la rama `feat/csp-activa` la CSP es activa (bloquea).
 15. **Visual y navegación:** `/` y `/proyectos-destacados/` muestran tarjetas de boletín, historia y banner del catálogo; el menú Principal incluye «Boletín» y marca estado activo.
 16. **Caché:** `/productores/` limpio servido desde caché; `/productores/?buscar=cafe` y `/sitemap.xml` sin cachear; editar un productor de prueba vacía la caché.
 17. **SEO y sitemap (The SEO Framework):**
@@ -225,7 +225,7 @@ Pendientes de decisión, servidor y staging: [revisiones independientes](specs/b
 Volviendo solo a la imagen anterior (`v2.0.0`; TODO: confirmar que es la etiqueta que corre hoy en producción) **no se deshacen** en la base la página `productores`, el menú actualizado, los 316 productores, `Edición 02`, `Asocafé`, los 22 adjuntos ni el usuario Editor (el menú con `/boletin/` daría 404). Además, `db` sube de MariaDB `11` a `11.8` y no admite downgrade binario de `db_data`.
 
 - **Volver atrás de inmediato** si `/` o `/proyectos-destacados/` dan 500/404, `/wp-admin/` no carga o no guarda, se pierde contenido real o Apache/PHP falla al arrancar.
-- **Arreglar hacia delante** si falla solo una página nueva, falta ajustar un menú editado a mano, aparece una violación en `CSP-Report-Only` (no bloquea) o falta vaciar caché.
+- **Arreglar hacia delante** si falla solo una página nueva, falta ajustar un menú editado a mano, aparece una violación CSP en un servicio nuevo (sumar su dominio, ver [CSP](#csp-y-google-tag-manager)) o falta vaciar caché.
 
 Pasos para marcha atrás completa (código + base de datos):
 1. En Dokploy, apuntar el servicio al tag/commit anterior (`v2.0.0`) y hacer **Redeploy** (dejando `db` en `11.8`).
@@ -270,3 +270,25 @@ Estado al 2026-11-23: la página `productores` está en **borrador** (`/producto
 | Logs | Dokploy → servicio → Logs (`cms`). Los errores de SMTP salen con el prefijo `[lapaz-smtp]` |
 | Actualizar The SEO Framework (`autodescription`) | En producción (`DISALLOW_FILE_MODS`) no se actualiza desde el panel: subir `TSF_VERSION` y `TSF_SHA256` en `apps/wp-fse/Dockerfile`, actualizar los dos archivos `es_CO` en `apps/wp-fse/docker/languages/plugins/` (ver su `LEEME.md`), reconstruir y desplegar |
 | Si The SEO Framework se desactiva | El sitio no se rompe: `inc/seo.php` e `inc/guia-estilos.php` retoman automáticamente título, descripción, Open Graph, canónicas, `noindex` fuera de producción y `/wp-sitemap.xml` (solo se pierde la caja editable por entrada) |
+
+## CSP y Google Tag Manager
+
+La CSP es **activa**: lo que no está en la lista, el navegador lo bloquea. Vive en `apps/wp-fse/docker/apache/zz-lapaz-seguridad.conf` (va en la imagen: un cambio pide rebuild).
+
+- **Sitio público:** todo local (`'self'`), más YouTube (Plyr y los iframes `youtube-nocookie.com`, miniaturas en `i.ytimg.com`, títulos por `noembed.com`) y Google Tag Manager con GA4 (`*.googletagmanager.com`, `*.google-analytics.com`, `*.analytics.google.com`, `www.google.com`). Sin `object`, sin workers, sin `onclick=` y otros atributos, sin `eval` de JS (solo WebAssembly, para el router del catálogo), formularios solo al propio sitio y el sitio solo se enmarca a sí mismo. Con HTTPS suma `upgrade-insecure-requests`.
+- **Scripts en línea:** la cabecera lleva `'unsafe-inline'` porque WordPress imprime en el `<head>` el import map y las reglas de especulación sin nonce, y un nonce por petición no sirve con la caché de página. `lapaz-seguridad.php` añade al final del `<head>` una `<meta>` con una segunda política sin `'unsafe-inline'`: todo script en línea que venga después (en el contenido, inyectado o `javascript:`) queda bloqueado. Un bloque «HTML personalizado» con `<script>` no correrá.
+- **wp-admin y login:** política mínima (`frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'`). El editor necesita `blob:` y `eval`.
+
+**Sumar un servicio externo** (otro analítico, un mapa, un formulario embebido): añadir su dominio a la directiva que corresponda en la cabecera del sitio público, nunca a la `<meta>` (su `*` ya deja pasar lo que permita la cabecera):
+
+| Si el servicio… | Directiva |
+|---|---|
+| carga un script | `script-src` |
+| pide datos (fetch, beacons) | `connect-src` |
+| pinta imágenes o píxeles | `img-src` |
+| va en un iframe | `frame-src` |
+| trae hojas de estilo o fuentes | `style-src` / `font-src` |
+
+Su documentación de CSP dice qué dominios usa. Después: rebuild, deploy y consola del navegador sin violaciones (ver «Después del despliegue», paso 14).
+
+**Google Tag Manager** (`apps/wp-fse/mu-plugins/lapaz-gtm.php`): el contenedor `GTM-N5CHW4QZ` se carga solo con `WP_ENVIRONMENT_TYPE=production`, en el sitio público (nunca en wp-admin, login, staging, dev, local ni pruebas). El arranque del `dataLayer` es un archivo (`assets/js/gtm.js` del tema), no JS en línea. Para cambiar el contenedor, editar `LAPAZ_GTM_ID`; para quitar GTM, borrar `lapaz-gtm.php` y `assets/js/gtm.js` y sacar los dominios de Google de la CSP. Cada etiqueta nueva que se publique en GTM (píxel de Meta, Hotjar, etc.) necesita sus dominios en la CSP o quedará bloqueada. Las etiquetas «HTML personalizado» con JS en línea y las variables «JavaScript personalizado» (piden `'unsafe-eval'`) no funcionan con esta CSP: usar plantillas de la galería de GTM. El modo Vista previa de GTM (Tag Assistant) también necesitaría `tagmanager.google.com` y otros dominios de Google.

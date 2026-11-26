@@ -78,32 +78,51 @@ await test( 'Sin fugas de versión: sin X-Powered-By y Server sin números', () 
 	assert.equal( home.response.headers.get( 'x-powered-by' ), null );
 	assert.doesNotMatch( home.response.headers.get( 'server' ) ?? '', /\d/ );
 } );
-await test( 'Inicio: CSP solo informe, con YouTube sin cookies y sin report-uri (imagen nueva)', () => {
-	const csp =
-		home.response.headers.get( 'content-security-policy-report-only' ) ??
-		'';
+await test( 'Inicio: CSP activa, sin report-uri, con YouTube sin cookies y sin atributos on*= (imagen nueva)', () => {
+	const csp = home.response.headers.get( 'content-security-policy' ) ?? '';
 	assert.match( csp, /frame-src https:\/\/www\.youtube-nocookie\.com/ );
-	assert.match( csp, /object-src 'none'/ );
+	for ( const d of [ "object-src 'none'", "script-src-attr 'none'", "worker-src 'none'", "base-uri 'self'", "frame-ancestors 'self'", "form-action 'self'" ] )
+		assert.ok( csp.includes( d ), `Falta ${ d }` );
 	assert.doesNotMatch( csp, /report-(uri|to)/ );
 	assert.equal(
-		home.response.headers.get( 'content-security-policy' ),
+		home.response.headers.get( 'content-security-policy-report-only' ),
 		null
 	);
 } );
-const boletin = await request( '/boletin/' );
-await test( '/boletin/: CSP solo informe (imagen nueva)', () =>
-	assert.ok(
-		boletin.response.headers.get( 'content-security-policy-report-only' )
-	) );
-// fetch directo: WordPress repite en el login algunas cabeceras que Apache ya envía.
-const login = await fetch( new URL( '/wp-login.php', site ), {
-	redirect: 'manual',
+await test( 'Inicio: <meta> CSP sin unsafe-inline al final del <head>, después del import map y las reglas de especulación', () => {
+	const head = home.body.slice( 0, home.body.indexOf( '</head>' ) );
+	const meta = head.lastIndexOf( '<meta http-equiv="Content-Security-Policy" content="script-src * \'wasm-unsafe-eval\'">' );
+	assert.ok( meta > 0, 'Falta la <meta> CSP en el <head>.' );
+	assert.ok( head.indexOf( 'type="importmap"' ) < meta );
+	assert.ok( head.indexOf( 'type="speculationrules"' ) < meta );
+	// Ningún script en línea ejecutable después de la <meta> (los JSON de datos no cuentan).
+	const tras = home.body.slice( home.body.indexOf( '</head>' ) );
+	const enLinea = [ ...tras.matchAll( /<script(?![^>]*\ssrc=)([^>]*)>/g ) ].filter(
+		( m ) => ! /type="application\/(ld\+)?json"/.test( m[ 1 ] )
+	);
+	assert.deepEqual( enLinea.map( ( m ) => m[ 0 ] ), [] );
 } );
-await test( 'wp-login.php sin CSP (el admin queda fuera)', () =>
-	assert.equal(
-		login.headers.get( 'content-security-policy-report-only' ),
-		null
-	) );
+await test( 'Sin Google Tag Manager fuera de producción (las pruebas no envían datos)', () =>
+	assert.doesNotMatch( home.body, /googletagmanager\.com|lapaz-gtm/ ) );
+const boletin = await request( '/boletin/' );
+await test( '/boletin/: CSP activa (imagen nueva)', () =>
+	assert.ok( boletin.response.headers.get( 'content-security-policy' ) ) );
+// fetch directo: WordPress repite en el login algunas cabeceras que Apache ya envía.
+for ( const ruta of [ '/wp-login.php', '/wp-admin/admin-post.php' ] ) {
+	const r = await fetch( new URL( ruta, site ), { redirect: 'manual' } );
+	await test( `${ ruta }: solo la CSP mínima del admin (imagen nueva)`, () => {
+		const csp = r.headers.get( 'content-security-policy' ) ?? '';
+		for ( const d of [ "frame-ancestors 'self'", "object-src 'none'", "base-uri 'self'", "form-action 'self'" ] )
+			assert.ok( csp.includes( d ), `Falta ${ d }` );
+		assert.doesNotMatch( csp, /default-src|script-src/ );
+		assert.equal( r.headers.get( 'content-security-policy-report-only' ), null );
+	} );
+}
+await test( 'upgrade-insecure-requests solo con X-Forwarded-Proto https (imagen nueva)', async () => {
+	assert.doesNotMatch( home.response.headers.get( 'content-security-policy' ) ?? '', /upgrade-insecure-requests/ );
+	const https = await request( '/', { headers: { 'x-forwarded-proto': 'https' } } );
+	assert.match( https.response.headers.get( 'content-security-policy' ) ?? '', /upgrade-insecure-requests/ );
+} );
 await test( 'HSTS solo con X-Forwarded-Proto https (imagen nueva)', async () => {
 	assert.equal(
 		home.response.headers.get( 'strict-transport-security' ),
