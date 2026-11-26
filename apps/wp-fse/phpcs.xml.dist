@@ -18,6 +18,12 @@
             <property name="text_domain" type="array" value="lapaz"/>
         </properties>
     </rule>
+    <!-- Capacidad que registra Query Monitor (solo local); lapaz-seguridad.php la consulta. -->
+    <rule ref="WordPress.WP.Capabilities">
+        <properties>
+            <property name="custom_capabilities" type="array" value="view_query_monitor"/>
+        </properties>
+    </rule>
     <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
         <properties>
             <property name="prefixes" type="array" value="lapaz"/>

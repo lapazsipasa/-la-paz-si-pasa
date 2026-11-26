@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: La Paz Sí Pasa · Seguridad
- * Description: Evita enumerar usuarios (login, REST y archivos de autor), exige sesión para la API REST, desactiva las contraseñas de aplicación y mantiene los productores fuera de la API REST. El resto del endurecimiento
+ * Description: Evita enumerar usuarios (login, REST y archivos de autor), exige sesión para la API REST, desactiva las contraseñas de aplicación, mantiene los productores fuera de la API REST y cierra los scripts en línea del cuerpo (CSP). El resto del endurecimiento
  *              vive en la imagen (Apache, PHP, wp-config) para que aplique antes de WordPress.
  * Version: 0.1.0
  * Author: William Moreno
@@ -109,3 +109,23 @@ add_filter(
 
 // Sin contraseñas de aplicación: ningún cliente externo usa la API y serían acceso persistente.
 add_filter( 'wp_is_application_passwords_available', '__return_false' );
+
+/**
+ * Segunda CSP, sin 'unsafe-inline', al final del <head>. Apache la envía con 'unsafe-inline' porque
+ * WordPress imprime en el <head> el import map sin nonce (y un nonce por petición no sirve con la caché
+ * de página). Las políticas se suman: desde esta <meta>, ningún script en línea corre, ni en el contenido
+ * ni inyectado después (tampoco javascript:). Es fija, así que la caché la guarda igual. '*' no abre nada:
+ * los dominios los sigue limitando la cabecera de Apache. Sin la <meta> para quien ve Query Monitor (solo en
+ * local): su panel imprime datos en un script en línea.
+ */
+function lapaz_csp_sin_scripts_en_linea(): void {
+	if ( current_user_can( 'view_query_monitor' ) ) {
+		return;
+	}
+	echo '<meta http-equiv="Content-Security-Policy" content="script-src * \'wasm-unsafe-eval\'">' . "\n";
+}
+add_action( 'wp_head', 'lapaz_csp_sin_scripts_en_linea', PHP_INT_MAX );
+
+// Las reglas de especulación son un script en línea: pasan del pie al <head>, antes de esa <meta>.
+remove_action( 'wp_footer', 'wp_print_speculation_rules' );
+add_action( 'wp_head', 'wp_print_speculation_rules' );
