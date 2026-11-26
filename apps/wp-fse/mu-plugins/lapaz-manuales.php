@@ -21,23 +21,23 @@ const LAPAZ_MANUALES_DIR = '/opt/lapaz/manuales';
 
 /**
  * Tipo de contenido => [slug del manual, «¿Dudas con …?», nombre del manual]. El orden da el número
- * (01–10, el de TIPOS en generar-manual.py y el de las secciones del manual general; 00 es el general).
+ * (01–10, el del menú lateral de WordPress: el de TIPOS en generar-manual.py y el de las secciones del manual general; 00 es el general).
  */
 const LAPAZ_MANUALES = array(
-	'boletin'      => array( 'boletin', 'el boletín', 'Boletín' ),
-	'historia'     => array( 'historia', 'la historia del mes', 'Historia del mes' ),
-	'productor'    => array( 'productores', 'el catálogo de productores', 'Catálogo de productores' ),
+	'page'         => array( 'paginas', 'las páginas', 'Páginas Inicio y Proyectos destacados' ),
 	'noticia'      => array( 'noticias', 'las noticias', 'Noticias' ),
 	'retrato'      => array( 'retratos', 'los retratos', 'Retratos de la Paz' ),
-	'video'        => array( 'videos', 'los videos', 'Videos' ),
-	'audio_relato' => array( 'relatos-sonoros', 'los relatos sonoros', 'Relatos sonoros' ),
-	'feria'        => array( 'ferias', 'las ferias', 'Ferias' ),
 	'subcuenta'    => array( 'subcuentas', 'las subcuentas', 'Subcuentas' ),
-	'page'         => array( 'paginas', 'las páginas', 'Páginas Inicio y Proyectos destacados' ),
+	'audio_relato' => array( 'relatos-sonoros', 'los relatos sonoros', 'Relatos sonoros' ),
+	'boletin'      => array( 'boletin', 'el boletín', 'Boletín' ),
+	'feria'        => array( 'ferias', 'las ferias', 'Ferias' ),
+	'historia'     => array( 'historia', 'la historia del mes', 'Historia del mes' ),
+	'productor'    => array( 'productores', 'el catálogo de productores', 'Catálogo de productores' ),
+	'video'        => array( 'videos', 'los videos', 'Videos' ),
 );
 
 /**
- * Slug del manual => «06 · Videos» (número y nombre). Incluye el general (00).
+ * Slug del manual => «10 · Videos» (número y nombre). Incluye el general (00).
  *
  * @return array<string, string>
  */
@@ -51,7 +51,7 @@ function lapaz_manuales_numerados(): array {
 }
 
 /**
- * Enlace a un manual, «Manual 06 · Videos (PDF)», en pestaña nueva (avisado al lector de pantalla).
+ * Enlace a un manual, «Manual 10 · Videos (PDF)», en pestaña nueva (avisado al lector de pantalla).
  *
  * @param string $slug Slug del manual.
  */
@@ -59,7 +59,7 @@ function lapaz_manual_enlace( string $slug ): string {
 	return sprintf(
 		'<a href="%s" target="_blank" rel="noopener">%s<span class="screen-reader-text"> %s</span></a>',
 		esc_url( admin_url( 'admin-post.php?action=lapaz_manual&manual=' . $slug ) ),
-		/* translators: %s: número y nombre del manual, por ejemplo «06 · Videos». */
+		/* translators: %s: número y nombre del manual, por ejemplo «10 · Videos». */
 		esc_html( sprintf( __( 'Manual %s (PDF)', 'lapaz' ), lapaz_manuales_numerados()[ $slug ] ?? '' ) ),
 		esc_html__( '(se abre en una pestaña nueva)', 'lapaz' )
 	);
@@ -130,7 +130,7 @@ function lapaz_manual_servir(): void {
 	defined( 'DONOTCACHEPAGE' ) || define( 'DONOTCACHEPAGE', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- constante de WP Super Cache: nunca a la caché.
 	nocache_headers(); // Cache-Control: no-cache, must-revalidate, max-age=0, no-store, private.
 	header( 'Content-Type: application/pdf' );
-	// «06 - Videos - La Paz Si Pasa.pdf», como los archivos de raw/manual-editor/.
+	// «10 - Videos - La Paz Si Pasa.pdf», como los archivos de raw/manual-editor/.
 	header( 'Content-Disposition: inline; filename="' . remove_accents( str_replace( ' · ', ' - ', $nombre ) ) . ' - La Paz Si Pasa.pdf"' );
 	// X-Content-Type-Options: nosniff ya lo pone Apache en toda respuesta (zz-lapaz-seguridad.conf); repetirlo lo duplica.
 	header( 'Content-Length: ' . (string) filesize( $ruta ) );

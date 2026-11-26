@@ -102,7 +102,7 @@ try {
 	for ( const t of [ 'boletin', 'historia', 'productor' ] ) await pantalla( `Listado de ${ t }`, `/wp-admin/edit.php?post_type=${ t }`, ( h ) => assert.ok( h.includes( 'wp-list-table' ) ) );
 	await pantalla( 'Listado de videos: aviso fijo con su manual', '/wp-admin/edit.php?post_type=video', ( h ) => {
 		const aviso = h.match( /<div class="notice notice-info lapaz-manual-aviso">[\s\S]*?<\/div>/ )?.[ 0 ] ?? '';
-		assert.ok( aviso.includes( '¿Dudas con los videos?' ) && aviso.includes( 'manual=videos' ) && aviso.includes( 'Manual 06 · Videos (PDF)' ), 'Falta el aviso del manual 06 de videos.' );
+		assert.ok( aviso.includes( '¿Dudas con los videos?' ) && aviso.includes( 'manual=videos' ) && aviso.includes( 'Manual 10 · Videos (PDF)' ), 'Falta el aviso del manual 10 de videos.' );
 		assert.ok( ! aviso.includes( 'is-dismissible' ), 'El aviso no debe poder cerrarse.' );
 	} );
 
@@ -116,7 +116,7 @@ try {
 		assert.equal( pdf.status, 200, `HTTP ${ pdf.status }` );
 		assert.equal( cabeceras[ 'content-type' ], 'application/pdf' );
 		assert.equal( inicioPdf, '%PDF-' );
-		assert.equal( cabeceras[ 'content-disposition' ], 'inline; filename="01 - Boletin - La Paz Si Pasa.pdf"' );
+		assert.equal( cabeceras[ 'content-disposition' ], 'inline; filename="06 - Boletin - La Paz Si Pasa.pdf"' );
 		assert.match( cabeceras[ 'cache-control' ], /no-store/ );
 		assert.match( cabeceras[ 'cache-control' ], /private/ );
 		assert.equal( cabeceras[ 'x-content-type-options' ], 'nosniff' );

@@ -43,7 +43,7 @@ Sin avisos de plugins, sin correos reales ni `localhost` visibles.
 
 ## Numeración
 
-00 es el manual general; 01–10, los manuales por tipo en el orden de sus secciones en el general (el de `TIPOS`): 01 Boletín, 02 Historia del mes, 03 Catálogo de productores, 04 Noticias, 05 Retratos de la Paz, 06 Videos, 07 Relatos sonoros, 08 Ferias, 09 Subcuentas, 10 Páginas. El número va en el nombre del archivo, en la portada de cada manual por tipo («Manual 06 de 10»), en la lista «Manuales por tipo» del índice del general y en los enlaces de wp-admin. Si cambia el orden de `TIPOS`, cambia también `LAPAZ_MANUALES` en `apps/wp-fse/mu-plugins/lapaz-manuales.php`.
+00 es el manual general; 01–10, los manuales por tipo en el orden del menú lateral de WordPress (sin Medios), que es también el de `TIPOS` y el de sus secciones en el general: 01 Páginas (Inicio y Proyectos destacados), 02 Noticias, 03 Retratos de la Paz, 04 Subcuentas, 05 Relatos sonoros, 06 Boletín, 07 Ferias, 08 Historia del mes, 09 Catálogo de productores, 10 Videos. El número va en el nombre del archivo, en la portada de cada manual por tipo («Manual 10 de 10»), en la lista «Manuales por tipo» del índice del general y en los enlaces de wp-admin. Si cambia el orden de `TIPOS`, cambia también el de las secciones de `wiki/manual-editor.md` y el de `LAPAZ_MANUALES` en `apps/wp-fse/mu-plugins/lapaz-manuales.php`.
 
 ## Publicación en WordPress
 

@@ -29,17 +29,17 @@ MANUALES = None if ARGS.salida else REPO / "apps" / "wp-fse" / "manuales"
 # el nombre del manual es lo que va antes de «:» en el título de su primera sección y la descripción de portada,
 # el primer párrafo de su «Qué es y dónde aparece».
 # Comunes opcionales: "fotos" (Escribir bien y preparar fotos: texto largo o fotos editoriales) y "seo" (tipos con caja Ajustes de SEO).
-TIPOS = {
-    "boletin": (["Boletín: publicar una edición, paso a paso"], {"fotos", "seo"}),
-    "historia": (["Historia del mes: publicar la historia (PaisSano destacado)"], {"fotos", "seo"}),
-    "productores": (["Catálogo de productores: agregar, editar y retirar productores"], set()),
+TIPOS = {  # orden del menú lateral de WordPress (sin Medios): da el número 01–10 de cada manual
+    "paginas": (["Páginas Inicio y Proyectos destacados: editar sus campos"], {"fotos", "seo"}),
     "noticias": (["Noticias: publicar una noticia"], set()),
     "retratos": (["Retratos de la Paz: publicar un retrato"], {"fotos"}),
-    "videos": (["Videos: publicar un video (Actualidad)"], set()),
-    "relatos-sonoros": (["Relatos sonoros: publicar un relato (El corazón del campo)"], set()),
-    "ferias": (["Ferias: publicar una feria (PaisSana en ferias)"], {"fotos"}),
     "subcuentas": (["Subcuentas: mantener los logos"], set()),
-    "paginas": (["Páginas Inicio y Proyectos destacados: editar sus campos"], {"fotos", "seo"}),
+    "relatos-sonoros": (["Relatos sonoros: publicar un relato (El corazón del campo)"], set()),
+    "boletin": (["Boletín: publicar una edición, paso a paso"], {"fotos", "seo"}),
+    "ferias": (["Ferias: publicar una feria (PaisSana en ferias)"], {"fotos"}),
+    "historia": (["Historia del mes: publicar la historia (PaisSano destacado)"], {"fotos", "seo"}),
+    "productores": (["Catálogo de productores: agregar, editar y retirar productores"], set()),
+    "videos": (["Videos: publicar un video (Actualidad)"], set()),
 }
 
 MENU = json.loads((Path(__file__).with_name("mapa-campos.json")).read_text(encoding="utf-8"))["menu"]  # slug -> ítem del menú lateral
