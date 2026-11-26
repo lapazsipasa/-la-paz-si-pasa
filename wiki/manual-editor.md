@@ -1,4 +1,4 @@
-> **Versión del 2026-11-25.** Manual general: cubre todos los contenidos que editas en el sitio. Cada formulario va con su lámina: la pantalla de WordPress y el componente del sitio que modifica, con los mismos números. Las imágenes no viven en el repo: van en los PDF que se entregan al Fondo (el general y uno por tipo, generados desde este texto; la portada de cada manual por tipo toma el primer párrafo de su «Qué es y dónde aparece»). Las claves de acceso nunca van aquí. Si cambias este texto, regenera los PDF ([cómo regenerarlos](../apps/wp-fse/tools/manual/README.md)) y actualiza esta fecha.
+> **Versión del 2026-11-25.** Manual general: cubre todos los contenidos que editas en el sitio. Cada formulario va con su lámina: la pantalla de WordPress y el componente del sitio que modifica, con los mismos números. Las imágenes no viven en el repo: van en los PDF que se entregan al Fondo (el general, 00, y uno por tipo, 01–10, generados desde este texto; la portada de cada manual por tipo toma el primer párrafo de su «Qué es y dónde aparece»). Los PDF también se ven en wp-admin (caja «Ayuda» y aviso de cada listado), desde `apps/wp-fse/manuales/`. Las claves de acceso nunca van aquí. Si cambias este texto, regenera los PDF ([cómo regenerarlos](../apps/wp-fse/tools/manual/README.md)) y actualiza esta fecha.
 
 # Manual del editor — La Paz Sí Pasa
 
@@ -53,6 +53,8 @@ Si alguna vez olvidas tu contraseña, haz clic en **¿Olvidaste tu contraseña?*
 
 Al entrar verás una barra oscura a la izquierda. Con tu cuenta de **Editor** puedes crear, editar y publicar contenido y subir fotos. No necesitas entrar a ajustes ni instalar complementos (eso solo lo hace un Administrador). Cada entrada del menú alimenta una parte concreta del sitio; el manual general las explica todas.
 
+> **Imagen** `captura-02-menu-lateral.png`: Menú lateral de WordPress con las secciones de contenido y Medios.
+
 | Menú lateral | Para qué sirve | Dónde aparece en el sitio |
 | --- | --- | --- |
 | **Boletines** | Publicar cada edición de *Caminos de Transformación*. | En `/boletin/` (siempre la más reciente), en `/boletin/edicion-XX/` y en la tarjeta **Último boletín** en **Inicio**. |
@@ -66,8 +68,6 @@ Al entrar verás una barra oscura a la izquierda. Con tu cuenta de **Editor** pu
 | **Ferias** | Publicar las ferias con fotos y videos verticales. | En el acordeón **PaisSana en ferias** de **Proyectos destacados**. |
 | **Páginas** | Cambiar los campos de **Inicio** y **Proyectos destacados** (foto de portada, banner, cifras y mapa). | En esas dos páginas (lo explica el manual de páginas o el manual general). |
 | **Medios** | Ver o subir fotos, audios y archivos de video a la biblioteca. | En cualquier contenido donde los elijas. |
-
-> **Imagen** `captura-02-menu-lateral.png`: Menú lateral de WordPress con las secciones de contenido y Medios.
 
 ---
 

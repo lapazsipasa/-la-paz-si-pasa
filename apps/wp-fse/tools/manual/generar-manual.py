@@ -3,7 +3,8 @@
 # el manual general y un manual por tipo de contenido (raw/manual-editor/por-tipo/).
 # Uso (desde la raíz del repo): python3 apps/wp-fse/tools/manual/generar-manual.py [texto.md] [carpeta-capturas] [--tipo=noticias,ferias | --solo-general] [--salida=carpeta]
 # Requiere Pillow, numpy y Google Chrome (el PDF se imprime con Chrome headless).
-# Por defecto: texto wiki/manual-editor.md, láminas raw/manual-editor/capturas/, salidas en raw/manual-editor/ (fuera de git).
+# Por defecto: texto wiki/manual-editor.md, láminas raw/manual-editor/capturas/, salidas en raw/manual-editor/ (fuera de git)
+# y una copia de cada PDF en apps/wp-fse/manuales/<slug>.pdf (versionada: la imagen de WordPress la sirve en wp-admin).
 import argparse, html, json, math, os, re, shutil, subprocess, sys, tempfile, unicodedata
 from pathlib import Path
 import numpy as np
@@ -22,6 +23,8 @@ SALIDA = Path(ARGS.salida) if ARGS.salida else SALIDA
 MD, CAP = Path(ARGS.texto), Path(ARGS.capturas)
 OUT = SALIDA / "imagenes"  # compartida: una lámina se llama igual y sale igual en todos los manuales
 SUFIJO = "La Paz Si Pasa"
+# Copia versionada que WordPress sirve en wp-admin (mu-plugin lapaz-manuales): <slug>.pdf; no se toca en pruebas con --salida.
+MANUALES = None if ARGS.salida else REPO / "apps" / "wp-fse" / "manuales"
 # slug -> ([títulos de las secciones del tipo, sin el número], comunes opcionales). Todo el texto sale de wiki/manual-editor.md:
 # el nombre del manual es lo que va antes de «:» en el título de su primera sección y la descripción de portada,
 # el primer párrafo de su «Qué es y dónde aparece».
@@ -50,6 +53,7 @@ def secciones(titulos, extra):
 CHROME = os.environ.get("CHROME_BIN") or os.environ.get("CHROME") or next((c for c in ("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", shutil.which("google-chrome"), shutil.which("chromium"), shutil.which("chrome")) if c and Path(c).exists()), "")
 MAXW, SPLIT, TRAMO = 1600, 1.5, 1.0   # ancho máx. px; ratio alto/ancho desde el que se parte; ratio objetivo por tramo
 ANCHO_IN, ALTO_IN = 6.9, 5.2          # caja útil de imagen en la página (pulgadas)
+PPP = 170                             # resolución final de cada tramo en su caja impresa: texto nítido y PDF liviano
 PEQ = {"captura-01": 3.0, "captura-02": 1.4, "captura-08": 3.8}  # capturas pequeñas: ancho máximo en pulgadas (nunca se parten)
 
 # ---------- imágenes ----------
@@ -140,9 +144,12 @@ def preparar(nombre):
         OUT.mkdir(parents=True, exist_ok=True)
         (OUT / f"{base}.png").unlink(missing_ok=True); (OUT / f"{base}.jpg").unlink(missing_ok=True)
         f = f"{base}.png"
+        k = PPP * min(ANCHO_IN / p.width, ALTO_IN / p.height)  # px por px a PPP en la caja (las capturas PEQ quedan aún más nítidas)
+        if k < 1:
+            p = p.resize((round(p.width * k), round(p.height * k)), Image.LANCZOS)
         p.save(OUT / f, optimize=True)
-        if (OUT / f).stat().st_size > 250_000:  # capturas con fotos: JPEG 4:4:4 q88 si pesa menos (texto sigue nítido)
-            p.save(OUT / f"{base}.jpg", quality=88, subsampling=0, optimize=True)
+        if (OUT / f).stat().st_size > 120_000:  # capturas con fotos: JPEG q78 4:2:0 si pesa menos (el texto oscuro sobre claro sigue nítido)
+            p.save(OUT / f"{base}.jpg", quality=78, subsampling=2, optimize=True)
             if (OUT / f"{base}.jpg").stat().st_size < (OUT / f).stat().st_size:
                 (OUT / f).unlink(); f = f"{base}.jpg"
             else:
@@ -168,6 +175,16 @@ def runs(t, b=False, i=False, c=False):
         out.append((t[pos:], b, i, c))
     return out
 
+def con_menus(md):
+    """Menú lateral con el ítem del tipo en azul (generar-laminas.mjs --menu) al comienzo de la sección de cada tipo, junto al título:
+    en el PDF flota a la derecha de «Qué es y dónde aparece» y «Dónde está». La sección 1 conserva el liso."""
+    L = md.split("\n")
+    for t, (titulos, _) in TIPOS.items():
+        if (CAP / f"captura-02-menu-lateral-{t}.png").exists():
+            k = next(j for j, x in enumerate(L) if re.match(rf"^## (?:\d+\. )?{re.escape(titulos[0])}\s*$", x))
+            L[k + 1:k + 1] = ["", f"> **Imagen** `captura-02-menu-lateral-{t}.png`: Menú lateral de WordPress; en azul, {MENU[t]}."]
+    return "\n".join(L)
+
 def portada(blocks):
     """Párrafos entre el título y la primera sección (##), y el índice del bloque siguiente."""
     k = next(j for j, b in enumerate(blocks) if b[0] == "h1")
@@ -176,7 +193,7 @@ def portada(blocks):
 def es_resumen(t):
     return re.sub(r"^\d+\. ", "", t) == "Resumen en una hoja"
 
-def recortar(md, nombre, titulos):
+def recortar(md, nombre, titulos, num):
     """Texto del manual de un tipo: portada propia, índice propio, 'Cómo leer…' y solo las secciones pedidas, renumeradas.
     La descripción de portada es el primer párrafo de «Qué es y dónde aparece» de la sección propia del tipo."""
     L = md.split("\n=====")[0].split("\n")
@@ -202,6 +219,7 @@ def recortar(md, nombre, titulos):
     k = [j for j in range(1, len(cab)) if cab[j].strip()]  # líneas con texto tras el título: subtítulo, descripción, versión, aviso
     marca = cab[0].split(" — ")[-1]  # «La Paz Sí Pasa», del título del manual general
     cab[0], cab[k[0]], cab[k[1]] = f"# {nombre}", f"**Manual del editor · {marca}**", desc
+    cab[k[2]] = f"Manual {num} de {len(TIPOS)} · {cab[k[2]]}"  # al pie de la portada, sobre la versión
     out = cab + ["## Índice", ""] + [f"{n}. {t}" for n, t in enumerate(titulos, 1)] + ["", leer, "", "---", ""]
     for n, t in enumerate(titulos, 1):
         out += [f"## {n}. {t}"] + por[t]
@@ -256,22 +274,23 @@ def parse(md):
 CSS = """
 @page { size: 8.5in 11in; margin: 1.7cm; @bottom-center { content: counter(page); font: 9pt Helvetica, Arial, sans-serif; color:#666 } }
 @page :first { @bottom-center { content: none } }
-body { font: 10.5pt/1.35 Helvetica, Arial, sans-serif; color:#222; margin:0 }
-h1 { font-size:19pt; line-height:1.2; color:#1F3A5F; margin:20pt 0 7pt; break-after:avoid }
-h2 { font-size:13.5pt; line-height:1.25; color:#1F3A5F; margin:14pt 0 5pt; break-after:avoid }
+body { font: 11pt/1.45 Helvetica, Arial, sans-serif; color:#222; margin:0 }
+h1 { font-size:19pt; line-height:1.2; color:#1F3A5F; margin:0 0 14pt; break-before:page; break-after:avoid }  /* cada sección (##) en página nueva */
+h2 { font-size:13.5pt; line-height:1.25; color:#1F3A5F; margin:22pt 0 9pt; break-after:avoid } h1 + h2 { margin-top:6pt }
 .portada { height:9.3in; display:flex; flex-direction:column; break-after:page }
 .portada .t { font-size:30pt; line-height:1.15; font-weight:bold; color:#1F3A5F; margin-top:2.4in }
 .portada .t::before { content:""; display:block; width:1.1in; border-top:5pt solid #1F3A5F; margin-bottom:20pt }
 .portada .s { font-size:14pt; color:#444; margin-top:10pt } .portada .d { font-size:12.5pt; line-height:1.45; margin-top:36pt; max-width:5.4in }
 .portada .pie { margin-top:auto; font-size:10pt; color:#444 } .portada .pie p { margin:0 0 3pt } .portada .pie p:last-child { font-weight:bold; color:#222 }
-.pb { break-before:page } p { margin:0 0 6pt }
+.pb { break-before:page } p { margin:0 0 9pt }
 code { white-space:nowrap; font-family:Menlo, "Courier New", monospace; font-size:.86em; background:#f0f0f0; padding:0 .15em; border-radius:2px }
-ul,ol { margin:0 0 6pt; padding-left:18pt } li { margin-bottom:3pt } li > ul, li > ol { margin:3pt 0 0 } ul.chk { list-style-type:"\\2610\\00a0\\00a0" }
-figure { margin:0 0 12pt; text-align:center; break-inside:avoid } .l + figure { margin-bottom:6pt }
-figure img { max-width:%sin; max-height:%sin; width:auto; height:auto } figure.peq img { max-width:var(--w) } figcaption { font-size:9pt; line-height:1.3; color:#555; margin:4pt auto 0; max-width:5.8in }
-.l { font-weight:bold; font-size:9pt; color:#1F3A5F; text-transform:uppercase; letter-spacing:.05em; margin:12pt 0 4pt; break-after:avoid; text-align:left }
-figure + .l { margin-top:8pt }
-table { border-collapse:collapse; width:100%%; margin:8pt 0 10pt; font-size:10pt; line-height:1.25 } th,td { border:1px solid #bbb; padding:2.5pt 5pt; vertical-align:top; text-align:left }
+ul,ol { margin:0 0 11pt; padding-left:18pt } li { margin-bottom:5pt } li > ul, li > ol { margin:5pt 0 0 } .corta { break-inside:avoid } ul.chk { list-style-type:"\\2610\\00a0\\00a0" }
+figure { margin:12pt 0 18pt; text-align:center; break-inside:avoid } .l + figure { margin-top:0; margin-bottom:8pt }
+figure img { max-width:%sin; max-height:%sin; width:auto; height:auto } figure.peq img { max-width:var(--w) } figcaption { font-size:9pt; line-height:1.35; color:#555; margin:7pt auto 0; max-width:5.8in }
+.l { font-weight:bold; font-size:9pt; color:#1F3A5F; text-transform:uppercase; letter-spacing:.05em; margin:16pt 0 6pt; break-after:avoid; text-align:left }
+figure + .l { margin-top:12pt }
+figure.menu { float:right; width:1.7in; margin:2pt 0 10pt 18pt } figure.menu + table { width:auto } figure:not(.menu), .l, h1 { clear:both } .cols ul { columns:2; column-gap:24pt } .indice li, .cols li { margin-bottom:2pt }
+table { border-collapse:collapse; width:100%%; margin:12pt 0 16pt; font-size:10pt; line-height:1.35 } th,td { border:1px solid #bbb; padding:4pt 6pt; vertical-align:top; text-align:left }
 th { background:#E3EAF3 } tr,tbody.g,section.rec,table.corta { break-inside:avoid } thead { display:table-header-group } td.n { text-align:center; font-weight:bold; font-size:12pt; width:9%%; }
 p,li { orphans:2; widows:2 } figure + p { break-inside:avoid } p:has(+ ul), p:has(+ ol), p:has(+ table) { break-after:avoid } li.dp { break-after:avoid }
 .res { font-size:9.5pt; line-height:1.2 } .res h1 { margin-top:0 } .res h2 { font-size:12pt; margin:8pt 0 3pt } .res li { margin-bottom:1.5pt }
@@ -289,20 +308,22 @@ def h(t):
 
 def lista(items):
     """Listas HTML nativas (la viñeta queda fuera del texto y las líneas largas se alinean); el nivel 1 va dentro del ítem anterior.
-    Las numeradas llevan value=N: el número es el del texto, no el del contador del navegador."""
-    tag = lambda m: "ol" if m[0].isdigit() else "ul class=chk" if m == "☐" else "ul"
+    Las numeradas llevan value=N: el número es el del texto, no el del contador del navegador. Una lista de ≤4 ítems no se parte."""
+    tag = lambda m: "ol" if m[0].isdigit() else "chk" if m == "☐" else "ul"
     o, i = "", 0
     while i < len(items):
         nivel, t = items[i][0], tag(items[i][1])
-        o += f"<{t}>"
+        lis = []
         while i < len(items) and items[i][0] == nivel and tag(items[i][1]) == t:
             _, marca, tx = items[i]; i += 1
             hijos = []
             while i < len(items) and items[i][0] > nivel:
                 hijos.append(items[i]); i += 1
             val = f" value={marca[:-1]}" if t == "ol" else ""
-            o += f"<li{val}{' class=dp' if tx.rstrip().endswith(':') else ''}>{h(tx)}{lista(hijos) if hijos else ''}</li>"
-        o += f"</{t.split()[0]}>"
+            lis.append(f"<li{val}{' class=dp' if tx.rstrip().endswith(':') else ''}>{h(tx)}{lista(hijos) if hijos else ''}</li>")
+        el = "ol" if t == "ol" else "ul"
+        cls = " ".join(c for c in ("chk" if t == "chk" else "", "corta" if len(lis) <= 4 else "") if c)
+        o += f'<{el}{f" class={chr(34)}{cls}{chr(34)}" if cls else ""}>{"".join(lis)}</{el}>'
     return o
 
 def build_pdf(blocks, destino):
@@ -313,9 +334,16 @@ def build_pdf(blocks, destino):
     items, rec, en_resumen = [], False, False
     def cierra():
         if items: o.append(lista(items)); items.clear()
+    # listas con envoltorio propio, para que el índice del general (y «Manuales por tipo», a dos columnas) quepa en una página
+    ENVOLTORIO, envolver = {"Índice": "indice", "Manuales por tipo": "cols"}, None
     for b in blocks[k:]:
         tipo = b[0]
-        if tipo != "li": cierra()
+        if tipo != "li":
+            if envolver and items:  # la primera lista tras el título del envoltorio
+                o.append(f"<div class={envolver}>"); cierra(); o.append("</div>"); envolver = None
+            cierra()
+            if tipo in ("h1", "h2"):
+                envolver = ENVOLTORIO.get(b[1])
         if tipo in ("h1", "h2"):
             tg = "h1" if tipo == "h1" else "h2"
             cls = ' class=pb' if (tipo == "h1" and es_resumen(b[1])) else ""
@@ -332,7 +360,8 @@ def build_pdf(blocks, destino):
         elif tipo == "img":
             _, ruta, w, hh, cap, lab, peq = b
             if lab: o.append(f'<div class=l>{lab}</div>')
-            fig = f'<figure class=peq style="--w:{peq}in">' if peq else "<figure>"
+            # el menú lateral (alto y angosto) flota a la derecha del texto: sin hueco en blanco antes de él
+            fig = f'<figure class="peq{" menu" if ruta.stem.startswith("captura-02") else ""}" style="--w:{peq}in">' if peq else "<figure>"
             o.append(f'{fig}<img src="{ruta.as_uri()}"><figcaption>{h(cap)}</figcaption></figure>')
         elif tipo == "table":
             rows = b[1]
@@ -356,25 +385,32 @@ def plano(t):  # nombre de archivo sin acentos
 
 if __name__ == "__main__":
     assert CHROME, "No encuentro Chrome: define CHROME_BIN con su ruta"
-    md = MD.read_text(encoding="utf-8")
+    md = con_menus(MD.read_text(encoding="utf-8"))
     sel = [] if ARGS.solo_general else (ARGS.tipo.split(",") if ARGS.tipo else list(TIPOS))
     if desconocidos := [t for t in sel if t not in TIPOS]:
         sys.exit(f"Tipo desconocido {desconocidos}; los válidos son {list(TIPOS)}")
-    trabajos = [] if ARGS.tipo else [(SALIDA / f"Manual general - {SUFIJO}", md)]
+    # 00 es el general; 01–10, los tipos en el orden de sus secciones en el general (el de TIPOS). El mismo número en archivo, portada y wp-admin.
+    NUM = {t: f"{i:02d}" for i, t in enumerate(TIPOS, 1)}
+    leer = next(x for x in md.split("\n") if x.startswith("**Cómo leer las láminas"))
+    caja = ["### Manuales por tipo", "", "Además de este manual general (00), cada tipo de contenido tiene el suyo, con el mismo número en el nombre del archivo y en la caja «Ayuda» de WordPress:", ""]
+    caja += [f"- **{NUM[t]}** · {v[0][0].split(': ')[0]}" for t, v in TIPOS.items()] + ["", leer]
+    general = md.replace(leer, "\n".join(caja), 1)
+    trabajos = [] if ARGS.tipo else [("general", SALIDA / f"00 - Manual general - {SUFIJO}", general)]
     for t in sel:  # se recortan todos antes de generar: si falta una sección, no sale ningún manual a medias
         titulos, extra = TIPOS[t]
         nombre = titulos[0].split(": ")[0]
-        texto = recortar(md, nombre, secciones(titulos, extra))
-        if (CAP / f"captura-02-menu-lateral-{t}.png").exists():  # menú con el ítem del tipo resaltado (generar-laminas.mjs --menu)
-            texto = re.sub(r"^> \*\*Imagen\*\* `captura-02-menu-lateral\.png`: .*$", lambda _: f"> **Imagen** `captura-02-menu-lateral-{t}.png`: Menú lateral de WordPress; en azul, {MENU[t]}.", texto, flags=re.M)
-        trabajos.append((SALIDA / "por-tipo" / f"Manual - {plano(nombre)} - {SUFIJO}", texto))
+        texto = recortar(md, nombre, secciones(titulos, extra), NUM[t])
+        trabajos.append((t, SALIDA / "por-tipo" / f"{NUM[t]} - {plano(nombre)} - {SUFIJO}", texto))
     shutil.rmtree(OUT, ignore_errors=True)  # quita imágenes de ediciones anteriores
     (SALIDA / "por-tipo").mkdir(parents=True, exist_ok=True)
-    for viejo in SALIDA.glob("Manual del editor - La Paz Si Pasa.*"):
-        viejo.unlink()  # nombre antiguo del manual general
-    for destino, texto in trabajos:
+    for viejo in [*SALIDA.glob("Manual del editor - La Paz Si Pasa.*"), *SALIDA.glob("Manual*.pdf"), *(SALIDA / "por-tipo").glob("Manual*.pdf")]:
+        viejo.unlink()  # nombres antiguos, sin número
+    for slug, destino, texto in trabajos:
         blocks, usadas = parse(texto)
         faltan = [f for f in usadas if not (CAP / f).exists()]
         assert not faltan, faltan
         build_pdf(blocks, destino)
+        if MANUALES:
+            MANUALES.mkdir(exist_ok=True)
+            shutil.copyfile(destino.with_name(destino.name + ".pdf"), MANUALES / f"{slug}.pdf")
         print(destino.name, "| imágenes citadas:", len(usadas), "| tramos:", sum(b[0] == "img" for b in blocks))
