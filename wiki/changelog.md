@@ -2,6 +2,7 @@
 
 Qué cambió, con fecha y PR. Lo reciente arriba.
 
+- **2026-11-26** · WordPress 7.1.5, Secure Custom Fields 6.9.10 y The SEO Framework 5.2.3 (imagen base y plugins con sha256 fijo). El núcleo vive en el volumen: tras desplegar se corre `wp core update --version=7.1.5 --minor` y `wp core update-db` en cada entorno · manuales del editor enlazados en wp-admin · PR #3, squash `ed453d6`
 - **2026-11-23** · salida a producción: boletín e historia del mes; catálogo oculto · PR #2, squash `a0c3802` en `main` · [despliegue](despliegue-fse.md#despliegue-de-boletín-y-catálogo-paissana)
   - Producción: `lapaz-setup` sin `--seed` (activa The SEO Framework, crea la página `productores`, migra el menú Principal); seed por secciones de boletín (Edición 02) e historia (Asocafé); página `productores` en borrador; caché vaciada. Antes, respaldo de la base y de `uploads`, y se confirmó que producción no tenía plantillas ni grupos SCF propios ni `paissana`.
   - Catálogo: sin productores cargados (`SEED_SOLO=productores` no se corrió). `97aee53`: sin productores publicados, el botón PAISSANA apunta a `#` y la historia no muestra «Volver al catálogo».

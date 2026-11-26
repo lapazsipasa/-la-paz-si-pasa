@@ -1,4 +1,4 @@
-FROM wordpress:7.1.3-php8.3-apache
+FROM wordpress:7.1.5-php8.3-apache
 
 # pipefail: si curl falla, la verificación de sha256 no debe pasar en silencio.
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -18,8 +18,8 @@ RUN curl -fsSL https://github.com/wp-cli/wp-cli/releases/download/v2.12.0/wp-cli
     && chmod +x /usr/local/bin/wp
 
 # Secure Custom Fields con versión fija: sin él no existe ningún CPT.
-ARG SCF_VERSION=6.9.8
-ARG SCF_SHA256=6decfa4414b2325f838b37f4910bc9c5dc5afb2e59651fb76317eb2a9bcdad6d
+ARG SCF_VERSION=6.9.10
+ARG SCF_SHA256=59544690a84ed09c18a0b0425fa6ffa08a58d47bd4337ab0ccc36b518a5e4937
 # El $ de php -r va entre comillas simples a propósito: es PHP, no shell.
 # hadolint ignore=SC2016
 RUN curl -fsSL "https://downloads.wordpress.org/plugin/secure-custom-fields.${SCF_VERSION}.zip" -o /tmp/scf.zip \
@@ -39,8 +39,8 @@ RUN curl -fsSL "https://downloads.wordpress.org/plugin/wp-super-cache.${WPSC_VER
     && rm /tmp/wpsc.zip
 
 # The SEO Framework con versión fija: SEO editable por entrada (título, descripción, imagen para compartir).
-ARG TSF_VERSION=5.2.1
-ARG TSF_SHA256=9e18a34a4437ddf7ec5a6e1dea6d1e59408db6e59944b8fc672250b80fdbd3fa
+ARG TSF_VERSION=5.2.3
+ARG TSF_SHA256=c15c3896505d228d69f901753c280746764055d12c711118ed497fdf15ad06bf
 # hadolint ignore=SC2016
 RUN curl -fsSL "https://downloads.wordpress.org/plugin/autodescription.${TSF_VERSION}.zip" -o /tmp/tsf.zip \
     && echo "${TSF_SHA256}  /tmp/tsf.zip" | sha256sum -c - \
