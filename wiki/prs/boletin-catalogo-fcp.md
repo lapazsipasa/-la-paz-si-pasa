@@ -1,6 +1,6 @@
 # Boletín *Caminos de Transformación*, catálogo PaisSana e historia del mes
 
-**Estado (2026-11-23): fusionado.** PR #2 con squash en `main` como `a0c3802`, desplegado en producción. El catálogo queda oculto hasta que el Fondo lo autorice.
+**Estado (2026-11-23): fusionado.** PR #2 con squash en `main` como `a0c3802`, desplegado en producción. Desde el 2026-11-26 el catálogo tiene 316 productores publicados ([updates](../updates.md)).
 
 Rama `feat/boletin-catalogo-fcp` → `main` (45 commits) · [Spec](wiki/specs/boletin-catalogo-fcp.md) · [Decisiones](wiki/decisions/boletin-catalogo-fcp.md) · [Revisiones independientes](wiki/specs/boletin-catalogo-fcp/revisiones-independientes.md)
 

@@ -42,7 +42,7 @@ Los datos reales (IP, paneles, nombres de aplicaciones) están en el registro pr
 - `www.lapazsipasa.com`: Redeploy para que Traefik lo cargue y emita su certificado.
 - Correo de ACME en Dokploy: poner uno real.
 - `cms.lapazsipasa.com` sigue en el DNS: borrarlo.
-- Limpiar las variables duplicadas, respaldo programado de la base (*Backups*) y de `wordpress_data`.
+- Limpiar las variables duplicadas. Respaldo programado de la base y de `wordpress_data`: no se hará por ahora (decisión de William, 2026-11-26).
 - Staging a `st.lapazsipasa.com` (ver abajo).
 
 ## Staging actual (creado el 2026-11-08)
@@ -50,9 +50,9 @@ Los datos reales (IP, paneles, nombres de aplicaciones) están en el registro pr
 | Dato | Valor |
 |---|---|
 | Servidor | nuevo (`<IP_PRODUCCION>`), proyecto La Paz Si Pasa, **entorno `staging`** (separado del `production`, donde sigue el headless) |
-| Servicio | compose `FSE` (`appName` `<APP_STAGING>`), rama `feat/wordpress-fse`, `apps/wp-fse/compose.yaml`, despliegue automático apagado |
+| Servicio | compose `FSE` (`appName` `<APP_STAGING>`), rama `main`, `apps/wp-fse/compose.yaml`, despliegue automático apagado |
 | URL | `<URL_STAGING_SSLIP>` (Let's Encrypt; HTTP redirige a HTTPS) |
-| Variables | contraseñas de la base generadas y guardadas en Dokploy (nunca se mostraron), `WP_ENVIRONMENT_TYPE=staging` (noindex), SMTP de Resend **sin `SMTP_PASS`** (lo pone William) |
+| Variables | contraseñas de la base generadas y guardadas en Dokploy (nunca se mostraron), `WP_ENVIRONMENT_TYPE=staging` (noindex), SMTP de Resend, confirmado el 2026-11-26 (llegó un correo real) |
 | Dominio final | `st.lapazsipasa.com` (DNS ya apunta aquí). **Pendiente:** agregar el dominio al servicio `cms`, `WORDPRESS_URL=https://st.lapazsipasa.com`, deploy, `wp search-replace <url sslip> https://st.lapazsipasa.com --all-tables-with-prefix --skip-columns=guid` y borrar el dominio sslip |
 
 **Contenido (ya no aplica: el headless de este servidor pasó a ser producción FSE):** como el headless corre en el mismo servidor, se copia de contenedor a contenedor con `apps/wp-fse/bin/migrar-desde-headless.sh`. Se corre por SSH en el servidor. El headless solo se lee.
@@ -66,8 +66,8 @@ Al importar la base, los usuarios del headless pasan tal cual: se entra a `/wp-a
 
 ## Entorno dev (creado el 2026-11-22)
 
-- **Para qué:** ver la rama en curso (`feat/boletin-catalogo-fcp`) separada de producción y de staging, con su propia base de datos.
-- **Dokploy:** proyecto «La Paz Si Pasa», entorno `dev`, compose «FSE dev» (`apps/wp-fse/compose.yaml`, rama `feat/boletin-catalogo-fcp`, sin despliegue automático: se despliega a mano).
+- **Para qué:** ver cambios antes de producción, separado de producción y de staging, con su propia base de datos.
+- **Dokploy:** proyecto «La Paz Si Pasa», entorno `dev`, compose «FSE dev» (`apps/wp-fse/compose.yaml`, rama `main`, sin despliegue automático: se despliega a mano). Desde el 2026-11-26 sigue `main`.
 - **Variables:** las de `.env.example` con claves propias; `WORDPRESS_URL=https://dev.lapazsipasa.com`, `WP_ENVIRONMENT_TYPE=staging` (todo el sitio con `noindex`), `WP_CACHE=true`. Claves fuera del repo.
 - **Contenido:** instalación nueva con `lapaz-setup --seed` (contenido de ejemplo: 316 productores, Edición 02, Asocafé). No lleva la base de producción.
 - **Dominio:** `dev.lapazsipasa.com` resuelve y responde por HTTPS con Let's Encrypt (comprobado el 2026-11-23). Antes faltaba el registro DNS `dev` (tipo A, con la misma IP que `lapazsipasa.com`). TODO: verificar si la dirección provisional de Dokploy sigue activa.
@@ -78,7 +78,7 @@ Al importar la base, los usuarios del headless pasan tal cual: se entra a `/wp-a
 | Campo | Valor |
 |---|---|
 | Tipo | Docker Compose, en el proyecto La Paz Si Pasa |
-| Origen | Git: `https://github.com/lapazsipasa/-la-paz-si-pasa.git`, rama `feat/wordpress-fse` (más adelante, `main`) |
+| Origen | Git: `https://github.com/lapazsipasa/-la-paz-si-pasa.git`, rama `main` |
 | Ruta del compose | `apps/wp-fse/compose.yaml`. **Sin** el override, que es solo local |
 | Dominio | servicio `cms`, puerto **80**, HTTPS con Let's Encrypt. Staging: dominio generado o `staging.lapazsipasa.com` |
 
@@ -268,6 +268,10 @@ Estado al 2026-11-23: la página `productores` está en **borrador** (`/producto
 | Respaldo de uploads | *Volume backups* de Dokploy sobre `wordpress_data` |
 | Actualizar tema o plugins | push a la rama del servicio y deploy: todo va horneado en la imagen |
 | Logs | Dokploy → servicio → Logs (`cms`). Los errores de SMTP salen con el prefijo `[lapaz-smtp]` |
+| Correo (SMTP Resend) | Confirmado en producción y staging el 2026-11-26 (llegó un correo real). Dev no tiene SMTP, a propósito |
+| Actualizar WordPress (núcleo) | El núcleo vive en `wordpress_data`, no en la imagen. Tras desplegar una versión nueva, dentro de `cms`: `su www-data -s /bin/bash -c 'wp --path=/var/www/html core update --version=<versión> --minor'` y después `… core update-db`. Hecho en producción el 2026-11-26 (7.1.3 → 7.1.5) |
+| Deploy | 1–2 minutos con 502 mientras el contenedor reinicia |
+| Respaldos automáticos | No hay: decisión de William (2026-11-26). Hacer respaldo manual antes de un cambio grande (filas de arriba) |
 | Actualizar The SEO Framework (`autodescription`) | En producción (`DISALLOW_FILE_MODS`) no se actualiza desde el panel: subir `TSF_VERSION` y `TSF_SHA256` en `apps/wp-fse/Dockerfile`, actualizar los dos archivos `es_CO` en `apps/wp-fse/docker/languages/plugins/` (ver su `LEEME.md`), reconstruir y desplegar |
 | Si The SEO Framework se desactiva | El sitio no se rompe: `inc/seo.php` e `inc/guia-estilos.php` retoman automáticamente título, descripción, Open Graph, canónicas, `noindex` fuera de producción y `/wp-sitemap.xml` (solo se pierde la caja editable por entrada) |
 

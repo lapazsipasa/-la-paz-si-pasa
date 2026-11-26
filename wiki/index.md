@@ -2,19 +2,21 @@
 
 ## Qué es
 
-Sitio público de La Paz Sí Pasa (https://lapazsipasa.com/). Muestra retratos de los territorios, las subcuentas y noticias del fondo, la galería de actualidad, la página de proyectos destacados (PaisSana: mapa, audios, ferias y productores), el boletín *Caminos de Transformación* y la historia del mes (en producción desde 2026-11-23). El catálogo de productores está listo pero oculto hasta que el Fondo lo autorice. El equipo edita el contenido en WordPress.
+Sitio público de La Paz Sí Pasa (https://lapazsipasa.com/). Muestra retratos de los territorios, las subcuentas y noticias del fondo, la galería de actualidad, la página de proyectos destacados (PaisSana: mapa, audios, ferias y productores), el boletín *Caminos de Transformación* y la historia del mes (en producción desde 2026-11-23). El catálogo de productores está en producción desde 2026-11-26, con 316 productores publicados. El equipo edita el contenido en WordPress.
 
-## Estado: producción
+## Estado: entregado y cerrado (2026-11-26)
 
+- **Cierre del alcance (2026-11-26):** sitio entregado. Producción sirve el sitio FSE con todo el alcance: manuales del editor, catálogo completo, actualizaciones de WordPress y plugins, CSP activa y Google Tag Manager. Lo que queda abierto, fuera del alcance, está en [updates](updates.md) (2026-11-26).
 - **Producción (desde 2026-11-09):** sitio WordPress FSE, con el tema de bloques `lapaz` (`apps/wordpress/themes/lapaz/`). WordPress pinta todas las páginas; no hay Astro en el camino. Código de despliegue en `apps/wp-fse/`. Detalle en [despliegue-fse.md](despliegue-fse.md).
 - **Respaldo:** headless (WordPress + API REST) con frontend en Astro. Sigue en el servidor viejo, sin tráfico, hasta la limpieza final.
 - **Boletín e historia del mes:** [boletín y catálogo PaisSana](specs/boletin-catalogo-fcp.md), en producción desde 2026-11-23 (PR #2, squash `a0c3802` en `main`). Boletín en `/boletin/` (Edición 02) e historia en `/historias/` (Asocafé). Detalle en [despliegue-fse.md](despliegue-fse.md#despliegue-de-boletín-y-catálogo-paissana).
-- **Catálogo PaisSana (`/productores/`):** en producción desde 2026-11-23 con **300 productores**. Quedan en borrador 16 fichas hasta que responda el Fondo: las 12 con nombre de persona natural (7 con etnia o condición de víctima) y 4 con erratas de origen. Cuando el Fondo autorice o corrija, se publican desde *Productores* en WordPress ([procedimiento](despliegue-fse.md#publicar-el-catálogo-cuando-el-fondo-autorice)).
+- **Catálogo PaisSana (`/productores/`):** en producción desde 2026-11-26 con **316 productores publicados** y 0 en borrador. Las 16 fichas que estaban en borrador (12 con nombre de persona natural y 4 con erratas de origen) se publicaron por decisión de William. TODO: verificar si el Fondo autorizó a las 12 personas y corrigió las erratas. Procedimiento para fichas nuevas: [despliegue](despliegue-fse.md#publicar-el-catálogo-cuando-el-fondo-autorice).
   - Estado (2026-11-23): manual general y 10 manuales por tipo; revisiones independientes hasta la 45 (sin hallazgos altos ni medios); producción probada con el recorrido, el sitemap, las cabeceras, la API y la consola CSP sin violaciones (7 rutas). Las suites que escriben con wp-cli no se corrieron en producción (TODO: verificar qué se corrió en staging).
+  - Entregados el 2026-11-26: 11 PDF (00 general y 01–10 por tipo), por Drive. En wp-admin, caja «Ayuda» en cada tipo y aviso en cada listado; los PDF solo se sirven con sesión de edición (PR #3, `ed453d6`).
 
 ## Stack
 
-- **CMS (producción):** WordPress 7.1 sobre PHP 8.3 (Apache), tema de bloques `lapaz`, Secure Custom Fields (SCF) para CPT y campos. Código en `apps/wp-fse/`; tema y definiciones en `apps/wordpress/themes/lapaz/` y `apps/wp-fse/scf-json/`.
+- **CMS (producción):** WordPress 7.1.5 sobre PHP 8.3 (Apache), desde 2026-11-26; tema de bloques `lapaz`, Secure Custom Fields (SCF) 6.9.10 para CPT y campos, The SEO Framework 5.2.3. Código en `apps/wp-fse/`; tema y definiciones en `apps/wordpress/themes/lapaz/` y `apps/wp-fse/scf-json/`.
 - **Frontend de respaldo:** Astro 7 en SSR (`@astrojs/node`), TypeScript. Código en `apps/frontend/`.
 - **CMS del headless:** WordPress con SCF. Código en `apps/wordpress/`; sus definiciones viven en `apps/wordpress/scf-json/`, que comparten el headless y el FSE.
 - **Base de datos:** MariaDB 11.

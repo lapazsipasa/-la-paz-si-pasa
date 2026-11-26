@@ -1,5 +1,32 @@
 # Updates
 
+## 2026-11-26 · cierre del alcance: sitio entregado
+
+**Estado:** entregado y cerrado. Producción sirve el sitio FSE (desde 2026-11-09) con boletín, historia del mes, catálogo con 316 productores publicados, manuales del editor, CSP activa y Google Tag Manager. Detalle por cambio: [changelog](changelog.md).
+
+**Hecho hoy:**
+- Manuales del editor: 11 PDF entregados por Drive. En wp-admin, caja «Ayuda» en la edición de cada tipo y aviso en cada listado. PR #3 (`ed453d6`).
+- Catálogo: las 16 fichas en borrador se publicaron por decisión de William. Hoy hay 316 publicados y 0 en borrador. Las 16 están en el archivo original que entregó el Fondo.
+- Actualizaciones: WordPress 7.1.5, SCF 6.9.10 y The SEO Framework 5.2.3 en producción, staging y dev. PR #4 (`42226cb`). En producción, el núcleo vive en el volumen `wordpress_data`: hizo falta `wp core update --version=7.1.5 --minor` y `wp core update-db` tras el deploy. WP Super Cache ya estaba en 3.1.5.
+- CSP: pasa de solo informe a activa, y Google Tag Manager carga solo en el sitio público de producción, sin JS en línea. Verificado en producción: 0 violaciones a 360 y 1440 px. PR #5 (`aa1461a`). Tras cada deploy hay que vaciar la caché de página, para que el HTML lleve los cambios: [despliegue](despliegue-fse.md#durante-el-despliegue), paso 9.
+- Correo: Resend SMTP confirmado en producción y staging; llegó un correo real. Dev no tiene SMTP, a propósito.
+- Repo: se borró la rama remota `feat/boletin-catalogo-fcp`. Staging y dev se despliegan desde `main`.
+
+**Pendiente, fuera de este alcance:**
+- Publicar la etiqueta GA4 en el contenedor GTM. Hoy el contenedor está vacío.
+- Aviso de cookies por la Ley 1581, cuando Analytics empiece a medir.
+- Reenviar el sitemap en Search Console (lo hace William).
+- Roles: producción tiene dos usuarios administradores y ningún Editor. William indica que los dos editores ya están creados; ajustar el rol es opcional.
+- No entregado por el Fondo (en gris): video de Asocafé, rótulo «Boletín interno» y botones de los dos programas.
+- Respaldos: no hay automáticos, por decisión de William. El panel no tiene HTTPS hasta tener dominio (detalle en el registro privado de operación).
+- Cada deploy deja 1–2 minutos de 502 mientras reinicia el contenedor.
+- Catálogo: TODO: verificar si el Fondo autorizó a las 12 personas con nombre propio y corrigió las 4 erratas.
+- Etapa 9 (retirar el headless): solo con aprobación explícita de William.
+
+**Siguiente paso:** ninguno dentro del alcance. Los pendientes del Fondo y del servidor están en [revisiones independientes](specs/boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor).
+
+**Bloqueo:** ninguno técnico. Del Fondo: autorización y erratas del catálogo. De William: lo marcado arriba.
+
 ## 2026-11-23 · catálogo en producción con 300 productores
 
 **Hecho:** a pedido de William se cargaron los 316 productores (`SEED_SOLO=productores`, con respaldo previo de la base). Pasaron a borrador 16 fichas: las 12 con nombre de persona natural y las 4 con erratas (municipio numérico en *Llaneridad Gourmet* y *Cafe Artesanal Tamara…*, nota interna en *Asociacion de Familias Unidas de Cascajo…*, «Caf+E» en *Cafetos Frescos…*). Después se publicó la página `productores` y se vació la caché.

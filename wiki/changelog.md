@@ -2,7 +2,12 @@
 
 Qué cambió, con fecha y PR. Lo reciente arriba.
 
-- **2026-11-26** · WordPress 7.1.5, Secure Custom Fields 6.9.10 y The SEO Framework 5.2.3 (imagen base y plugins con sha256 fijo). El núcleo vive en el volumen: tras desplegar se corre `wp core update --version=7.1.5 --minor` y `wp core update-db` en cada entorno · manuales del editor enlazados en wp-admin · PR #3, squash `ed453d6`
+- **2026-11-26** · cierre del alcance: sitio entregado; catálogo con 316 productores publicados y 0 en borrador (decisión de William) · [updates](updates.md)
+- **2026-11-26** · CSP activa (en lugar de solo informe) y Google Tag Manager `GTM-N5CHW4QZ`, solo en el sitio público de producción · PR #5, squash `aa1461a` · [despliegue](despliegue-fse.md#csp-y-google-tag-manager)
+- **2026-11-26** · WordPress 7.1.5, Secure Custom Fields 6.9.10 y The SEO Framework 5.2.3 (imagen con sha256 fijo) · PR #4, squash `42226cb`. El núcleo vive en el volumen: en producción hizo falta `wp core update --version=7.1.5 --minor` y `wp core update-db` tras el deploy. Staging y dev ya estaban en 7.1.5
+- **2026-11-26** · manuales del editor en PDF: 11 archivos (00 general y 01–10 por tipo), sin Word, de 39 a 19 MB; enlazados en wp-admin, solo con sesión de edición · PR #3, squash `ed453d6` · [manual](manual-editor.md)
+- **2026-11-26** · correo: Resend SMTP confirmado en producción y staging (llegó un correo real). Sin cambio de código
+- **2026-11-26** · repo: se borró la rama remota `feat/boletin-catalogo-fcp`; staging y dev se despliegan desde `main`
 - **2026-11-23** · salida a producción: boletín e historia del mes; catálogo oculto · PR #2, squash `a0c3802` en `main` · [despliegue](despliegue-fse.md#despliegue-de-boletín-y-catálogo-paissana)
   - Producción: `lapaz-setup` sin `--seed` (activa The SEO Framework, crea la página `productores`, migra el menú Principal); seed por secciones de boletín (Edición 02) e historia (Asocafé); página `productores` en borrador; caché vaciada. Antes, respaldo de la base y de `uploads`, y se confirmó que producción no tenía plantillas ni grupos SCF propios ni `paissana`.
   - Catálogo: sin productores cargados (`SEED_SOLO=productores` no se corrió). `97aee53`: sin productores publicados, el botón PAISSANA apunta a `#` y la historia no muestra «Volver al catálogo».

@@ -1,7 +1,7 @@
 # Boletín y catálogo PaisSana
 
-**Estado (2026-11-23):** boletín e historia del mes en producción desde hoy (PR #2, squash `a0c3802`). El catálogo está en producción pero oculto (página en borrador, sin productores) hasta que el Fondo lo autorice. El estado por etapa de abajo es del 2026-11-20.
-**Repo:** `apps/wordpress/themes/lapaz/`, `apps/wp-fse/scf-json/`, `apps/wp-fse/`, `apps/wordpress/seed/` · rama `feat/boletin-catalogo-fcp` · inicio 2026-11-19
+**Estado (2026-11-26): entregado y cerrado.** Boletín, historia del mes y catálogo en producción (PR #2, squash `a0c3802`, boletín e historia desde el 2026-11-23). El catálogo tiene 316 productores publicados desde el 2026-11-26. Pendiente del Fondo: [revisiones independientes](boletin-catalogo-fcp/revisiones-independientes.md#pendiente-de-decisión-o-de-acceso-al-servidor). El estado por etapa de abajo es del 2026-11-20.
+**Repo:** `apps/wordpress/themes/lapaz/`, `apps/wp-fse/scf-json/`, `apps/wp-fse/`, `apps/wordpress/seed/` · rama `feat/boletin-catalogo-fcp` (borrada del remoto el 2026-11-26) · inicio 2026-11-19
 
 ## Objetivo
 
