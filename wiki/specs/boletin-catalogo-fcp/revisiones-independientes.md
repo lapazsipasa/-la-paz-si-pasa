@@ -371,7 +371,7 @@ Solo lo puede hacer William, o el Fondo en su caso. Nada de esto se resuelve en 
 **Servidor (panel de Dokploy en `<PANEL_DOKPLOY>`, registro privado de operación):**
 - Panel de administración solo por HTTPS, con el puerto de acceso directo cerrado al público (R7).
 - Rotación de claves y de la clave de la API; limpiar variables duplicadas en *Environment* (R7, despliegue).
-- Respaldos programados de la base de datos y de `wordpress_data`, con una restauración de prueba (R7).
+- Respaldos programados de la base de datos y de `wordpress_data`, con una restauración de prueba (R7). **Decisión de William (2026-11-26): no hay respaldos automáticos por ahora.**
 - Límite de intentos de inicio de sesión en `wp-login.php` en Traefik; comprobar `maxRequestBodyBytes` ≥ 32 MB (R7, R15).
 - Correo real para los certificados de Let's Encrypt; verificar SPF/DKIM/DMARC de Resend (R7, R13).
 - Borrar el registro DNS del host `cms` antiguo y el dominio temporal de staging cuando `st` esté activo (ver [despliegue](../../despliegue-fse.md#staging-actual-creado-el-2026-11-08)).
@@ -384,7 +384,7 @@ Solo lo puede hacer William, o el Fondo en su caso. Nada de esto se resuelve en 
 - Segundo factor para la cuenta del editor externo o revocación de sus sesiones; entrega de la clave por otro canal (R7).
 - `WP_ADMIN_USER` distinto de `admin` en producción y en CI (R7).
 - Cerrar `wp-cron.php` con `DISABLE_WP_CRON` y un disparador externo (R7).
-- Pasar CSP a modo activo tras confirmar cero violaciones en staging o producción con Plyr/YouTube (R7, R9). Dev salió limpio el 2026-11-23 (`cf74458`), incluido el video de YouTube; producción también, en 7 rutas el 2026-11-23.
+- **Hecho el 2026-11-26** (PR #5, squash `aa1461a`): CSP activa en producción, 0 violaciones a 360 y 1440 px. Antes: pasar CSP a modo activo tras confirmar cero violaciones en staging o producción con Plyr/YouTube (R7, R9). Dev salió limpio el 2026-11-23 (`cf74458`), incluido el video de YouTube; producción también, en 7 rutas el 2026-11-23.
 - Fijar imágenes Docker por digest (hoy `mariadb:11.8` y `wordpress:7.1.3-php8.3-apache` por etiqueta) (R7, R9).
 - Cambiar el propietario del código en el contenedor a `root:www-data` (R7).
 - Integración de The SEO Framework (`autodescription` 5.2.1): visto bueno a `og:locale` `es_CO` (forzado en `inc/seo-tsf.php`) y a `og:title` sin sufijo (valor de fábrica, según [seo-plugin](seo-plugin.md)). La traducción `es_CO` ya va horneada en el `Dockerfile` (`2f13b6b`) (R16).
@@ -396,8 +396,8 @@ Solo lo puede hacer William, o el Fondo en su caso. Nada de esto se resuelve en 
 - Video de Asocafé (`asocafe.mp4` o enlace definitivo en YouTube/Vimeo) (spec, R18).
 - Nombre completo y correo electrónico de la persona externa para crear su usuario Editor (spec).
 - Confirmar si el rótulo superior del boletín deja de decir «Boletín interno» (spec, R18).
-- Autorización de las 12 personas con nombre natural en el catálogo (o retirar/ajustar datos) (R5).
-- Corregir erratas de origen en el catálogo: municipio numérico en *Llaneridad Gourmet* (`17665`) y *Cafe Artesanal Tamara Aromas del Piedemonte SAS* (`17013`); nota interna «(Preguntar Si Es Alimento O Cosmetico)» en *Asociacion de Familias Unidas de Cascajo, el Carmen de Bolivar*; «Caf+E» en *Cafetos Frescos Como la Montaña*; nombres cortados a ~60 caracteres (R5, R18).
+- Autorización de las 12 personas con nombre natural en el catálogo (o retirar/ajustar datos) (R5). **2026-11-26:** las 16 fichas en borrador se publicaron por decisión de William. TODO: verificar la autorización.
+- Corregir erratas de origen en el catálogo (TODO: verificar si se corrigieron antes de publicar el 2026-11-26): municipio numérico en *Llaneridad Gourmet* (`17665`) y *Cafe Artesanal Tamara Aromas del Piedemonte SAS* (`17013`); nota interna «(Preguntar Si Es Alimento O Cosmetico)» en *Asociacion de Familias Unidas de Cascajo, el Carmen de Bolivar*; «Caf+E» en *Cafetos Frescos Como la Montaña*; nombres cortados a ~60 caracteres (R5, R18).
 - Confirmar que los enlaces de redes sociales de los productores se mantengan ocultos hasta depurarlos (R5, nota al Fondo).
 - Noticias reales para la sección «Lo que hacemos» de la portada (despliegue).
 - Destino de los botones «Programa Colombia Sostenible» y «Programa Piloto de Inversiones Prioritarias» (hoy deshabilitados en gris) (navegación, R2).

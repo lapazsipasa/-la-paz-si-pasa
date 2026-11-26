@@ -1,6 +1,6 @@
 # Entorno de desarrollo
 
-Cómo se trabaja en La Paz Sí Pasa: máquina, servicios locales, agentes, herramientas y calidad. Sitio FSE en producción desde el 2026-11-09; entregas actuales en `feat/boletin-catalogo-fcp`.
+Cómo se trabaja en La Paz Sí Pasa: máquina, servicios locales, agentes, herramientas y calidad. Sitio FSE en producción desde el 2026-11-09; alcance entregado y cerrado el 2026-11-26. Staging y dev se despliegan desde `main`.
 
 ## Máquina y herramientas base
 

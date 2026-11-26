@@ -1,6 +1,6 @@
 # Spec: sitio en WordPress con tema de bloques (FSE)
 
-Estado: **etapas 0–7.5 hechas (bin/check y 12 suites e2e en verde); siguiente: staging (etapa 8)** · rama `feat/wordpress-fse` · inicio 2026-11-08
+Estado: **entregado y cerrado el 2026-11-26.** Etapas 0–8 hechas: producción desde 2026-11-09. Queda la etapa 9 (limpieza del headless), que solo se hace con aprobación explícita de William · en `main` (PR #1, `fb98f02`) · inicio 2026-11-08
 
 ## Objetivo
 
@@ -46,7 +46,7 @@ Cada etapa tiene su documento en [`wordpress-fse/`](wordpress-fse/), que se escr
 | 6 | Proyectos destacados (PaisSana): 5 bloques; cifras y regiones editables | hecha | [etapa-6-paisana.md](wordpress-fse/etapa-6-paisana.md) |
 | 7 | SEO, rendimiento, limpieza de WordPress y seguridad | hecha | [etapa-7-seo-rendimiento.md](wordpress-fse/etapa-7-seo-rendimiento.md) |
 | 7.5 | Operación: SMTP, `lapaz-setup --seed`, `lapaz-importar` (contenido de producción), guía de Dokploy | hecha | [despliegue-fse.md](../despliegue-fse.md) |
-| 8 | Staging en el servidor nuevo y cambio a producción | pendiente (aprobación) | [despliegue-fse.md](../despliegue-fse.md) |
+| 8 | Staging en el servidor nuevo y cambio a producción | hecha (producción desde 2026-11-09) | [despliegue-fse.md](../despliegue-fse.md) |
 | 9 | Limpieza: retirar `apps/frontend/`, `docker/astro/`, los mu-plugins headless y los docs viejos. **Solo al final, con aprobación explícita de William** ([decisión 7](../decisions/wordpress-fse-arquitectura.md#7-el-headless-sigue-en-pie-hasta-el-final)) | pendiente | — |
 
 ## Inventario (2026-11-08)
